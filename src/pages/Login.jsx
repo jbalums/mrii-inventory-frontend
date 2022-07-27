@@ -1,11 +1,13 @@
-import React from 'react';
+import React from "react";
+import AppLayout from "../components/AppLayout";
+import LoginForm from "../features/authentication/components/LoginForm";
 
 const Login = () => {
-    return (
-            <div className="antialiased">
-                <p>Login start here</p>
-            </div>
-    );
+  return (
+    <AppLayout>
+      <LoginForm />
+    </AppLayout>
+  );
 };
 
 export default Login;
