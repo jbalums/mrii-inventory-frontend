@@ -2,8 +2,24 @@ import Button from "../../../components/Button";
 import CheckBoxField from "../../../components/forms/CheckBoxField";
 import TextInputField from "../../../components/forms/TextInputField";
 import CardLayout from "../../../components/layout/CardLayout";
+import {useForm} from "react-hook-form";
+import {useAuth} from "@/hooks/useAuth";
+import {useState} from "react";
 
 const LoginForm = () => {
+  const {register, handleSubmit,setError,clearErrors} = useForm()
+  const [status,setStatus] = useState(null)
+  const { login} = useAuth()
+
+  const submit = (data) => {
+    clearErrors()
+    login({...data,setStatus,setErrors})
+  }
+
+  const setErrors = (data) => {
+    console.log('errors',data)
+  }
+
   return (
     <div className="h-full w-full flex items-center justify-center flex-col">
       <h1 className="mb-6">Mactan Rock Industries, INC.</h1>
@@ -14,12 +30,15 @@ const LoginForm = () => {
             className="mb-6"
             label={`Your Username or Email`}
             placeholder={"Enter your username/email"}
+            {...register("email")}
           />
           <TextInputField
             className="mb-6"
             type="password"
+
             label={`Your Password`}
             placeholder={"Enter your email or username"}
+            {...register("password")}
           />
           <div className="flex w-full">
             <CheckBoxField className="mb-6" label="Remember me" />
@@ -27,7 +46,7 @@ const LoginForm = () => {
               Lost password?
             </a>
           </div>
-          <Button className="mb-2">Login to your account</Button>
+          <Button className="mb-2" onClick={handleSubmit(submit)}>Login to your account</Button>
         </CardLayout>
       </div>
     </div>

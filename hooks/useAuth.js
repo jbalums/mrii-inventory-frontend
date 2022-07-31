@@ -1,7 +1,7 @@
 import useSWR from 'swr'
-import axios from 'libs/axios'
 import {useEffect} from 'react'
 import {useNavigate, useParams} from 'react-router-dom';
+import axios from "@/libs/axios";
 
 export const useAuth = ({middleware, redirectIfAuthenticated} = {}) => {
     let navigate = useNavigate();
@@ -14,12 +14,9 @@ export const useAuth = ({middleware, redirectIfAuthenticated} = {}) => {
                 .catch(error => {
                     if (error.response.status !== 409) throw error
 
-                    mutate('/verify-email')
+
                 }),
-        {
-            revalidateIfStale: false,
-            revalidateOnFocus: false
-        }
+
     )
 
     const csrf = () => axios.get('/sanctum/csrf-cookie')
@@ -38,7 +35,6 @@ export const useAuth = ({middleware, redirectIfAuthenticated} = {}) => {
 
     const login = async ({setErrors, setStatus, ...props}) => {
         await csrf()
-        setErrors([])
         setStatus(null)
         axios
             .post('/login', props)

@@ -1,10 +1,11 @@
-const TextInputField = (props) => {
+import {forwardRef} from "react";
+
+const TextInputField = (props, ref) => {
   const {
     type = "text",
     label,
     className = "",
     inputClassName = "",
-    ref,
     register,
     ...rest
   } = props;
@@ -13,7 +14,8 @@ const TextInputField = (props) => {
       {label ? <label className="text-base mb-2">{label}</label> : ""}
       <input
         type={type}
-        ref={register || ref}
+        ref={ref}
+        defaultValue={''}
         {...rest}
         className={`border py-3 border-gray-300 text-base text-gray-900 sm:text-sm rounded-lg focus:ring-1 focus:shadow-lg duration-100 shadow-blue-300 focus:ring-blue-500 block w-full p-2.5`}
       />
@@ -21,4 +23,4 @@ const TextInputField = (props) => {
   );
 };
 
-export default TextInputField;
+export default forwardRef(TextInputField);
