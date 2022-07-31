@@ -1,7 +1,8 @@
 import useSWR from 'swr'
-import axios from 'libs/axios'
 import {useEffect} from 'react'
 import {useNavigate, useParams} from 'react-router-dom';
+import axios from "@/libs/axios";
+import {setStorage} from "@/libs/storage";
 
 export const useAuth = ({middleware, redirectIfAuthenticated} = {}) => {
     let navigate = useNavigate();
@@ -9,7 +10,7 @@ export const useAuth = ({middleware, redirectIfAuthenticated} = {}) => {
 
     const {data: user, error, mutate} = useSWR('/api/user', () =>
             axios
-                .get('/api/user')
+                .get('/user')
                 .then(res => res.data)
                 .catch(error => {
                     if (error.response.status !== 409) throw error
@@ -37,12 +38,13 @@ export const useAuth = ({middleware, redirectIfAuthenticated} = {}) => {
     }
 
     const login = async ({setErrors, setStatus, ...props}) => {
-        await csrf()
-        setErrors([])
         setStatus(null)
         axios
             .post('/login', props)
-            .then(() => mutate())
+            .then(async (result) => {
+                await setStorage('token', result.data.access_token)
+                mutate()
+            })
             .catch(error => {
                 if (error.response.status !== 422) throw error
                 setErrors(Object.values(error.response.data.errors).flat())

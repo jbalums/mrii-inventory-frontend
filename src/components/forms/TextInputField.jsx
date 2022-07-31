@@ -26,4 +26,4 @@ const TextInputField = (props) => {
 	);
 };
 
-export default TextInputField;
+export default forwardRef(TextInputField);
