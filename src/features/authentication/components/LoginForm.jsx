@@ -28,9 +28,9 @@ const LoginForm = () => {
           <h2 className="mb-6">Sign in</h2>
           <TextInputField
             className="mb-6"
-            label={`Your Username or Email`}
-            placeholder={"Enter your username/email"}
-            {...register("email")}
+            label={`Your Username`}
+            placeholder={"Enter your username"}
+            {...register("username")}
           />
           <TextInputField
             className="mb-6"
