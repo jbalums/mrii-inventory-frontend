@@ -7,37 +7,58 @@ import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 
 const LoginForm = () => {
-	const { register, handleSubmit, setError, clearErrors } = useForm();
+	const {
+		register,
+		handleSubmit,
+		setError,
+		clearErrors,
+		formState: { errors },
+	} = useForm();
 	const [status, setStatus] = useState(null);
 	const { login } = useAuth();
 
 	const submit = (data) => {
+		console.log("datadata", data);
 		clearErrors();
 		login({ ...data, setStatus, setErrors });
 	};
 
 	const setErrors = (data) => {
-		console.log("errors", data);
+		console.log("errorserrors", data);
 	};
 
 	return (
 		<div className="h-full w-full flex items-center justify-center flex-col">
+			{console.log("errorserrors", errors)}
 			<h1 className="mb-6">Mactan Rock Industries, INC.</h1>
-			<div className="xl:w-1/4 lg:w-1/3 md:w-1/2 sm:3/4 mx-auto">
+			<form
+				className="xl:w-1/4 lg:w-1/3 md:w-1/2 sm:3/4 mx-auto"
+				onSubmit={handleSubmit(submit)}
+			>
 				<CardLayout className="flex flex-col">
 					<h2 className="mb-6">Sign in</h2>
 					<TextInputField
 						className="mb-6"
 						label={`Your Username`}
 						placeholder={"Enter your username"}
-						{...register("username")}
+						id="username"
+						name="username"
+						error={errors?.username?.message}
+						{...register("username", {
+							required: "This field is required",
+						})}
 					/>
 					<TextInputField
 						className="mb-6"
 						type="password"
 						label={`Your Password`}
 						placeholder={"Enter your email or username"}
-						{...register("password")}
+						id="password"
+						name="password"
+						error={errors?.password?.message}
+						{...register("password", {
+							required: "This field is required",
+						})}
 					/>
 					<div className="flex w-full">
 						<CheckBoxField className="mb-6" label="Remember me" />
@@ -49,7 +70,7 @@ const LoginForm = () => {
 						Login to your account
 					</Button>
 				</CardLayout>
-			</div>
+			</form>
 		</div>
 	);
 };
