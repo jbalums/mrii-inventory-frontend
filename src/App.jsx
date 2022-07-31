@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import NotFoundPage from "./pages/404";
 import Login from "@/src/pages/Login";
 import Test from "./pages/Test";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
 	return (

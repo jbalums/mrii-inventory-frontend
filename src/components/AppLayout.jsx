@@ -1,3 +1,4 @@
+import { ToastContainer, toast } from "react-toastify";
 import React from "react";
 
 const AppLayout = (props) => {
@@ -6,6 +7,7 @@ const AppLayout = (props) => {
 			className={`antialiased h-screen w-screen max-h-screen overflow-auto bg-slate-100`}
 		>
 			{props.children}
+			<ToastContainer />
 		</div>
 	);
 };

@@ -49,10 +49,13 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 			.post("/login", props)
 			.then(async (result) => {
 				await setStorage("token", result.data.access_token);
+
+				navigate(`/`);
 				mutate();
 			})
 			.catch((error) => {
 				if (error.response.status !== 422) throw error;
+				setStatus(error.response.status);
 				setErrors(Object.values(error.response.data.errors).flat());
 			});
 	};
@@ -100,6 +103,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 	};
 
 	useEffect(() => {
+		console.log("middleware", middleware);
 		if (middleware === "guest" && redirectIfAuthenticated && user)
 			navigate(redirectIfAuthenticated);
 		if (middleware === "auth" && error) logout();
