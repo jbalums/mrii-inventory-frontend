@@ -10,6 +10,7 @@ const AppLayout = (props) => {
 
 	const { user } = useAuth({
 		middleware: "auth",
+		redirectIfAuthenticated: "/",
 	});
 
 	return (
