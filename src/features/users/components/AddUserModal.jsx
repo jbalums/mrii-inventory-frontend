@@ -40,15 +40,25 @@ const AddUserModal = (props, ref) => {
 				setId(data?.id);
 			}
 		} else {
-			reset();
+			reset({
+				firstname: "",
+				middlename: "",
+				lastname: "",
+				contact: "",
+				email: "",
+				password: "",
+				password_confirmation: "",
+			});
 			setId(null);
 		}
 		setOpen(true);
 	};
 	const hide = () => {
 		setOpen(false);
-		reset();
-		setId(null);
+		setTimeout(() => {
+			reset();
+			setId(null);
+		}, 300);
 	};
 	const successCallBack = (data) => {
 		if (id) {
