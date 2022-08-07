@@ -5,7 +5,23 @@ import AppLayout from "../components/AppLayout";
 const Dashboard = () => {
 	return (
 		<AppLayout title="Dashboard">
-			<i>To be added</i>
+			<div className="grid grid-cols-12 gap-6">
+				<div className="col-span-4">
+					<div className="aspect-[3/1] bg-slate-200 rounded-lg"></div>
+				</div>
+				<div className="col-span-4">
+					<div className="aspect-[3/1] bg-slate-200 rounded-lg"></div>
+				</div>
+				<div className="col-span-4">
+					<div className="aspect-[3/1] bg-slate-200 rounded-lg"></div>
+				</div>
+				<div className="col-span-8">
+					<div className="aspect-[3/1] bg-slate-200 rounded-lg"></div>
+				</div>
+				<div className="col-span-4">
+					<div className="aspect-[3/2.05] bg-slate-200 rounded-lg"></div>
+				</div>
+			</div>
 		</AppLayout>
 	);
 };

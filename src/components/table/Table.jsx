@@ -10,6 +10,8 @@ const Table = (props) => {
 		id,
 		*/
 		data,
+		loading,
+		loadingMessage = "Gathering data...",
 	} = props;
 	return (
 		<div className="border-collapse w-full table">
@@ -26,6 +28,17 @@ const Table = (props) => {
 					</tr>
 				</thead>
 				<tbody>
+					{loading ? (
+						<tr>
+							<td colSpan={999}>
+								<div className="w-full flex items-center justify-center">
+									{loadingMessage}
+								</div>
+							</td>
+						</tr>
+					) : (
+						""
+					)}
 					{data?.map((row, index) => {
 						return (
 							<tr key={`tr-${index}`}>

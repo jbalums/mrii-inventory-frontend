@@ -1,6 +1,7 @@
 import { useAuth } from "@/hooks/useAuth";
-import React from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
+import DropdownMenu from "../DropdownMenu";
 const Header = () => {
 	const { user } = useAuth();
 	return (

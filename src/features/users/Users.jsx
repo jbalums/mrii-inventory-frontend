@@ -18,7 +18,7 @@ const Users = () => {
 	const [list, setList] = useState([]);
 	const [id, setId] = useState(null);
 	const [loading, setLoading] = useState(false);
-	const { data, meta } = useHttp("/management/users", []);
+	const { data, loadingData } = useHttp("/management/users", []);
 
 	const { deleteUser } = useUserHook();
 
@@ -82,6 +82,7 @@ const Users = () => {
 				}
 			>
 				<Table
+					loading={loadingData}
 					columns={[
 						{
 							text: "Firstname",

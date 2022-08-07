@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 let cancel_token = axios2.CancelToken.source();
 
 export const useHttp = (url, dependencies) => {
-	const [isLoading, setIsLoading] = useState(false);
+	const [loadingData, setLoadingData] = useState(false);
 	const [data, setData] = useState(null);
 	const [meta, setMeta] = useState(null);
 
 	useEffect(() => {
 		setData(null);
-		setIsLoading(true);
+		setLoadingData(true);
 		cancel_token = axios2.CancelToken.source();
 		let timeout = setTimeout(() => {
 			if (url) {
@@ -22,18 +22,18 @@ export const useHttp = (url, dependencies) => {
 					.then((result) => {
 						setData(result?.data);
 						setMeta(result?.data?.meta);
-						setIsLoading(false);
+						setLoadingData(false);
 					})
 					.catch((error) => {
-						setIsLoading(false);
+						setLoadingData(false);
 						setTimeout(() => {
-							setIsLoading(false);
+							setLoadingData(false);
 						}, 100);
 					})
 					.finally(() => {
-						setIsLoading(false);
+						setLoadingData(false);
 						setTimeout(() => {
-							setIsLoading(false);
+							setLoadingData(false);
 						}, 150);
 					});
 			}
@@ -46,5 +46,5 @@ export const useHttp = (url, dependencies) => {
 		};
 	}, dependencies);
 
-	return { isLoading, data, meta, setIsLoading, setData };
+	return { loadingData, data, meta, setLoadingData, setData };
 };
