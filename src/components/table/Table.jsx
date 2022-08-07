@@ -26,11 +26,18 @@ const Table = (props) => {
 					</tr>
 				</thead>
 				<tbody>
-					{data?.map((row) => {
+					{data?.map((row, index) => {
 						return (
-							<tr>
-								{columns.map((col) => {
-									return <td className={col.cellClassName}>{row[col.id]}</td>;
+							<tr key={`tr-${index}`}>
+								{columns.map((col, i) => {
+									return (
+										<td
+											className={col.cellClassName}
+											key={`tr-${index}-td-${i}`}
+										>
+											{row[col.id]}
+										</td>
+									);
 								})}
 							</tr>
 						);

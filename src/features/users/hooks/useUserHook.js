@@ -19,7 +19,6 @@ export const useUserHook = () => {
 		},
 	];
 
-	const getUser = (id) => {};
 	const saveUser = async ({ setErrors, setLoading, callback, ...props }) => {
 		if (props?.id) {
 			axios
@@ -55,8 +54,14 @@ export const useUserHook = () => {
 				});
 		}
 	};
+
+	const deleteUser = (id) => {
+		return axios.post(`/management/user/${id}`, {
+			_method: "DELETE",
+		});
+	};
 	return {
-		getUser,
 		saveUser,
+		deleteUser,
 	};
 };

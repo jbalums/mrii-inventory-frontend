@@ -7,6 +7,7 @@ import Table from "@/src/components/table/Table";
 import { useHttp } from "@/src/helpers/useHttp";
 import React, { useEffect, useRef, useState } from "react";
 import { FiPlus, FiEdit, FiTrash2 } from "react-icons/fi";
+import { toast } from "react-toastify";
 import AddUserModal from "./components/AddUserModal";
 import { useUserHook } from "./hooks/useUserHook";
 
@@ -15,7 +16,11 @@ const Users = () => {
 	const delete_user_modal_ref = useRef(null);
 
 	const [list, setList] = useState([]);
+	const [id, setId] = useState(null);
+	const [loading, setLoading] = useState(false);
 	const { data, meta } = useHttp("/management/users", []);
+
+	const { deleteUser } = useUserHook();
 
 	useEffect(() => {
 		setList(data?.data || []);
@@ -24,16 +29,42 @@ const Users = () => {
 	const openFormModal = (data) => {
 		form_modal_ref.current.show(data.type == "click" ? null : data);
 	};
-	const confirmDelete = (data) => {
+
+	const openConfirmDelete = () => {
+		setLoading(false);
 		delete_user_modal_ref.current.show();
+	};
+
+	const closeConfirmDelete = () => {
+		setLoading(false);
+		delete_user_modal_ref.current.hide();
 	};
 
 	const addToList = (item) => {
 		setList((list) => [item, ...list]);
 	};
+
 	const updateInList = (item) => {
 		setList((list) => list.map((x) => (x.id == item.id ? item : x)));
 	};
+
+	const deleteData = () => {
+		setLoading(true);
+		deleteUser(id)
+			.then((res) => {
+				toast.success("User deleted successfully!");
+				removeFromList({ id: id });
+			})
+			.catch(() => {
+				toast.error(
+					"An error occured while trying to delete! Please try again later."
+				);
+			})
+			.finally(() => {
+				setLoading(false);
+			});
+	};
+
 	const removeFromList = (item) => {
 		setList((list) => list.filter((x) => x.id != item.id));
 	};
@@ -101,7 +132,10 @@ const Users = () => {
 										type="danger"
 										size="sm"
 										className="ml-2"
-										onClick={confirmDelete}
+										onClick={() => {
+											setId(item?.id);
+											openConfirmDelete();
+										}}
 									>
 										<FiTrash2 className="font-bold text-xl" />
 									</Button>
@@ -126,8 +160,13 @@ const Users = () => {
 				}
 				footer={
 					<div className="flex items-center">
-						<Button>No</Button>
-						<Button type="danger" className="ml-4">
+						<Button onClick={closeConfirmDelete}>No</Button>
+						<Button
+							type="danger"
+							className="ml-4"
+							onClick={deleteData}
+							loading={loading}
+						>
 							Yes, delete user!
 						</Button>
 					</div>
