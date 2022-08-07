@@ -1,7 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+html {
+}
 @layer base {
 	input {
 		outline: none !important;
@@ -34,4 +35,58 @@
 	h6 {
 		@apply text-xs;
 	}
+
+	.table table {
+		@apply w-full border;
+	}
+	.table table thead > tr:last-child {
+		@apply border-b;
+	}
+	.table table thead > tr > td,
+	.table table thead > tr > th {
+		@apply text-left p-3 bg-gray-100;
+	}
+	.table table tbody > tr:not(:last-child) {
+		@apply border-b;
+	}
+	.table table thead > tr > td:not(:last-child),
+	.table table thead > tr > th:not(:last-child),
+	.table table tbody > tr > td:not(:last-child),
+	.table table tbody > tr > th:not(:last-child) {
+		/* @apply border-r; */
+	}
+
+	.table table tbody > tr > td,
+	.table table tbody > tr > th {
+		@apply px-3 py-3;
+	}
+}
+
+.modal-xs {
+	@apply max-w-sm;
+}
+.modal-sm {
+	@apply max-w-md;
+}
+.modal-md {
+	@apply max-w-[35vw];
+}
+.modal-lg {
+	@apply max-w-[45vw];
+}
+.modal-xl {
+	@apply max-w-[60vw];
+}
+.modal-2xl {
+	@apply max-w-[70vw];
+}
+.modal-3xl {
+	@apply max-w-[90vw];
+}
+.modal-full {
+	@apply max-w-full;
+}
+
+.form-group {
+	@apply flex flex-col mb-4;
 }

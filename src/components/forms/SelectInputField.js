@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 
-const TextInputField = (props, ref) => {
+const SelectInputField = (props, ref) => {
 	const {
 		type = "text",
 		label,
@@ -16,11 +16,7 @@ const TextInputField = (props, ref) => {
 				error ? "text-red-500" : ""
 			}`}
 		>
-			{label ? (
-				<label className="text-sm font-semibold mb-2">{label}</label>
-			) : (
-				""
-			)}
+			{label ? <label className="text-base mb-2">{label}</label> : ""}
 			<input
 				type={type}
 				ref={ref || register}
@@ -34,4 +30,4 @@ const TextInputField = (props, ref) => {
 	);
 };
 
-export default forwardRef(TextInputField);
+export default forwardRef(SelectInputField);

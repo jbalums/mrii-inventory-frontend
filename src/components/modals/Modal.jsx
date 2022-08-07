@@ -1,23 +1,8 @@
-import { useState, Fragment, forwardRef, useImperativeHandle } from "react";
+import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import ModalHeader from "./components/ModalHeader";
-import ModalFooter from "./components/ModalFooter";
-import ModalBody from "./components/ModalBody";
 
 const Modal = (props, ref) => {
-	const [open, setOpen] = useState(false);
-
-	useImperativeHandle(ref, () => ({
-		show: show,
-		hide: hide,
-	}));
-
-	const show = (info) => {
-		setOpen(true);
-	};
-	const hide = () => {
-		setOpen(false);
-	};
+	const { open, hide, children, size } = props;
 	return (
 		<Transition appear show={open} as={Fragment}>
 			<Dialog as="div" className="relative z-10" onClose={hide}>
@@ -30,11 +15,13 @@ const Modal = (props, ref) => {
 					leaveFrom="opacity-100"
 					leaveTo="opacity-0"
 				>
-					<div className="fixed inset-0 bg-black bg-opacity-25" />
+					<div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur" />
 				</Transition.Child>
 
 				<div className="fixed inset-0 overflow-y-auto">
-					<div className="flex min-h-full items-center justify-center p-4 text-center">
+					<div
+						className={`flex min-h-full items-center justify-center p-4 text-center`}
+					>
 						<Transition.Child
 							as={Fragment}
 							enter="ease-out duration-300"
@@ -44,10 +31,12 @@ const Modal = (props, ref) => {
 							leaveFrom="opacity-100 scale-100"
 							leaveTo="opacity-0 scale-95"
 						>
-							<Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-								<ModalHeader />
-								<ModalBody />
-								<ModalFooter hide={hide} />
+							<Dialog.Panel
+								className={`w-full  transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all  ${
+									size ? `modal-${size}` : `max-w-md`
+								}`}
+							>
+								{children}
 							</Dialog.Panel>
 						</Transition.Child>
 					</div>
@@ -57,4 +46,4 @@ const Modal = (props, ref) => {
 	);
 };
 
-export default forwardRef(Modal);
+export default Modal;
