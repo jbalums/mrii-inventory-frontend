@@ -1,6 +1,12 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FiHome, FiUsers, FiFileText, FiDatabase } from "react-icons/fi";
+import {
+	FiHome,
+	FiUsers,
+	FiFileText,
+	FiDatabase,
+	FiGitBranch,
+} from "react-icons/fi";
 
 const LeftSidebarTitle = ({ text }) => {
 	return (
@@ -58,6 +64,12 @@ const LeftSidebar = () => {
 				text={`Item categories`}
 				to="/item-categories"
 				active={isActive("/item-categories")}
+			/>
+			<LeftSidebarLink
+				icon={<FiGitBranch className="w-5 mr-1" />}
+				text={`Item categories`}
+				to="/item-branches"
+				active={isActive("/item-branches")}
 			/>
 		</div>
 	);
