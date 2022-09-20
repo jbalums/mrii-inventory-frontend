@@ -23,7 +23,7 @@ const LoginForm = () => {
 	});
 
 	const submit = async (data) => {
-		console.log("datadata", data);
+		setLoading(true);
 		clearErrors();
 		try {
 			await login({ ...data, setStatus, setErrors });
@@ -40,6 +40,11 @@ const LoginForm = () => {
 
 	const setErrors = (data) => {
 		console.log("errorserrors", data);
+		setError("username", {
+			type: "manual",
+			message: "The provided credentials are incorrect.",
+		});
+		setLoading(false);
 	};
 
 	const onEnter = (event) => {
@@ -50,7 +55,7 @@ const LoginForm = () => {
 
 	return (
 		<div
-			className="bg-gray-100 w-full bg-no-repeat"
+			className="bg-white w-full bg-no-repeat"
 			style={{
 				background: "url(/login-bg.jpg)",
 				backgroundSize: "70% 100%",
@@ -61,7 +66,7 @@ const LoginForm = () => {
 				<span className="fixed bg-blue-900 bg-opacity-20 w-full h-full inset-x-0 top-0" />
 				<div className="flex-shrink max-w-full w-full min-h-screen sm:w-2/3 lg:w-1/2 xl:w-1/3 z-30">
 					{/* login form */}
-					<div className="max-w-full w-full h-full px-6 sm:px-12 bg-slate-100 shadow-lg z-40 flex items-center justify-center">
+					<div className="max-w-full w-full h-full px-6 sm:px-12 bg-white shadow-lg z-40 flex items-center justify-center">
 						<div className="relative w-full">
 							<div className="p-6 sm:p-8">
 								<div className="text-center">
@@ -75,7 +80,7 @@ const LoginForm = () => {
 									</a>
 								</div>
 								<hr className="block w-2/3 h-[1px] mx-auto mb-11 mt-11 bg-primary " />
-								<CardLayout className="flex flex-col shadow-none !bg-transparent border">
+								<CardLayout className="flex flex-col shadow-none !bg-slate-50 border">
 									<h2 className="mb-6">Sign in</h2>
 									<TextInputField
 										className="mb-6"
@@ -111,9 +116,10 @@ const LoginForm = () => {
 									<Button
 										className="mb-2"
 										id="submit-btn"
+										loading={loading}
 										onClick={handleSubmit(submit)}
 									>
-										Login to your account
+										Log-in to your account
 									</Button>
 								</CardLayout>
 							</div>

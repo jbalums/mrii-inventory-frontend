@@ -5,19 +5,39 @@ module.exports = {
 		extend: {
 			colors: {
 				primary: {
-					light: "#1C2255",
-					DEFAULT: "#1C2255",
-					dark: "#1C2255",
+					light: "#1B2254",
+					DEFAULT: "#1B2254",
+					dark: "#161B45",
 				},
 				secondary: {
-					light: "#7A31D4",
-					DEFAULT: "#4D1F87",
-					dark: "#291047",
+					light: "#8286F0",
+					DEFAULT: "#8286F0",
+					dark: "#8286F0",
 				},
 				tertiary: {
-					light: "#9E88BA",
-					DEFAULT: "#9E88BA",
-					dark: "#9E88BA",
+					light: "#E8D5B5",
+					DEFAULT: "#E8D5B5",
+					dark: "#E8D5B5",
+				},
+				accent: {
+					light: "#00B9B8",
+					DEFAULT: "#00B9B8",
+					dark: "#00B9B8",
+				},
+				background: {
+					light: "#F5F7FF",
+					DEFAULT: "#F5F7FF",
+					dark: "#F5F7FF",
+				},
+				foreground: {
+					light: "#EBECF6",
+					DEFAULT: "#EBECF6",
+					dark: "#EBECF6",
+				},
+				border: {
+					light: "#DDDEE6",
+					DEFAULT: "#DDDEE6",
+					dark: "#DDDEE6",
 				},
 				warning: {
 					light: "#FACD16",
@@ -38,6 +58,26 @@ module.exports = {
 					light: "#60CF21",
 					DEFAULT: "#60CF21",
 					dark: "#60CF21",
+				},
+				textPrimary: {
+					light: "#45485A",
+					DEFAULT: "#45485A",
+					dark: "#45485A",
+				},
+				textSecondary: {
+					light: "#292B39",
+					DEFAULT: "#292B39",
+					dark: "#292B39",
+				},
+				textLight: {
+					light: "#F7F7F7",
+					DEFAULT: "#F7F7F7",
+					dark: "#F7F7F7",
+				},
+				placeholder: {
+					light: "#A8ABBB",
+					DEFAULT: "#A8ABBB",
+					dark: "#A8ABBB",
 				},
 			},
 		},

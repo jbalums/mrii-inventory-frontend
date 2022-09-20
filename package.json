@@ -9,6 +9,7 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
+		"@flaticon/flaticon-uicons": "^1.7.0",
 		"@headlessui/react": "^1.6.6",
 		"@tailwindcss/forms": "^0.5.2",
 		"axios": "^0.21.1",

@@ -15,12 +15,15 @@ const Table = (props) => {
 	} = props;
 	return (
 		<div className="border-collapse w-full table">
-			<table>
+			<table className="border-none">
 				<thead>
 					<tr>
 						{columns.map((col) => {
 							return (
-								<th className={col.className} key={`th-${col.id}`}>
+								<th
+									className={`${col.className} first:rounded-tl-lg last:rouded-tr-lg border-none text-sm`}
+									key={`th-${col.id}`}
+								>
 									{col.text}
 								</th>
 							);
@@ -45,7 +48,7 @@ const Table = (props) => {
 								{columns.map((col, i) => {
 									return (
 										<td
-											className={col.cellClassName}
+											className={`text-sm ${col.cellClassName}`}
 											key={`tr-${index}-td-${i}`}
 										>
 											{row[col.id]}

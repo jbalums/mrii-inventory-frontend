@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/useAuth";
 import Header from "./layout/Header";
 
 const AppLayout = (props) => {
-	const { title } = props;
+	const { title, titleChildren, children } = props;
 
 	const { user } = useAuth({
 		middleware: "auth",
@@ -17,13 +17,12 @@ const AppLayout = (props) => {
 		<div
 			className={`antialiased h-screen w-screen max-h-screen overflow-auto bg-slate-100 flex flex-col`}
 		>
-			<Header />
 			<div className="w-full flex h-full">
 				<LeftSidebar user={user} />
 
-				<div className="relative bg-slate-100 h-full w-full">
-					<PageHeader title={title} />
-					<div className="p-6 w-full">{props.children}</div>
+				<div className="relative bg-foreground h-full w-full">
+					<PageHeader title={title}>{titleChildren}</PageHeader>
+					<div className="p-6 w-full">{children}</div>
 				</div>
 				<ToastContainer />
 			</div>

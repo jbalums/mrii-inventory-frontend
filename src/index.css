@@ -1,8 +1,18 @@
+@import url("https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css");
+@import url("https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css");
+@import url("https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css");
+@import url("https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css");
+@import url("https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css");
+@import url("https://cdn-uicons.flaticon.com/uicons-bold-straight/css/uicons-bold-straight.css");
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 html {
+	font-family: "Quicksand", sans-serif;
 }
+
 @layer base {
 	input {
 		outline: none !important;
@@ -37,14 +47,14 @@ html {
 	}
 
 	.table table {
-		@apply w-full border;
+		@apply w-full border bg-background rounded-lg;
 	}
 	.table table thead > tr:last-child {
 		@apply border-b;
 	}
 	.table table thead > tr > td,
 	.table table thead > tr > th {
-		@apply text-left p-3 bg-gray-100;
+		@apply text-left p-4 bg-background border-border;
 	}
 	.table table tbody > tr:not(:last-child) {
 		@apply border-b;
