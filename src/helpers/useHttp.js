@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 let cancel_token = axios2.CancelToken.source();
 
 export const useHttp = (url, dependencies) => {
-	const [loadingData, setLoadingData] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState(null);
 	const [meta, setMeta] = useState(null);
 
 	useEffect(() => {
 		setData(null);
-		setLoadingData(true);
+		setLoading(true);
 		cancel_token = axios2.CancelToken.source();
 		let timeout = setTimeout(() => {
 			if (url) {
@@ -21,23 +21,23 @@ export const useHttp = (url, dependencies) => {
 					})
 					.then((result) => {
 						setData(result?.data);
-						setMeta(result?.data?.meta);
-						setLoadingData(false);
+						setMeta(result?.meta);
+						setLoading(false);
 					})
 					.catch((error) => {
-						setLoadingData(false);
+						setLoading(false);
 						setTimeout(() => {
-							setLoadingData(false);
+							setLoading(false);
 						}, 100);
 					})
 					.finally(() => {
-						setLoadingData(false);
+						setLoading(false);
 						setTimeout(() => {
-							setLoadingData(false);
+							setLoading(false);
 						}, 150);
 					});
 			}
-		}, 400);
+		}, 600);
 		return () => {
 			clearTimeout(timeout);
 			if (cancel_token) {
@@ -46,5 +46,5 @@ export const useHttp = (url, dependencies) => {
 		};
 	}, dependencies);
 
-	return { loadingData, data, meta, setLoadingData, setData };
+	return { loading, data, meta, setLoading, setData };
 };

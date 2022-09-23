@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 import { FiSearch } from "react-icons/fi";
 
-const TextInputField = (props, ref) => {
+const TextAreaInputField = (props, ref) => {
 	const {
 		type = "text",
 		label,
@@ -11,6 +11,7 @@ const TextInputField = (props, ref) => {
 		error,
 		icon,
 		iconClassName = "",
+		value,
 		...rest
 	} = props;
 	return (
@@ -34,18 +35,20 @@ const TextInputField = (props, ref) => {
 				) : (
 					""
 				)}
-				<input
+				<textarea
 					type={type}
 					ref={ref || register}
 					{...rest}
-					className={`border py-3 border-transparent text-sm text-dark sm:text-sm rounded-lg focus:ring-1 focus:shadow-lg duration-100 shadow-blue-300 focus:ring-blue-500 block w-full p-2.5 ${
+					className={`border py-3 border-transparent text-sm text-dark sm:text-sm rounded-lg focus:ring-1 focus:shadow-lg duration-100 shadow-blue-300 focus:ring-blue-500 block w-full p-2.5 outline-none ${
 						error ? "border-danger text-danger" : ""
 					}  ${icon ? "!pl-10" : ""} ${inputClassName ? inputClassName : ""}`}
-				/>
+				>
+					{value}
+				</textarea>
 			</div>
 			{error ? <span className="text-danger text-sm">{error}</span> : ""}
 		</div>
 	);
 };
 
-export default forwardRef(TextInputField);
+export default forwardRef(TextAreaInputField);

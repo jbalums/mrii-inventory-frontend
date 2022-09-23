@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import Button from "@/src/components/Button";
 import { useItemBranch } from "../hooks/useItemBranchesHook";
 
-const AddItemCategories = (props, ref) => {
+const LocationFormModal = (props, ref) => {
 	const { addToList, updateInList } = props;
 	const {
 		register,
@@ -87,17 +87,31 @@ const AddItemCategories = (props, ref) => {
 	};
 	return (
 		<Modal open={open} hide={hide} size="sm">
-			<ModalHeader title={id ? "Update details" : "Add"} hide={hide} />
+			<ModalHeader
+				title={id ? "Update " : "Create " + "location or branch"}
+				subtitle="Enter the deatils of location or branch"
+				hide={hide}
+			/>
 			<ModalBody className={`py-4`}>
 				{console.log("errors", errors)}
 				<div className="grid grid-cols-1 gap-4">
 					<TextInputField
-						label={`Item Branch`}
-						placeholder={"Enter item branch"}
+						label={`Location/Branch name`}
+						placeholder={"Enter location/branch name"}
 						id="name"
 						name="name"
 						error={errors?.name?.message}
 						{...register("name", {
+							required: "This field is required",
+						})}
+					/>
+					<TextInputField
+						label={`Location/Branch address`}
+						placeholder={"Enter location/branch address"}
+						id="address"
+						name="address"
+						error={errors?.address?.message}
+						{...register("address", {
 							required: "This field is required",
 						})}
 					/>
@@ -112,4 +126,4 @@ const AddItemCategories = (props, ref) => {
 	);
 };
 
-export default forwardRef(AddItemCategories);
+export default forwardRef(LocationFormModal);

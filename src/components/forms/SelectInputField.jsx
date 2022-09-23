@@ -1,16 +1,14 @@
 import { forwardRef } from "react";
-import { FiSearch } from "react-icons/fi";
 
-const TextInputField = (props, ref) => {
+const SelectInputField = (props, ref) => {
 	const {
 		type = "text",
 		label,
 		className = "",
 		inputClassName = "",
 		register,
+		options,
 		error,
-		icon,
-		iconClassName = "",
 		...rest
 	} = props;
 	return (
@@ -25,27 +23,28 @@ const TextInputField = (props, ref) => {
 				""
 			)}
 			<div className="w-full relative">
-				{icon ? (
-					<div
-						className={`absolute h-full left-0 flex items-center justify-center p-4 text-dark ${iconClassName}`}
-					>
-						{icon}
-					</div>
-				) : (
-					""
-				)}
-				<input
-					type={type}
+				<select
 					ref={ref || register}
 					{...rest}
 					className={`border py-3 border-transparent text-sm text-dark sm:text-sm rounded-lg focus:ring-1 focus:shadow-lg duration-100 shadow-blue-300 focus:ring-blue-500 block w-full p-2.5 ${
 						error ? "border-danger text-danger" : ""
-					}  ${icon ? "!pl-10" : ""} ${inputClassName ? inputClassName : ""}`}
-				/>
+					}  ${inputClassName ? inputClassName : ""}`}
+				>
+					{options.map((option, index) => {
+						return (
+							<option
+								key={`option-${Math.random(100)}-${index}-${option.value}`}
+								value={option.value}
+							>
+								{option.label}
+							</option>
+						);
+					})}
+				</select>
 			</div>
 			{error ? <span className="text-danger text-sm">{error}</span> : ""}
 		</div>
 	);
 };
 
-export default forwardRef(TextInputField);
+export default forwardRef(SelectInputField);

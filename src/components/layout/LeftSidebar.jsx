@@ -80,10 +80,10 @@ const LeftSidebar = () => {
 				active={isActive("/item-categories")}
 			/>
 			<LeftSidebarLink
-				icon={<FiGitBranch className="w-5 mr-1" />}
-				text={`Item categories`}
-				to="/item-branches"
-				active={isActive("/item-branches")}
+				icon={<FlatIcon icon="rs-map-marker" className="w-5 mr-1" />}
+				text={`Locations`}
+				to="/locations"
+				active={isActive("/locations")}
 			/>
 		</div>
 	);

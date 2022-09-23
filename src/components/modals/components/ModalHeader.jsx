@@ -4,11 +4,11 @@ const ModalHeader = ({ title, subtitle, hide }) => {
 	return (
 		<Dialog.Title
 			as="div"
-			className="text-lg font-medium leading-6 text-gray-900 flex border-b pb-4 mb-4"
+			className="text-lg font-medium leading-6 flex border-b border-border p-4"
 		>
 			<div className="flex flex-col">
-				<h2 className="text-xl font-bold">{title}</h2>
-				{subtitle ? <p>{subtitle}</p> : ""}
+				<h2 className="text-lg font-bold text-darker">{title}</h2>
+				{subtitle ? <p className="text-xs text-dark">{subtitle}</p> : ""}
 			</div>
 			{hide ? (
 				<div

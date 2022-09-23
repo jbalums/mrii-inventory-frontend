@@ -7,8 +7,8 @@ import Test from "./pages/Test";
 import "react-toastify/dist/ReactToastify.css";
 import Users from "./features/users/Users";
 import ItemCategories from "./features/item-categories/ItemCategories";
-import ItemBranches from "./features/item-branches/ItemBranches";
 import Inventory from "./pages/inventory/Inventory";
+import Locations from "./features/locations/Locations";
 function App() {
 	return (
 		<Routes>
@@ -21,7 +21,7 @@ function App() {
 			<Route path="/inventory" element={<Inventory />} />
 
 			<Route path="/item-categories" element={<ItemCategories />} />
-			<Route path="/item-branches" element={<ItemBranches />} />
+			<Route path="/locations" element={<Locations />} />
 
 			<Route path="*" element={<NotFoundPage />} />
 		</Routes>

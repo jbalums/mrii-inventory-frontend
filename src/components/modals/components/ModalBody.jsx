@@ -1,5 +1,9 @@
 const ModalBody = ({ className, children }) => {
-	return <div className={`mt-2 ${className ? className : ""}`}>{children}</div>;
+	return (
+		<div className={`p-4 bg-background ${className ? className : ""}`}>
+			{children}
+		</div>
+	);
 };
 
 export default ModalBody;

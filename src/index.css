@@ -4,13 +4,18 @@
 @import url("https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css");
 @import url("https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css");
 @import url("https://cdn-uicons.flaticon.com/uicons-bold-straight/css/uicons-bold-straight.css");
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 html {
+	/* font-family: "Lato", sans-serif; */
 	font-family: "Quicksand", sans-serif;
+	overflow-y: hidden;
+	overflow-y: auto;
 }
 
 @layer base {
@@ -54,13 +59,19 @@ html {
 	}
 	.table table thead > tr > td,
 	.table table thead > tr > th {
-		@apply text-left p-4 bg-background border-border;
+		@apply text-left p-4 bg-background border-b-2 border-border text-sm text-darker;
 	}
 	.table table tbody > tr:not(:last-child) {
 		@apply border-b;
 	}
-	.table table thead > tr > td:not(:last-child),
-	.table table thead > tr > th:not(:last-child),
+	.table table thead > tr > td:first-child,
+	.table table thead > tr > th:first-child {
+		@apply rounded-tl-lg;
+	}
+	.table table thead > tr > td:last-child,
+	.table table thead > tr > th:last-child {
+		@apply rounded-tr-lg;
+	}
 	.table table tbody > tr > td:not(:last-child),
 	.table table tbody > tr > th:not(:last-child) {
 		/* @apply border-r; */
@@ -68,7 +79,7 @@ html {
 
 	.table table tbody > tr > td,
 	.table table tbody > tr > th {
-		@apply px-3 py-3;
+		@apply px-3 py-3 text-sm text-dark;
 	}
 }
 
@@ -79,7 +90,7 @@ html {
 	@apply max-w-md;
 }
 .modal-md {
-	@apply max-w-[35vw];
+	@apply max-w-[33.33vw];
 }
 .modal-lg {
 	@apply max-w-[45vw];
@@ -99,4 +110,40 @@ html {
 
 .form-group {
 	@apply flex flex-col mb-4;
+}
+
+.react-select__control > div {
+	@apply h-[46px] bg-white rounded-lg border-transparent;
+}
+
+.react-select__control--is-focused > div {
+	@apply shadow-blue-300 ring-1 ring-blue-500;
+}
+
+.react-select__control--is-focused > div * {
+	@apply text-sm;
+}
+
+.react-select__control > div.error-input {
+	@apply h-[46px] bg-white rounded-lg border-danger;
+}
+
+.react-select__menu-list {
+	@apply !p-0;
+}
+.react-select__option {
+	@apply !text-dark duration-200;
+}
+
+.react-select__option:first-child {
+	@apply rounded-t;
+}
+.react-select__option:last-child {
+	@apply rounded-b;
+}
+.react-select__option--is-focused {
+	@apply !text-darker !bg-primary bg-opacity-10;
+}
+.react-select__option--is-selected {
+	@apply !text-light font-bold !bg-primary;
 }

@@ -5,6 +5,9 @@ export const useItemCategories = () => {
          FIELDS
             name
         */
+	const getCategories = () => {
+		return axios.get(`/management/categories`);
+	};
 
 	const saveItemCategory = async ({
 		setErrors,
@@ -56,6 +59,7 @@ export const useItemCategories = () => {
 		});
 	};
 	return {
+		getCategories,
 		saveItemCategory,
 		deleteItemCategory,
 	};

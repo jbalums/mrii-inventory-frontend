@@ -15,7 +15,7 @@ const AppLayout = (props) => {
 
 	return (
 		<div
-			className={`antialiased h-screen w-screen max-h-screen overflow-auto bg-slate-100 flex flex-col`}
+			className={`antialiased h-screen min-h-[720px] w-screen max-h-screen overflow-auto bg-slate-100 flex flex-col`}
 		>
 			<div className="w-full flex h-full">
 				<LeftSidebar user={user} />

@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
 	content: ["./src/**/*.{js,jsx,ts,tsx}"],
 	theme: {
@@ -7,7 +8,7 @@ module.exports = {
 				primary: {
 					light: "#1B2254",
 					DEFAULT: "#1B2254",
-					dark: "#161B45",
+					dark: "#1B2254",
 				},
 				secondary: {
 					light: "#8286F0",
@@ -40,36 +41,36 @@ module.exports = {
 					dark: "#DDDEE6",
 				},
 				warning: {
-					light: "#FACD16",
-					DEFAULT: "#FA9F16",
-					dark: "#F07A16",
+					light: "#FF8800",
+					DEFAULT: "#FF8800",
+					dark: "#FF8800",
 				},
 				info: {
-					light: "#5684F0",
-					DEFAULT: "#5684F0",
-					dark: "#5684F0",
+					light: "#0099CC",
+					DEFAULT: "#0099CC",
+					dark: "#0099CC",
 				},
 				danger: {
-					light: "#E37159",
-					DEFAULT: "#E37159",
-					dark: "#E37159",
+					light: "#CC0000",
+					DEFAULT: "#CC0000",
+					dark: "#CC0000",
 				},
 				success: {
-					light: "#60CF21",
-					DEFAULT: "#60CF21",
-					dark: "#60CF21",
+					light: "#007E33",
+					DEFAULT: "#007E33",
+					dark: "#007E33",
 				},
-				textPrimary: {
+				dark: {
 					light: "#45485A",
 					DEFAULT: "#45485A",
 					dark: "#45485A",
 				},
-				textSecondary: {
+				darker: {
 					light: "#292B39",
 					DEFAULT: "#292B39",
 					dark: "#292B39",
 				},
-				textLight: {
+				light: {
 					light: "#F7F7F7",
 					DEFAULT: "#F7F7F7",
 					dark: "#F7F7F7",

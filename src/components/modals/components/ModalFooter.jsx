@@ -1,5 +1,5 @@
 const ModalFooter = ({ children, className }) => {
-	return <div className={`mt-4 ${className ? className : ""}`}>{children}</div>;
+	return <div className={`p-4 ${className ? className : ""}`}>{children}</div>;
 };
 
 export default ModalFooter;

@@ -1,11 +1,13 @@
 import AppLayout from "@/src/components/AppLayout";
 import Button from "@/src/components/Button";
+import FlatIcon from "@/src/components/FlatIcon";
 import CardLayout from "@/src/components/layout/CardLayout";
 import ContainerCard from "@/src/components/layout/ContainerCard";
 import ConfirmModal from "@/src/components/modals/ConfirmModal";
 import Table from "@/src/components/table/Table";
+import useDataTable from "@/src/helpers/useDataTable";
 import { useHttp } from "@/src/helpers/useHttp";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { FiPlus, FiEdit, FiTrash2 } from "react-icons/fi";
 import { toast } from "react-toastify";
 import AddItemCategories from "./components/AddItemCategories";
@@ -18,7 +20,7 @@ const ItemCategories = () => {
 	const [list, setList] = useState([]);
 	const [id, setId] = useState(null);
 	const [loading, setLoading] = useState(false);
-	const { data, loadingData } = useHttp("/management/categories", []);
+	const { data, loading: dataLoading } = useDataTable(`/management/categories`);
 
 	const { deleteItemCategory } = useItemCategories();
 
@@ -69,65 +71,62 @@ const ItemCategories = () => {
 		setList((list) => list.filter((x) => x.id != item.id));
 	};
 
+	const columns = useMemo(
+		() => [
+			{
+				header: "Name",
+				accessorKey: "name",
+			},
+			{
+				header: "Actions",
+				accessorKey: "id",
+				className: "!text-center",
+				cell: ({ row, getValue }) => {
+					console.log("roww", row);
+					return (
+						<>
+							<div className="flex items-center justify-center text-center gap-4">
+								<Button
+									type="primary"
+									size="sm"
+									className="rounded-full"
+									onClick={() => {
+										openFormModal(row?.original);
+									}}
+								>
+									<FiEdit className="font-bold text-sm" />
+								</Button>
+								<Button
+									type="danger"
+									size="sm"
+									className="rounded-full"
+									onClick={() => {
+										setId(row?.original?.id);
+										openConfirmDelete();
+									}}
+								>
+									<FiTrash2 className="font-bold text-sm" />
+								</Button>
+							</div>
+						</>
+					);
+				},
+			},
+		],
+		[]
+	);
 	return (
-		<AppLayout title="Manage item categories">
-			<ContainerCard
-				title="Item Categories"
-				subtitle="Add/Edit/Delete data on your system. "
-				actions={
-					<Button className="ml-auto" onClick={openFormModal}>
-						<FiPlus className="text-2xl mr-1" />
-						Add Item Category
-					</Button>
-				}
-			>
-				<Table
-					loading={loadingData}
-					columns={[
-						{
-							text: "Item Category",
-							id: "name",
-							className: "",
-							cellClassName: "",
-						},
-						{
-							text: "",
-							id: "action",
-							className: "",
-							cellClassName: "",
-						},
-					]}
-					data={list.map((item) => {
-						return {
-							...item,
-							action: (
-								<div className="flex items-center justify-center">
-									<Button
-										type="primary"
-										size="sm"
-										onClick={() => {
-											openFormModal(item);
-										}}
-									>
-										<FiEdit className="font-bold text-xl" />
-									</Button>
-									<Button
-										type="danger"
-										size="sm"
-										className="ml-2"
-										onClick={() => {
-											setId(item?.id);
-											openConfirmDelete();
-										}}
-									>
-										<FiTrash2 className="font-bold text-xl" />
-									</Button>
-								</div>
-							),
-						};
-					})}
-				/>
-			</ContainerCard>
+		<AppLayout
+			title="Product category"
+			titleChildren={
+				<Button type="accent" className="ml-auto" onClick={openFormModal}>
+					<FlatIcon icon="rs-plus" className="mr-2" /> Register product category
+				</Button>
+			}
+		>
+			<div className="w-1/2">
+				<Table columns={columns} loading={dataLoading} data={list} />
+			</div>
 			<AddItemCategories
 				ref={form_modal_ref}
 				addToList={addToList}

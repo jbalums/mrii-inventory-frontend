@@ -1,17 +1,20 @@
 import AppLayout from "@/src/components/AppLayout";
 import Button from "@/src/components/Button";
+import FlatIcon from "@/src/components/FlatIcon";
+import TextInputField from "@/src/components/forms/TextInputField";
 import CardLayout from "@/src/components/layout/CardLayout";
 import ContainerCard from "@/src/components/layout/ContainerCard";
 import ConfirmModal from "@/src/components/modals/ConfirmModal";
 import Table from "@/src/components/table/Table";
 import { useHttp } from "@/src/helpers/useHttp";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { FiPlus, FiEdit, FiTrash2 } from "react-icons/fi";
 import { toast } from "react-toastify";
-import AddItemCategories from "./components/AddItemBranches";
+import LocationFormModal from "./components/LocationFormModal";
+import AddItemCategories from "./components/LocationFormModal";
 import { useItemBranch } from "./hooks/useItemBranchesHook";
 
-const ItemBranches = () => {
+const Locations = () => {
 	const form_modal_ref = useRef(null);
 	const delete_modal_ref = useRef(null);
 
@@ -21,6 +24,66 @@ const ItemBranches = () => {
 	const { data, loadingData } = useHttp("/management/branches", []);
 
 	const { deleteItemBranch } = useItemBranch();
+
+	const columns = useMemo(
+		() => [
+			{
+				header: "Code",
+				id: "code",
+				className: "",
+				cellClassName: "",
+			},
+			{
+				header: "Name",
+				id: "name",
+				className: "",
+				cellClassName: "",
+			},
+			{
+				header: "Description",
+				id: "description",
+				className: "",
+				cellClassName: "",
+			},
+			{
+				header: "UoM",
+				id: "uom",
+				className: "",
+				cellClassName: "",
+			},
+			{
+				header: "Location",
+				id: "firstname",
+				className: "",
+				cellClassName: "",
+			},
+			{
+				header: "QTY on hand",
+				id: "firstname",
+				className: "",
+				cellClassName: "",
+			},
+			{
+				header: "Unit price",
+				id: "firstname",
+				className: "",
+				cellClassName: "",
+			},
+			{
+				header: "Stocks",
+				id: "firstname",
+				className: "",
+				cellClassName: "",
+			},
+			{
+				header: "Action",
+				id: "firstname",
+				className: "",
+				cellClassName: "",
+			},
+		],
+		[]
+	);
 
 	useEffect(() => {
 		setList(data?.data || []);
@@ -70,65 +133,18 @@ const ItemBranches = () => {
 	};
 
 	return (
-		<AppLayout title="Manage item branches">
-			<ContainerCard
-				title="Item Branches"
-				subtitle="Add/Edit/Delete data on your system. "
-				actions={
-					<Button className="ml-auto" onClick={openFormModal}>
-						<FiPlus className="text-2xl mr-1" />
-						Add Item Branch
-					</Button>
-				}
-			>
-				<Table
-					loading={loadingData}
-					columns={[
-						{
-							text: "Item Category",
-							id: "name",
-							className: "",
-							cellClassName: "",
-						},
-						{
-							text: "",
-							id: "action",
-							className: "",
-							cellClassName: "",
-						},
-					]}
-					data={list.map((item) => {
-						return {
-							...item,
-							action: (
-								<div className="flex items-center justify-center">
-									<Button
-										type="primary"
-										size="sm"
-										onClick={() => {
-											openFormModal(item);
-										}}
-									>
-										<FiEdit className="font-bold text-xl" />
-									</Button>
-									<Button
-										type="danger"
-										size="sm"
-										className="ml-2"
-										onClick={() => {
-											setId(item?.id);
-											openConfirmDelete();
-										}}
-									>
-										<FiTrash2 className="font-bold text-xl" />
-									</Button>
-								</div>
-							),
-						};
-					})}
-				/>
-			</ContainerCard>
-			<AddItemCategories
+		<AppLayout
+			title="Locations"
+			titleChildren={
+				<Button type="accent" className="ml-auto" onClick={openFormModal}>
+					<FlatIcon icon="rs-plus" className="mr-2" /> Register location/branch
+				</Button>
+			}
+		>
+			<div className="w-full">
+				<Table columns={columns} loading={false} data={list} />
+			</div>
+			<LocationFormModal
 				ref={form_modal_ref}
 				addToList={addToList}
 				updateInList={updateInList}
@@ -159,4 +175,4 @@ const ItemBranches = () => {
 	);
 };
 
-export default ItemBranches;
+export default Locations;
