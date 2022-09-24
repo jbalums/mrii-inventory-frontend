@@ -12,138 +12,138 @@
 @tailwind utilities;
 
 html {
-	/* font-family: "Lato", sans-serif; */
-	font-family: "Quicksand", sans-serif;
-	overflow-y: hidden;
-	overflow-y: auto;
+    /* font-family: "Lato", sans-serif; */
+    font-family: "Quicksand", sans-serif;
+    overflow-y: hidden;
+    overflow-y: auto;
 }
 
 @layer base {
-	input {
-		outline: none !important;
-	}
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6,
-	b,
-	strong {
-		@apply font-bold;
-	}
-	h1 {
-		@apply text-2xl;
-	}
-	h2 {
-		@apply text-xl;
-	}
-	h3 {
-		@apply text-lg;
-	}
-	h4 {
-		@apply text-base;
-	}
-	h5 {
-		@apply text-sm;
-	}
-	h6 {
-		@apply text-xs;
-	}
+    input {
+        outline: none !important;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    b,
+    strong {
+        @apply font-bold;
+    }
+    h1 {
+        @apply text-2xl;
+    }
+    h2 {
+        @apply text-xl;
+    }
+    h3 {
+        @apply text-lg;
+    }
+    h4 {
+        @apply text-base;
+    }
+    h5 {
+        @apply text-sm;
+    }
+    h6 {
+        @apply text-xs;
+    }
 
-	.table table {
-		@apply w-full border bg-background rounded-lg;
-	}
-	.table table thead > tr:last-child {
-		@apply border-b;
-	}
-	.table table thead > tr > td,
-	.table table thead > tr > th {
-		@apply text-left p-4 bg-background border-b-2 border-border text-sm text-darker;
-	}
-	.table table tbody > tr:not(:last-child) {
-		@apply border-b;
-	}
-	.table table thead > tr > td:first-child,
-	.table table thead > tr > th:first-child {
-		@apply rounded-tl-lg;
-	}
-	.table table thead > tr > td:last-child,
-	.table table thead > tr > th:last-child {
-		@apply rounded-tr-lg;
-	}
-	.table table tbody > tr > td:not(:last-child),
-	.table table tbody > tr > th:not(:last-child) {
-		/* @apply border-r; */
-	}
+    .table table {
+        @apply w-full border bg-background rounded-lg;
+    }
+    .table table thead > tr:last-child {
+        @apply border-b;
+    }
+    .table table thead > tr > td,
+    .table table thead > tr > th {
+        @apply text-left p-4 bg-background border-b-2 border-border text-sm text-darker;
+    }
+    .table table tbody > tr:not(:last-child) {
+        @apply border-b;
+    }
+    .table table thead > tr > td:first-child,
+    .table table thead > tr > th:first-child {
+        @apply rounded-tl-lg;
+    }
+    .table table thead > tr > td:last-child,
+    .table table thead > tr > th:last-child {
+        @apply rounded-tr-lg;
+    }
+    .table table tbody > tr > td:not(:last-child),
+    .table table tbody > tr > th:not(:last-child) {
+        /* @apply border-r; */
+    }
 
-	.table table tbody > tr > td,
-	.table table tbody > tr > th {
-		@apply px-3 py-3 text-sm text-dark;
-	}
+    .table table tbody > tr > td,
+    .table table tbody > tr > th {
+        @apply px-3 py-2 text-sm text-dark;
+    }
 }
 
 .modal-xs {
-	@apply max-w-sm;
+    @apply max-w-sm;
 }
 .modal-sm {
-	@apply max-w-md;
+    @apply max-w-md;
 }
 .modal-md {
-	@apply max-w-[33.33vw];
+    @apply max-w-[33.33vw];
 }
 .modal-lg {
-	@apply max-w-[45vw];
+    @apply max-w-[45vw];
 }
 .modal-xl {
-	@apply max-w-[60vw];
+    @apply max-w-[60vw];
 }
 .modal-2xl {
-	@apply max-w-[70vw];
+    @apply max-w-[70vw];
 }
 .modal-3xl {
-	@apply max-w-[90vw];
+    @apply max-w-[90vw];
 }
 .modal-full {
-	@apply max-w-full;
+    @apply max-w-full;
 }
 
 .form-group {
-	@apply flex flex-col mb-4;
+    @apply flex flex-col mb-4;
 }
 
 .react-select__control > div {
-	@apply h-[46px] bg-white rounded-lg border-transparent;
+    @apply h-[46px] bg-white rounded-lg border-transparent;
 }
 
 .react-select__control--is-focused > div {
-	@apply shadow-blue-300 ring-1 ring-blue-500;
+    @apply shadow-blue-300 ring-1 ring-blue-500;
 }
 
 .react-select__control--is-focused > div * {
-	@apply text-sm;
+    @apply text-sm;
 }
 
 .react-select__control > div.error-input {
-	@apply h-[46px] bg-white rounded-lg border-danger;
+    @apply h-[46px] bg-white rounded-lg border-danger;
 }
 
 .react-select__menu-list {
-	@apply !p-0;
+    @apply !p-0;
 }
 .react-select__option {
-	@apply !text-dark duration-200;
+    @apply !text-dark duration-200;
 }
 
 .react-select__option:first-child {
-	@apply rounded-t;
+    @apply rounded-t;
 }
 .react-select__option:last-child {
-	@apply rounded-b;
+    @apply rounded-b;
 }
 .react-select__option--is-focused {
-	@apply !text-darker !bg-primary bg-opacity-10;
+    @apply !text-darker !bg-primary bg-opacity-10;
 }
 .react-select__option--is-selected {
-	@apply !text-light font-bold !bg-primary;
+    @apply !text-light font-bold !bg-primary;
 }
