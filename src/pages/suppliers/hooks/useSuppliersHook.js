@@ -1,14 +1,14 @@
 import axios from "@/libs/axios";
 import { toast } from "react-toastify";
-export const useItemBranch = () => {
+export const useSuppliersHook = () => {
     /* 
          FIELDS
             name
         */
-    const getBranches = () => {
-        return axios.get("/management/branches");
+    const getSuppliers = () => {
+        return axios.get("/management/suppliers");
     };
-    const saveItemBranch = async ({
+    const saveSupplier = async ({
         setErrors,
         setLoading,
         callback,
@@ -16,13 +16,13 @@ export const useItemBranch = () => {
     }) => {
         if (props?.id) {
             axios
-                .post(`/management/branches/${props?.id}`, {
+                .post(`/management/suppliers/${props?.id}`, {
                     ...props,
                     _method: "PATCH",
                 })
                 .then((res) => {
                     console.log("res", res);
-                    toast.success("Item branch details updated successfully!");
+                    toast.success("Supplier details updated successfully!");
                     callback ? callback(res.data.data) : "";
                 })
                 .catch((error) => {
@@ -37,10 +37,10 @@ export const useItemBranch = () => {
                 });
         } else {
             axios
-                .post("/management/branches", { ...props })
+                .post("/management/suppliers", { ...props })
                 .then((res) => {
                     console.log("res", res);
-                    toast.success("Item branch added successfully!");
+                    toast.success("Supplier added successfully!");
                     callback ? callback(res.data.data) : "";
                 })
                 .catch((error) => {
@@ -56,14 +56,14 @@ export const useItemBranch = () => {
         }
     };
 
-    const deleteItemBranch = (id) => {
-        return axios.post(`/management/branches/${id}`, {
+    const deleteSupplier = (id) => {
+        return axios.post(`/management/suppliers/${id}`, {
             _method: "DELETE",
         });
     };
     return {
-        getBranches,
-        saveItemBranch,
-        deleteItemBranch,
+        getSuppliers,
+        saveSupplier,
+        deleteSupplier,
     };
 };

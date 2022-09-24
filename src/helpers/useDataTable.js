@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useHttp } from "./useHttp";
 
-const useDataTable = (url) => {
+const useDataTable = (url, setList) => {
     const [page, setPage] = useState(1);
     const [paginate, setPaginate] = useState(10);
     const [keyword, setKeyword] = useState("");
@@ -13,6 +13,18 @@ const useDataTable = (url) => {
             str += `${index == 0 ? "" : "&"}${key}=${filters[key]}`;
         });
         return str;
+    };
+
+    const addToList = (item) => {
+        setList((list) => [item, ...list]);
+    };
+
+    const updateInList = (item) => {
+        setList((list) => list.map((x) => (x.id == item.id ? item : x)));
+    };
+
+    const removeFromList = (item) => {
+        setList((list) => list.filter((x) => x.id != item.id));
     };
 
     const { data, loading, setLoading, meta, setMeta } = useHttp(
@@ -34,6 +46,9 @@ const useDataTable = (url) => {
         setFilters,
         meta,
         setMeta,
+        addToList,
+        updateInList,
+        removeFromList,
     };
 };
 

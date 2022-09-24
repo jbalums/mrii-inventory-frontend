@@ -17,9 +17,9 @@ const Button = (props) => {
 
     const btnBg = () => {
         switch (type) {
-            case "foreground":
+            case "foreground-gradient":
                 return `text-darker bg-gradient-to-br from-foreground to-background border border-border`;
-            case "background":
+            case "background-gradient":
                 return `text-darker bg-gradient-to-br from-background to-foreground border border-border`;
             case "primary-gradient":
                 return `text-white bg-gradient-to-br from-blue-500 to-blue-900`;
@@ -39,6 +39,10 @@ const Button = (props) => {
                 return `text-white bg-warning`;
             case "accent":
                 return `text-white bg-accent`;
+            case "background":
+                return `text-dark bg-background`;
+            case "foreground":
+                return `text-dark bg-foreground`;
             case "transparent":
                 return `text-secondaryText bg-transparent`;
 

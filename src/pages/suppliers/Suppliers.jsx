@@ -7,24 +7,26 @@ import useDataTable from "@/src/helpers/useDataTable";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { toast } from "react-toastify";
-import LocationFormModal from "./components/LocationFormModal";
-import { useItemBranch } from "./hooks/useItemBranchesHook";
+import SuppliersFormModal from "./components/SuppliersFormModal";
+import { useSuppliersHook } from "./hooks/useSuppliersHook";
 
-const Locations = () => {
+const Suppliers = () => {
     const form_modal_ref = useRef(null);
     const delete_modal_ref = useRef(null);
 
     const [list, setList] = useState([]);
     const [id, setId] = useState(null);
     const [loading, setLoading] = useState(false);
-    const { data, loading: dataLoading } = useDataTable(`/management/branches`);
+    const { data, loading: dataLoading } = useDataTable(
+        `/management/suppliers`
+    );
 
-    const { deleteItemBranch } = useItemBranch();
+    const { deleteSupplier } = useSuppliersHook();
 
     const columns = useMemo(
         () => [
             {
-                header: "Location/Branch Name",
+                header: "Supplier Name",
                 accessorKey: "name",
                 className: "",
                 cellClassName: "",
@@ -75,7 +77,6 @@ const Locations = () => {
     );
 
     useEffect(() => {
-        console.log("dataaa", data);
         setList(data?.data || []);
     }, [data?.data]);
 
@@ -103,14 +104,14 @@ const Locations = () => {
 
     const deleteData = () => {
         setLoading(true);
-        deleteItemBranch(id)
+        deleteSupplier(id)
             .then((res) => {
-                toast.success("Item branch deleted successfully!");
+                toast.success("Supplier deleted successfully!");
                 removeFromList({ id: id });
             })
             .catch(() => {
                 toast.error(
-                    "An error occured while trying to delete! Please try again later."
+                    "An error occured while trying to delete supplier! Please try again later."
                 );
             })
             .finally(() => {
@@ -124,7 +125,7 @@ const Locations = () => {
 
     return (
         <AppLayout
-            title="Locations"
+            title="Suppliers"
             titleChildren={
                 <Button
                     type="accent"
@@ -132,14 +133,14 @@ const Locations = () => {
                     onClick={openFormModal}
                 >
                     <FlatIcon icon="rs-plus" className="mr-2" /> Register
-                    location/branch
+                    supplier
                 </Button>
             }
         >
             <div className="w-full lg:w-1/2">
                 <Table columns={columns} loading={dataLoading} data={list} />
             </div>
-            <LocationFormModal
+            <SuppliersFormModal
                 ref={form_modal_ref}
                 addToList={addToList}
                 updateInList={updateInList}
@@ -170,4 +171,4 @@ const Locations = () => {
     );
 };
 
-export default Locations;
+export default Suppliers;

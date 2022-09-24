@@ -59,7 +59,7 @@ html {
     }
     .table table thead > tr > td,
     .table table thead > tr > th {
-        @apply text-left p-4 bg-background border-b-2 border-border text-sm text-darker;
+        @apply text-left p-4 bg-background border-b border-border text-sm text-darker;
     }
     .table table tbody > tr:not(:last-child) {
         @apply border-b;
@@ -80,6 +80,27 @@ html {
     .table table tbody > tr > td,
     .table table tbody > tr > th {
         @apply px-3 py-2 text-sm text-dark;
+    }
+    .square-table,
+    .square-table table tr,
+    .square-table table th,
+    .square-table table td,
+    .square-table tbody tr,
+    .square-table tbody th,
+    .square-table tbody td {
+        @apply !rounded-none;
+    }
+    .transparent-table,
+    .transparent-table table tr,
+    .transparent-table table th,
+    .transparent-table table td,
+    .transparent-table thead tr,
+    .transparent-table thead th,
+    .transparent-table thead td,
+    .transparent-table tbody tr,
+    .transparent-table tbody th,
+    .transparent-table tbody td {
+        @apply !bg-transparent;
     }
 }
 

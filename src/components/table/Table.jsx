@@ -23,6 +23,8 @@ const Table = (props) => {
         meta,
         data,
         loading,
+        rowClick,
+        tableClassName = "",
         onTableChange,
         show = [10, 20, 50, 100],
         loadingMessage = "Gathering data...",
@@ -68,7 +70,11 @@ const Table = (props) => {
     }, [paginationState]);
     return (
         <div className={`border-collapse w-full table ${pagination ? "" : ""}`}>
-            <table className={`border-none  ${pagination ? "" : ""}`}>
+            <table
+                className={`border-none ${tableClassName} ${
+                    pagination ? "" : ""
+                }`}
+            >
                 <thead>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <tr key={`headerGroup.id-${headerGroup.id}`}>
@@ -109,14 +115,34 @@ const Table = (props) => {
                         </tr>
                     ) : (
                         table.getRowModel().rows.map((row) => (
-                            <tr key={`row.id-${row.id}`}>
+                            <tr key={`row.id-${row.id} `} className="group">
                                 {row.getVisibleCells().map((cell) => (
                                     <td
                                         key={`cell.id-${cell.id}`}
                                         className={
-                                            cell.column.columnDef?.className ||
-                                            ""
+                                            "duration-300 " +
+                                                cell.column.columnDef
+                                                    ?.className || "" + rowClick
+                                                ? cell.column.columnDef
+                                                      ?.header != "Action" ||
+                                                  cell.column.columnDef
+                                                      ?.accessorKey != "action"
+                                                    ? "cursor-pointer group-hover:font-semibold"
+                                                    : ""
+                                                : ""
                                         }
+                                        onClick={() => {
+                                            if (
+                                                cell.column.columnDef?.header !=
+                                                    "Action" ||
+                                                cell.column.columnDef
+                                                    ?.accessorKey != "action"
+                                            ) {
+                                                if (rowClick) {
+                                                    rowClick(row);
+                                                }
+                                            }
+                                        }}
                                     >
                                         {flexRender(
                                             cell.column.columnDef.cell,
@@ -150,8 +176,14 @@ const Table = (props) => {
                     <div className="flex items-center text-dark text-sm">
                         <label>Show:</label>
                         <SelectInputField
+                            value={paginationState.pageSize}
                             onChange={(e) => {
-                                table.setPageSize(Number(e.target.value));
+                                // table.setPageSize(Number(e.target.value));
+
+                                setPagination((data) => ({
+                                    ...data,
+                                    pageSize: Number(e.target.value),
+                                }));
                             }}
                             options={show.map((x) => ({
                                 label: x,
