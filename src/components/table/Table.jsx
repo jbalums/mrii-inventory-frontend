@@ -12,6 +12,7 @@ import { FiChevronLeft, FiChevronsLeft } from "react-icons/fi";
 import FlatIcon from "../FlatIcon";
 import SelectInputField from "../forms/SelectInputField";
 import { useEffect } from "react";
+import { useState } from "react";
 const Table = (props) => {
 	const {
 		columns,
@@ -22,22 +23,42 @@ const Table = (props) => {
 		id,
 		*/
 		pagination = false,
-		meta,
+		meta = null,
 		data,
 		loading,
 		show = [10, 20, 50, 100],
 		loadingMessage = "Gathering data...",
 		emptyMessage = "No data to load.",
 	} = props;
+	const [paginationState, setPagination] = useState({
+		pageIndex: 1,
+		pageSize: 10,
+	});
 	const table = useReactTable({
 		data,
 		columns,
 		getPaginationRowModel: getPaginationRowModel(),
+		onPaginationChange: (data) => {
+			if (data) {
+				setPagination(data);
+			}
+		},
 		getCoreRowModel: getCoreRowModel(),
 	});
 	useEffect(() => {
 		console.log("meta", meta);
+		if (meta) {
+			table.setPageSize(meta?.per_page);
+			table.setPageCount(meta?.last_page);
+		}
 	}, [meta]);
+	useEffect(() => {
+		console.log(
+			"paginationChange222",
+			paginationState.pageIndex,
+			paginationState.pageSize
+		);
+	}, [paginationState]);
 	return (
 		<div className={`border-collapse w-full table ${pagination ? "" : ""}`}>
 			<table className={`border-none  ${pagination ? "" : ""}`}>
@@ -129,6 +150,7 @@ const Table = (props) => {
 						<label>Go to page:</label>
 						<TextInputField
 							min={1}
+							max={table.getPageCount()}
 							type={"number"}
 							className="ml-4 w-[80px]"
 							inputClassName="!h-8 !p-2 !text-center"
@@ -143,6 +165,7 @@ const Table = (props) => {
 						<Button
 							type="foreground"
 							size="sm"
+							disabled={!table.getCanPreviousPage()}
 							onClick={() => table.setPageIndex(0)}
 						>
 							<FlatIcon icon="rs-angle-double-left" />
@@ -150,6 +173,7 @@ const Table = (props) => {
 						<Button
 							type="foreground"
 							size="sm"
+							disabled={!table.getCanPreviousPage()}
 							onClick={() => table.previousPage()}
 						>
 							<FlatIcon icon="rs-angle-left" />
@@ -161,6 +185,7 @@ const Table = (props) => {
 						<Button
 							type="foreground"
 							size="sm"
+							disabled={!table.getCanNextPage()}
 							onClick={() => table.nextPage()}
 						>
 							<FlatIcon icon="rs-angle-right" />
@@ -168,6 +193,7 @@ const Table = (props) => {
 						<Button
 							type="foreground"
 							size="sm"
+							disabled={!table.getCanNextPage()}
 							onClick={() => table.setPageIndex(table.getPageCount() - 1)}
 						>
 							<FlatIcon icon="rs-angle-double-right" />

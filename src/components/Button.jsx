@@ -7,6 +7,7 @@ const Button = (props) => {
 		size = "md",
 		className,
 		children,
+		disabled,
 		loading,
 		loadingMessage,
 		...rest
@@ -67,7 +68,7 @@ const Button = (props) => {
 				loading
 					? "disabled opacity-50 cursor-wait pointer-events-none animate-pulse"
 					: ""
-			}`}
+			} ${disabled ? "disabled grayscale opacity-60 cursor-not-allowed" : ""}`}
 			{...rest}
 		>
 			{loading ? <LoadingMsg text={loadingMessage} /> : children}

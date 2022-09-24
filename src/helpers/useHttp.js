@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 let cancel_token = axios2.CancelToken.source();
 
 export const useHttp = (url, dependencies) => {
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 	const [data, setData] = useState(null);
 	const [meta, setMeta] = useState(null);
 
@@ -21,7 +21,7 @@ export const useHttp = (url, dependencies) => {
 					})
 					.then((result) => {
 						setData(result?.data);
-						setMeta(result?.meta);
+						setMeta(result?.data.meta);
 						setLoading(false);
 					})
 					.catch((error) => {

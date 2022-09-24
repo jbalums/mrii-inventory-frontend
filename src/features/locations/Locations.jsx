@@ -28,56 +28,14 @@ const Locations = () => {
 	const columns = useMemo(
 		() => [
 			{
-				header: "Code",
-				id: "code",
-				className: "",
-				cellClassName: "",
-			},
-			{
-				header: "Name",
+				header: "Location/Branch Name",
 				id: "name",
 				className: "",
 				cellClassName: "",
 			},
 			{
-				header: "Description",
-				id: "description",
-				className: "",
-				cellClassName: "",
-			},
-			{
-				header: "UoM",
-				id: "uom",
-				className: "",
-				cellClassName: "",
-			},
-			{
 				header: "Location",
-				id: "firstname",
-				className: "",
-				cellClassName: "",
-			},
-			{
-				header: "QTY on hand",
-				id: "firstname",
-				className: "",
-				cellClassName: "",
-			},
-			{
-				header: "Unit price",
-				id: "firstname",
-				className: "",
-				cellClassName: "",
-			},
-			{
-				header: "Stocks",
-				id: "firstname",
-				className: "",
-				cellClassName: "",
-			},
-			{
-				header: "Action",
-				id: "firstname",
+				id: "code",
 				className: "",
 				cellClassName: "",
 			},
@@ -141,7 +99,7 @@ const Locations = () => {
 				</Button>
 			}
 		>
-			<div className="w-full">
+			<div className="w-full lg:w-1/2">
 				<Table columns={columns} loading={false} data={list} />
 			</div>
 			<LocationFormModal
