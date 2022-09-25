@@ -106,7 +106,7 @@ const Table = (props) => {
                         {loading ? (
                             <tr>
                                 <td colSpan={999}>
-                                    <div className="w-full flex items-center justify-center">
+                                    <div className="w-full flex items-center justify-start lg:items-center lg:justify-center">
                                         {loadingMessage}
                                     </div>
                                 </td>
@@ -114,7 +114,7 @@ const Table = (props) => {
                         ) : table.getRowModel().rows.length == 0 ? (
                             <tr>
                                 <td colSpan={999}>
-                                    <div className="w-full flex items-center justify-center">
+                                    <div className="w-full flex items-center justify-start lg:items-center lg:justify-center">
                                         {emptyMessage}
                                     </div>
                                 </td>
