@@ -143,9 +143,11 @@ const Users = () => {
 		<AppLayout
 			title="Manage users"
 			titleChildren={
-				<Button type="accent" className="ml-auto" onClick={openFormModal}>
-					<FlatIcon icon="rs-plus" className="mr-2" /> Register new User
-				</Button>
+				<div className="lg:ml-auto">
+					<Button type="accent" onClick={openFormModal}>
+						<FlatIcon icon="rs-plus" className="mr-2" /> Register User
+					</Button>
+				</div>
 			}
 		>
 			<div className="w-full">

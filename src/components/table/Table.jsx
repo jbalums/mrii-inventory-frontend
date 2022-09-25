@@ -162,7 +162,7 @@ const Table = (props) => {
 				</tbody>
 			</table>
 			{pagination ? (
-				<div className="flex items-center gap-6 pt-6">
+				<div className="flex flex-col-reverse lg:flex-row items-start lg:items-center gap-6 pt-6">
 					<div className="flex items-center text-dark text-sm">
 						<label>Show:</label>
 						<SelectInputField

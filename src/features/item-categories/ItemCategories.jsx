@@ -124,7 +124,7 @@ const ItemCategories = () => {
 				</Button>
 			}
 		>
-			<div className="w-1/2">
+			<div className="w-full lg:w-1/2">
 				<Table columns={columns} loading={dataLoading} data={list} />
 			</div>
 			<AddItemCategories

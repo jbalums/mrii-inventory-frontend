@@ -24,7 +24,7 @@ const LeftSidebarLink = ({ icon, text, active, to }) => {
 				<span
 					className={`duration-200 transition-all backdrop-blur ${
 						collapseSidebar
-							? `opacity-0 z-0 group-hover:opacity-100 group-hover:z-20 flex items-center group-hover:text-dark min-w-[200px] group-hover:bg-foreground h-full pl-4  ${
+							? `opacity-0 min-w-[0px] w-0 group-hover:min-w-[200px] group-hover:opacity-100 group-hover:z-20 flex items-center group-hover:text-dark group-hover:bg-foreground h-full pl-4  ${
 									active ? "group-hover:text-light group-hover:!bg-primary" : ""
 							  }`
 							: ""
@@ -40,7 +40,7 @@ const LeftSidebar = () => {
 	const location = useLocation();
 	const {
 		dispatch,
-		theme: { collapseSidebar },
+		theme: { collapseSidebar, device },
 	} = useRootContext();
 	const isActive = (name) => {
 		return location.pathname == name;
@@ -50,8 +50,12 @@ const LeftSidebar = () => {
 			className={`shadow-xl transition-all duration-300 bg-background flex flex-col relative md:w-64 z-10 
 		${
 			collapseSidebar
-				? "pt-6 !px-0 !w-[64px] max-w-[64px]"
-				: "pt-6 px-0 min-w-[240px]"
+				? `pt-6 !px-0 !w-[64px] max-w-[64px] ${
+						device == "mobile" ? "absolute top-0 left-0" : ""
+				  }`
+				: `pt-6 px-0 min-w-[240px] ${
+						device == "mobile" ? "absolute top-0 left-0" : ""
+				  }`
 		}`}
 		>
 			<div
