@@ -8,6 +8,7 @@ import Users from "./features/users/Users";
 import NotFoundPage from "./pages/404";
 import Dashboard from "./pages/Dashboard";
 import Inventory from "./pages/inventory/Inventory";
+import Receiving from "./pages/receiving/Receiving";
 import Suppliers from "./pages/suppliers/Suppliers";
 import Test from "./pages/Test";
 function App() {
@@ -20,6 +21,7 @@ function App() {
             <Route path="/users" element={<Users />} />
 
             <Route path="/inventory" element={<Inventory />} />
+            <Route path="/receiving" element={<Receiving />} />
 
             <Route path="/item-categories" element={<ItemCategories />} />
             <Route path="/locations" element={<Locations />} />

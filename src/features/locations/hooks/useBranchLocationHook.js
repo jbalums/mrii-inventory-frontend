@@ -1,6 +1,6 @@
 import axios from "@/libs/axios";
 import { toast } from "react-toastify";
-export const useItemBranch = () => {
+export const useBranchLocation = () => {
     /* 
          FIELDS
             name

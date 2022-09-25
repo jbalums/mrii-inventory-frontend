@@ -22,7 +22,7 @@ const AppLayout = (props) => {
 
                     <div className="relative bg-foreground h-full w-full max-h-screen overflow-auto">
                         <PageHeader title={title}>{titleChildren}</PageHeader>
-                        <div className="p-6 w-full">{children}</div>
+                        <div className="p-4 lg:p-6 w-full">{children}</div>
                     </div>
                     <ToastContainer />
                 </div>

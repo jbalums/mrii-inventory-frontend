@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useHttp } from "./useHttp";
 
-const useDataTable = (url, setList) => {
+const useDataTable = (url, setList, defaultFilters) => {
     const [page, setPage] = useState(1);
     const [paginate, setPaginate] = useState(10);
     const [keyword, setKeyword] = useState("");
-    const [filters, setFilters] = useState({});
+    const [filters, setFilters] = useState(defaultFilters || {});
 
     const transformFilters = () => {
         let str = "";

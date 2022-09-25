@@ -8,7 +8,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { toast } from "react-toastify";
 import LocationFormModal from "./components/LocationFormModal";
-import { useItemBranch } from "./hooks/useItemBranchesHook";
+import { useBranchLocation } from "./hooks/useBranchLocationHook";
 
 const Locations = () => {
     const form_modal_ref = useRef(null);
@@ -19,7 +19,7 @@ const Locations = () => {
     const [loading, setLoading] = useState(false);
     const { data, loading: dataLoading } = useDataTable(`/management/branches`);
 
-    const { deleteItemBranch } = useItemBranch();
+    const { deleteItemBranch } = useBranchLocation();
 
     const columns = useMemo(
         () => [
