@@ -9,279 +9,269 @@ import Modal from "@/src/components/modals/Modal";
 import Table from "@/src/components/table/Table";
 import useDataTable from "@/src/helpers/useDataTable";
 import {
-    forwardRef,
-    useEffect,
-    useImperativeHandle,
-    useMemo,
-    useState,
+	forwardRef,
+	useEffect,
+	useImperativeHandle,
+	useMemo,
+	useState,
 } from "react";
 import { Controller, useForm } from "react-hook-form";
 import useReceiving from "../hooks/useReceivingHook";
+import { useSuppliersHook } from "../../suppliers/hooks/useSuppliersHook";
+import useSelection from "@/src/helpers/useSection";
 
+const QtyInput = ({ updateQty }) => {
+	return (
+		<input
+			type="text"
+			className="rounded-md p-2 w-[88px] text-center bg-foreground"
+			placeholder="Qty"
+			onBlur={(e) => {
+				updateQty(e.target.value);
+			}}
+		/>
+	);
+};
 const ReceivingFormModal = (props, ref) => {
-    const {
-        register,
-        handleSubmit,
-        setError,
-        watch,
-        clearErrors,
-        reset,
-        control,
-        formState: { errors },
-    } = useForm();
-    const { saveReceiving } = useReceiving();
+	const { add_items_received } = props;
+	const {
+		register,
+		handleSubmit,
+		setError,
+		watch,
+		clearErrors,
+		reset,
+		control,
+		formState: { errors },
+	} = useForm();
+	const { saveReceiving } = useReceiving();
+	const { getSuppliers } = useSuppliersHook();
+	const { selectedItems, setSelectedItems, isSelected, selectItem } =
+		useSelection();
+	const [suppliers, setSuppliers] = useState([]);
+	const [list, setList] = useState([]);
 
-    const [list, setList] = useState([]);
-    const [selectedItems, setSelectedItems] = useState([]);
-    const {
-        data,
-        loading: dataLoading,
-        addToList,
-        updateInList,
-        removeFromList,
-    } = useDataTable(`/management/products`);
+	useEffect(() => {
+		getSuppliers().then((res) => {
+			setSuppliers(res.data.data);
+		});
+	}, []);
 
-    useEffect(() => {
-        setList(data?.data || []);
-    }, [data?.data]);
-    const isSelected = (item) => {
-        if (selectedItems.length == 0) {
-            return false;
-        }
-        return selectedItems.find((x) => x.id == item.id) ? true : false;
-    };
-    const selectItem = (item) => {
-        console.log("isSelected", item?.id, isSelected(item));
-        if (isSelected(item)) {
-            item.selected = false;
-            setSelectedItems((prevItems) =>
-                prevItems.filter((x) => x.id != item?.id)
-            );
-        } else {
-            item.selected = true;
-            setSelectedItems([...selectedItems, item]);
-        }
-    };
-    const columns = useMemo(
-        () => [
-            {
-                header: "Product ID",
-                accessorKey: "code",
-            },
-            {
-                header: "Name",
-                accessorKey: "name",
-            },
-            {
-                header: "Unit of measurement",
-                accessorKey: "unit_measurement",
-                className: "!text-center",
-            },
-            {
-                header: "Quantity on hand",
-                accessorKey: "quantity",
-                className: "!text-center",
-            },
-            {
-                header: "Select",
-                id: "action",
-                className: "!text-center",
-                cell: ({ row, getValue }) => {
-                    console.log("rowwwww", row);
-                    const item = row.original;
-                    return (
-                        <>
-                            <div className="flex items-center justify-center text-center gap-4">
-                                <div
-                                    className={`w-6 h-6 rounded border-border border-2 flex justify-center items-center cursor-pointer  duration-200 group ${
-                                        isSelected(item)
-                                            ? "!bg-darker hover:!opacity-100"
-                                            : " hover:opacity-50"
-                                    }`}
-                                    onClick={() => {
-                                        selectItem(item);
-                                    }}
-                                >
-                                    <FlatIcon
-                                        icon="br-check"
-                                        className={`-mb-1 opacity-0 text-light group-hover:opacity-100 duration-200 ${
-                                            isSelected(item)
-                                                ? "text-light opacity-100"
-                                                : ""
-                                        }`}
-                                    />
-                                </div>
-                            </div>
-                        </>
-                    );
-                },
-            },
-        ],
-        [list, selectedItems]
-    );
+	/* useEffect(() => {
+		setList(data?.data || []);
+	}, [data?.data]); */
 
-    const [open, setOpen] = useState(false);
-    const [id, setId] = useState(null);
-    const [loading, setLoading] = useState(false);
+	const columns = useMemo(
+		() => [
+			{
+				header: "Product ID",
+				accessorKey: "code",
+			},
+			{
+				header: "Name",
+				accessorKey: "name",
+			},
+			{
+				header: "Quantity",
+				accessorKey: "quantity",
+				className: "!text-center",
+				cell: ({ row, getValue }) => {
+					const item = row.original;
+					return (
+						<QtyInput
+							updateQty={(qty) => {
+								item.quantity = qty;
+							}}
+						/>
+					);
+				},
+			},
+			{
+				header: "Unit of measurement",
+				accessorKey: "unit_measurement",
+				className: "!text-center",
+			},
+			{
+				header: "Remove",
+				id: "action",
+				className: "!text-center",
+				cell: ({ row, getValue }) => {
+					const item = row.original;
+					return (
+						<>
+							<div
+								className="flex items-center justify-center text-center cursor-pointer"
+								onClick={() => {
+									setList((list) => list.filter((x) => x.id != item?.id));
+									setSelectedItems((list) =>
+										list.filter((x) => x.id != item?.id)
+									);
+								}}
+							>
+								<FlatIcon
+									icon="rr-trash"
+									className={`-mb-1 text-danger duration-200 text-lg`}
+								/>
+							</div>
+						</>
+					);
+				},
+			},
+		],
+		[list, selectedItems]
+	);
 
-    useImperativeHandle(ref, () => ({
-        show: show,
-        hide: hide,
-    }));
+	const [open, setOpen] = useState(false);
+	const [id, setId] = useState(null);
+	const [loading, setLoading] = useState(false);
 
-    const show = (data) => {
-        setOpen(true);
-    };
-    const hide = () => {
-        setOpen(false);
-        setTimeout(() => {
-            reset();
-            setId(null);
-        }, 300);
-    };
+	useImperativeHandle(ref, () => ({
+		show: show,
+		hide: hide,
+	}));
 
-    const successCallBack = (data) => {
-        if (id) {
-            updateInList(data);
-        } else {
-            props.addToList(data);
-        }
-        hide();
-    };
+	const show = (data) => {
+		setOpen(true);
+	};
+	const hide = () => {
+		setOpen(false);
+		setTimeout(() => {
+			reset();
+			setId(null);
+		}, 300);
+	};
 
-    const submitForm = (data) => {
-        setLoading(true);
-        let formData = {
-            ...data,
-            products: selectedItems.map((item) => item.id),
-            quantity: selectedItems.map((item) => item.quantity),
-        };
-        saveReceiving({
-            setLoading,
-            setError,
-            callback: successCallBack,
-            ...formData,
-        });
-    };
+	const successCallBack = (data) => {
+		if (id) {
+			// updateInList(data);
+		} else {
+			props.addToList(data);
+		}
+		hide();
+	};
 
-    return (
-        <Modal open={open} hide={hide} size="3xl">
-            <ModalHeader
-                title={
-                    id
-                        ? "Update PO received details"
-                        : "Create PO received form"
-                }
-                subtitle={`Input PO received details`}
-                hide={hide}
-            />
-            <ModalBody className={`py-4 !bg-foreground`}>
-                <div className="grid grid-cols-2 lg:grid-cols-6 gap-4 pb-4">
-                    <TextInputField
-                        label={`Enter Purchase Order Number`}
-                        className="col-span-2"
-                        inputClassName="bg-"
-                        placeholder={"Enter purchase order number"}
-                        error={errors?.purchase_order?.message}
-                        {...register("purchase_order", {
-                            required: "This field is required",
-                        })}
-                    />
-                    {/*   <TextInputField
-                        label={`Receiving report number`}
-                        className="col-span-2"
-                        inputClassName="bg-foreground"
-                        placeholder={"Enter receiving report number"}
-                        error={errors?.purchase_order?.message}
-                        {...register("purchase_order", {
-                            required: "This field is required",
-                        })}
-                    /> */}
-                    <TextInputField
-                        label={`Enter Project Name`}
-                        className="col-span-2"
-                        inputClassName="bg-"
-                        placeholder={"Enter project name"}
-                        error={errors?.project_name?.message}
-                        {...register("project_name", {
-                            required: "This field is required",
-                        })}
-                    />
-                    {/*   <TextInputField
-                        type="date"
-                        label={`Date receive to warehouse`}
-                        className="col-span-2"
-                        inputClassName="bg-foreground"
-                        placeholder={"Enter date receive to warehouse"}
-                        error={errors?.date?.message}
-                        {...register("date", {
-                            required: "This field is required",
-                        })}
-                    /> */}
+	const submitForm = (data) => {
+		setLoading(true);
+		let formData = {
+			...data,
+			products: selectedItems.map((item) => item.id),
+			quantity: selectedItems.map((item) => item.quantity),
+		};
+		saveReceiving({
+			setLoading,
+			setError,
+			callback: successCallBack,
+			...formData,
+		});
+	};
 
-                    <Controller
-                        render={({
-                            field: { onChange, onBlur, value, name, ref },
-                            fieldState: { invalid, isTouched, isDirty, error },
-                        }) => (
-                            <ReactSelectInputField
-                                label="PO Status"
-                                className="col-span-1"
-                                inputClassName="!bg-"
-                                ref={ref}
-                                value={value}
-                                onChange={onChange} // send value to hook form
-                                onBlur={onBlur} // notify when input is touched
-                                error={error?.message}
-                                placeholder="Status"
-                                options={[
-                                    {
-                                        label: "Pending",
-                                        value: "pending",
-                                    },
-                                    {
-                                        label: "Approved",
-                                        value: "approved",
-                                    },
-                                    {
-                                        label: "Completed",
-                                        value: "completed",
-                                    },
-                                ]}
-                            />
-                        )}
-                        name="category"
-                        control={control}
-                        rules={{
-                            required: {
-                                value: false,
-                                message: "This field is required",
-                            },
-                        }}
-                    />
-                </div>
-                <div className="w-full -mb-[70px]">
-                    <Table
-                        columns={columns}
-                        pagination={true}
-                        loading={dataLoading}
-                        data={list}
-                        rowHighlight={true}
-                    />
-                </div>
-            </ModalBody>
-            <ModalFooter className={`flex items-center justify-end`}>
-                <Button
-                    type="accent"
-                    onClick={handleSubmit(submitForm)}
-                    loading={loading}
-                >
-                    <FlatIcon icon="rs-disk mr-2" />
-                    Save recieved purchase order
-                </Button>
-            </ModalFooter>
-        </Modal>
-    );
+	return (
+		<Modal open={open} hide={hide} size="xl">
+			<ModalHeader
+				title={`Receive`}
+				subtitle={`Receive order from supplier`}
+				hide={hide}
+			/>
+			<ModalBody className={`py-4 min-h-[448px]`}>
+				<div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full">
+					<div className="col-span-4 gap-4 flex flex-col">
+						<div className="bg-foreground rounded-lg p-4 gap-4 flex flex-col">
+							<h4 className="text-base font-bold">Receiving form</h4>
+							<TextInputField
+								label={`Enter Purchase Order Number`}
+								className="col-span-2"
+								inputClassName="bg-"
+								placeholder={"Enter purchase order number"}
+								error={errors?.purchase_order?.message}
+								{...register("purchase_order", {
+									required: "This field is required",
+								})}
+							/>
+							<TextInputField
+								label={`Enter Project Name`}
+								className="col-span-2"
+								inputClassName="bg-"
+								placeholder={"Enter project name"}
+								error={errors?.project_name?.message}
+								{...register("project_name", {
+									required: "This field is required",
+								})}
+							/>
+
+							<Controller
+								render={({
+									field: { onChange, onBlur, value, name, ref },
+									fieldState: { invalid, isTouched, isDirty, error },
+								}) => (
+									<ReactSelectInputField
+										label="Select Supplier"
+										className="col-span-2"
+										inputClassName="!bg-"
+										ref={ref}
+										value={value}
+										onChange={onChange} // send value to hook form
+										onBlur={onBlur} // notify when input is touched
+										error={error?.message}
+										placeholder="Select supplier"
+										options={suppliers.map((supplier) => ({
+											label: supplier?.name + ` - [${supplier?.location}]`,
+											value: supplier?.id,
+										}))}
+									/>
+								)}
+								name="category"
+								control={control}
+								rules={{
+									required: {
+										value: false,
+										message: "This field is required",
+									},
+								}}
+							/>
+						</div>
+					</div>
+					<div className="col-span-8 w-full gap-4 flex flex-col h-full">
+						<div className="bg-foreground rounded-lg p-4 gap-y-4 flex flex-col h-full">
+							<div className="flex items-center">
+								<h4 className="text-lg font-bold mr-auto">
+									List of received items
+								</h4>
+								<Button
+									onClick={() => {
+										add_items_received.current.show({
+											callback: (items) => {
+												setList(items);
+												setSelectedItems(items);
+											},
+											items: list,
+										});
+									}}
+								>
+									Add items
+								</Button>
+							</div>
+							<Table
+								columns={columns}
+								// loading={dataLoading}
+								data={list}
+								emptyMessage={"No items added"}
+							/>
+						</div>
+					</div>
+				</div>
+			</ModalBody>
+			<ModalFooter className={`flex items-center justify-end`}>
+				<Button
+					type="accent"
+					onClick={handleSubmit(submitForm)}
+					loading={loading}
+				>
+					<FlatIcon icon="rs-disk mr-2" />
+					Save recieved purchase order
+				</Button>
+			</ModalFooter>
+		</Modal>
+	);
 };
 
 export default forwardRef(ReceivingFormModal);

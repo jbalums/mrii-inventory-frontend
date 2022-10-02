@@ -1,11 +1,13 @@
 import Button from "@/src/components/Button";
+import ReactSelectInputField from "@/src/components/forms/ReactSelectInputField";
 import TextInputField from "@/src/components/forms/TextInputField";
 import ModalBody from "@/src/components/modals/components/ModalBody";
 import ModalFooter from "@/src/components/modals/components/ModalFooter";
 import ModalHeader from "@/src/components/modals/components/ModalHeader";
 import Modal from "@/src/components/modals/Modal";
 import { forwardRef, useImperativeHandle, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import { useBranchLocation } from "../../locations/hooks/useBranchLocationHook";
 import { useUserHook } from "../hooks/useUserHook";
 
 const AddUserModal = (props, ref) => {
@@ -17,13 +19,15 @@ const AddUserModal = (props, ref) => {
 		watch,
 		clearErrors,
 		reset,
+		control,
 		formState: { errors },
 	} = useForm();
 	const { saveUser } = useUserHook();
-
+	const { getLocations } = useBranchLocation();
 	const [open, setOpen] = useState(false);
 	const [id, setId] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const [locations, setLocations] = useState([]);
 
 	useImperativeHandle(ref, () => ({
 		show: show,
@@ -31,6 +35,9 @@ const AddUserModal = (props, ref) => {
 	}));
 
 	const show = (data) => {
+		getLocations().then((res) => {
+			setLocations(res.data.data);
+		});
 		if (data) {
 			reset({
 				...data,
@@ -68,10 +75,14 @@ const AddUserModal = (props, ref) => {
 		hide();
 	};
 	const submitForm = (data) => {
+		console.log("submitform", data);
 		setLoading(true);
 		let formData = {
 			...data,
 			username: data?.email,
+			branch_id: data?.location_id,
+			location: data?.location_id,
+			branch: data?.location_id,
 		};
 		saveUser({
 			...formData,
@@ -100,6 +111,37 @@ const AddUserModal = (props, ref) => {
 			<ModalBody className={`py-4`}>
 				{console.log("errors", errors)}
 				<div className="flex flex-col lg:grid grid-cols-12 gap-4">
+					<Controller
+						render={({
+							field: { onChange, onBlur, value, name, ref },
+							fieldState: { invalid, isTouched, isDirty, error },
+						}) => (
+							<ReactSelectInputField
+								label="Select User's designated Location"
+								className="col-span-12"
+								inputClassName="!bg-foreground"
+								ref={ref}
+								value={value}
+								onChange={onChange} // send value to hook form
+								onBlur={onBlur} // notify when input is touched
+								error={error?.message}
+								placeholder="Select location"
+								options={locations.map((location) => ({
+									label: location?.name + ` - [${location?.address}]`,
+									value: location?.id,
+								}))}
+							/>
+						)}
+						name="location_id"
+						control={control}
+						rules={{
+							required: {
+								value: false,
+								message: "This field is required",
+							},
+						}}
+					/>
+
 					<TextInputField
 						label={`Firstname`}
 						className="col-span-4"
