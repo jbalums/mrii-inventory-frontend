@@ -7,13 +7,14 @@ const useReceiving = () => {
     const saveReceiving = ({ setLoading, setError, callback, ...formData }) => {
         setLoading(true);
         axios
-            .post(`/management/receiving`, { ...formData })
+            .post(`/inventory/receiving`, { ...formData })
             .then((res) => {
                 console.log("res", res);
                 toast.success("New received PO created successfully!");
                 callback ? callback(res.data.data) : "";
             })
             .catch((error) => {
+                console.log("errror", error);
                 toast.error(
                     `Failed to submit the form. Please check your inputs!`
                 );

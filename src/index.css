@@ -79,7 +79,7 @@ html {
 
     .table table tbody > tr > td,
     .table table tbody > tr > th {
-        @apply px-3 py-2 text-sm text-dark;
+        @apply px-3 py-3 text-sm text-dark;
     }
     .square-table,
     .square-table table tr,

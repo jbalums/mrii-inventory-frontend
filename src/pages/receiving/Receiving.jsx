@@ -18,7 +18,7 @@ const Receiving = () => {
         addToList,
         updateInList,
         removeFromList,
-    } = useDataTable(`/management/receiving`);
+    } = useDataTable(`/inventory/receiving`);
 
     useEffect(() => {
         setList(data?.data || []);
@@ -134,11 +134,6 @@ const Receiving = () => {
                     <FlatIcon icon="rs-plus" className="mr-2" /> Add received PO
                 </Button>
             </div>
-            <ReceivingFormModal
-                ref={addFormRef}
-                addToList={addToList}
-                updateInList={updateInList}
-            />
             <Table
                 rowClick={(data) => {
                     viewProductModal(data);
@@ -147,6 +142,11 @@ const Receiving = () => {
                 pagination={true}
                 loading={dataLoading}
                 data={list}
+            />
+            <ReceivingFormModal
+                ref={addFormRef}
+                addToList={addToList}
+                updateInList={updateInList}
             />
         </AppLayout>
     );

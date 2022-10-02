@@ -24,11 +24,12 @@ const Table = (props) => {
         data,
         loading,
         rowClick = false,
+        rowHighlight = false,
         tableClassName = "",
         onTableChange,
         show = [10, 20, 50, 100],
         loadingMessage = "Gathering data...",
-        emptyMessage = "No data to load.",
+        emptyMessage = "No data available",
     } = props;
     const [paginationState, setPagination] = useState({
         pageIndex: 0,
@@ -106,7 +107,7 @@ const Table = (props) => {
                         {loading ? (
                             <tr>
                                 <td colSpan={999}>
-                                    <div className="w-full flex items-center justify-start lg:items-center lg:justify-center">
+                                    <div className="w-full flex items-center justify-start lg:items-center lg:justify-center py-4 text-placeholder">
                                         {loadingMessage}
                                     </div>
                                 </td>
@@ -114,14 +115,21 @@ const Table = (props) => {
                         ) : table.getRowModel().rows.length == 0 ? (
                             <tr>
                                 <td colSpan={999}>
-                                    <div className="w-full flex items-center justify-start lg:items-center lg:justify-center">
+                                    <div className="w-full flex items-center justify-start lg:items-center lg:justify-center py-4 text-placeholder">
                                         {emptyMessage}
                                     </div>
                                 </td>
                             </tr>
                         ) : (
                             table.getRowModel().rows.map((row) => (
-                                <tr key={`row.id-${row.id} `} className="group">
+                                <tr
+                                    key={`row.id-${row.id} `}
+                                    className={`group ${
+                                        rowHighlight && row?.original?.selected
+                                            ? "!bg-primary-light"
+                                            : ""
+                                    }`}
+                                >
                                     {row.getVisibleCells().map((cell) => (
                                         <td
                                             key={`cell.id-${cell.id}`}
@@ -139,6 +147,11 @@ const Table = (props) => {
                                                           "action"
                                                         ? " group-hover:text-darker"
                                                         : ""
+                                                    : ""
+                                            } ${
+                                                rowHighlight &&
+                                                row?.original?.selected
+                                                    ? "!bg-primary-light"
                                                     : ""
                                             }`}
                                             onClick={() => {
