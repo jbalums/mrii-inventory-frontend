@@ -6,9 +6,10 @@ import TextInputField from "@/src/components/forms/TextInputField";
 import Table from "@/src/components/table/Table";
 import useDataTable from "@/src/helpers/useDataTable";
 import { useEffect, useMemo, useRef, useState } from "react";
+import ReceivingFormModal from "./components/ReceivingFormModal";
 
 const Receiving = () => {
-    const addProductRef = useRef(null);
+    const addFormRef = useRef(null);
     const viewProductRef = useRef(null);
     const [list, setList] = useState([]);
     const {
@@ -23,8 +24,8 @@ const Receiving = () => {
         setList(data?.data || []);
     }, [data?.data]);
 
-    const openFormModal = () => {
-        addProductRef.current.show();
+    const openFormModal = (data = null) => {
+        addFormRef.current.show(data);
     };
     const viewProductModal = (item) => {
         viewProductRef.current.show();
@@ -103,33 +104,41 @@ const Receiving = () => {
                     placeholder="Search Purchase order"
                 />
                 <ReactSelectInputField
-                    className="w-full lg:w-[256px]"
+                    className="w-full lg:w-[160px]"
                     placeholder="All suppliers"
                     options={[
                         {
-                            label: "Cebu",
-                            value: "cebu",
+                            label: "Supplier 1",
+                            value: "1",
                         },
                         {
-                            label: "Cebu",
-                            value: "cebu",
+                            label: "Supplier 2",
+                            value: "2",
                         },
                         {
-                            label: "Cebu",
-                            value: "cebu",
+                            label: "Supplier 3",
+                            value: "3",
                         },
                     ]}
+                />
+                <TextInputField
+                    type="date"
+                    className="w-full lg:w-[160px]"
+                    placeholder="By date"
                 />
                 <Button
                     type="accent"
                     className="ml-auto"
                     onClick={openFormModal}
                 >
-                    <FlatIcon icon="rs-plus" className="mr-2" /> Register
-                    product
+                    <FlatIcon icon="rs-plus" className="mr-2" /> Add received PO
                 </Button>
             </div>
-
+            <ReceivingFormModal
+                ref={addFormRef}
+                addToList={addToList}
+                updateInList={updateInList}
+            />
             <Table
                 rowClick={(data) => {
                     viewProductModal(data);
