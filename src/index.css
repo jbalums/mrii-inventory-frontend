@@ -59,7 +59,7 @@ html {
     }
     .table table thead > tr > td,
     .table table thead > tr > th {
-        @apply text-left p-4 bg-background border-b border-border text-sm text-darker;
+        @apply text-left px-3 py-4 bg-background border-b border-border text-sm text-darker;
     }
     .table table tbody > tr:not(:last-child) {
         @apply border-b;

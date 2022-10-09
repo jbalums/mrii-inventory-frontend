@@ -50,6 +50,11 @@ module.exports = {
                     DEFAULT: "#0099CC",
                     dark: "#0099CC",
                 },
+                information: {
+                    light: "#0099CC",
+                    DEFAULT: "#0099CC",
+                    dark: "#0099CC",
+                },
                 danger: {
                     light: "#CC0000",
                     DEFAULT: "#CC0000",
