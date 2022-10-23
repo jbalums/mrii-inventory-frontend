@@ -13,7 +13,7 @@ const Button = (props) => {
 		...rest
 	} = props;
 
-	const defaultBtnClass = `text-center !duration-200 !transition-all hover:shadow-md hover:shadow-gray-300 transition-transform rounded-lg sm:w-auto cursor-pointer flex items-center justify-center hover:!bg-blend-darken text-sm`;
+	const defaultBtnClass = `text-center !duration-200 !transition-all hover:shadow-md hover:shadow-gray-300 transition-transform rounded-xl sm:w-auto cursor-pointer flex items-center justify-center hover:!bg-blend-darken text-sm`;
 
 	const btnBg = () => {
 		switch (type) {

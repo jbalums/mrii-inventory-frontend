@@ -106,7 +106,9 @@ const AddItemsReceivedModal = (props, ref) => {
 								<FlatIcon
 									icon="br-check"
 									className={`-mb-1 opacity-0 text-light group-hover:opacity-100 duration-200 ${
-										isSelected(item) ? "text-light opacity-100" : ""
+										isSelected(item)
+											? "text-light opacity-100"
+											: ""
 									}`}
 								/>
 							</div>
@@ -127,13 +129,18 @@ const AddItemsReceivedModal = (props, ref) => {
 				<div className="flex flex-col">
 					<div className="flex items-center pb-4 px-4">
 						<p>
-							Please select the item you receive from the supplier and adjust
-							them afterward.
+							Please select the item you receive from the supplier
+							and adjust them afterward.
 						</p>
 
 						<TextInputField
 							className="lg:w-[320px] ml-auto"
-							icon={<FlatIcon icon="rr-search" className="text-sm" />}
+							icon={
+								<FlatIcon
+									icon="rr-search"
+									className="text-sm"
+								/>
+							}
 							placeholder="Search Purchase order"
 						/>
 					</div>
