@@ -70,7 +70,7 @@ const Inventory = () => {
             },
             {
                 header: "QTY on hand",
-                accessorKey: "qty",
+                accessorKey: "quantity",
             },
             {
                 header: "Unit price",
