@@ -6,30 +6,37 @@ import ItemCategories from "./features/item-categories/ItemCategories";
 import Locations from "./features/locations/Locations";
 import Users from "./features/users/Users";
 import NotFoundPage from "./pages/404";
+import AcceptOrders from "./pages/accept-orders/AcceptOrders";
 import Dashboard from "./pages/Dashboard";
 import Inventory from "./pages/inventory/Inventory";
 import Receiving from "./pages/receiving/Receiving";
+import RequestOrders from "./pages/request-orders/RequestOrders";
 import Suppliers from "./pages/suppliers/Suppliers";
 import Test from "./pages/Test";
 function App() {
-    return (
-        <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/test" element={<Test />} />
+	return (
+		<Routes>
+			<Route path="/login" element={<Login />} />
+			<Route path="/test" element={<Test />} />
 
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/users" element={<Users />} />
+			<Route path="/" element={<Dashboard />} />
+			<Route path="/users" element={<Users />} />
 
-            <Route path="/inventory" element={<Inventory />} />
-            <Route path="/receiving" element={<Receiving />} />
+			<Route path="/inventory" element={<Inventory />} />
 
-            <Route path="/item-categories" element={<ItemCategories />} />
-            <Route path="/locations" element={<Locations />} />
-            <Route path="/suppliers" element={<Suppliers />} />
+			<Route path="/inventory" element={<Inventory />} />
+			<Route path="/receiving" element={<Receiving />} />
 
-            <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-    );
+			<Route path="/accept-orders" element={<AcceptOrders />} />
+			<Route path="/request-orders" element={<RequestOrders />} />
+
+			<Route path="/item-categories" element={<ItemCategories />} />
+			<Route path="/locations" element={<Locations />} />
+			<Route path="/suppliers" element={<Suppliers />} />
+
+			<Route path="*" element={<NotFoundPage />} />
+		</Routes>
+	);
 }
 
 export default App;

@@ -18,15 +18,21 @@ const LeftSidebarLink = ({ icon, text, active, to }) => {
 		<Link to={to} className="">
 			<div
 				className={`flex items-center font-normal bg-background h-11 text-dark px-4 duration-100 text-sm group ${
-					active ? "!bg-primary text-light !font-bold" : "hover:bg-foreground"
+					active
+						? "!bg-primary text-light !font-bold"
+						: "hover:bg-foreground"
 				}`}
 			>
-				<span className={collapseSidebar ? "ml-2 mr-6" : "mr-4"}>{icon}</span>
+				<span className={collapseSidebar ? "ml-2 mr-6" : "mr-4"}>
+					{icon}
+				</span>
 				<span
 					className={`duration-200 transition-all backdrop-blur ${
 						collapseSidebar
 							? `opacity-0 min-w-[0px] w-0 group-hover:min-w-[200px] group-hover:opacity-100 group-hover:z-20 flex items-center group-hover:text-dark group-hover:bg-foreground h-full pl-4  ${
-									active ? "group-hover:text-light group-hover:!bg-primary" : ""
+									active
+										? "group-hover:text-light group-hover:!bg-primary"
+										: ""
 							  }`
 							: ""
 					}`}
@@ -78,7 +84,9 @@ const LeftSidebar = () => {
 			<div className={collapseSidebar ? "pb-6 px-2" : "pb-6 px-4"}>
 				<img
 					src={collapseSidebar ? "mrii-icon.png" : "mrii.png"}
-					className={`duration-300 ${collapseSidebar ? "h-[44px]" : "h-11"}`}
+					className={`duration-300 ${
+						collapseSidebar ? "h-[44px]" : "h-11"
+					}`}
 				/>
 			</div>
 			<LeftSidebarTitle text="Main menu" />
@@ -94,6 +102,18 @@ const LeftSidebar = () => {
                 to="/request-order"
                 active={isActive("/request-order")}
             /> */}
+			<LeftSidebarLink
+				icon={<FlatIcon icon="rr-inbox-in" />}
+				text={`Request order`}
+				to="/request-orders"
+				active={isActive("/request-orders")}
+			/>
+			<LeftSidebarLink
+				icon={<FlatIcon icon="rr-inbox-in" />}
+				text={`Accept order`}
+				to="/accept-orders"
+				active={isActive("/accept-orders")}
+			/>
 			<LeftSidebarLink
 				icon={<FlatIcon icon="rr-inbox-in" />}
 				text={`Receiving`}
