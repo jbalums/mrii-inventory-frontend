@@ -282,6 +282,7 @@ const ReceivingFormModal = (props, ref) => {
 			quantity: selectedItems.map((item) => item.quantity),
 			expired_at: selectedItems.map((item) => item.expired_at),
 			price: selectedItems.map((item) => item.price),
+			status: "completed"
 		};
 		console.log("datadatadata id", id);
 		if (id) {
