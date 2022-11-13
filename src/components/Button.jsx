@@ -33,6 +33,8 @@ const Button = (props) => {
 				return `text-white bg-primary`;
 			case "danger":
 				return `text-white bg-danger`;
+			case "danger-light":
+				return `text-danger bg-danger bg-opacity-10`;
 			case "success":
 				return `text-white bg-success`;
 			case "warning":
@@ -74,7 +76,7 @@ const Button = (props) => {
 					: ""
 			} ${
 				disabled
-					? "disabled pointer-events-none grayscale opacity-40 cursor-not-allowed"
+					? "disabled pointer-events-none grayscale text-dark opacity-40 cursor-not-allowed"
 					: ""
 			}`}
 			{...rest}

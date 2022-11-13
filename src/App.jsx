@@ -7,9 +7,12 @@ import Locations from "./features/locations/Locations";
 import Users from "./features/users/Users";
 import NotFoundPage from "./pages/404";
 import AcceptOrders from "./pages/accept-orders/AcceptOrders";
+import RequestDetails from "./pages/accept-orders/RequestDetails";
 import Dashboard from "./pages/Dashboard";
 import Inventory from "./pages/inventory/Inventory";
 import Receiving from "./pages/receiving/Receiving";
+import ItemDelivery from "./pages/request-orders/ItemDelivery";
+import PrepareItemDelivery from "./pages/request-orders/PrepareItemDelivery";
 import RequestOrders from "./pages/request-orders/RequestOrders";
 import Suppliers from "./pages/suppliers/Suppliers";
 import Test from "./pages/Test";
@@ -28,7 +31,20 @@ function App() {
 			<Route path="/receiving" element={<Receiving />} />
 
 			<Route path="/accept-orders" element={<AcceptOrders />} />
+			<Route
+				path="/accept-orders/request/1"
+				element={<RequestDetails />}
+			/>
+
 			<Route path="/request-orders" element={<RequestOrders />} />
+			<Route
+				path="/request-orders/prepare-item-delivery"
+				element={<PrepareItemDelivery />}
+			/>
+			<Route
+				path="/request-orders/item-delivery"
+				element={<ItemDelivery />}
+			/>
 
 			<Route path="/item-categories" element={<ItemCategories />} />
 			<Route path="/locations" element={<Locations />} />

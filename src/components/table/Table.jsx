@@ -81,7 +81,9 @@ const Table = (props) => {
 				className={`max-w-[calc(100vw-96px)] w-full overflow-auto rounded-lg ${className}`}
 			>
 				<table
-					className={`border-none ${tableClassName} ${pagination ? "" : ""}`}
+					className={`border-none ${tableClassName} ${
+						pagination ? "" : ""
+					}`}
 				>
 					<thead>
 						{table.getHeaderGroups().map((headerGroup) => (
@@ -89,12 +91,13 @@ const Table = (props) => {
 								{headerGroup.headers.map((header, index) => (
 									<th
 										key={`header.id-${index}-${headerGroup.id}-${header.id}`}
-										className={header.column.columnDef?.className}
+										className={`${header.column.columnDef?.className} ${header.column.columnDef?.thClassName}`}
 									>
 										{header.isPlaceholder
 											? null
 											: flexRender(
-													header.column.columnDef.header,
+													header.column.columnDef
+														.header,
 													header.getContext()
 											  )}
 									</th>
@@ -133,24 +136,33 @@ const Table = (props) => {
 										<td
 											key={`cell.id-${cell.id}`}
 											className={`duration-300  ${
-												cell.column?.columnDef?.className
+												cell.column?.columnDef
+													?.className
 											}
 											${
 												rowClick
-													? cell.column.columnDef?.header != "Action" ||
-													  cell.column.columnDef?.accessorKey != "action"
+													? cell.column.columnDef
+															?.header !=
+															"Action" ||
+													  cell.column.columnDef
+															?.accessorKey !=
+															"action"
 														? " group-hover:text-darker"
 														: ""
 													: ""
 											} ${
-												rowHighlight && row?.original?.selected
+												rowHighlight &&
+												row?.original?.selected
 													? "!bg-primary-light"
 													: ""
 											}`}
 											onClick={() => {
 												if (
-													cell.column.columnDef?.header != "Action" ||
-													cell.column.columnDef?.accessorKey != "action"
+													cell.column.columnDef
+														?.header != "Action" ||
+													cell.column.columnDef
+														?.accessorKey !=
+														"action"
 												) {
 													if (rowClick) {
 														rowClick(row);
@@ -220,7 +232,9 @@ const Table = (props) => {
 							inputClassName="!h-8 !p-2 !text-center"
 							// defaultValue={table.getState().pagination.pageIndex + 1}
 							onChange={(e) => {
-								const page = e.target.value ? Number(e.target.value) - 1 : 0;
+								const page = e.target.value
+									? Number(e.target.value) - 1
+									: 0;
 								table.setPageIndex(page);
 							}}
 						/>
@@ -249,7 +263,10 @@ const Table = (props) => {
 						<Button
 							type="foreground"
 							size="sm"
-							disabled={paginationState.pageIndex == table.getPageCount() - 1}
+							disabled={
+								paginationState.pageIndex ==
+								table.getPageCount() - 1
+							}
 							onClick={() => table.nextPage()}
 						>
 							<FlatIcon icon="rs-angle-right" />
@@ -257,8 +274,13 @@ const Table = (props) => {
 						<Button
 							type="foreground"
 							size="sm"
-							disabled={paginationState.pageIndex == table.getPageCount() - 1}
-							onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+							disabled={
+								paginationState.pageIndex ==
+								table.getPageCount() - 1
+							}
+							onClick={() =>
+								table.setPageIndex(table.getPageCount() - 1)
+							}
 						>
 							<FlatIcon icon="rs-angle-double-right" />
 						</Button>

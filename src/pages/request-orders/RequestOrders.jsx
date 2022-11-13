@@ -3,24 +3,61 @@ import Button from "@/src/components/Button";
 import FlatIcon from "@/src/components/FlatIcon";
 import ReactSelectInputField from "@/src/components/forms/ReactSelectInputField";
 import TextInputField from "@/src/components/forms/TextInputField";
+import SelectItemsModal from "@/src/components/items/SelectItemsModal";
 import ConfirmModal from "@/src/components/modals/ConfirmModal";
 import Table from "@/src/components/table/Table";
 import useDataTable from "@/src/helpers/useDataTable";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import RequestOrdersFormModal from "./components/RequestOrdersFormModal";
 import useRequestOrdersHook from "./hooks/useRequestOrdersHook.js";
 
 const RequestOrders = () => {
+	const navigate = useNavigate();
 	const form_modal_ref = useRef(null);
 	const delete_modal_ref = useRef(null);
+	const select_items_ref = useRef(null);
 
-	const [list, setList] = useState([]);
+	const [list, setList] = useState([
+		{
+			rs_number: "32132",
+			name: "Test Requestor name 1",
+			location: "Tagbilaran City, Bohol",
+			created: "Nov. 12, 2022",
+			needed: "Nov. 15, 2022",
+			qty: "12",
+			status: "2 of 7 completed",
+			by: "Ariel Man",
+		},
+		{
+			rs_number: "112233",
+			name: "Test Requestor name 2",
+			location: "Cebu City, Cebu",
+			created: "Nov. 12, 2022",
+			needed: "Nov. 16, 2022",
+			qty: "25",
+			status: "6 of 7 completed",
+			by: "Test User",
+		},
+		{
+			rs_number: "22234",
+			name: "Test Requestor name 2",
+			location: "Maribojoc, Bohol",
+			created: "Nov. 14, 2022",
+			needed: "Nov. 25, 2022",
+			qty: "5",
+			status: "2 of 7 completed",
+			by: "Ariel Man",
+		},
+	]);
 	const [id, setId] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const { data, loading: dataLoading } = useDataTable(
-		`/management/suppliers`
+		`/inventory/request`,
+		null
+		// setList
 	);
 
 	const { deleteSupplier } = useRequestOrdersHook();
@@ -28,38 +65,57 @@ const RequestOrders = () => {
 	const columns = useMemo(
 		() => [
 			{
-				header: "Order number",
+				header: "RS number",
+				accessorKey: "rs_number",
+				className: "cursor-pointer",
+				cellClassName: "",
+			},
+			{
+				header: "Requestor name",
 				accessorKey: "name",
-				className: "",
+				className: "cursor-pointer",
 				cellClassName: "",
 			},
 			{
 				header: "Location",
-				accessorKey: "name",
-				className: "",
+				accessorKey: "location",
+				className: "cursor-pointer",
 				cellClassName: "",
 			},
 			{
 				header: "Date created",
-				accessorKey: "name",
-				className: "",
+				accessorKey: "created",
+				className: "cursor-pointer",
+				cellClassName: "",
+			},
+			{
+				header: "Date needed",
+				accessorKey: "needed",
+				className: "cursor-pointer",
 				cellClassName: "",
 			},
 			{
 				header: "Requested QTY",
-				accessorKey: "name",
-				className: "",
+				accessorKey: "qty",
+				className: "cursor-pointer",
 				cellClassName: "",
 			},
 			{
 				header: "Shipping status",
-				accessorKey: "name",
-				className: "",
+				accessorKey: "status",
+				className: "cursor-pointer",
 				cellClassName: "",
+				cell: ({ row: { original } }) => {
+					return (
+						<span className="px-2 py-1 bg-warning bg-opacity-10 text-warning rounded-xl">
+							{original?.status}
+						</span>
+					);
+				},
 			},
 			{
 				header: "Approve by",
-				accessorKey: "name",
+				accessorKey: "by",
 				className: "",
 				cellClassName: "",
 			},
@@ -68,7 +124,7 @@ const RequestOrders = () => {
 	);
 
 	useEffect(() => {
-		setList(data?.data || []);
+		// setList(data?.data || []);
 	}, [data?.data]);
 
 	const openFormModal = (data) => {
@@ -115,13 +171,13 @@ const RequestOrders = () => {
 	};
 
 	return (
-		<AppLayout title="RequestOrders">
+		<AppLayout title="Request orders">
 			<div className="w-full">
 				<div className="flex flex-col lg:flex-row gap-6 pb-6">
 					<TextInputField
 						className="lg:w-[320px]"
 						icon={<FlatIcon icon="rr-search" className="text-sm" />}
-						placeholder="Search Purchase order"
+						placeholder="Search request"
 					/>
 					<ReactSelectInputField
 						className="w-full lg:w-[256px]"
@@ -136,18 +192,18 @@ const RequestOrders = () => {
 						className="ml-auto"
 						onClick={openFormModal}
 					>
-						<FlatIcon icon="rs-plus" className="mr-2" /> Add
-						received PO
+						<FlatIcon icon="rs-plus" className="mr-2" />
+						Add new order
 					</Button>
 				</div>
 				<Table
 					rowClick={(data) => {
-						viewProductModal(data);
+						navigate("prepare-item-delivery");
 					}}
 					columns={columns}
 					pagination={true}
 					loading={dataLoading}
-					data={[]}
+					data={list}
 					emptyMessage={`You don’t have an order`}
 				/>
 			</div>
@@ -155,6 +211,7 @@ const RequestOrders = () => {
 				ref={form_modal_ref}
 				addToList={addToList}
 				updateInList={updateInList}
+				select_items_ref={select_items_ref}
 			/>
 			<ConfirmModal
 				ref={delete_modal_ref}
@@ -178,6 +235,7 @@ const RequestOrders = () => {
 					</div>
 				}
 			/>
+			<SelectItemsModal ref={select_items_ref} />
 		</AppLayout>
 	);
 };

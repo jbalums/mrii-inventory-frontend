@@ -48,9 +48,7 @@ axios.interceptors.response.use(
 					break;
 
 				case 500:
-					toast.error(
-						"Unable to connect to server! Please try again later."
-					);
+					toast.error("Internal server error");
 					break;
 			}
 

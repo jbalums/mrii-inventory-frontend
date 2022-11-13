@@ -50,7 +50,7 @@ const LeftSidebar = () => {
 		theme: { collapseSidebar, device },
 	} = useRootContext();
 	const isActive = (name) => {
-		return location.pathname == name;
+		return location.pathname.includes(name);
 	};
 	return (
 		<div
@@ -83,7 +83,7 @@ const LeftSidebar = () => {
 			</div>
 			<div className={collapseSidebar ? "pb-6 px-2" : "pb-6 px-4"}>
 				<img
-					src={collapseSidebar ? "mrii-icon.png" : "mrii.png"}
+					src={collapseSidebar ? "/mrii-icon.png" : "/mrii.png"}
 					className={`duration-300 ${
 						collapseSidebar ? "h-[44px]" : "h-11"
 					}`}
@@ -94,7 +94,7 @@ const LeftSidebar = () => {
 				icon={<FlatIcon icon="rs-pixabay" />}
 				text={`Dashboard`}
 				to="/"
-				active={isActive("/")}
+				active={isActive("/dashboard")}
 			/>
 			{/* <LeftSidebarLink
                 icon={<FlatIcon icon="rr-notebook" />}
@@ -157,6 +157,10 @@ const LeftSidebar = () => {
 				to="/suppliers"
 				active={isActive("/suppliers")}
 			/>
+
+			<div className="mt-auto border-t p-4 flex items-center">
+				<img src="" alt=" " className="w-10 h-10 border rounded-full" />
+			</div>
 		</div>
 	);
 };

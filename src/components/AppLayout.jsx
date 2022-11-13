@@ -5,7 +5,7 @@ import LeftSidebar from "./layout/LeftSidebar";
 import PageHeader from "./layout/PageHeader";
 
 const AppLayout = (props) => {
-	const { title, titleChildren, children } = props;
+	const { title, titleChildren, children, backBtn = false } = props;
 
 	const { user } = useAuth({
 		middleware: "auth",
@@ -21,7 +21,9 @@ const AppLayout = (props) => {
 					<LeftSidebar user={user} />
 
 					<div className="relative bg-foreground h-full w-full max-h-screen overflow-auto">
-						<PageHeader title={title}>{titleChildren}</PageHeader>
+						<PageHeader title={title} backBtn={backBtn}>
+							{titleChildren}
+						</PageHeader>
 						<div className="p-4 lg:p-6 w-full">{children}</div>
 					</div>
 					<ToastContainer />
