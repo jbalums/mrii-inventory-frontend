@@ -17,6 +17,7 @@ import {
 	useState,
 } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import useRequestOrdersHook from "../hooks/useRequestOrdersHook";
 
 const defaultDateValue = () => {
@@ -34,13 +35,13 @@ const RequestOrdersFormModal = (props, ref) => {
 		reset,
 		formState: { errors },
 	} = useForm();
-	const { saveSupplier } = useRequestOrdersHook();
+	const { saveRequestOrder } = useRequestOrdersHook();
 
 	const [open, setOpen] = useState(false);
 	const [id, setId] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [list, setList] = useState([
-		{
+		/* {
 			id: "AG454",
 			name: "Banana chopper",
 			location: "Cebu",
@@ -55,19 +56,19 @@ const RequestOrdersFormModal = (props, ref) => {
 			uom: "29 kg",
 			qty_on_hand: 345,
 			qty_received: 345,
-		},
+		}, */
 	]);
-	const { data, loading: dataLoading } = useDataTable(
-		`/inventory/request`,
-		setList
-	);
-
 	useImperativeHandle(ref, () => ({
 		show: show,
 		hide: hide,
 	}));
 
+	const updateList = (item) => {
+		setList((list) => list.map((x) => (x.id == item.id ? item : x)));
+	};
 	const show = (data) => {
+		setList([]);
+		setLoading(false);
 		if (data) {
 			reset({
 				...data,
@@ -100,15 +101,15 @@ const RequestOrdersFormModal = (props, ref) => {
 	};
 	const submitForm = (data) => {
 		setLoading(true);
-		let formData = {
-			...data,
-		};
-		saveSupplier({
-			...formData,
-			setLoading,
-			setErrors,
-			callback: successCallBack,
-		});
+		saveRequestOrder(data, list)
+			.then((res) => {
+				console.log("saveRequestOrder", res);
+				toast.success("Request order submitted successfully!");
+				hide();
+			})
+			.finally(() => {
+				setLoading(false);
+			});
 	};
 	const setErrors = (data) => {
 		if (data) {
@@ -126,7 +127,7 @@ const RequestOrdersFormModal = (props, ref) => {
 		() => [
 			{
 				header: "Product ID",
-				accessorKey: "id",
+				accessorKey: "code",
 				className: "border-t !bg-foreground",
 				cellClassName: "",
 			},
@@ -141,18 +142,22 @@ const RequestOrdersFormModal = (props, ref) => {
 				accessorKey: "location",
 				className: "border-t !bg-foreground",
 				cellClassName: "",
+				cell: ({ row: { original } }) => {
+					console.log("original?.location", original);
+					return original?.location?.name || "-";
+				},
 			},
 			{
 				header: "UoM",
-				accessorKey: "uom",
+				accessorKey: "unit_measurement",
 				className: "border-t !bg-foreground",
 				cellClassName: "",
 			},
 			{
 				header: "QTY on hand",
-				accessorKey: "qty_on_hand",
+				accessorKey: "quantity",
 				className: "border-t !bg-foreground ",
-				cellClassName: "text-center",
+				cellClassName: "flex justify-center items-center text-center",
 			},
 			{
 				header: "Quantity receive",
@@ -163,8 +168,12 @@ const RequestOrdersFormModal = (props, ref) => {
 					console.log("datadatadata original", original);
 					return (
 						<QtyInputField
-							qty={original?.qty_on_hand}
-							setQty={(qty) => {}}
+							qty={original?.quantity}
+							setQty={(qty) => {
+								let item = original;
+								item.quantity = qty;
+								updateList(item);
+							}}
 						/>
 					);
 				},
@@ -193,7 +202,7 @@ const RequestOrdersFormModal = (props, ref) => {
 		<Modal open={open} hide={hide} size="3xl">
 			<ModalHeader
 				title={`Select items`}
-				subtitle="Select items to order"
+				subtitle="Select items for the request order"
 				hide={hide}
 			/>
 			<ModalBody className={`py-4`}>
@@ -203,10 +212,6 @@ const RequestOrdersFormModal = (props, ref) => {
 						<CardLayout className="!bg-foreground shadow-none !p-4 flex flex-col !gap-4">
 							<h4 className="text-lg text-dark">Order form</h4>
 							<TextInputField
-								label="Order number"
-								placeholder="Enter order number"
-							/>
-							<TextInputField
 								label="Requestor name"
 								placeholder="Enter requestor name"
 							/>
@@ -214,21 +219,26 @@ const RequestOrdersFormModal = (props, ref) => {
 								label="Requestor devision"
 								placeholder="Enter requestor devision"
 							/>
+							USBON ANG CURRENT USER DETAILS
 							<TextInputField
+								label="Project Code"
+								placeholder="Enter project code"
+								{...register("project_code", {
+									required: "This field is required",
+								})}
+							/>
+							{/* <TextInputField
 								label="Approve by"
 								placeholder="Enter who approved this order"
-							/>
-							<TextInputField
-								label="Order date"
-								placeholder="Enter date of order"
-								type="date"
-								value={defaultDateValue()}
-							/>
+							/> */}
 							<TextInputField
 								label="Date needed"
 								placeholder="Enter a date"
 								type="date"
 								value={defaultDateValue()}
+								{...register("date_needed", {
+									required: "This field is required",
+								})}
 							/>
 						</CardLayout>
 					</div>
@@ -242,7 +252,9 @@ const RequestOrdersFormModal = (props, ref) => {
 									className="ml-auto"
 									onClick={() => {
 										select_items_ref.current.show({
-											callback: null,
+											callback: (data) => {
+												setList(data);
+											},
 											items: [],
 										});
 									}}
@@ -259,7 +271,7 @@ const RequestOrdersFormModal = (props, ref) => {
 								rowClick={(data) => {}}
 								columns={columns}
 								pagination={false}
-								loading={dataLoading}
+								loading={false}
 								data={list}
 								emptyMessage={`You don’t have an order`}
 								tableClassName={`!rounded-none !bg-foreground h-full`}

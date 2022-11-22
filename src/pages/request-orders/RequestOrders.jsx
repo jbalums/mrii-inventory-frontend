@@ -21,7 +21,7 @@ const RequestOrders = () => {
 	const select_items_ref = useRef(null);
 
 	const [list, setList] = useState([
-		{
+		/* {
 			rs_number: "32132",
 			name: "Test Requestor name 1",
 			location: "Tagbilaran City, Bohol",
@@ -50,23 +50,29 @@ const RequestOrders = () => {
 			qty: "5",
 			status: "2 of 7 completed",
 			by: "Ariel Man",
-		},
+		}, */
 	]);
 	const [id, setId] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const { data, loading: dataLoading } = useDataTable(
-		`/inventory/request`,
+		`/inventory/requisition`,
 		null
 		// setList
 	);
+
+	useEffect(() => {
+		if (data?.data) {
+			setList(data?.data);
+		}
+	}, [data]);
 
 	const { deleteSupplier } = useRequestOrdersHook();
 
 	const columns = useMemo(
 		() => [
 			{
-				header: "RS number",
-				accessorKey: "rs_number",
+				header: "Project Code",
+				accessorKey: "project_code",
 				className: "cursor-pointer",
 				cellClassName: "",
 			},
@@ -75,49 +81,61 @@ const RequestOrders = () => {
 				accessorKey: "name",
 				className: "cursor-pointer",
 				cellClassName: "",
+				cell: ({ row: { original } }) => {
+					return `${original?.requester?.lastname}, ${
+						original?.requester?.firstname
+					} ${original?.requester?.middlename.slice(0, 1)}`;
+				},
 			},
 			{
-				header: "Location",
-				accessorKey: "location",
-				className: "cursor-pointer",
-				cellClassName: "",
-			},
-			{
-				header: "Date created",
-				accessorKey: "created",
+				header: "Date requested",
+				accessorKey: "created_at",
 				className: "cursor-pointer",
 				cellClassName: "",
 			},
 			{
 				header: "Date needed",
-				accessorKey: "needed",
+				accessorKey: "date_needed",
 				className: "cursor-pointer",
 				cellClassName: "",
 			},
 			{
-				header: "Requested QTY",
-				accessorKey: "qty",
-				className: "cursor-pointer",
-				cellClassName: "",
-			},
-			{
-				header: "Shipping status",
-				accessorKey: "status",
+				header: "Order status",
+				accessorKey: "order_status",
 				className: "cursor-pointer",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
 					return (
-						<span className="px-2 py-1 bg-warning bg-opacity-10 text-warning rounded-xl">
+						<span
+							className={`px-2 py-1  bg-opacity-10  rounded-xl ${
+								original?.complete
+									? "text-success bg-success"
+									: "text-warning bg-warning"
+							}`}
+						>
 							{original?.status}
 						</span>
 					);
 				},
 			},
 			{
-				header: "Approve by",
-				accessorKey: "by",
+				header: "Approved by",
+				accessorKey: "approved_by",
 				className: "",
 				cellClassName: "",
+				cell: ({ row: { original } }) => {
+					return (
+						<span
+							className={`px-0 py-1  bg-opacity-10  rounded-xl ${
+								original?.complete
+									? "text-success"
+									: "text-warning"
+							}`}
+						>
+							Approved by - NAME
+						</span>
+					);
+				},
 			},
 		],
 		[]
@@ -198,7 +216,8 @@ const RequestOrders = () => {
 				</div>
 				<Table
 					rowClick={(data) => {
-						navigate("prepare-item-delivery");
+						console.log("datadata rowClick", data);
+						navigate(`prepare-item-delivery/${data?.original?.id}`);
 					}}
 					columns={columns}
 					pagination={true}
@@ -235,7 +254,13 @@ const RequestOrders = () => {
 					</div>
 				}
 			/>
-			<SelectItemsModal ref={select_items_ref} />
+			<SelectItemsModal
+				ref={select_items_ref}
+				url={`/inventory`}
+				defaultFilter={{
+					request_order: "yes",
+				}}
+			/>
 		</AppLayout>
 	);
 };

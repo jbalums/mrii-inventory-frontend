@@ -6,3 +6,12 @@ export const pipe =
 export const isNumeric = (value) => {
 	return /^-?\d+$/.test(value);
 };
+
+export const dateTodayInput = () => {
+	let date = new Date();
+	let output = `${date.getFullYear()}-${
+		date.getMonth() + 1
+	}-${date.getDate()}`;
+	console.log("output", output);
+	return output;
+};

@@ -42,6 +42,10 @@ function App() {
 				element={<PrepareItemDelivery />}
 			/>
 			<Route
+				path="/request-orders/prepare-item-delivery/:id"
+				element={<PrepareItemDelivery />}
+			/>
+			<Route
 				path="/request-orders/item-delivery"
 				element={<ItemDelivery />}
 			/>

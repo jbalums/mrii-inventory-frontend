@@ -14,6 +14,7 @@ import ReactSelectInputField from "../forms/ReactSelectInputField";
 import SelectInputField from "../forms/SelectInputField";
 
 const SelectItemsModal = (props, ref) => {
+	const { url = "/management/products", defaultFilter = {} } = props;
 	const { selectedItems, setSelectedItems, isSelected, selectItem } =
 		useSelection();
 
@@ -28,7 +29,7 @@ const SelectItemsModal = (props, ref) => {
 		meta,
 		filters,
 		setFilters,
-	} = useDataTable("/management/products", null, {
+	} = useDataTable(url, null, {
 		location_id: 1,
 	});
 
@@ -60,6 +61,7 @@ const SelectItemsModal = (props, ref) => {
 		setSelectedItems(items);
 		setFilters({
 			key: Math.random(200),
+			...defaultFilter,
 		});
 		setOpen(true);
 	};
