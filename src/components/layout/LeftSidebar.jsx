@@ -135,6 +135,12 @@ const LeftSidebar = () => {
 			<LeftSidebarTitle text="Admin menu" />
 			<LeftSidebarLink
 				icon={<FlatIcon icon="rr-users-alt" />}
+				text={`Products`}
+				to="/products"
+				active={isActive("/products")}
+			/>
+			<LeftSidebarLink
+				icon={<FlatIcon icon="rr-users-alt" />}
 				text={`Users`}
 				to="/users"
 				active={isActive("/users")}
