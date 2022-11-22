@@ -5,7 +5,12 @@ const Modal = (props, ref) => {
 	const { open, hide, children, size } = props;
 	return (
 		<Transition appear show={open} as={Fragment}>
-			<Dialog as="div" className="relative z-10" onClose={hide}>
+			<Dialog
+				as="div"
+				className="relative z-10"
+				onClose={hide}
+				unmount={true}
+			>
 				<Transition.Child
 					as={Fragment}
 					enter="ease-out duration-300"
@@ -32,6 +37,7 @@ const Modal = (props, ref) => {
 							leaveTo="opacity-0 scale-95"
 						>
 							<Dialog.Panel
+								as="div"
 								className={`w-full transform bg-foreground text-left align-middle rounded-xl shadow-xl transition-all  ${
 									size ? `modal-${size}` : `max-w-md`
 								}`}

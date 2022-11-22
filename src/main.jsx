@@ -22,6 +22,17 @@ axios.interceptors.request.use(
 		return Promise.reject(error);
 	}
 );
+const removeSession = () => {
+	if (!window.location.pathname.includes("login")) {
+		setTimeout(() => {
+			toast.error(
+				"Session expired! Login to your credentails to continue."
+			);
+		}, 500);
+		window.localStorage.clear();
+		window.location.reload();
+	}
+};
 axios.interceptors.response.use(
 	(response) => {
 		if (response.status === 500) {
@@ -38,13 +49,7 @@ axios.interceptors.response.use(
 			switch (parseInt(code)) {
 				case 401:
 				case 403:
-					setTimeout(() => {
-						toast.error(
-							"Session expired! Login to your credentails to continue."
-						);
-					}, 500);
-					window.localStorage.clear();
-					window.location.reload();
+					removeSession();
 					break;
 
 				case 500:

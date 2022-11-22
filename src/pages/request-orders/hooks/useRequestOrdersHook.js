@@ -1,5 +1,26 @@
+import axios from "@/libs/axios";
 const useRequestOrdersHook = () => {
-	return {};
+	const saveRequestOrder = (data, items = []) => {
+		let formData = new FormData();
+
+		formData.append("project_code", data?.project_code);
+		formData.append("date_needed", data?.date_needed);
+		if (items?.length > 0) {
+			items.map((item) => {
+				formData.append("inventory_id[]", item?.id);
+				formData.append("quantity[]", item?.quantity);
+			});
+		}
+		return axios.post("/inventory/requisition", formData);
+	};
+
+	const getRequestOrderDetail = (id) => {
+		return axios.get(`/inventory/requisition/${id}`);
+	};
+	return {
+		saveRequestOrder,
+		getRequestOrderDetail,
+	};
 };
 
 export default useRequestOrdersHook;

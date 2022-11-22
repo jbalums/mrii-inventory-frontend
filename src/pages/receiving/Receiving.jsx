@@ -157,7 +157,7 @@ const Receiving = () => {
 				<TextInputField
 					className="lg:w-[320px]"
 					icon={<FlatIcon icon="rr-search" className="text-sm" />}
-					placeholder="Search Purchase order"
+					placeholder="Search PO"
 				/>
 				<ReactSelectInputField
 					className="w-full lg:w-[256px]"

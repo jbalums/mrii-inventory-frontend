@@ -1,3 +1,4 @@
+import { dateTodayInput } from "@/libs/helpers";
 import Button from "@/src/components/Button";
 import FlatIcon from "@/src/components/FlatIcon";
 import ReactSelectInputField from "@/src/components/forms/ReactSelectInputField";
@@ -276,13 +277,14 @@ const ReceivingFormModal = (props, ref) => {
 
 	const submitForm = (data) => {
 		setLoading(true);
+
 		let formData = {
 			...data,
 			products: selectedItems.map((item) => item.id),
 			quantity: selectedItems.map((item) => item.quantity),
 			expired_at: selectedItems.map((item) => item.expired_at),
 			price: selectedItems.map((item) => item.price),
-			status: "completed"
+			status: "completed",
 		};
 		console.log("datadatadata id", id);
 		if (id) {
@@ -319,7 +321,20 @@ const ReceivingFormModal = (props, ref) => {
 								Receiving form
 							</h4>
 							<TextInputField
-								label={`Enter Purchase Order Number`}
+								label={`Date received`}
+								className="col-span-2"
+								inputClassName="bg-"
+								type="date"
+								placeholder={"Enter date received"}
+								defaultValue={dateTodayInput()}
+								error={errors?.purchase_order?.message}
+								max={dateTodayInput()}
+								{...register("date_receive", {
+									required: "This field is required",
+								})}
+							/>
+							<TextInputField
+								label={`Enter PO Number`}
 								className="col-span-2"
 								inputClassName="bg-"
 								placeholder={"Enter purchase order number"}

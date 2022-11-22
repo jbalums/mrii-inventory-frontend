@@ -11,14 +11,17 @@ import Table from "@/src/components/table/Table";
 import useDataTable from "@/src/helpers/useDataTable";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import RequestOrdersFormModal from "./components/RequestOrdersFormModal";
 import useRequestOrdersHook from "./hooks/useRequestOrdersHook.js";
 
 const PrepareItemDelivery = () => {
+	const { getRequestOrderDetail } = useRequestOrdersHook();
 	const navigate = useNavigate();
+	const params = useParams();
 	const complete_order_ref = useRef(null);
+	const [orderInfo, setOrderInfo] = useState(null);
 	const [list, setList] = useState([
 		{
 			code: "AG454",
@@ -93,6 +96,13 @@ const PrepareItemDelivery = () => {
 		// setList(data?.data || []);
 	}, [data?.data]);
 
+	useEffect(() => {
+		if (params?.id) {
+			getRequestOrderDetail(params?.id).then((res) => {
+				setOrderInfo(res.data.data);
+			});
+		}
+	}, []);
 	return (
 		<AppLayout
 			title="Item delivery"
@@ -100,10 +110,12 @@ const PrepareItemDelivery = () => {
 			titleChildren={
 				<div className="ml-auto flex items-start justify-center gap-4">
 					<div className="flex flex-col">
-						<span className="text-xs font-light text-dark">
-							Order number
+						<span className="text-sm font-light text-dark">
+							Project code
 						</span>
-						<b className="text-sm text-darker">AG454</b>
+						<b className="text-lg text-darker">
+							{orderInfo?.project_code}
+						</b>
 					</div>
 					<div className="h-11 border-r border-border"></div>
 					<Button
@@ -151,58 +163,42 @@ const PrepareItemDelivery = () => {
 					<p className="text-sm text-dark">
 						All ordered items will deliver by location
 					</p>
-					<CardLayout className="!p-0 !bg-background !shadow-sm">
-						<div className="border-b px-4 py-6 flex flex-col lg:flex-row gap-4 items-center">
-							<div className="text-lg font-light">
-								<span>Order location:</span>
-								<b> Cebu</b>
-							</div>
-							<div className="lg:ml-auto gap-4 flex items-center">
-								<p>
-									Expected date to arrive:{" "}
-									<b className="text-accent">Dec 23, 2022</b>
-								</p>
-								<div className="h-11 border-r border-border"></div>
-								<Button type="danger-light">
-									Cancel order
-								</Button>
-							</div>
-						</div>
-						<Table
-							rowClick={(data) => {}}
-							columns={columns}
-							pagination={false}
-							loading={dataLoading}
-							data={list}
-							emptyMessage={`You don’t have an order`}
-						/>
-					</CardLayout>
-					<CardLayout className="!p-0 !bg-background !shadow-sm">
-						<div className="border-b px-4 py-6 flex flex-col lg:flex-row gap-4 items-center">
-							<div className="text-lg font-light">
-								<span>Order location:</span>
-								<b> Cagayan de Oro</b>
-							</div>
-							<div className="lg:ml-auto gap-4 flex items-center">
-								<p>
-									Expected date to arrive:{" "}
-									<b className="text-accent">Dec 23, 2022</b>
-								</p>
-								<div className="h-11 border-r border-border"></div>
-								<Button type="danger-light">
-									Cancel order
-								</Button>
-							</div>
-						</div>
-						<Table
-							rowClick={(data) => {}}
-							columns={columns}
-							pagination={false}
-							loading={dataLoading}
-							data={list}
-							emptyMessage={`You don’t have an order`}
-						/>
-					</CardLayout>
+					{orderInfo?.details?.map((data) => {
+						return (
+							<CardLayout className="!p-0 !bg-background !shadow-sm">
+								<div className="border-b px-4 py-6 flex flex-col lg:flex-row gap-4 items-center">
+									<div className="text-lg font-light">
+										<span>Order location:</span>
+										<b> {data?.location?.name}</b>
+									</div>
+									<div className="lg:ml-auto gap-4 flex items-center">
+										<p>
+											Expected date to arrive:{" "}
+											<b className="text-accent">
+												{orderInfo?.date_needed}
+											</b>
+										</p>
+										<div className="h-11 border-r border-border"></div>
+										<Button type="danger-light">
+											Cancel order
+										</Button>
+									</div>
+								</div>
+								<Table
+									rowClick={(data) => {}}
+									columns={columns}
+									pagination={false}
+									loading={dataLoading}
+									data={
+										data?.items?.map(
+											(item) => item?.product
+										) || []
+									}
+									emptyMessage={`You don’t have an order`}
+								/>
+							</CardLayout>
+						);
+					})}
 				</div>
 			</div>
 			<AffirmationModal
