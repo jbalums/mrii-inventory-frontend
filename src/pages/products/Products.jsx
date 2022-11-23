@@ -10,7 +10,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import ProductFormModal from "./components/ProductFormModal";
 import ViewProductModal from "./components/ViewProductModal";
 
-const Inventory = () => {
+const Products = () => {
 	const addProductRef = useRef(null);
 	const viewProductRef = useRef(null);
 	const [list, setList] = useState([]);
@@ -23,7 +23,7 @@ const Inventory = () => {
 		setFilters,
 		updateInList,
 		removeFromList,
-	} = useDataTable(`/inventory`, setList, {
+	} = useDataTable(`/management/products`, setList, {
 		branch_id: "",
 	});
 
@@ -38,8 +38,9 @@ const Inventory = () => {
 		setList(data?.data || []);
 	}, [data?.data]);
 
-	const openFormModal = () => {
-		addProductRef.current.show();
+	const openFormModal = (data) => {
+		console.log('opeeen')
+		addProductRef.current.show(data);
 	};
 	const viewProductModal = (item) => {
 		viewProductRef.current.show();
@@ -57,28 +58,16 @@ const Inventory = () => {
 				accessorKey: "name",
 			},
 			{
+				header: "Brand",
+				accessorKey: "brand",
+			},
+			{
 				header: "Description",
 				accessorKey: "description",
 			},
 			{
 				header: "UoM",
 				accessorKey: "unit_measurement",
-			},
-			{
-				header: "Location",
-				accessorKey: "location",
-			},
-			{
-				header: "QTY on hand",
-				accessorKey: "quantity",
-			},
-			{
-				header: "Unit price",
-				accessorKey: "price",
-			},
-			{
-				header: "Stocks",
-				accessorKey: "stocks",
 			},
 			{
 				header: "Action",
@@ -111,31 +100,8 @@ const Inventory = () => {
 	);
 	return (
 		<AppLayout
-			title="Inventory"
-			titleChildren={
-				<div className="ml-auto flex items-center gap-4 flex-wrap">
-					<Button type="background" className="border-none">
-						<FlatIcon
-							icon="rs-shopping-cart"
-							className="text-danger mr-2 text-base"
-						/>
-						<span className="text-sm mr-2">Empty stocks:</span>
-						<span className="text-sm text-danger font-bold">
-							14
-						</span>
-					</Button>
-					<Button type="background" className="border-none">
-						<FlatIcon
-							icon="rs-stats"
-							className="text-warning mr-2 text-base"
-						/>
-						<span className="text-sm mr-2">Low stocks:</span>
-						<span className="text-sm text-warning font-bold">
-							14
-						</span>
-					</Button>
-				</div>
-			}
+			title="Products"
+
 		>
 			<div className="flex flex-col lg:flex-row gap-6 pb-6">
 				<TextInputField
@@ -143,27 +109,16 @@ const Inventory = () => {
 					icon={<FlatIcon icon="rr-search" className="text-sm" />}
 					placeholder="Search product"
 				/>
-				<ReactSelectInputField
-					className="w-full lg:w-[256px]"
-					placeholder="All location / Branches"
-					value={filters?.branch_id}
-					onChange={(data) => {
-						setFilters((filters) => ({
-							...filters,
-							branch_id: data,
-						}));
+				<Button
+					type="accent"
+					className="ml-auto"
+					onClick={() => {
+						openFormModal()
 					}}
-					options={[
-						{
-							label: "All location / branches",
-							value: "",
-						},
-						...branches.map((branch) => ({
-							value: branch?.id,
-							label: branch?.name,
-						})),
-					]}
-				/>
+				>
+					<FlatIcon icon="rs-plus" className="mr-2" /> Register
+					product
+				</Button>
 			</div>
 
 			<div className="w-full">
@@ -177,14 +132,16 @@ const Inventory = () => {
 					data={list}
 				/>
 			</div>
+
 			<ProductFormModal
 				ref={addProductRef}
 				addToList={addToList}
 				updateInList={updateInList}
 			/>
+
 			<ViewProductModal ref={viewProductRef} />
 		</AppLayout>
 	);
 };
 
-export default Inventory;
+export default Products;
