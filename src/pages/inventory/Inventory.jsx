@@ -24,8 +24,8 @@ const Inventory = () => {
 		updateInList,
 		removeFromList,
 	} = useDataTable(`/inventory`, setList, {
-		branch_id: "",
-	});
+		location_id: "",
+	});:
 
 	const { getBranches } = useBranchLocation();
 
@@ -67,6 +67,10 @@ const Inventory = () => {
 			{
 				header: "Location",
 				accessorKey: "location",
+			},
+			{
+				header: "Business Unit",
+				accessorKey: "unit_code",
 			},
 			{
 				header: "QTY on hand",
@@ -146,11 +150,11 @@ const Inventory = () => {
 				<ReactSelectInputField
 					className="w-full lg:w-[256px]"
 					placeholder="All location / Branches"
-					value={filters?.branch_id}
+					value={filters?.location_id}
 					onChange={(data) => {
 						setFilters((filters) => ({
 							...filters,
-							branch_id: data,
+							location_id: data,
 						}));
 					}}
 					options={[
