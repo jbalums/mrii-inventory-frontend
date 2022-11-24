@@ -9,6 +9,7 @@ import useDataTable from "@/src/helpers/useDataTable";
 import { useEffect, useMemo, useRef, useState } from "react";
 import ProductFormModal from "./components/ProductFormModal";
 import ViewProductModal from "./components/ViewProductModal";
+import useInventory from "@/src/pages/inventory/hooks/useInventory.js";
 
 const Inventory = () => {
 	const addProductRef = useRef(null);
@@ -28,6 +29,9 @@ const Inventory = () => {
 	});
 
 	const { getBranches } = useBranchLocation();
+
+	const { businessUnits } = useInventory();
+
 
 	useEffect(() => {
 		getBranches().then((res) => {
@@ -165,6 +169,28 @@ const Inventory = () => {
 						...branches.map((branch) => ({
 							value: branch?.id,
 							label: branch?.name,
+						})),
+					]}
+				/>
+
+				<ReactSelectInputField
+					className="w-full lg:w-[256px]"
+					placeholder="All business units"
+					value={filters?.by_unit}
+					onChange={(data) => {
+						setFilters((filters) => ({
+							...filters,
+							by_unit: data,
+						}));
+					}}
+					options={[
+						{
+							label: "All location / branches",
+							value: "",
+						},
+						...businessUnits.map((unit) => ({
+							value: unit?.code,
+							label: unit?.name,
 						})),
 					]}
 				/>

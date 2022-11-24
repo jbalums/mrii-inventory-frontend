@@ -27,7 +27,22 @@ const useInventory = () => {
                 setLoading(false);
             });
     };
-    return { getLocations, saveProduct };
+
+    const businessUnits = [
+        {
+            'code': 'CBU',
+            'name': "Chemical Business Unit",
+        },
+        {
+            'code': 'EBU',
+            'name': "Electrical Business Unit",
+        },
+        {
+            'code': 'WBU',
+            'name': "Water Business Unit",
+        },
+    ]
+    return { getLocations, saveProduct , businessUnits };
 };
 
 export default useInventory;
