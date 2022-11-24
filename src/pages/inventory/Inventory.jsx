@@ -69,6 +69,10 @@ const Inventory = () => {
 				accessorKey: "location",
 			},
 			{
+				header: "Business Unit",
+				accessorKey: "unit_code",
+			},
+			{
 				header: "QTY on hand",
 				accessorKey: "quantity",
 			},
