@@ -43,12 +43,7 @@ const ProductFormModal = (props, ref) => {
     }));
 
     const show = (data) => {
-        getBranches().then((res) => {
-            setLocations(res.data.data);
-        });
-        getCategories().then((res) => {
-            setCategories(res.data.data);
-        });
+
         if (data) {
             reset({
                 ...data,

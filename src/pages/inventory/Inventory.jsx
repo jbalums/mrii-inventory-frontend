@@ -38,8 +38,8 @@ const Inventory = () => {
 		setList(data?.data || []);
 	}, [data?.data]);
 
-	const openFormModal = () => {
-		addProductRef.current.show();
+	const openFormModal = (data) => {
+		addProductRef.current.show(data);
 	};
 	const viewProductModal = (item) => {
 		viewProductRef.current.show();
