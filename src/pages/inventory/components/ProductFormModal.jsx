@@ -58,14 +58,8 @@ const ProductFormModal = (props, ref) => {
             }
         } else {
             reset({
-                name: "",
-                code: "",
-                description: "",
-                unit_value: "",
-                unit_measurement: "",
                 stock_low_level: "",
                 reorder_point: "",
-                price: "",
             });
             setId(null);
         }
@@ -92,10 +86,12 @@ const ProductFormModal = (props, ref) => {
         setLoading(true);
         let formData = {
             ...data,
+            _method: "PATCH"
         };
         saveProduct({
             setLoading,
             setError,
+            id,
             callback: successCallBack,
             ...formData,
         });
@@ -104,13 +100,13 @@ const ProductFormModal = (props, ref) => {
     return (
         <Modal open={open} hide={hide} size="md">
             <ModalHeader
-                title={id ? "Register product" : "Register product"}
-                subtitle={`Register your new product`}
+                title={`Set Inventory Triggers`}
+                subtitle={`Set Inventory Triggers`}
                 hide={hide}
             />
             <ModalBody className={`py-4`}>
                 <div className="flex flex-col lg:grid grid-cols-1 lg:grid-cols-2 gap-4">
-                    <TextInputField
+                    {/*<TextInputField
                         label={`Product code`}
                         className="col-span-2"
                         inputClassName="bg-foreground"
@@ -129,110 +125,8 @@ const ProductFormModal = (props, ref) => {
                         {...register("name", {
                             required: "This field is required",
                         })}
-                    />
-                    <TextAreaInputField
-                        label={`Product description`}
-                        className="col-span-2"
-                        rows={4}
-                        inputClassName="bg-foreground"
-                        placeholder={"Enter product description"}
-                        error={errors?.description?.message}
-                        {...register("description", {
-                            required: "This field is required",
-                        })}
-                    />
-                    <TextInputField
-                        label={`Product Price`}
-                        className="col-span-2"
-                        type="number"
-                        rows={4}
-                        inputClassName="bg-foreground"
-                        placeholder={"Enter product price"}
-                        error={errors?.price?.message}
-                        {...register("price", {
-                            required: "This field is required",
-                        })}
-                    />
-                    <TextInputField
-                        label={`Unit of measurement`}
-                        inputClassName="bg-foreground"
-                        placeholder={"Unit of measurement"}
-                        error={errors?.unit_measurement?.message}
-                        {...register("unit_measurement", {
-                            required: "This field is required",
-                        })}
-                    />
-                    <TextInputField
-                        type="number"
-                        label={`Unit value`}
-                        inputClassName="bg-foreground"
-                        placeholder={"Unit value"}
-                        error={errors?.unit_value?.message}
-                        {...register("unit_value", {
-                            required: "This field is required",
-                        })}
-                    />
-                    <Controller
-                        render={({
-                            field: { onChange, onBlur, value, name, ref },
-                            fieldState: { invalid, isTouched, isDirty, error },
-                        }) => (
-                            <ReactSelectInputField
-                                label="Category"
-                                className="col-span-2"
-                                inputClassName="!bg-foreground"
-                                ref={ref}
-                                value={value}
-                                onChange={onChange} // send value to hook form
-                                onBlur={onBlur} // notify when input is touched
-                                error={error?.message}
-                                placeholder="Select category"
-                                options={categories.map((data) => ({
-                                    label: data.name,
-                                    value: data.id,
-                                }))}
-                            />
-                        )}
-                        name="category"
-                        control={control}
-                        rules={{
-                            required: {
-                                value: false,
-                                message: "This field is required",
-                            },
-                        }}
-                    />
+                    />*/}
 
-                    <Controller
-                        render={({
-                            field: { onChange, onBlur, value, name, ref },
-                            fieldState: { invalid, isTouched, isDirty, error },
-                        }) => (
-                            <ReactSelectInputField
-                                label="Location"
-                                className="col-span-2"
-                                inputClassName="!bg-foreground"
-                                ref={ref}
-                                value={value}
-                                onChange={onChange} // send value to hook form
-                                onBlur={onBlur} // notify when input is touched
-                                error={error?.message}
-                                placeholder="Select location, branch"
-                                options={locations.map((data) => ({
-                                    label: data.name + ` [${data.address}]`,
-                                    value: data.id,
-                                }))}
-                            />
-                        )}
-                        name="location"
-                        control={control}
-                        rules={{
-                            required: {
-                                value: false,
-                                message: "This field is required",
-                            },
-                        }}
-                    />
                     <TextInputField
                         type="number"
                         min={0}

@@ -7,13 +7,13 @@ const useInventory = () => {
     const getLocations = () => {
         return axios.get("/management/users");
     };
-    const saveProduct = ({ setLoading, setError, callback, ...formData }) => {
+    const saveProduct = ({ setLoading, setError, callback, id ,...formData }) => {
         setLoading(true);
         axios
-            .post(`/management/products`, { ...formData })
+            .post(`/inventory/triggers/${id}`, { ...formData })
             .then((res) => {
                 console.log("res", res);
-                toast.success("New product created successfully!");
+                toast.success("Inventory triggers updated!");
                 callback ? callback(res.data.data) : "";
             })
             .catch((error) => {
