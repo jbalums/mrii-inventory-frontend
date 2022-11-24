@@ -25,7 +25,7 @@ const Inventory = () => {
 		removeFromList,
 	} = useDataTable(`/inventory`, setList, {
 		location_id: "",
-	});:
+	});
 
 	const { getBranches } = useBranchLocation();
 
