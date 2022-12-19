@@ -4,167 +4,171 @@
 @import url("https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css");
 @import url("https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css");
 @import url("https://cdn-uicons.flaticon.com/uicons-bold-straight/css/uicons-bold-straight.css");
-@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Rubik:wght@400;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 html {
-    /* font-family: "Lato", sans-serif; */
-    font-family: "Quicksand", sans-serif;
-    overflow-y: hidden;
-    overflow-y: auto;
+	/* font-family: "Lato", sans-serif; */
+	font-family: "Rubik", sans-serif;
+	overflow-y: hidden;
+	overflow-y: auto;
 }
 
 @layer base {
-    input {
-        outline: none !important;
-    }
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    b,
-    strong {
-        @apply font-bold;
-    }
-    h1 {
-        @apply text-2xl;
-    }
-    h2 {
-        @apply text-xl;
-    }
-    h3 {
-        @apply text-lg;
-    }
-    h4 {
-        @apply text-base;
-    }
-    h5 {
-        @apply text-sm;
-    }
-    h6 {
-        @apply text-xs;
-    }
+	input {
+		outline: none !important;
+	}
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	b,
+	strong {
+		@apply font-bold;
+	}
+	h1 {
+		font-family: "Lato", sans-serif !important;
+		@apply text-2xl;
+	}
+	h2 {
+		font-family: "Lato", sans-serif !important;
+		@apply text-xl;
+	}
+	h3 {
+		font-family: "Lato", sans-serif !important;
+		@apply text-lg;
+	}
+	h4 {
+		font-family: "Lato", sans-serif !important;
+		@apply text-base;
+	}
+	h5 {
+		font-family: "Lato", sans-serif !important;
+		@apply text-sm;
+	}
+	h6 {
+		font-family: "Lato", sans-serif !important;
+		@apply text-xs;
+	}
 
-    .table table {
-        @apply w-full border bg-background rounded-lg;
-    }
-    .table table thead > tr:last-child {
-        @apply border-b;
-    }
-    .table table thead > tr > td,
-    .table table thead > tr > th {
-        @apply text-left px-3 py-4 bg-background border-b border-border text-sm text-darker;
-    }
-    .table table tbody > tr:not(:last-child) {
-        @apply border-b;
-    }
-    .table table thead > tr > td:first-child,
-    .table table thead > tr > th:first-child {
-        @apply rounded-tl-lg;
-    }
-    .table table thead > tr > td:last-child,
-    .table table thead > tr > th:last-child {
-        @apply rounded-tr-lg;
-    }
-    .table table tbody > tr > td:not(:last-child),
-    .table table tbody > tr > th:not(:last-child) {
-        /* @apply border-r; */
-    }
+	.table table {
+		@apply w-full border bg-background rounded-lg;
+	}
+	.table table thead > tr:last-child {
+		@apply border-b;
+	}
+	.table table thead > tr > td,
+	.table table thead > tr > th {
+		@apply text-left px-3 py-4 bg-background border-b border-border text-sm text-darker;
+	}
+	.table table tbody > tr:not(:last-child) {
+		@apply border-b;
+	}
+	.table table thead > tr > td:first-child,
+	.table table thead > tr > th:first-child {
+		@apply rounded-tl-lg;
+	}
+	.table table thead > tr > td:last-child,
+	.table table thead > tr > th:last-child {
+		@apply rounded-tr-lg;
+	}
+	.table table tbody > tr > td:not(:last-child),
+	.table table tbody > tr > th:not(:last-child) {
+		/* @apply border-r; */
+	}
 
-    .table table tbody > tr > td,
-    .table table tbody > tr > th {
-        @apply px-3 py-3 text-sm text-dark;
-    }
-    .square-table,
-    .square-table table tr,
-    .square-table table th,
-    .square-table table td,
-    .square-table tbody tr,
-    .square-table tbody th,
-    .square-table tbody td {
-        @apply !rounded-none;
-    }
-    .transparent-table,
-    .transparent-table table tr,
-    .transparent-table table th,
-    .transparent-table table td,
-    .transparent-table thead tr,
-    .transparent-table thead th,
-    .transparent-table thead td,
-    .transparent-table tbody tr,
-    .transparent-table tbody th,
-    .transparent-table tbody td {
-        @apply !bg-transparent;
-    }
+	.table table tbody > tr > td,
+	.table table tbody > tr > th {
+		@apply px-3 py-3 text-sm text-dark;
+	}
+	.square-table,
+	.square-table table tr,
+	.square-table table th,
+	.square-table table td,
+	.square-table tbody tr,
+	.square-table tbody th,
+	.square-table tbody td {
+		@apply !rounded-none;
+	}
+	.transparent-table,
+	.transparent-table table tr,
+	.transparent-table table th,
+	.transparent-table table td,
+	.transparent-table thead tr,
+	.transparent-table thead th,
+	.transparent-table thead td,
+	.transparent-table tbody tr,
+	.transparent-table tbody th,
+	.transparent-table tbody td {
+		@apply !bg-transparent;
+	}
 }
 
 .modal-xs {
-    @apply lg:max-w-sm;
+	@apply lg:max-w-sm;
 }
 .modal-sm {
-    @apply lg:max-w-md;
+	@apply lg:max-w-md;
 }
 .modal-md {
-    @apply lg:max-w-[33.33vw];
+	@apply lg:max-w-[512px];
 }
 .modal-lg {
-    @apply lg:max-w-[45vw];
+	@apply lg:max-w-[768px];
 }
 .modal-xl {
-    @apply lg:max-w-[60vw];
+	@apply lg:max-w-[1280px];
 }
 .modal-2xl {
-    @apply lg:max-w-[70vw];
+	@apply lg:max-w-[70vw];
 }
 .modal-3xl {
-    @apply lg:max-w-[90vw];
+	@apply lg:max-w-[90vw];
 }
 .modal-full {
-    @apply max-w-full;
+	@apply max-w-full;
 }
 
 .form-group {
-    @apply flex flex-col mb-4;
+	@apply flex flex-col mb-4;
 }
 
 .react-select__control > div {
-    @apply h-[46px] bg-white rounded-lg border-transparent;
+	@apply h-[46px] bg-white rounded-lg border-transparent;
 }
 
 .react-select__control--is-focused > div {
-    @apply shadow-blue-300 ring-1 ring-blue-500;
+	@apply shadow-blue-300 ring-1 ring-blue-500;
 }
 
 .react-select__control--is-focused > div * {
-    @apply text-sm;
+	@apply text-sm;
 }
 
 .react-select__control > div.error-input {
-    @apply h-[46px] bg-white rounded-lg border-danger;
+	@apply h-[46px] bg-white rounded-lg border-danger;
 }
 
 .react-select__menu-list {
-    @apply !p-0;
+	@apply !p-0;
 }
 .react-select__option {
-    @apply !text-dark duration-200;
+	@apply !text-dark duration-200;
 }
 
 .react-select__option:first-child {
-    @apply rounded-t;
+	@apply rounded-t;
 }
 .react-select__option:last-child {
-    @apply rounded-b;
+	@apply rounded-b;
 }
 .react-select__option--is-focused {
-    @apply !text-darker !bg-primary bg-opacity-10;
+	@apply !text-darker !bg-primary bg-opacity-10;
 }
 .react-select__option--is-selected {
-    @apply !text-light font-bold !bg-primary;
+	@apply !text-light font-bold !bg-primary;
 }

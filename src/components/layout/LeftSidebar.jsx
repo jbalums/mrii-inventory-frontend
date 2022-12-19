@@ -115,6 +115,18 @@ const LeftSidebar = () => {
 				active={isActive("/accept-orders")}
 			/>
 			<LeftSidebarLink
+				icon={<FlatIcon icon="rr-badge-check" />}
+				text={`Approving`}
+				to="/approving"
+				active={isActive("/approving")}
+			/>
+			<LeftSidebarLink
+				icon={<FlatIcon icon="rr-shopping-cart" />}
+				text={`PO lists`}
+				to="/po-lists"
+				active={isActive("/po-lists")}
+			/>
+			<LeftSidebarLink
 				icon={<FlatIcon icon="rr-inbox-in" />}
 				text={`Receiving`}
 				to="/receiving"

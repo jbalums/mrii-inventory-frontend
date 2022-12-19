@@ -10,6 +10,7 @@ const Modal = (props, ref) => {
 				className="relative z-10"
 				onClose={hide}
 				unmount={true}
+				static={true}
 			>
 				<Transition.Child
 					as={Fragment}

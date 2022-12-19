@@ -8,8 +8,14 @@ import Users from "./features/users/Users";
 import NotFoundPage from "./pages/404";
 import AcceptOrders from "./pages/accept-orders/AcceptOrders";
 import RequestDetails from "./pages/accept-orders/RequestDetails";
+import ApproveIssuance from "./pages/approving/ApproveIssuance";
+import ApproveRequestOrder from "./pages/approving/ApproveRequestOrder";
+import Approving from "./pages/approving/Approving";
+import ViewIssuanceOrder from "./pages/approving/ViewIssuanceOrder";
+import ViewRequestOrderPage from "./pages/approving/ViewRequestOrderPage";
 import Dashboard from "./pages/Dashboard";
 import Inventory from "./pages/inventory/Inventory";
+import PurchaseOrderList from "./pages/purchase-order-list/PurchaseOrderList";
 import Receiving from "./pages/receiving/Receiving";
 import ItemDelivery from "./pages/request-orders/ItemDelivery";
 import PrepareItemDelivery from "./pages/request-orders/PrepareItemDelivery";
@@ -49,6 +55,25 @@ function App() {
 				path="/request-orders/item-delivery"
 				element={<ItemDelivery />}
 			/>
+			<Route path="/approving" element={<Approving />} />
+			<Route
+				path="/approving/approve-request-order"
+				element={<ApproveRequestOrder />}
+			/>
+			<Route
+				path="/approving/approve-request-order/view-request/:id"
+				element={<ViewRequestOrderPage />}
+			/>
+			<Route
+				path="/approving/approve-issuance-order"
+				element={<ApproveIssuance />}
+			/>
+			<Route
+				path="/approving/approve-issuance-order/view-issuance/:id"
+				element={<ViewIssuanceOrder />}
+			/>
+
+			<Route path="/po-lists" element={<PurchaseOrderList />} />
 
 			<Route path="/item-categories" element={<ItemCategories />} />
 			<Route path="/locations" element={<Locations />} />

@@ -78,7 +78,7 @@ const Table = (props) => {
 			}`}
 		>
 			<div
-				className={`max-w-[calc(100vw-96px)] w-full overflow-auto rounded-lg ${className}`}
+				className={`max-w-[calc(100vw-96px)] w-full overflow-auto rounded-xl ${className}`}
 			>
 				<table
 					className={`border-none ${tableClassName} ${
@@ -139,6 +139,7 @@ const Table = (props) => {
 												cell.column?.columnDef
 													?.className
 											}
+											${rowClick ? " cursor-pointer " : ""}
 											${
 												rowClick
 													? cell.column.columnDef

@@ -13,56 +13,61 @@ const Button = (props) => {
 		...rest
 	} = props;
 
-	const defaultBtnClass = `text-center !duration-200 !transition-all hover:shadow-md hover:shadow-gray-300 transition-transform rounded-xl sm:w-auto cursor-pointer flex items-center justify-center hover:!bg-blend-darken text-sm`;
+	const defaultBtnClass = `text-center !duration-200 !transition-all hover:shadow-md hover:shadow-gray-300 transition-transform rounded-lg sm:w-auto cursor-pointer flex items-center justify-center hover:!bg-blend-darken text-sm`;
 
 	const btnBg = () => {
 		switch (type) {
-			case "foreground-gradient":
-				return `text-darker bg-gradient-to-br from-foreground to-background border border-border`;
-			case "background-gradient":
-				return `text-darker bg-gradient-to-br from-background to-foreground border border-border`;
-			case "primary-gradient":
-				return `text-white bg-gradient-to-br from-blue-500 to-blue-900`;
-			case "danger-gradient":
-				return `text-white bg-gradient-to-br from-red-500 to-red-900`;
-			case "success-gradient":
-				return `text-white bg-gradient-to-br from-green-500 to-green-900`;
-			case "warning-gradient":
-				return `text-white bg-gradient-to-br from-yellow-400 to-orange-500`;
 			case "primary":
 				return `text-white bg-primary`;
+			case "primary-light":
+				return `text-primary bg-primary bg-opacity-10`;
+			case "secondary":
+				return `text-white bg-secondary`;
+			case "secondary-light":
+				return `text-secondary bg-secondary bg-opacity-10`;
+			case "tertiary":
+				return `text-dark bg-tertiary`;
+			case "tertiary-light":
+				return `text-tertiary bg-tertiary bg-opacity-10`;
+			case "accent":
+				return `text-white bg-accent`;
+			case "accent-light":
+				return `text-accent bg-accent bg-opacity-10`;
 			case "danger":
 				return `text-white bg-danger`;
 			case "danger-light":
-				return `text-danger bg-danger bg-opacity-10`;
+				return `!text-danger bg-danger bg-opacity-10`;
 			case "success":
 				return `text-white bg-success`;
+			case "success-light":
+				return `text-success bg-success bg-opacity-10`;
 			case "warning":
 				return `text-white bg-warning`;
-			case "accent":
-				return `text-white bg-accent`;
+			case "warning-light":
+				return `text-warning bg-warning bg-opacity-10`;
 			case "background":
 				return `text-dark bg-background`;
 			case "foreground":
 				return `text-dark bg-foreground`;
 			case "transparent":
 				return `text-secondaryText bg-transparent`;
-
 			default:
-				break;
+				return `text-white bg-primary`;
 		}
 	};
 
 	const btnSize = () => {
 		switch (size) {
 			case "sm":
-				return "p-2 w-full text-base text-xs font-bold";
-
+				return "p-2 text-xs text-xs";
 			case "md":
-				return "py-3 px-5 w-full text-sm font-normal";
-
+				return "p-3 text-sm font-light";
+			case "square-sm":
+				return "!w-[30px] h-[30px] text-xs text-xs flex items-center justify-center";
+			case "square-md":
+				return "!w-[44px] h-[44px] text-xs text-xs flex items-center justify-center";
 			default:
-				break;
+				return "p-3 text-sm font-light";
 		}
 	};
 
