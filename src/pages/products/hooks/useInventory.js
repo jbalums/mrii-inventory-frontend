@@ -7,13 +7,14 @@ const useInventory = () => {
     const getLocations = () => {
         return axios.get("/management/users");
     };
-    const saveProduct = ({ setLoading, setError, callback, id ,...formData }) => {
+    const saveProduct = ({ setLoading, setError, callback, id, ...formData }) => {
         setLoading(true);
+
         axios
-            .post(`/inventory/triggers/${id}`, { ...formData })
+            .post(`/management/products${id ? `/${id}`:""}`, { ...formData })
             .then((res) => {
                 console.log("res", res);
-                toast.success("Inventory triggers updated!");
+                toast.success("New product created successfully!");
                 callback ? callback(res.data.data) : "";
             })
             .catch((error) => {
@@ -27,22 +28,7 @@ const useInventory = () => {
                 setLoading(false);
             });
     };
-
-    const businessUnits = [
-        {
-            'code': 'CBU',
-            'name': "Chemical Business Unit",
-        },
-        {
-            'code': 'EBU',
-            'name': "Electrical Business Unit",
-        },
-        {
-            'code': 'WBU',
-            'name': "Water Business Unit",
-        },
-    ]
-    return { getLocations, saveProduct , businessUnits };
+    return { getLocations, saveProduct };
 };
 
 export default useInventory;

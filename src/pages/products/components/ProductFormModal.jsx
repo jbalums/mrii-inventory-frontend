@@ -43,7 +43,12 @@ const ProductFormModal = (props, ref) => {
     }));
 
     const show = (data) => {
-
+        getBranches().then((res) => {
+            setLocations(res.data.data);
+        });
+        getCategories().then((res) => {
+            setCategories(res.data.data);
+        });
         if (data) {
             reset({
                 ...data,
@@ -53,8 +58,16 @@ const ProductFormModal = (props, ref) => {
             }
         } else {
             reset({
+                name: "",
+                code: "",
+                description: "",
+                unit_value: "",
+                unit_measurement: "",
                 stock_low_level: "",
                 reorder_point: "",
+                price: "",
+                brand: "",
+                category_id: ""
             });
             setId(null);
         }
@@ -79,14 +92,16 @@ const ProductFormModal = (props, ref) => {
 
     const submitForm = (data) => {
         setLoading(true);
-        let formData = {
-            ...data,
-            _method: "PATCH"
-        };
+        let formData = data
+        if(id){
+            formData = {
+                ...formData , _method: "PATCH"
+            }
+        }
         saveProduct({
+            id,
             setLoading,
             setError,
-            id,
             callback: successCallBack,
             ...formData,
         });
@@ -95,13 +110,13 @@ const ProductFormModal = (props, ref) => {
     return (
         <Modal open={open} hide={hide} size="md">
             <ModalHeader
-                title={`Set Inventory Triggers`}
-                subtitle={`Set Inventory Triggers`}
+                title={id ? "Register product" : "Register product"}
+                subtitle={`Register your new product`}
                 hide={hide}
             />
             <ModalBody className={`py-4`}>
                 <div className="flex flex-col lg:grid grid-cols-1 lg:grid-cols-2 gap-4">
-                    {/*<TextInputField
+                    <TextInputField
                         label={`Product code`}
                         className="col-span-2"
                         inputClassName="bg-foreground"
@@ -120,30 +135,79 @@ const ProductFormModal = (props, ref) => {
                         {...register("name", {
                             required: "This field is required",
                         })}
-                    />*/}
+                    />
+                    <TextInputField
+                        label={`Product brand`}
+                        className="col-span-2"
+                        inputClassName="bg-foreground"
+                        placeholder={"Enter product brand"}
+                        error={errors?.brand?.message}
+                        {...register("brand", {
+                            required: "This field is required",
+                        })}
+                    />
+                    <TextAreaInputField
+                        label={`Product description`}
+                        className="col-span-2"
+                        rows={4}
+                        inputClassName="bg-foreground"
+                        placeholder={"Enter product description"}
+                        error={errors?.description?.message}
+                        {...register("description", {
+                            required: "This field is required",
+                        })}
+                    />
+                    <TextInputField
+                        label={`Unit of measurement`}
+                        inputClassName="bg-foreground"
+                        placeholder={"Unit of measurement"}
+                        error={errors?.unit_measurement?.message}
+                        {...register("unit_measurement", {
+                            required: "This field is required",
+                        })}
+                    />
+                    <TextInputField
+                        type="number"
+                        label={`Unit value`}
+                        inputClassName="bg-foreground"
+                        placeholder={"Unit value"}
+                        error={errors?.unit_value?.message}
+                        {...register("unit_value", {
+                            required: "This field is required",
+                        })}
+                    />
+                    <Controller
+                        render={({
+                            field: { onChange, onBlur, value, name, ref },
+                            fieldState: { invalid, isTouched, isDirty, error },
+                        }) => (
+                            <ReactSelectInputField
+                                label="Default Category"
+                                className="col-span-2"
+                                inputClassName="!bg-foreground"
+                                ref={ref}
+                                value={value}
+                                onChange={onChange} // send value to hook form
+                                onBlur={onBlur} // notify when input is touched
+                                error={error?.message}
+                                placeholder="Select category"
+                                options={categories.map((data) => ({
+                                    label: data.name,
+                                    value: data.id,
+                                }))}
+                            />
+                        )}
+                        name="category_id"
+                        control={control}
+                        rules={{
+                            required: {
+                                value: false,
+                                message: "This field is required",
+                            },
+                        }}
+                    />
 
-                    <TextInputField
-                        type="number"
-                        min={0}
-                        label={`Set minimum level`}
-                        inputClassName="bg-foreground"
-                        placeholder={"Set minimum level"}
-                        error={errors?.stock_low_level?.message}
-                        {...register("stock_low_level", {
-                            required: "This field is required",
-                        })}
-                    />
-                    <TextInputField
-                        type="number"
-                        min={0}
-                        label={`Set reorder point`}
-                        inputClassName="bg-foreground"
-                        placeholder={"Set reorder point"}
-                        error={errors?.reorder_point?.message}
-                        {...register("reorder_point", {
-                            required: "This field is required",
-                        })}
-                    />
+
                 </div>
             </ModalBody>
             <ModalFooter className={`flex items-center justify-end`}>

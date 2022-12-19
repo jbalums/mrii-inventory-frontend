@@ -22,6 +22,7 @@ import PrepareItemDelivery from "./pages/request-orders/PrepareItemDelivery";
 import RequestOrders from "./pages/request-orders/RequestOrders";
 import Suppliers from "./pages/suppliers/Suppliers";
 import Test from "./pages/Test";
+import Products from "@/src/pages/products/Products.jsx";
 function App() {
 	return (
 		<Routes>
@@ -34,6 +35,7 @@ function App() {
 			<Route path="/inventory" element={<Inventory />} />
 
 			<Route path="/inventory" element={<Inventory />} />
+			<Route path="/products" element={<Products />} />
 			<Route path="/receiving" element={<Receiving />} />
 
 			<Route path="/accept-orders" element={<AcceptOrders />} />
