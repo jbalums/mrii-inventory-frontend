@@ -4,7 +4,12 @@ import { RootContextWrapper } from "../context/RootContext";
 import LeftSidebar from "./layout/LeftSidebar";
 import PageHeader from "./layout/PageHeader";
 
-const AppLayout = (props) => {
+import { Navigate } from "react-router-dom";
+const Page = (props) => {
+	const { user } = useAuth({
+		middleware: "auth",
+		redirectIfAuthenticated: "/",
+	});
 	const {
 		title,
 		titleChildren,
@@ -12,11 +17,6 @@ const AppLayout = (props) => {
 		backBtn = false,
 		containerClassName = "",
 	} = props;
-
-	const { user } = useAuth({
-		middleware: "auth",
-		redirectIfAuthenticated: "/",
-	});
 
 	return (
 		<RootContextWrapper>
@@ -40,6 +40,17 @@ const AppLayout = (props) => {
 				</div>
 			</div>
 		</RootContextWrapper>
+	);
+};
+const AppLayout = (props) => {
+	const { user } = useAuth({
+		middleware: "auth",
+		redirectIfAuthenticated: "/",
+	});
+	return user?.data?.id ? (
+		<Page {...props} />
+	) : (
+		<Navigate to="/login" replace={true} />
 	);
 };
 
