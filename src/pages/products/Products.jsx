@@ -67,7 +67,7 @@ const Products = () => {
 			},
 			{
 				header: "UoM",
-				accessorKey: "unit_measurement",
+				accessorKey: "uom",
 			},
 			{
 				header: "Action",
@@ -124,7 +124,7 @@ const Products = () => {
 			<div className="w-full">
 				<Table
 					rowClick={(data) => {
-						viewProductModal(data);
+					//	viewProductModal(data);
 					}}
 					columns={columns}
 					pagination={true}

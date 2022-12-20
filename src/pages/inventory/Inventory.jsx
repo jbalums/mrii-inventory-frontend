@@ -61,16 +61,12 @@ const Inventory = () => {
 				accessorKey: "name",
 			},
 			{
-				header: "Description",
-				accessorKey: "description",
-			},
-			{
 				header: "UoM",
-				accessorKey: "unit_measurement",
+				accessorKey: "uom",
 			},
 			{
 				header: "Location",
-				accessorKey: "location",
+				accessorKey: "location.name",
 			},
 			{
 				header: "Business Unit",
