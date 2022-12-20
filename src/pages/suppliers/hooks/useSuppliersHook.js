@@ -14,7 +14,7 @@ export const useSuppliersHook = () => {
 	) => {
 		if (id) {
 			axios
-				.post(`/management/suppliers/${id}`, formData)
+				.post(`/management/suppliers/${id}`, {...formData, _method: "PATCH"})
 				.then((res) => {
 					console.log("res", res);
 					toast.success("Supplier details updated successfully!");
