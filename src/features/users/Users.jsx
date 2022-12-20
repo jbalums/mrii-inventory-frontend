@@ -6,6 +6,7 @@ import Table from "@/src/components/table/Table";
 import useDataTable from "@/src/helpers/useDataTable";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import AddUserModal from "./components/AddUserModal";
 import { useUserHook } from "./hooks/useUserHook";
@@ -141,11 +142,23 @@ const Users = () => {
 	};
 	return (
 		<AppLayout
-			title="Manage users"
+			title={
+				<div className="flex items-center gap-2">
+					<FlatIcon icon="rr-users" />
+					Manage users
+				</div>
+			}
 			titleChildren={
-				<div className="lg:ml-auto">
+				<div className="ml-auto flex items-center gap-4">
+					<Link to={"/users/print"}>
+						<Button className="gap-2" type="foreground">
+							<FlatIcon icon="rr-print" className="text-base" />{" "}
+							Print users
+						</Button>
+					</Link>
 					<Button type="accent" onClick={openFormModal}>
-						<FlatIcon icon="rs-plus" className="mr-2" /> Register User
+						<FlatIcon icon="rs-plus" className="mr-2" /> Register
+						User
 					</Button>
 				</div>
 			}

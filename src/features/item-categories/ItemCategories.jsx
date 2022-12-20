@@ -9,6 +9,7 @@ import useDataTable from "@/src/helpers/useDataTable";
 import { useHttp } from "@/src/helpers/useHttp";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { FiPlus, FiEdit, FiTrash2 } from "react-icons/fi";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import AddItemCategories from "./components/AddItemCategories";
 import { useItemCategories } from "./hooks/useItemCategoriesHook";
@@ -20,7 +21,9 @@ const ItemCategories = () => {
 	const [list, setList] = useState([]);
 	const [id, setId] = useState(null);
 	const [loading, setLoading] = useState(false);
-	const { data, loading: dataLoading } = useDataTable(`/management/categories`);
+	const { data, loading: dataLoading } = useDataTable(
+		`/management/categories`
+	);
 
 	const { deleteItemCategory } = useItemCategories();
 
@@ -117,11 +120,25 @@ const ItemCategories = () => {
 	);
 	return (
 		<AppLayout
-			title="Product category"
+			title={
+				<div className="flex items-center gap-2">
+					<FlatIcon icon="rr-apps " />
+					Product categories
+				</div>
+			}
 			titleChildren={
-				<Button type="accent" className="ml-auto" onClick={openFormModal}>
-					<FlatIcon icon="rs-plus" className="mr-2" /> Register product category
-				</Button>
+				<div className="ml-auto flex items-center gap-4">
+					<Link to={"/item-categories/print"}>
+						<Button className="gap-2" type="foreground">
+							<FlatIcon icon="rr-print" className="text-base" />{" "}
+							Print product categories
+						</Button>
+					</Link>
+					<Button type="accent" onClick={openFormModal}>
+						<FlatIcon icon="rs-plus" className="mr-2" /> Add product
+						category
+					</Button>
+				</div>
 			}
 		>
 			<div className="w-full lg:w-1/2">

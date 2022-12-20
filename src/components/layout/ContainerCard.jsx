@@ -9,13 +9,14 @@ const ContainerCard = (props) => {
 		actions,
 		children,
 		className = "",
+		headerClassName = "",
 	} = props;
 	return (
 		<div
 			className={` mx-auto w-full flex flex-col duration-200 hover:shadow-lg bg-background rounded-xl ${mainClassName}`}
 		>
 			{(title || subtitle || actions) && (
-				<div className="w-full flex border-b p-6">
+				<div className={`w-full flex border-b p-6 ${headerClassName}`}>
 					<div className="flex flex-col">
 						{title ? (
 							<h2 className="text-xl font-bold">{title}</h2>

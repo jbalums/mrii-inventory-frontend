@@ -85,6 +85,36 @@ html {
 	.table table tbody > tr > th {
 		@apply px-3 py-3 text-sm text-dark;
 	}
+	.printable-table table {
+		@apply w-full border-opacity-50 border bg-white rounded-none;
+	}
+	.printable-table table thead > tr:last-child {
+		@apply border-opacity-50 border-b;
+	}
+	.printable-table table thead > tr > td,
+	.printable-table table thead > tr > th {
+		@apply text-left px-3 py-4 bg-white border-opacity-50 border-b border-border text-sm text-darker;
+	}
+	.printable-table table tbody > tr:not(:last-child) {
+		@apply border-opacity-50 border-b;
+	}
+	.printable-table table thead > tr > td:first-child,
+	.printable-table table thead > tr > th:first-child {
+		@apply rounded-none;
+	}
+	.printable-table table thead > tr > td:last-child,
+	.printable-table table thead > tr > th:last-child {
+		@apply rounded-none;
+	}
+	.printable-table table tbody > tr > td:not(:last-child),
+	.printable-table table tbody > tr > th:not(:last-child) {
+		/* @apply border-r; */
+	}
+
+	.printable-table table tbody > tr > td,
+	.printable-table table tbody > tr > th {
+		@apply px-3 py-3 text-sm text-dark;
+	}
 	.square-table,
 	.square-table table tr,
 	.square-table table th,

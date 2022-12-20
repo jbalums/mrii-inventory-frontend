@@ -7,6 +7,7 @@ import Table from "@/src/components/table/Table";
 import { useBranchLocation } from "@/src/features/locations/hooks/useBranchLocationHook";
 import useDataTable from "@/src/helpers/useDataTable";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import ProductFormModal from "./components/ProductFormModal";
 import ViewProductModal from "./components/ViewProductModal";
 
@@ -39,7 +40,7 @@ const Products = () => {
 	}, [data?.data]);
 
 	const openFormModal = (data) => {
-		console.log('opeeen')
+		console.log("opeeen");
 		addProductRef.current.show(data);
 	};
 	const viewProductModal = (item) => {
@@ -100,8 +101,22 @@ const Products = () => {
 	);
 	return (
 		<AppLayout
-			title="Products"
-
+			title={
+				<div className="flex items-center gap-2">
+					<FlatIcon icon="rr-boxes" />
+					Products
+				</div>
+			}
+			titleChildren={
+				<div className="ml-auto flex items-center gap-4">
+					<Link to={"/products/print"}>
+						<Button className="gap-2" type="foreground">
+							<FlatIcon icon="rr-print" className="text-base" />{" "}
+							Print Products
+						</Button>
+					</Link>
+				</div>
+			}
 		>
 			<div className="flex flex-col lg:flex-row gap-6 pb-6">
 				<TextInputField
@@ -113,7 +128,7 @@ const Products = () => {
 					type="accent"
 					className="ml-auto"
 					onClick={() => {
-						openFormModal()
+						openFormModal();
 					}}
 				>
 					<FlatIcon icon="rs-plus" className="mr-2" /> Register
@@ -124,7 +139,7 @@ const Products = () => {
 			<div className="w-full">
 				<Table
 					rowClick={(data) => {
-					//	viewProductModal(data);
+						//	viewProductModal(data);
 					}}
 					columns={columns}
 					pagination={true}

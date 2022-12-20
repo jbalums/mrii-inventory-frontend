@@ -5,6 +5,7 @@ import LeftSidebar from "./layout/LeftSidebar";
 import PageHeader from "./layout/PageHeader";
 
 import { Navigate } from "react-router-dom";
+import FlatIcon from "./FlatIcon";
 const Page = (props) => {
 	const { user } = useAuth({
 		middleware: "auth",

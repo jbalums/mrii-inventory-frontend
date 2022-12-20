@@ -23,6 +23,11 @@ import RequestOrders from "./pages/request-orders/RequestOrders";
 import Suppliers from "./pages/suppliers/Suppliers";
 import Test from "./pages/Test";
 import Products from "@/src/pages/products/Products.jsx";
+import PrintProducts from "./pages/products/PrintProducts";
+import PrintSuppliers from "./pages/suppliers/PrintSuppliers";
+import PrintUsers from "./features/users/PrintUsers";
+import PrintLocations from "./features/locations/PrintLocations";
+import PrintItemCategories from "./features/item-categories/PrintItemCategories";
 function App() {
 	return (
 		<Routes>
@@ -30,12 +35,19 @@ function App() {
 			<Route path="/test" element={<Test />} />
 
 			<Route path="/" element={<Dashboard />} />
+
+			{/* USERS MANAGEMENT*/}
 			<Route path="/users" element={<Users />} />
+			<Route path="/users/print" element={<PrintUsers />} />
 
 			<Route path="/inventory" element={<Inventory />} />
 
 			<Route path="/inventory" element={<Inventory />} />
+
+			{/* PRODUCTS MANAGEMENT*/}
 			<Route path="/products" element={<Products />} />
+			<Route path="/products/print" element={<PrintProducts />} />
+
 			<Route path="/receiving" element={<Receiving />} />
 
 			<Route path="/accept-orders" element={<AcceptOrders />} />
@@ -77,9 +89,20 @@ function App() {
 
 			<Route path="/po-lists" element={<PurchaseOrderList />} />
 
+			{/* PRODUCT CATEGORIES MANAGEMENT*/}
 			<Route path="/item-categories" element={<ItemCategories />} />
+			<Route
+				path="/item-categories/print"
+				element={<PrintItemCategories />}
+			/>
+
+			{/* LOCATIONS MANAGEMENT*/}
 			<Route path="/locations" element={<Locations />} />
+			<Route path="/locations/print" element={<PrintLocations />} />
+
+			{/* SUPPLIERS MANAGEMENT*/}
 			<Route path="/suppliers" element={<Suppliers />} />
+			<Route path="/suppliers/print" element={<PrintSuppliers />} />
 
 			<Route path="*" element={<NotFoundPage />} />
 		</Routes>

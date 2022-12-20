@@ -1,3 +1,4 @@
+import { useAuth } from "@/hooks/useAuth";
 import { useRootContext } from "@/src/context/RootContext";
 import { BiArrowToLeft } from "react-icons/bi";
 import { Link, useLocation } from "react-router-dom";
@@ -10,12 +11,12 @@ const LeftSidebarTitle = ({ text }) => {
 		</div>
 	);
 };
-const LeftSidebarLink = ({ icon, text, active, to }) => {
+const LeftSidebarLink = ({ icon, text, active, to, onClick }) => {
 	const {
 		theme: { collapseSidebar },
 	} = useRootContext();
 	return (
-		<Link to={to} className="">
+		<Link to={to} className="" onClick={onClick}>
 			<div
 				className={`flex items-center font-normal bg-background h-11 text-dark px-4 duration-100 text-sm group ${
 					active
@@ -49,6 +50,10 @@ const LeftSidebar = () => {
 		dispatch,
 		theme: { collapseSidebar, device },
 	} = useRootContext();
+	const { logout } = useAuth({
+		middleware: "auth",
+		redirectIfAuthenticated: "/",
+	});
 	const isActive = (name) => {
 		return location.pathname.includes(name);
 	};
@@ -146,7 +151,7 @@ const LeftSidebar = () => {
 			/> */}
 			<LeftSidebarTitle text="Admin menu" />
 			<LeftSidebarLink
-				icon={<FlatIcon icon="rr-users-alt" />}
+				icon={<FlatIcon icon="rr-boxes" />}
 				text={`Products`}
 				to="/products"
 				active={isActive("/products")}
@@ -175,10 +180,21 @@ const LeftSidebar = () => {
 				to="/suppliers"
 				active={isActive("/suppliers")}
 			/>
+			<LeftSidebarTitle text="Logout" />
+			<LeftSidebarLink
+				icon={<FlatIcon icon="rs-sign-out-alt" />}
+				text={`Logout`}
+				to="/logout"
+				onClick={(e) => {
+					e.stopPropagation();
+					e.preventDefault();
+					logout();
+				}}
+			/>
 
-			<div className="mt-auto border-t p-4 flex items-center">
+			{/* <div className="mt-auto border-t p-4 flex items-center">
 				<img src="" alt=" " className="w-10 h-10 border rounded-full" />
-			</div>
+			</div> */}
 		</div>
 	);
 };

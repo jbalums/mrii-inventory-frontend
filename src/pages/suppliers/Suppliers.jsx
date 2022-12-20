@@ -6,6 +6,7 @@ import Table from "@/src/components/table/Table";
 import useDataTable from "@/src/helpers/useDataTable";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import SuppliersFormModal from "./components/SuppliersFormModal";
 import { useSuppliersHook } from "./hooks/useSuppliersHook";
@@ -137,16 +138,25 @@ const Suppliers = () => {
 
 	return (
 		<AppLayout
-			title="Suppliers"
+			title={
+				<div className="flex items-center gap-2">
+					<FlatIcon icon="rr-truck-moving" />
+					Suppliers
+				</div>
+			}
 			titleChildren={
-				<Button
-					type="accent"
-					className="ml-auto"
-					onClick={openFormModal}
-				>
-					<FlatIcon icon="rs-plus" className="mr-2" /> Register
-					supplier
-				</Button>
+				<div className="ml-auto flex items-center gap-4">
+					<Link to={"/suppliers/print"}>
+						<Button className="gap-2" type="foreground">
+							<FlatIcon icon="rr-print" className="text-base" />{" "}
+							Print supplier
+						</Button>
+					</Link>
+					<Button type="accent" onClick={openFormModal}>
+						<FlatIcon icon="rs-plus" className="mr-2" /> Register
+						supplier
+					</Button>
+				</div>
 			}
 		>
 			<div className="w-full">

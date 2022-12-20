@@ -6,168 +6,178 @@ import Table from "@/src/components/table/Table";
 import useDataTable from "@/src/helpers/useDataTable";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import LocationFormModal from "./components/LocationFormModal";
 import { useBranchLocation } from "./hooks/useBranchLocationHook";
 
 const Locations = () => {
-    const form_modal_ref = useRef(null);
-    const delete_modal_ref = useRef(null);
+	const form_modal_ref = useRef(null);
+	const delete_modal_ref = useRef(null);
 
-    const [list, setList] = useState([]);
-    const [id, setId] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const { data, loading: dataLoading } = useDataTable(`/management/branches`);
+	const [list, setList] = useState([]);
+	const [id, setId] = useState(null);
+	const [loading, setLoading] = useState(false);
+	const { data, loading: dataLoading } = useDataTable(`/management/branches`);
 
-    const { deleteItemBranch } = useBranchLocation();
+	const { deleteItemBranch } = useBranchLocation();
 
-    const columns = useMemo(
-        () => [
-            {
-                header: "Location/Branch Name",
-                accessorKey: "name",
-                className: "",
-                cellClassName: "",
-            },
-            {
-                header: "Address",
-                accessorKey: "address",
-                className: "",
-                cellClassName: "",
-            },
-            {
-                header: "Actions",
-                accessorKey: "id",
-                className: "!text-center",
-                cell: ({ row, getValue }) => {
-                    console.log("roww", row);
-                    return (
-                        <>
-                            <div className="flex items-center justify-center text-center gap-4">
-                                <Button
-                                    type="primary"
-                                    size="sm"
-                                    className="rounded-full"
-                                    onClick={() => {
-                                        openFormModal(row?.original);
-                                    }}
-                                >
-                                    <FiEdit className="font-bold text-sm" />
-                                </Button>
-                                <Button
-                                    type="danger"
-                                    size="sm"
-                                    className="rounded-full"
-                                    onClick={() => {
-                                        setId(row?.original?.id);
-                                        openConfirmDelete();
-                                    }}
-                                >
-                                    <FiTrash2 className="font-bold text-sm" />
-                                </Button>
-                            </div>
-                        </>
-                    );
-                },
-            },
-        ],
-        []
-    );
+	const columns = useMemo(
+		() => [
+			{
+				header: "Location/Branch Name",
+				accessorKey: "name",
+				className: "",
+				cellClassName: "",
+			},
+			{
+				header: "Address",
+				accessorKey: "address",
+				className: "",
+				cellClassName: "",
+			},
+			{
+				header: "Actions",
+				accessorKey: "id",
+				className: "!text-center",
+				cell: ({ row, getValue }) => {
+					console.log("roww", row);
+					return (
+						<>
+							<div className="flex items-center justify-center text-center gap-4">
+								<Button
+									type="primary"
+									size="sm"
+									className="rounded-full"
+									onClick={() => {
+										openFormModal(row?.original);
+									}}
+								>
+									<FiEdit className="font-bold text-sm" />
+								</Button>
+								<Button
+									type="danger"
+									size="sm"
+									className="rounded-full"
+									onClick={() => {
+										setId(row?.original?.id);
+										openConfirmDelete();
+									}}
+								>
+									<FiTrash2 className="font-bold text-sm" />
+								</Button>
+							</div>
+						</>
+					);
+				},
+			},
+		],
+		[]
+	);
 
-    useEffect(() => {
-        console.log("dataaa", data);
-        setList(data?.data || []);
-    }, [data?.data]);
+	useEffect(() => {
+		console.log("dataaa", data);
+		setList(data?.data || []);
+	}, [data?.data]);
 
-    const openFormModal = (data) => {
-        form_modal_ref.current.show(data.type == "click" ? null : data);
-    };
+	const openFormModal = (data) => {
+		form_modal_ref.current.show(data.type == "click" ? null : data);
+	};
 
-    const openConfirmDelete = () => {
-        setLoading(false);
-        delete_modal_ref.current.show();
-    };
+	const openConfirmDelete = () => {
+		setLoading(false);
+		delete_modal_ref.current.show();
+	};
 
-    const closeConfirmDelete = () => {
-        setLoading(false);
-        delete_modal_ref.current.hide();
-    };
+	const closeConfirmDelete = () => {
+		setLoading(false);
+		delete_modal_ref.current.hide();
+	};
 
-    const addToList = (item) => {
-        setList((list) => [item, ...list]);
-    };
+	const addToList = (item) => {
+		setList((list) => [item, ...list]);
+	};
 
-    const updateInList = (item) => {
-        setList((list) => list.map((x) => (x.id == item.id ? item : x)));
-    };
+	const updateInList = (item) => {
+		setList((list) => list.map((x) => (x.id == item.id ? item : x)));
+	};
 
-    const deleteData = () => {
-        setLoading(true);
-        deleteItemBranch(id)
-            .then((res) => {
-                toast.success("Item branch deleted successfully!");
-                removeFromList({ id: id });
-            })
-            .catch(() => {
-                toast.error(
-                    "An error occured while trying to delete! Please try again later."
-                );
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    };
+	const deleteData = () => {
+		setLoading(true);
+		deleteItemBranch(id)
+			.then((res) => {
+				toast.success("Item branch deleted successfully!");
+				removeFromList({ id: id });
+			})
+			.catch(() => {
+				toast.error(
+					"An error occured while trying to delete! Please try again later."
+				);
+			})
+			.finally(() => {
+				setLoading(false);
+			});
+	};
 
-    const removeFromList = (item) => {
-        setList((list) => list.filter((x) => x.id != item.id));
-    };
+	const removeFromList = (item) => {
+		setList((list) => list.filter((x) => x.id != item.id));
+	};
 
-    return (
-        <AppLayout
-            title="Locations"
-            titleChildren={
-                <Button
-                    type="accent"
-                    className="ml-auto"
-                    onClick={openFormModal}
-                >
-                    <FlatIcon icon="rs-plus" className="mr-2" /> Register
-                    location/branch
-                </Button>
-            }
-        >
-            <div className="w-full lg:w-1/2">
-                <Table columns={columns} loading={dataLoading} data={list} />
-            </div>
-            <LocationFormModal
-                ref={form_modal_ref}
-                addToList={addToList}
-                updateInList={updateInList}
-            />
-            <ConfirmModal
-                ref={delete_modal_ref}
-                title="Cofirm delete item category?"
-                body={
-                    <p className="text-red-600 font-semibold text-lg text-center">
-                        Are you sure you want to delete item category?{" "}
-                    </p>
-                }
-                footer={
-                    <div className="flex items-center">
-                        <Button onClick={closeConfirmDelete}>No</Button>
-                        <Button
-                            type="danger"
-                            className="ml-4"
-                            onClick={deleteData}
-                            loading={loading}
-                        >
-                            Yes, delete item category!
-                        </Button>
-                    </div>
-                }
-            />
-        </AppLayout>
-    );
+	return (
+		<AppLayout
+			title={
+				<div className="flex items-center gap-2">
+					<FlatIcon icon="rr-map-pin" />
+					Manage locations
+				</div>
+			}
+			titleChildren={
+				<div className="ml-auto flex items-center gap-4">
+					<Link to={"/locations/print"}>
+						<Button className="gap-2" type="foreground">
+							<FlatIcon icon="rr-print" className="text-base" />{" "}
+							Print location
+						</Button>
+					</Link>
+					<Button type="accent" onClick={openFormModal}>
+						<FlatIcon icon="rs-plus" className="mr-2" />
+						Add location
+					</Button>
+				</div>
+			}
+		>
+			<div className="w-full lg:w-1/2">
+				<Table columns={columns} loading={dataLoading} data={list} />
+			</div>
+			<LocationFormModal
+				ref={form_modal_ref}
+				addToList={addToList}
+				updateInList={updateInList}
+			/>
+			<ConfirmModal
+				ref={delete_modal_ref}
+				title="Cofirm delete item category?"
+				body={
+					<p className="text-red-600 font-semibold text-lg text-center">
+						Are you sure you want to delete item category?{" "}
+					</p>
+				}
+				footer={
+					<div className="flex items-center">
+						<Button onClick={closeConfirmDelete}>No</Button>
+						<Button
+							type="danger"
+							className="ml-4"
+							onClick={deleteData}
+							loading={loading}
+						>
+							Yes, delete item category!
+						</Button>
+					</div>
+				}
+			/>
+		</AppLayout>
+	);
 };
 
 export default Locations;
