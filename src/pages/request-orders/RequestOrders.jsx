@@ -107,8 +107,8 @@ const RequestOrders = () => {
 				cell: ({ row: { original } }) => {
 					return (
 						<span
-							className={`px-2 py-1  bg-opacity-10  rounded-xl ${
-								original?.complete
+							className={`px-2 py-1  bg-opacity-10  rounded-xl capitalize ${
+								original?.status == 'approved'
 									? "text-success bg-success"
 									: "text-warning bg-warning"
 							}`}
@@ -124,15 +124,12 @@ const RequestOrders = () => {
 				className: "",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
+					if(original?.status == 'approved')
 					return (
 						<span
-							className={`px-0 py-1  bg-opacity-10  rounded-xl ${
-								original?.complete
-									? "text-success"
-									: "text-warning"
-							}`}
+							className={`px-0 py-1  bg-opacity-10  rounded-xl text-success`}
 						>
-							Approved by - NAME
+							{original.accepted_by?.name}
 						</span>
 					);
 				},
@@ -216,8 +213,17 @@ const RequestOrders = () => {
 				</div>
 				<Table
 					rowClick={(data) => {
-						console.log("datadata rowClick", data);
-						navigate(`prepare-item-delivery/${data?.original?.id}`);
+
+						if(data.original.status == 'pending')
+						{
+							navigate(
+								`/approving/approve-request-order/view-request/${data.original.id}`
+							);
+						}
+						else{
+							navigate(`prepare-item-delivery/${data?.original?.id}`);
+						}
+
 					}}
 					columns={columns}
 					pagination={true}

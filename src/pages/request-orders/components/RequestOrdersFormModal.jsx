@@ -19,6 +19,7 @@ import {
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import useRequestOrdersHook from "../hooks/useRequestOrdersHook";
+import {useAuth} from "@/hooks/useAuth.js";
 
 const defaultDateValue = () => {
 	let date = new Date();
@@ -40,6 +41,9 @@ const RequestOrdersFormModal = (props, ref) => {
 	const [open, setOpen] = useState(false);
 	const [id, setId] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const { user} = useAuth()
+
+	console.log('useruseruser',user)
 	const [list, setList] = useState([
 		/* {
 			id: "AG454",
@@ -212,14 +216,20 @@ const RequestOrdersFormModal = (props, ref) => {
 						<CardLayout className="!bg-foreground shadow-none !p-4 flex flex-col !gap-4">
 							<h4 className="text-lg text-dark">Order form</h4>
 							<TextInputField
-								label="Requestor name"
-								placeholder="Enter requestor name"
+								label="Requester name"
+								placeholder=""
+								value={user?.data?.name}
+								readOnly={true}
+								disabled={true}
 							/>
 							<TextInputField
-								label="Requestor devision"
-								placeholder="Enter requestor devision"
+								label="Requester division"
+								placeholder=""
+								readOnly={true}
+								value={user?.data?.business_unit}
+								disabled={true}
+
 							/>
-							USBON ANG CURRENT USER DETAILS
 							<TextInputField
 								label="Project Code"
 								placeholder="Enter project code"

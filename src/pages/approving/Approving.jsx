@@ -9,80 +9,18 @@ import { useBranchLocation } from "@/src/features/locations/hooks/useBranchLocat
 import useDataTable from "@/src/helpers/useDataTable";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "@/libs/axios.js";
 
 const Approving = () => {
-	const view_detail_ref = useRef(null);
-	const [list, setList] = useState([
-		{
-			po_number: "000001",
-			location: "Test Location",
-			qty: "100",
-			date: "Nov 1, 2022",
-		},
-		{
-			po_number: "000002",
-			location: "Test Location 2",
-			qty: "200",
-			date: "Dec 1, 2022",
-		},
-	]);
-	const columns = useMemo(
-		() => [
-			{
-				header: "Purchase order number",
-				accessorKey: "po_number",
-				className: "w-lg",
-			},
-			{
-				header: "Vendor location",
-				accessorKey: "location",
-			},
-			{
-				header: "Number of ordered QTY",
-				accessorKey: "qty",
-			},
-			{
-				header: "Date created",
-				accessorKey: "date",
-			},
-			{
-				header: "Action",
-				accessorKey: "action",
-				className: "!text-center",
-				cell: ({ row, getValue }) => {
-					return (
-						<>
-							<div className="flex items-center justify-center text-center gap-4">
-								<Button
-									type="primary-light"
-									size="square-sm"
-									className="rounded-full"
-									onClick={() => {}}
-								>
-									<FlatIcon
-										icon="rr-edit"
-										className="text-sm"
-									/>
-								</Button>
-								<Button
-									type="danger-light"
-									size="square-sm"
-									className="rounded-full"
-									onClick={() => {}}
-								>
-									<FlatIcon
-										icon="rr-trash"
-										className="text-sm "
-									/>
-								</Button>
-							</div>
-						</>
-					);
-				},
-			},
-		],
-		[]
-	);
+
+	const [stats,setStats] = useState({})
+
+	useEffect(() => {
+		axios.get(`/inventory/accepting-stats`).then((res) =>{
+			setStats(res.data)
+		})
+	},[])
+
 	return (
 		<AppLayout title="Approving">
 			<div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -100,10 +38,10 @@ const Approving = () => {
 							</span>
 							<div className="rounded-lg bg-foreground flex flex-col p-4 mb-4 w-full z-20">
 								<h3 className="text-xl mb-1 text-primary">
-									46 items
+									{stats.request_orders ?? 0} pending orders
 								</h3>
 								<span className="text-primary text-sm">
-									requested to order
+									Requested to order
 								</span>
 							</div>
 							<Link to="/approving/approve-request-order">
@@ -140,7 +78,7 @@ const Approving = () => {
 							</span>
 							<div className="rounded-lg bg-foreground flex flex-col p-4 mb-4 w-full z-20">
 								<h3 className="text-xl mb-1 text-primary">
-									13 items
+									{stats.issuance ?? 0} pending issuance
 								</h3>
 								<span className="text-primary text-sm">
 									requested to issue

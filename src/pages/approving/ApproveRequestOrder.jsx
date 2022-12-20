@@ -13,70 +13,57 @@ const ApproveRequestOrder = () => {
 	const view_detail_ref = useRef(null);
 	const navigate = useNavigate();
 	const [list, setList] = useState([
-		{
-			rs_number: "02065162",
-			requestor: "Alturas Bohol",
-			location: "Ilocos Norte",
-			date_created: "Dec 7, 2022",
-			date_needed: "Dec 20, 2022",
-			qty_to_order: "123",
-			status: "to_check",
-		},
-		{
-			rs_number: "02065162",
-			requestor: "Alturas Bohol",
-			location: "Ilocos Norte",
-			date_created: "Dec 7, 2022",
-			date_needed: "Dec 20, 2022",
-			qty_to_order: "123",
-			status: "to_check",
-		},
-		{
-			rs_number: "02065162",
-			requestor: "Alturas Bohol",
-			location: "Ilocos Norte",
-			date_created: "Dec 7, 2022",
-			date_needed: "Dec 20, 2022",
-			qty_to_order: "123",
-			status: "to_check",
-		},
+		[]
 	]);
+	const { data, loading: dataLoading } = useDataTable(
+		`/inventory/requisition`,
+		null,
+		{
+			type: 'pending'
+		}
+	);
+
+	useEffect(() => {
+		setList(data?.data || []);
+	}, [data?.data]);
+
 	const columns = useMemo(
 		() => [
 			{
-				header: "RS number",
-				accessorKey: "rs_number",
+				header: "Code",
+				accessorKey: "project_code",
 				className: "w-lg",
 			},
 			{
 				header: "Requestor name",
-				accessorKey: "requestor",
+				accessorKey: "requester.name",
 			},
 			{
-				header: "Location",
-				accessorKey: "location",
+				header: "Division",
+				accessorKey: "requester.business_unit",
+
 			},
 			{
 				header: "Date created",
-				accessorKey: "date_created",
+				accessorKey: "created_at",
 			},
 			{
 				header: "Date needed",
 				accessorKey: "date_needed",
 			},
 			{
-				header: "QTY to order",
-				accessorKey: "qty_to_order",
-			},
-			{
 				header: "Status",
 				accessorKey: "status",
 				cell: ({ row, getValue }) => {
+
+					if(row.original.status == 'pending')
 					return (
 						<span className="text-warning bg-warning bg-opacity-10 px-2 py-2 rounded-3xl">
 							To check
 						</span>
 					);
+
+					return ""
 				},
 			},
 		],
@@ -90,26 +77,27 @@ const ApproveRequestOrder = () => {
 					icon={<FlatIcon icon="rr-search" className="text-sm" />}
 					placeholder="Search request"
 				/>
-				<ReactSelectInputField
+				{/*<ReactSelectInputField
 					className="w-full lg:w-[256px]"
 					placeholder="All status"
-					/* options={supliers?.map((supplier) => ({
+					 options={supliers?.map((supplier) => ({
                         label: supplier?.name + ` - [${supplier?.address}]`,
                         value: supplier?.id,
-                    }))} */
-				/>
+                    }))}
+				/>*/}
 			</div>
 
 			<div className="w-full">
 				<Table
 					rowClick={(data) => {
+						console.log('datadatadata',data.original.id)
 						navigate(
-							"/approving/approve-request-order/view-request/1"
+							`/approving/approve-request-order/view-request/${data.original.id}`
 						);
 					}}
 					columns={columns}
 					pagination={false}
-					loading={false}
+					loading={dataLoading}
 					data={list}
 				/>
 			</div>

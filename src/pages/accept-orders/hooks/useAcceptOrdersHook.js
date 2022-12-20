@@ -1,9 +1,11 @@
+import axios from "@/libs/axios.js";
+
 const useAcceptOrdersHook = () => {
-	const saveSupplier = () => {
-		console.log("test");
+	const getAcceptedOrderById = (id) => {
+		return axios.get(`/inventory/request/${id}`)
 	};
 	return {
-		saveSupplier,
+		getAcceptedOrderById,
 	};
 };
 

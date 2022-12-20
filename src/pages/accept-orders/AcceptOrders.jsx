@@ -18,60 +18,11 @@ const AcceptOrders = () => {
 	const form_modal_ref = useRef(null);
 	const delete_modal_ref = useRef(null);
 
-	const [list, setList] = useState([
-		{
-			order_number: "000001",
-			name: "Corey George",
-			location: "Cebu",
-			date_receive: "Aug 14, 2022",
-			qty: "113",
-			approve_by: "Kianna Press",
-		},
-		{
-			order_number: "000002",
-			name: "Anika Septimus",
-			location: "Bohol",
-			date_receive: "Aug 15, 2022",
-			qty: "42",
-			approve_by: "Corey George",
-		},
-		{
-			order_number: "000003",
-			name: "James Rhiel Madsen",
-			location: "Cebu",
-			date_receive: "Aug 14, 2022",
-			qty: "224",
-			approve_by: "Zaire Geidt",
-		},
-		{
-			order_number: "000004",
-			name: "Corey George",
-			location: "Cebu",
-			date_receive: "Aug 14, 2022",
-			qty: "113",
-			approve_by: "Kianna Press",
-		},
-		{
-			order_number: "000005",
-			name: "Anika Septimus",
-			location: "Bohol",
-			date_receive: "Aug 15, 2022",
-			qty: "42",
-			approve_by: "Corey George",
-		},
-		{
-			order_number: "000006",
-			name: "James Rhiel Madsen",
-			location: "Cebu",
-			date_receive: "Aug 14, 2022",
-			qty: "224",
-			approve_by: "Zaire Geidt",
-		},
-	]);
+	const [list, setList] = useState([]);
 	const [id, setId] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const { data, loading: dataLoading } = useDataTable(
-		`/management/suppliers`
+		`/inventory/request`
 	);
 
 	const { deleteSupplier } = useAcceptOrdersHook();
@@ -79,38 +30,39 @@ const AcceptOrders = () => {
 	const columns = useMemo(
 		() => [
 			{
-				header: "Order number",
-				accessorKey: "order_number",
+				header: "Project code",
+				accessorKey: "requisition.project_code",
 				className: " cursor-pointer",
 				cellClassName: "",
 			},
 			{
 				header: "Name",
-				accessorKey: "name",
+				accessorKey: "requisition.requester.name",
 				className: " cursor-pointer",
 				cellClassName: "",
 			},
 			{
 				header: "Location",
-				accessorKey: "location",
+				accessorKey: "requisition.location.name",
 				className: " cursor-pointer",
 				cellClassName: "",
 			},
 			{
-				header: "Date receive",
-				accessorKey: "date_receive",
+				header: "BU",
+				accessorKey: "requisition.requester.business_unit",
 				className: " cursor-pointer",
 				cellClassName: "",
 			},
 			{
-				header: "QTY to order",
-				accessorKey: "qty",
+				header: "Date needed",
+				accessorKey: "requisition.date_needed",
 				className: " cursor-pointer",
 				cellClassName: "",
 			},
+
 			{
-				header: "Approve by",
-				accessorKey: "approve_by",
+				header: "Request Approve by",
+				accessorKey: "requisition.accepted_by.name",
 				className: " cursor-pointer",
 				cellClassName: "",
 			},
@@ -121,8 +73,8 @@ const AcceptOrders = () => {
 				cell: ({ row, getValue }) => {
 					console.log("roww", row);
 					return (
-						<div className="px-2 py-1 rounded-xl w-[80px] bg-warning bg-opacity-10 text-warning">
-							Pending
+						<div className="px-2 py-1 rounded-xl w-[80px] bg-warning bg-opacity-10 text-warning capitalize">
+							{row.original?.status}
 						</div>
 					);
 				},
@@ -132,7 +84,7 @@ const AcceptOrders = () => {
 	);
 
 	useEffect(() => {
-		// setList(data?.data || []);
+		 setList(data?.data || []);
 	}, [data?.data]);
 
 	const openFormModal = (data) => {
