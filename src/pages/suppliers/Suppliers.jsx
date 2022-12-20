@@ -32,12 +32,6 @@ const Suppliers = () => {
 				cellClassName: "",
 			},
 			{
-				header: "Code",
-				accessorKey: "code",
-				className: "",
-				cellClassName: "",
-			},
-			{
 				header: "Name",
 				accessorKey: "name",
 				className: "",
