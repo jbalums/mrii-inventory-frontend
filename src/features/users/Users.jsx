@@ -11,6 +11,32 @@ import { toast } from "react-toastify";
 import AddUserModal from "./components/AddUserModal";
 import { useUserHook } from "./hooks/useUserHook";
 
+let user_types = [
+	{
+		value: "admin",
+		label: "Admin",
+	},
+	{
+		value: "warehouse_man",
+		label: "Warehouse Man",
+	},
+	{
+		value: "area_manger",
+		label: "Area Manager",
+	},
+	{
+		value: "approving_manager",
+		label: "Approving Manager",
+	},
+	{
+		value: "bu_manager",
+		label: "Business Unit Manager",
+	},
+	{
+		value: "employee",
+		label: "Employee",
+	},
+];
 const Users = () => {
 	const form_modal_ref = useRef(null);
 	const delete_user_modal_ref = useRef(null);
@@ -33,6 +59,16 @@ const Users = () => {
 		meta,
 		setMeta,
 	} = useDataTable(`/management/users`);
+	/* 
+	USE INSIDE USE_EFFECT user
+
+	for Area Manager 
+	/management/users?location_id=<user location_id> <Area manager>
+	
+	for Business Unit Manager
+	/management/users?location_id=<user location_id>&business_unit=<user business_unut> <BU manager>
+
+	*/
 	const columns = useMemo(
 		() => [
 			{
@@ -51,6 +87,13 @@ const Users = () => {
 				header: "User type",
 				className: "!text-center",
 				accessorKey: "user_type",
+				cell: ({ row }) => {
+					return (
+						user_types.find(
+							(x) => x.value == row?.original?.user_type
+						)?.label || ""
+					);
+				},
 			},
 			{
 				header: "Action",

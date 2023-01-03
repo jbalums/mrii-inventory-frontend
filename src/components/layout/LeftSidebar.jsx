@@ -1,8 +1,12 @@
 import { useAuth } from "@/hooks/useAuth";
 import { useRootContext } from "@/src/context/RootContext";
+import { useState } from "react";
+import { useRef } from "react";
 import { BiArrowToLeft } from "react-icons/bi";
 import { Link, useLocation } from "react-router-dom";
+import Button from "../Button";
 import FlatIcon from "../FlatIcon";
+import ConfirmModal from "../modals/ConfirmModal";
 
 const LeftSidebarTitle = ({ text }) => {
 	return (
@@ -50,12 +54,18 @@ const LeftSidebar = () => {
 		dispatch,
 		theme: { collapseSidebar, device },
 	} = useRootContext();
-	const { logout } = useAuth({
+	const confirm_logout_ref = useRef(null);
+	const [loading, setLoading] = useState(false);
+	const { logout, user } = useAuth({
 		middleware: "auth",
 		redirectIfAuthenticated: "/",
 	});
+	console.log("useruser", user);
 	const isActive = (name) => {
 		return location.pathname.includes(name);
+	};
+	const hasPermission = (permitted_users = []) => {
+		return permitted_users.includes(user?.data?.user_type);
 	};
 	return (
 		<div
@@ -107,79 +117,129 @@ const LeftSidebar = () => {
                 to="/request-order"
                 active={isActive("/request-order")}
             /> */}
-			<LeftSidebarLink
-				icon={<FlatIcon icon="rr-inbox-in" />}
-				text={`Request order`}
-				to="/request-orders"
-				active={isActive("/request-orders")}
-			/>
-			<LeftSidebarLink
-				icon={<FlatIcon icon="rr-inbox-in" />}
-				text={`Accept order`}
-				to="/accept-orders"
-				active={isActive("/accept-orders")}
-			/>
-			<LeftSidebarLink
-				icon={<FlatIcon icon="rr-badge-check" />}
-				text={`Approving`}
-				to="/approving"
-				active={isActive("/approving")}
-			/>
-			<LeftSidebarLink
+			{hasPermission([
+				"admin",
+				"warehouse_man",
+				"area_manger",
+				"approving_manager",
+				"bu_manager",
+				"employee",
+			]) && (
+				<LeftSidebarLink
+					icon={<FlatIcon icon="rr-inbox-in" />}
+					text={`Request order`}
+					to="/request-orders"
+					active={isActive("/request-orders")}
+				/>
+			)}
+
+			{hasPermission([
+				"admin",
+				"warehouse_man",
+				"area_manger",
+				"approving_manager",
+				"bu_manager",
+				"employee",
+			]) && (
+				<LeftSidebarLink
+					icon={<FlatIcon icon="rr-inbox-in" />}
+					text={`Accept order`}
+					to="/accept-orders"
+					active={isActive("/accept-orders")}
+				/>
+			)}
+			{hasPermission([
+				"admin",
+				"warehouse_man",
+				"area_manger",
+				"approving_manager",
+				"bu_manager",
+				"employee",
+			]) && (
+				<LeftSidebarLink
+					icon={<FlatIcon icon="rr-badge-check" />}
+					text={`Approving`}
+					to="/approving"
+					active={isActive("/approving")}
+				/>
+			)}
+			{/* <LeftSidebarLink
 				icon={<FlatIcon icon="rr-shopping-cart" />}
 				text={`PO lists`}
 				to="/po-lists"
 				active={isActive("/po-lists")}
-			/>
-			<LeftSidebarLink
-				icon={<FlatIcon icon="rr-inbox-in" />}
-				text={`Receiving`}
-				to="/receiving"
-				active={isActive("/receiving")}
-			/>
-			<LeftSidebarLink
-				icon={<FlatIcon icon="rr-boxes" />}
-				text={`Inventory`}
-				to="/inventory"
-				active={isActive("/inventory")}
-			/>
+			/> */}
+			{hasPermission([
+				"admin",
+				"warehouse_man",
+				"area_manger",
+				"approving_manager",
+				"bu_manager",
+				"employee",
+			]) && (
+				<LeftSidebarLink
+					icon={<FlatIcon icon="rr-inbox-in" />}
+					text={`Receiving`}
+					to="/receiving"
+					active={isActive("/receiving")}
+				/>
+			)}
+			{hasPermission([
+				"admin",
+				"warehouse_man",
+				"area_manger",
+				"approving_manager",
+				"bu_manager",
+				"employee",
+			]) && (
+				<LeftSidebarLink
+					icon={<FlatIcon icon="rr-boxes" />}
+					text={`Inventory`}
+					to="/inventory"
+					active={isActive("/inventory")}
+				/>
+			)}
 			{/* <LeftSidebarLink
 				icon={<FlatIcon icon="rr-document" />}
 				text={`Reports`}
 				to="/reports"
 				active={isActive("/reports")}
 			/> */}
-			<LeftSidebarTitle text="Admin menu" />
-			<LeftSidebarLink
-				icon={<FlatIcon icon="rr-boxes" />}
-				text={`Products`}
-				to="/products"
-				active={isActive("/products")}
-			/>
-			<LeftSidebarLink
-				icon={<FlatIcon icon="rr-users-alt" />}
-				text={`Users`}
-				to="/users"
-				active={isActive("/users")}
-			/>
-			<LeftSidebarLink
-				icon={<FlatIcon icon="rr-apps" />}
-				text={`Item categories`}
-				to="/item-categories"
-				active={isActive("/item-categories")}
-			/>
-			<LeftSidebarLink
-				icon={<FlatIcon icon="rs-map-marker" />}
-				text={`Locations`}
-				to="/locations"
-				active={isActive("/locations")}
-			/>
-			<LeftSidebarLink
-				icon={<FlatIcon icon="rs-truck-moving" />}
-				text={`Supppliers`}
-				to="/suppliers"
-				active={isActive("/suppliers")}
-			/>
+			{hasPermission(["admin"]) && (
+				<>
+					<LeftSidebarTitle text="Admin menu" />
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rr-boxes" />}
+						text={`Products`}
+						to="/products"
+						active={isActive("/products")}
+					/>
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rr-users-alt" />}
+						text={`Users`}
+						to="/users"
+						active={isActive("/users")}
+					/>
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rr-apps" />}
+						text={`Item categories`}
+						to="/item-categories"
+						active={isActive("/item-categories")}
+					/>
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rs-map-marker" />}
+						text={`Locations`}
+						to="/locations"
+						active={isActive("/locations")}
+					/>
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rs-truck-moving" />}
+						text={`Supppliers`}
+						to="/suppliers"
+						active={isActive("/suppliers")}
+					/>
+				</>
+			)}
 			<LeftSidebarTitle text="Logout" />
 			<LeftSidebarLink
 				icon={<FlatIcon icon="rs-sign-out-alt" />}
@@ -188,13 +248,52 @@ const LeftSidebar = () => {
 				onClick={(e) => {
 					e.stopPropagation();
 					e.preventDefault();
-					logout();
+					confirm_logout_ref.current.show();
 				}}
 			/>
 
 			{/* <div className="mt-auto border-t p-4 flex items-center">
 				<img src="" alt=" " className="w-10 h-10 border rounded-full" />
 			</div> */}
+
+			<ConfirmModal
+				ref={confirm_logout_ref}
+				title="Confirm logout"
+				body={
+					<p className="text-red-600 text-lg text-center my-3">
+						Are you sure you want to Logout?{" "}
+					</p>
+				}
+				footer={
+					<div className="flex items-center">
+						<Button
+							onClick={() => {
+								confirm_logout_ref.current.hide();
+							}}
+						>
+							No
+						</Button>
+						<Button
+							type="danger"
+							className="ml-4"
+							onClick={() => {
+								setLoading(true);
+								if (typeof window == "object") {
+									window.localStorage.clear();
+								}
+								setTimeout(() => {
+									// logout();
+									confirm_logout_ref.current.hide();
+									window.location.pathname = "/login";
+								}, 500);
+							}}
+							loading={loading}
+						>
+							Yes
+						</Button>
+					</div>
+				}
+			/>
 		</div>
 	);
 };

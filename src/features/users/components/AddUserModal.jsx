@@ -35,12 +35,16 @@ const AddUserModal = (props, ref) => {
 	}));
 
 	const show = (data) => {
+		console.log("showwww data", data);
 		getLocations().then((res) => {
 			setLocations(res.data.data);
 		});
 		if (data) {
 			reset({
 				...data,
+				type: data?.user_type,
+				division: data?.unit_code,
+				location_id: data?.branch_id,
 			});
 			if (data.id) {
 				setId(data?.id);
@@ -54,6 +58,9 @@ const AddUserModal = (props, ref) => {
 				email: "",
 				password: "",
 				password_confirmation: "",
+				type: "",
+				division: "",
+				location_id: "",
 			});
 			setId(null);
 		}
@@ -117,9 +124,102 @@ const AddUserModal = (props, ref) => {
 							fieldState: { invalid, isTouched, isDirty, error },
 						}) => (
 							<ReactSelectInputField
+								label="Select User Position"
+								className="lg:col-span-6"
+								inputClassName="!border !border-borderColor "
+								ref={ref}
+								value={value}
+								onChange={onChange} // send value to hook form
+								onBlur={onBlur} // notify when input is touched
+								error={error?.message}
+								placeholder="Select user position"
+								options={[
+									{
+										value: "admin",
+										label: "Admin",
+									},
+									{
+										value: "warehouse_man",
+										label: "Warehouse Man",
+									},
+									{
+										value: "area_manger",
+										label: "Area Manager",
+									},
+									{
+										value: "approving_manager",
+										label: "Approving Manager",
+									},
+									{
+										value: "bu_manager",
+										label: "Business Unit Manager",
+									},
+									{
+										value: "employee",
+										label: "Employee",
+									},
+								]}
+							/>
+						)}
+						name="type"
+						control={control}
+						rules={{
+							required: {
+								value: false,
+								message: "This field is required",
+							},
+						}}
+					/>
+					<Controller
+						render={({
+							field: { onChange, onBlur, value, name, ref },
+							fieldState: { invalid, isTouched, isDirty, error },
+						}) => (
+							<ReactSelectInputField
+								label="Select Division"
+								className="lg:col-span-6"
+								inputClassName="!border !border-borderColor "
+								ref={ref}
+								value={value}
+								onChange={onChange} // send value to hook form
+								onBlur={onBlur} // notify when input is touched
+								error={error?.message}
+								placeholder="Select Division"
+								options={[
+									{
+										value: "CBU",
+										label: "CBU - Chemical Business Unit",
+									},
+									{
+										value: "EBU",
+										label: "EBU - Electrical Business Unit",
+									},
+									{
+										value: "WBU",
+										label: "WBU - Water Business Unit",
+									},
+								]}
+							/>
+						)}
+						name="division"
+						control={control}
+						rules={{
+							required: {
+								value: false,
+								message: "This field is required",
+							},
+						}}
+					/>
+
+					<Controller
+						render={({
+							field: { onChange, onBlur, value, name, ref },
+							fieldState: { invalid, isTouched, isDirty, error },
+						}) => (
+							<ReactSelectInputField
 								label="Select User's designated Location"
 								className="col-span-12"
-								inputClassName="!bg-foreground"
+								inputClassName="!border !border-borderColor "
 								ref={ref}
 								value={value}
 								onChange={onChange} // send value to hook form
@@ -127,7 +227,9 @@ const AddUserModal = (props, ref) => {
 								error={error?.message}
 								placeholder="Select location"
 								options={locations.map((location) => ({
-									label: location?.name + ` - [${location?.address}]`,
+									label:
+										location?.name +
+										` - [${location?.address}]`,
 									value: location?.id,
 								}))}
 							/>
@@ -148,7 +250,7 @@ const AddUserModal = (props, ref) => {
 						placeholder={"Enter firstname"}
 						id="firstname"
 						name="firstname"
-						inputClassName="!bg-foreground"
+						inputClassName="!border !border-borderColor "
 						error={errors?.firstname?.message}
 						{...register("firstname", {
 							required: "This field is required",
@@ -160,7 +262,7 @@ const AddUserModal = (props, ref) => {
 						placeholder={"Enter Middlename"}
 						id="middlename"
 						name="middlename"
-						inputClassName="!bg-foreground"
+						inputClassName="!border !border-borderColor "
 						error={errors?.middlename?.message}
 						{...register("lastname")}
 					/>
@@ -169,7 +271,7 @@ const AddUserModal = (props, ref) => {
 						className="col-span-4"
 						placeholder={"Enter Lastname"}
 						id="lastname"
-						inputClassName="!bg-foreground"
+						inputClassName="!border !border-borderColor "
 						name="lastname"
 						error={errors?.lastname?.message}
 						{...register("lastname", {
@@ -183,7 +285,7 @@ const AddUserModal = (props, ref) => {
 						placeholder={"Enter contact no."}
 						id="contact"
 						name="contact"
-						inputClassName="!bg-foreground"
+						inputClassName="!border !border-borderColor "
 						error={errors?.contact?.message}
 						{...register("contact", {
 							required: "This field is required",
@@ -197,7 +299,7 @@ const AddUserModal = (props, ref) => {
 						id="email"
 						name="email"
 						type="email"
-						inputClassName="!bg-foreground"
+						inputClassName="!border !border-borderColor "
 						error={errors?.email?.message}
 						{...register("email", {
 							required: "This field is required",
@@ -214,7 +316,7 @@ const AddUserModal = (props, ref) => {
 								placeholder={"Enter Password"}
 								id="password"
 								name="password"
-								inputClassName="!bg-foreground"
+								inputClassName="!border !border-borderColor "
 								type="password"
 								error={errors?.password?.message}
 								{...register("password", {
@@ -226,7 +328,7 @@ const AddUserModal = (props, ref) => {
 								className="col-span-6"
 								placeholder={"Confirm password"}
 								id="password_confirmation"
-								inputClassName="!bg-foreground"
+								inputClassName="!border !border-borderColor "
 								type="password"
 								name="password_confirmation"
 								error={errors?.password_confirmation?.message}
@@ -238,7 +340,8 @@ const AddUserModal = (props, ref) => {
 										}
 										setError("password", {
 											type: "manual",
-											message: "Password and Confirm Password doesnt match",
+											message:
+												"Password and Confirm Password doesnt match",
 										});
 										return false;
 									},

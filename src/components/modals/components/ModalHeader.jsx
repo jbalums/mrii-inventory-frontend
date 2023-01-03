@@ -15,9 +15,11 @@ const ModalHeader = ({
 			as="div"
 			className={`text-lg font-medium leading-6 flex border-b border-border p-4 ${className}`}
 		>
-			<div className={`flex flex-col mr-auto ${headerClassName}`}>
+			<div
+				className={`flex flex-col justify-center mr-auto ${headerClassName}`}
+			>
 				<h2
-					className={`text-lg font-bold text-darker ${titleClassName}`}
+					className={`text-lg font-bold text-darker mb-0 ${titleClassName}`}
 				>
 					{title}
 				</h2>
