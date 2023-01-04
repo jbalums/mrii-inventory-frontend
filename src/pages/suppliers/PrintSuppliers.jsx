@@ -3,7 +3,7 @@ import Button from "@/src/components/Button";
 import FlatIcon from "@/src/components/FlatIcon";
 import ContainerCard from "@/src/components/layout/ContainerCard";
 import PrintableLayout from "@/src/components/layout/PrintableLayout";
-import PrintableTable from "@/src/components/table/Printabletable";
+import PrintableTable from "@/src/components/table/PrintableTable";
 import useDataTable from "@/src/helpers/useDataTable";
 import { useEffect, useMemo } from "react";
 import { useRef, useState } from "react";
