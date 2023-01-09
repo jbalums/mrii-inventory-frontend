@@ -25,7 +25,13 @@ const Locations = () => {
 	const columns = useMemo(
 		() => [
 			{
-				header: "Location/Branch Name",
+				header: "Code",
+				accessorKey: "code",
+				className: "",
+				cellClassName: "",
+			},
+			{
+				header: "Name",
 				accessorKey: "name",
 				className: "",
 				cellClassName: "",

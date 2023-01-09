@@ -34,6 +34,15 @@ const BanksForm = ({ index, remove, register }) => {
 				defaultValue={""}
 				{...register(`banks.${index}.account_name`)}
 			/>
+			<TextInputField
+				className={`lg:col-span-4`}
+				label={`Location`}
+				placeholder={"Location"}
+				id="location"
+				name="location"
+				defaultValue={""}
+				{...register(`banks.${index}.location`)}
+			/>
 			{index !== 0 && (
 				<div className="flex items-center justify-center">
 					<div

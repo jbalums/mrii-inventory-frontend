@@ -156,12 +156,32 @@ const LeftSidebar = () => {
 				"bu_manager",
 				"employee",
 			]) && (
-				<LeftSidebarLink
-					icon={<FlatIcon icon="rr-badge-check" />}
-					text={`Approving`}
-					to="/approving"
-					active={isActive("/approving")}
-				/>
+				<>
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rr-badge-check" />}
+						text={`Issuances`}
+						to="/approving/issuances"
+						active={isActive("/approving/issuances")}
+					/>
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rr-badge-check" />}
+						text={`Receiving Orders`}
+						to="/receiving-orders"
+						active={isActive("/receiving-orders")}
+					/>
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rr-badge-check" />}
+						text={`Approving Orders`}
+						to="/approving/approve-request-order"
+						active={isActive("/approving/approve-request-order")}
+					/>
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rr-badge-check" />}
+						text={`Approving Issuances`}
+						to="/approving/approve-issuance-order"
+						active={isActive("/approving/approve-issuance-order")}
+					/>
+				</>
 			)}
 			{/* <LeftSidebarLink
 				icon={<FlatIcon icon="rr-shopping-cart" />}

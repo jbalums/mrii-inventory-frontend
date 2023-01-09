@@ -86,7 +86,7 @@ const AddUserModal = (props, ref) => {
 		setLoading(true);
 		let formData = {
 			...data,
-			username: data?.email,
+			username: data?.username,
 			branch_id: data?.location_id,
 			location: data?.location_id,
 			branch: data?.location_id,
@@ -139,24 +139,20 @@ const AddUserModal = (props, ref) => {
 										label: "Admin",
 									},
 									{
+										value: "account_clerk",
+										label: "Account Clerk",
+									},
+									{
 										value: "warehouse_man",
-										label: "Warehouse Man",
+										label: "Warehouseman",
 									},
 									{
-										value: "area_manger",
-										label: "Area Manager",
+										value: "warehouse_manger",
+										label: "Warehouse Manager",
 									},
 									{
-										value: "approving_manager",
-										label: "Approving Manager",
-									},
-									{
-										value: "bu_manager",
-										label: "Business Unit Manager",
-									},
-									{
-										value: "employee",
-										label: "Employee",
+										value: "requestor",
+										label: "Requestor",
 									},
 								]}
 							/>
@@ -293,6 +289,19 @@ const AddUserModal = (props, ref) => {
 					/>
 					<hr className="col-span-12 my-4" />
 					<TextInputField
+						label={`Username`}
+						className="col-span-6"
+						placeholder={"Enter username"}
+						id="username"
+						name="username"
+						type="username"
+						inputClassName="!border !border-borderColor "
+						error={errors?.username?.message}
+						{...register("username", {
+							required: "This field is required",
+						})}
+					/>
+					<TextInputField
 						label={`Email address`}
 						className="col-span-6"
 						placeholder={"Enter email"}
@@ -305,7 +314,6 @@ const AddUserModal = (props, ref) => {
 							required: "This field is required",
 						})}
 					/>
-					<div></div>
 					{id ? (
 						" "
 					) : (

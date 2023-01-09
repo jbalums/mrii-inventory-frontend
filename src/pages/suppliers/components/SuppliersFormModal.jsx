@@ -209,6 +209,16 @@ const LocationFormModal = (props, ref) => {
 							required: "This field is required",
 						})}
 					/>
+					<TextInputField
+						label={`GL Account ID`}
+						placeholder={"Enter GL Account ID"}
+						id="gl_account"
+						name="gl_account"
+						error={errors?.gl_account?.message}
+						{...register("gl_account", {
+							required: "This field is required",
+						})}
+					/>
 				</div>
 				<Contacts control={control} register={register} />
 				<Banks control={control} register={register} />

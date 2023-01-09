@@ -26,12 +26,13 @@ const ContactPersonForm = ({ index, register, remove }) => {
 			/>
 			{index !== 0 && (
 				<div
-					className="p-2 rounded-full h-8 w-8 bg-danger text-white flex items-center justify-center absolute right-1 top-1 lg:top-4 lg:right-4 cursor-pointer hover:shadow-xl duration-200"
+					className="p-2 rounded-lg h-8  bg-danger text-white flex items-center justify-center absolute right-1 top-1 lg:top-1 lg:right-1 cursor-pointer hover:shadow-xl duration-200"
 					onClick={() => {
 						remove(index);
 					}}
 				>
-					<FlatIcon icon="rr-x" />
+					<FlatIcon icon="rr-cross-small" className="mr-2" />
+					Remove
 				</div>
 			)}
 			<TextInputField

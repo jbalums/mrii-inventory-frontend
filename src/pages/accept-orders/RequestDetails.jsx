@@ -93,12 +93,7 @@ const RequestDetails = () => {
 			className: "",
 			cellClassName: "",
 		},
-		{
-			header: "QTY on hand",
-			accessorKey: "qty_on_hand",
-			className: "",
-			cellClassName: "",
-		},
+
 		{
 			header: "QTY to order",
 			accessorKey: "qty_to_order",

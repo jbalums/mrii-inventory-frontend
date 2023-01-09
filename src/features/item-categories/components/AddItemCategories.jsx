@@ -91,6 +91,16 @@ const AddItemCategories = (props, ref) => {
 				{console.log("errors", errors)}
 				<div className="grid grid-cols-1 gap-4">
 					<TextInputField
+						label={`GL Account ID`}
+						placeholder={"Enter GL Account ID"}
+						id="gl_account"
+						name="gl_account"
+						error={errors?.gl_account?.message}
+						{...register("gl_account", {
+							required: "This field is required",
+						})}
+					/>
+					<TextInputField
 						label={`Category`}
 						placeholder={"Enter category"}
 						id="name"

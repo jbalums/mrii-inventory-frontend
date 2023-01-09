@@ -72,15 +72,20 @@ const Users = () => {
 	const columns = useMemo(
 		() => [
 			{
-				header: "Firstname",
+				header: "Username",
+				accessorKey: "username",
+				sortable: true,
+			},
+			{
+				header: "Name",
 				accessorKey: "firstname",
+				sortable: true,
+				cell: ({ row }) => {
+					return row?.original?.name || "";
+				},
 			},
 			{
-				header: "Lastname",
-				accessorKey: "lastname",
-			},
-			{
-				header: "Email/Username",
+				header: "Email",
 				accessorKey: "username",
 			},
 			{

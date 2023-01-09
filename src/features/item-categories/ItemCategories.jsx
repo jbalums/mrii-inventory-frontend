@@ -57,6 +57,7 @@ const ItemCategories = () => {
 		setLoading(true);
 		deleteItemCategory(id)
 			.then((res) => {
+				delete_modal_ref.current.hide();
 				toast.success("Item category deleted successfully!");
 				removeFromList({ id: id });
 			})
@@ -79,6 +80,10 @@ const ItemCategories = () => {
 			{
 				header: "Name",
 				accessorKey: "name",
+			},
+			{
+				header: "GL Account ID",
+				accessorKey: "gl_account",
 			},
 			{
 				header: "Actions",
@@ -141,7 +146,7 @@ const ItemCategories = () => {
 				</div>
 			}
 		>
-			<div className="w-full lg:w-1/2">
+			<div className="w-full lg:w-2/3">
 				<Table columns={columns} loading={dataLoading} data={list} />
 			</div>
 			<AddItemCategories

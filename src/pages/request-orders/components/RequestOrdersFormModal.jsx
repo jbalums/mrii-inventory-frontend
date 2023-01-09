@@ -19,7 +19,7 @@ import {
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import useRequestOrdersHook from "../hooks/useRequestOrdersHook";
-import {useAuth} from "@/hooks/useAuth.js";
+import { useAuth } from "@/hooks/useAuth.js";
 
 const defaultDateValue = () => {
 	let date = new Date();
@@ -41,9 +41,9 @@ const RequestOrdersFormModal = (props, ref) => {
 	const [open, setOpen] = useState(false);
 	const [id, setId] = useState(null);
 	const [loading, setLoading] = useState(false);
-	const { user} = useAuth()
+	const { user } = useAuth();
 
-	console.log('useruseruser',user)
+	console.log("useruseruser", user);
 	const [list, setList] = useState([
 		/* {
 			id: "AG454",
@@ -157,14 +157,9 @@ const RequestOrdersFormModal = (props, ref) => {
 				className: "border-t !bg-foreground",
 				cellClassName: "",
 			},
+
 			{
-				header: "QTY on hand",
-				accessorKey: "quantity",
-				className: "border-t !bg-foreground ",
-				cellClassName: "flex justify-center items-center text-center",
-			},
-			{
-				header: "Quantity receive",
+				header: "Quantity",
 				accessorKey: "qty_received",
 				className: "border-t !bg-foreground",
 				thClassName: "flex justify-center items-center",
@@ -175,7 +170,7 @@ const RequestOrdersFormModal = (props, ref) => {
 							qty={original?.quantity}
 							setQty={(qty) => {
 								let item = original;
-								item.quantity = qty;
+								item.quantity = 1;
 								updateList(item);
 							}}
 						/>
@@ -228,7 +223,6 @@ const RequestOrdersFormModal = (props, ref) => {
 								readOnly={true}
 								value={user?.data?.business_unit}
 								disabled={true}
-
 							/>
 							<TextInputField
 								label="Project Code"
@@ -245,7 +239,7 @@ const RequestOrdersFormModal = (props, ref) => {
 								label="Date needed"
 								placeholder="Enter a date"
 								type="date"
-								value={defaultDateValue()}
+								// value={defaultDateValue()}
 								{...register("date_needed", {
 									required: "This field is required",
 								})}
