@@ -7,7 +7,7 @@ import ModalHeader from "@/src/components/modals/components/ModalHeader";
 import Modal from "@/src/components/modals/Modal";
 import Fade from "react-reveal/Fade";
 import { forwardRef, useImperativeHandle, useState } from "react";
-import {useFieldArray, useForm} from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { useSuppliersHook } from "../hooks/useSuppliersHook";
 import { v4 as uuidv4 } from "uuid";
 import Contacts from "@/src/pages/suppliers/components/Contacts.jsx";
@@ -23,7 +23,7 @@ const LocationFormModal = (props, ref) => {
 		clearErrors,
 		reset,
 		formState: { errors },
-		control
+		control,
 	} = useForm();
 
 	const { saveSupplier } = useSuppliersHook();
@@ -32,16 +32,13 @@ const LocationFormModal = (props, ref) => {
 	const [id, setId] = useState(null);
 	const [loading, setLoading] = useState(false);
 
-
-
 	useImperativeHandle(ref, () => ({
 		show: show,
 		hide: hide,
 	}));
 
 	const show = (data) => {
-
-		console.log('dataaaaa',data)
+		console.log("dataaaaa", data);
 		if (data) {
 			reset({
 				...data,
@@ -49,7 +46,6 @@ const LocationFormModal = (props, ref) => {
 			if (data.id) {
 				setId(data?.id);
 			}
-
 		} else {
 			reset({
 				name: "",
@@ -58,21 +54,20 @@ const LocationFormModal = (props, ref) => {
 				code: "",
 				owner: "",
 				tin: "",
-				contacts:[
+				contacts: [
 					{
 						name: "",
 						number: "",
-						email: ""
-					}
+						email: "",
+					},
 				],
-				banks:[
+				banks: [
 					{
 						name: "",
 						account_number: "",
-						account_name: ""
-					}
-				]
-
+						account_name: "",
+					},
+				],
 			});
 			setId(null);
 		}
@@ -94,7 +89,7 @@ const LocationFormModal = (props, ref) => {
 		hide();
 	};
 	const submitForm = (data) => {
-		console.log(data)
+		console.log(data);
 		setLoading(true);
 		/*let formData = new FormData();
 
@@ -145,7 +140,7 @@ const LocationFormModal = (props, ref) => {
 		<Modal open={open} hide={hide} size="lg">
 			<ModalHeader
 				title={id ? "Update " : "Create " + "supplier"}
-				subtitle="Enter the deatils of supplier"
+				subtitle="Enter the details of supplier"
 				hide={hide}
 			/>
 			<ModalBody className={`py-4`}>
@@ -215,8 +210,8 @@ const LocationFormModal = (props, ref) => {
 						})}
 					/>
 				</div>
-				<Contacts control={control} register={register}/>
-				<Banks control={control} register={register}/>
+				<Contacts control={control} register={register} />
+				<Banks control={control} register={register} />
 			</ModalBody>
 			<ModalFooter className={`flex items-center justify-end`}>
 				<Button onClick={handleSubmit(submitForm)} loading={loading}>

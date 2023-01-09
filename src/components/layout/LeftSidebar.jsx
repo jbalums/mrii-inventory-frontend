@@ -234,7 +234,7 @@ const LeftSidebar = () => {
 					/>
 					<LeftSidebarLink
 						icon={<FlatIcon icon="rs-truck-moving" />}
-						text={`Supppliers`}
+						text={`Suppliers`}
 						to="/suppliers"
 						active={isActive("/suppliers")}
 					/>
