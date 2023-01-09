@@ -4,7 +4,7 @@ import FlatIcon from "@/src/components/FlatIcon";
 import CardLayout from "@/src/components/layout/CardLayout";
 import ContainerCard from "@/src/components/layout/ContainerCard";
 import PrintableLayout from "@/src/components/layout/PrintableLayout";
-import PrintableTable from "@/src/components/table/Printabletable";
+import PrintableTable from "@/src/components/table/PrintableTable";
 import Table from "@/src/components/table/Table";
 import useDataTable from "@/src/helpers/useDataTable";
 import { useEffect, useMemo } from "react";
