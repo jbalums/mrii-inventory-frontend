@@ -111,99 +111,7 @@ const LeftSidebar = () => {
 				to="/"
 				active={isActive("/dashboard")}
 			/>
-			{/* <LeftSidebarLink
-                icon={<FlatIcon icon="rr-notebook" />}
-                text={`Request order`}
-                to="/request-order"
-                active={isActive("/request-order")}
-            /> */}
-			{hasPermission([
-				"admin",
-				"warehouse_man",
-				"area_manger",
-				"approving_manager",
-				"bu_manager",
-				"employee",
-			]) && (
-				<LeftSidebarLink
-					icon={<FlatIcon icon="rr-inbox-in" />}
-					text={`Request order`}
-					to="/request-orders"
-					active={isActive("/request-orders")}
-				/>
-			)}
 
-			{hasPermission([
-				"admin",
-				"warehouse_man",
-				"area_manger",
-				"approving_manager",
-				"bu_manager",
-				"employee",
-			]) && (
-				<LeftSidebarLink
-					icon={<FlatIcon icon="rr-inbox-in" />}
-					text={`Accept order`}
-					to="/accept-orders"
-					active={isActive("/accept-orders")}
-				/>
-			)}
-			{hasPermission([
-				"admin",
-				"warehouse_man",
-				"area_manger",
-				"approving_manager",
-				"bu_manager",
-				"employee",
-			]) && (
-				<>
-					<LeftSidebarLink
-						icon={<FlatIcon icon="rr-badge-check" />}
-						text={`Issuances`}
-						to="/approving/issuances"
-						active={isActive("/approving/issuances")}
-					/>
-					<LeftSidebarLink
-						icon={<FlatIcon icon="rr-badge-check" />}
-						text={`Receiving Orders`}
-						to="/receiving-orders"
-						active={isActive("/receiving-orders")}
-					/>
-					<LeftSidebarLink
-						icon={<FlatIcon icon="rr-badge-check" />}
-						text={`Approving Orders`}
-						to="/approving/approve-request-order"
-						active={isActive("/approving/approve-request-order")}
-					/>
-					<LeftSidebarLink
-						icon={<FlatIcon icon="rr-badge-check" />}
-						text={`Approving Issuances`}
-						to="/approving/approve-issuance-order"
-						active={isActive("/approving/approve-issuance-order")}
-					/>
-				</>
-			)}
-			{/* <LeftSidebarLink
-				icon={<FlatIcon icon="rr-shopping-cart" />}
-				text={`PO lists`}
-				to="/po-lists"
-				active={isActive("/po-lists")}
-			/> */}
-			{hasPermission([
-				"admin",
-				"warehouse_man",
-				"area_manger",
-				"approving_manager",
-				"bu_manager",
-				"employee",
-			]) && (
-				<LeftSidebarLink
-					icon={<FlatIcon icon="rr-inbox-in" />}
-					text={`Receiving`}
-					to="/receiving"
-					active={isActive("/receiving")}
-				/>
-			)}
 			{hasPermission([
 				"admin",
 				"warehouse_man",
@@ -219,6 +127,90 @@ const LeftSidebar = () => {
 					active={isActive("/inventory")}
 				/>
 			)}
+
+			{hasPermission([
+				"admin",
+				"warehouse_man",
+				"area_manger",
+				"approving_manager",
+				"bu_manager",
+				"employee",
+			]) && (
+				<LeftSidebarLink
+					icon={<FlatIcon icon="rr-inbox-in" />}
+					text={`Requests`}
+					to="/request-orders"
+					active={isActive("/request-orders")}
+				/>
+			)}
+
+			{hasPermission([
+				"admin",
+				"warehouse_man",
+				"area_manger",
+				"approving_manager",
+				"bu_manager",
+				"employee",
+			]) && (
+				<>
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rr-badge-check" />}
+						text={`Request Approval`}
+						to="/approving/approve-request-order"
+						active={isActive("/approving/approve-request-order")}
+					/>
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rr-inbox-in" />}
+						text={`Request Acceptance`}
+						to="/accept-orders"
+						active={isActive("/accept-orders")}
+					/>
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rr-inbox-in" />}
+						text={`Receiving`}
+						to="/receiving"
+						active={isActive("/receiving")}
+					/>
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rr-badge-check" />}
+						text={`Issuances`}
+						to="/approving/issuances"
+						active={isActive("/approving/issuances")}
+					/>
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rr-badge-check" />}
+						text={`Issuance Approval`}
+						to="/approving/approve-issuance-order"
+						active={isActive("/approving/approve-issuance-order")}
+					/>
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rr-badge-check" />}
+						text={`Receiving Orders`}
+						to="/receiving-orders"
+						active={isActive("/receiving-orders")}
+					/>
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rr-badge-check" />}
+						text={`Return Materials`}
+						to="/receiving-orders"
+						active={isActive("/receiving-orders")}
+					/>
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rr-badge-check" />}
+						text={`Repacking`}
+						to="/receiving-orders"
+						active={isActive("/receiving-orders")}
+					/>
+				</>
+			)}
+
+			{/* <LeftSidebarLink
+				icon={<FlatIcon icon="rr-shopping-cart" />}
+				text={`PO lists`}
+				to="/po-lists"
+				active={isActive("/po-lists")}
+			/> */}
+
 			{/* <LeftSidebarLink
 				icon={<FlatIcon icon="rr-document" />}
 				text={`Reports`}

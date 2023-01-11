@@ -92,7 +92,7 @@ const Receiving = () => {
 					return getValue().length || 0;
 				},
 			},
-			{
+			/* {
 				header: "Manage",
 				accessorKey: "action",
 				className: "!text-center",
@@ -129,7 +129,7 @@ const Receiving = () => {
 						</>
 					);
 				},
-			},
+			}, */
 		],
 		[]
 	);

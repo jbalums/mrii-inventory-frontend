@@ -21,9 +21,7 @@ const AcceptOrders = () => {
 	const [list, setList] = useState([]);
 	const [id, setId] = useState(null);
 	const [loading, setLoading] = useState(false);
-	const { data, loading: dataLoading } = useDataTable(
-		`/inventory/request`
-	);
+	const { data, loading: dataLoading } = useDataTable(`/inventory/request`);
 
 	const { deleteSupplier } = useAcceptOrdersHook();
 
@@ -84,7 +82,7 @@ const AcceptOrders = () => {
 	);
 
 	useEffect(() => {
-		 setList(data?.data || []);
+		setList(data?.data || []);
 	}, [data?.data]);
 
 	const openFormModal = (data) => {
@@ -147,14 +145,12 @@ const AcceptOrders = () => {
 							value: supplier?.id,
 						}))} */
 					/>
-					<Button type="accent" className="ml-auto">
-						<FlatIcon icon="rs-plus" className="mr-2" />
-						Add new order
-					</Button>
 				</div>
 				<Table
-					rowClick={() => {
-						navigate("/accept-orders/request/1");
+					rowClick={(data) => {
+						navigate(
+							`/accept-orders/request/${data?.original?.id}`
+						);
 					}}
 					columns={columns}
 					loading={dataLoading}

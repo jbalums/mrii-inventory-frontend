@@ -2,6 +2,7 @@ import { forwardRef } from "react";
 
 const PrintableLayout = (props, ref) => {
 	const {
+		className = "",
 		children,
 		displayDefaultHeading = true,
 		title = "MACTAN ROCK INDUSTRIES, INC.",
@@ -27,7 +28,7 @@ const PrintableLayout = (props, ref) => {
 		return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
 	};
 	return (
-		<div ref={ref}>
+		<div ref={ref} className={className}>
 			{displayDefaultHeading && (
 				<div className="flex flex-col items-center justify-center mb-4">
 					<h2 className="text-lg font-bold mb-2">{title}</h2>

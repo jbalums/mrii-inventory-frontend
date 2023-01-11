@@ -63,7 +63,9 @@ html {
 	}
 	.table table thead > tr > td,
 	.table table thead > tr > th {
-		@apply text-left px-3 py-4 bg-background border-b border-border text-sm text-darker;
+		font-size: 14px;
+		line-height: 14px;
+		@apply text-left px-3 py-4 bg-background border-b border-border text-darker;
 	}
 	.table table tbody > tr:not(:last-child) {
 		@apply border-b;
@@ -93,7 +95,7 @@ html {
 	}
 	.printable-table table thead > tr > td,
 	.printable-table table thead > tr > th {
-		@apply text-left px-3 py-4 bg-white border-opacity-50 border-b border-border text-sm text-darker;
+		@apply text-left px-3 py-4 bg-white border-opacity-50 border-b border-border text-darker;
 	}
 	.printable-table table tbody > tr:not(:last-child) {
 		@apply border-opacity-50 border-b;

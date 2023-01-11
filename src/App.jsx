@@ -52,7 +52,7 @@ function App() {
 
 			<Route path="/accept-orders" element={<AcceptOrders />} />
 			<Route
-				path="/accept-orders/request/1"
+				path="/accept-orders/request/:id"
 				element={<RequestDetails />}
 			/>
 
