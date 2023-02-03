@@ -33,7 +33,7 @@ const TextInputField = (props, ref) => {
                     ref={ref || register}
                     {...rest}
                     type={type || "text"}
-                    className={`bg-white border border-gray-500 py-3 border-transparent text-sm text-dark sm:text-sm rounded-lg focus:ring-1 focus:shadow-lg duration-100 shadow-blue-300 focus:ring-blue-500 block w-full p-2.5 ${
+                    className={`bg-white border border-gray-500	 py-3 border-transparent text-sm text-dark sm:text-sm rounded-lg focus:ring-1 focus:shadow-lg duration-100 shadow-blue-300 focus:ring-blue-500 block w-full p-2.5 ${
                         error ? "border-danger text-danger" : ""
                     }  ${icon ? "!pl-10" : ""} ${
                         inputClassName ? inputClassName : ""

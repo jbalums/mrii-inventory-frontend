@@ -57,7 +57,7 @@ const LoginForm = () => {
         <div
             className="bg-white w-full bg-no-repeat max-h-screen overflow-auto"
             style={{
-                background: "url(/login-bg.jpg)",
+                // background: "url(/login-bg.jpg)",
                 backgroundSize: "70% 100%",
                 backgroundPosition: "center right",
                 backgroundRepeat: "no-repeat",

@@ -20,6 +20,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import useRequestOrdersHook from "../hooks/useRequestOrdersHook";
 import { useAuth } from "@/hooks/useAuth.js";
+import SelectInputField from "@/src/components/forms/SelectInputField";
 
 const defaultDateValue = () => {
 	let date = new Date();
@@ -200,8 +201,8 @@ const RequestOrdersFormModal = (props, ref) => {
 	return (
 		<Modal open={open} hide={hide} size="3xl">
 			<ModalHeader
-				title={`Select items`}
-				subtitle="Select items for the request order"
+				title={`Request order`}
+				subtitle="Fill up form for new request order"
 				hide={hide}
 			/>
 			<ModalBody className={`py-4`}>
@@ -210,6 +211,35 @@ const RequestOrdersFormModal = (props, ref) => {
 					<div className="col-span-3">
 						<CardLayout className="!bg-foreground shadow-none !p-4 flex flex-col !gap-4">
 							<h4 className="text-lg text-dark">Order form</h4>
+							<SelectInputField
+								label="Request purpose"
+								options={[
+									{
+										label: "Production",
+										value: "production",
+									},
+									{
+										label: "Plant/Project",
+										value: "project_plant ",
+									},
+									{
+										label: "Sale",
+										value: "sale",
+									},
+									{
+										label: "Stocking",
+										value: "stocking",
+									},
+									{
+										label: "Internal Use",
+										value: "internal_use",
+									},
+									{
+										label: "For Purchase",
+										value: "for_purchase",
+									},
+								]}
+							/>
 							<TextInputField
 								label="Requester name"
 								placeholder=""

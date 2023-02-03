@@ -114,8 +114,8 @@ function App() {
             setShowSplash(false);
         }, 3000);
     }, []);
-    /* <AppRoutes/> */
-    return true ? <SplashScreen /> : <AppRoutes />;
+
+    return showSplash ? <SplashScreen /> : <AppRoutes />;
 }
 
 export default App;
