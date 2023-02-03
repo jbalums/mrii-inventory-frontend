@@ -1,8 +1,10 @@
 import Login from "@/src/pages/Login";
 import Products from "@/src/pages/products/Products.jsx";
+import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
+import SplashScreen from "./components/SplashScreen";
 import ItemCategories from "./features/item-categories/ItemCategories";
 import PrintItemCategories from "./features/item-categories/PrintItemCategories";
 import Locations from "./features/locations/Locations";
@@ -30,7 +32,7 @@ import RequestOrders from "./pages/request-orders/RequestOrders";
 import PrintSuppliers from "./pages/suppliers/PrintSuppliers";
 import Suppliers from "./pages/suppliers/Suppliers";
 import Test from "./pages/Test";
-function App() {
+const AppRoutes = () => {
     return (
         <Routes>
             <Route path="/login" element={<Login />} />
@@ -103,6 +105,17 @@ function App() {
             <Route path="*" element={<NotFoundPage />} />
         </Routes>
     );
+};
+function App() {
+    const [showSplash, setShowSplash] = useState(true);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setShowSplash(false);
+        }, 3000);
+    }, []);
+    /* <AppRoutes/> */
+    return true ? <SplashScreen /> : <AppRoutes />;
 }
 
 export default App;
