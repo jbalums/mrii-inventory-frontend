@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "../Button";
 import DropdownMenu from "../DropdownMenu";
 import FlatIcon from "../FlatIcon";
+import MobileHeaderMenu from "../MobileHeaderMenu";
 import ConfirmModal from "../modals/ConfirmModal";
 
 const PageHeader = (props) => {
@@ -18,8 +19,8 @@ const PageHeader = (props) => {
 	const navigate = useNavigate();
 
 	return (
-		<div className="flex min-h-[76px] sticky top-0 bg-background shadow-sm py-4 lg:py-[unset] items-start justify-center lg:justify-start lg:items-center gap-y-2 lg:gap-y-0 border-b border-border px-4 pb-4 lg:pb-0 lg:px-6 flex-col lg:flex-row z-[2]">
-			<div className="flex items-center">
+		<div className="flex min-h-[76px] sticky top-0 bg-background shadow-sm py-4 md:py-[unset] items-start justify-center md:justify-start md:items-center md:gap-y-0 border-b border-border px-4 pb-4 md:pb-0 md:px-6 flex-col md:flex-row z-[2]">
+			<div className="flex items-center w-full md:w-[unset]">
 				{backBtn ? (
 					<div
 						className="bg-white h-11 w-11 rounded-full flex items-center justify-center mr-4 cursor-pointer hover:shadow-sm duration-200"
@@ -39,13 +40,60 @@ const PageHeader = (props) => {
 				) : (
 					""
 				)}
-				{title ? <h1 className="text-xl font-bold">{title}</h1> : ""}
+				{title ? (
+					<h1 className="text-xl font-bold mb-0">{title}</h1>
+				) : (
+					""
+				)}
+				<MobileHeaderMenu>
+					{children && children}
+					<DropdownMenu
+						className="self-start place-self-end border-y py-2 w-full"
+						menuButtonClassName="flex items-center flex items-center gap-3 w-full"
+						options={[
+							{
+								label: (
+									<>
+										<FlatIcon
+											icon="rr-user"
+											className="text-"
+										/>
+										My profile
+									</>
+								),
+								onClick: () => {},
+								className: "",
+							},
+							{
+								label: (
+									<>
+										<FlatIcon
+											icon="rr-sign-out-alt"
+											className="text-"
+										/>
+										Logout
+									</>
+								),
+								onClick: () => {
+									confirm_logout_ref.current.show();
+								},
+								className: "",
+							},
+						]}
+					>
+						<div className="h-8 w-8 rounded-full bg-gray-500"></div>
+						<span>{user?.data?.name}</span>
+						<span className="text-dark mt-1 ml-auto">
+							<FlatIcon icon="rr-caret-down" />
+						</span>
+					</DropdownMenu>
+				</MobileHeaderMenu>
 			</div>
-			{children ? children : <div className="ml-auto"></div>}
-			<div>
+			<div className="hidden ml-auto md:flex items-center ">
+				{children ? children : ""}
 				<DropdownMenu
-					className="self-center place-self-end ml-4"
-					menuButtonClassName="flex items-center flex items-center gap-3"
+					className="self-center place-self-end ml-4 min-w-[128px]"
+					menuButtonClassName="flex items-center flex items-center gap-3 w-full"
 					options={[
 						{
 							label: (
@@ -79,7 +127,7 @@ const PageHeader = (props) => {
 				>
 					<div className="h-8 w-8 rounded-full bg-gray-500"></div>
 					<span>{user?.data?.name}</span>
-					<span className="text-dark mt-1">
+					<span className="text-dark mt-1 ml-auto">
 						<FlatIcon icon="rr-caret-down" />
 					</span>
 				</DropdownMenu>

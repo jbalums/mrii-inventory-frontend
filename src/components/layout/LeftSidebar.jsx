@@ -1,5 +1,6 @@
 import { useAuth } from "@/hooks/useAuth";
 import { useRootContext } from "@/src/context/RootContext";
+import { useEffect } from "react";
 import { useCallback } from "react";
 import { useRef, useState } from "react";
 import { BiArrowToLeft } from "react-icons/bi";
@@ -89,6 +90,20 @@ const LeftSidebar = () => {
 	const hasPermission = (permitted_users = []) => {
 		return permitted_users.includes(user?.data?.user_type);
 	};
+	useEffect(() => {
+		if (typeof window == "object") {
+			console.log(
+				"window?.outerWidth < 768 && !collapseSidebar",
+				window?.innerWidth < 768,
+				!collapseSidebar
+			);
+			if (window?.innerWidth < 768 && !collapseSidebar) {
+				dispatch({
+					type: "TOGGLE_SIDEBAR",
+				});
+			}
+		}
+	}, [window, device]);
 	return (
 		<div
 			className={`shadow-xl transition-all h-full duration-300 bg-background  flex flex-col md:w-64 z-10 
@@ -108,7 +123,7 @@ const LeftSidebar = () => {
 				className="absolute top-0 h-full z-[1] object-cover opacity-5"
 			/>
 			<div
-				className={`absolute top-[74px] h-8 w-8 opacity-50 hover:opacity-100 cursor-pointer rounded bg-primary text-white z-20 flex items-center justify-center ${
+				className={`absolute top-[74px] h-6 w-6 opacity-50 hover:opacity-100 cursor-pointer rounded bg-primary text-white z-20 flex items-center justify-center ${
 					collapseSidebar ? "left-[52px]" : "left-[228px]"
 				} z-[5]`}
 				onClick={() => {
@@ -139,7 +154,7 @@ const LeftSidebar = () => {
 			<div className="max-h-[calc(100vh-95px)] z-[2]">
 				<LeftSidebarTitle text="Main menu" />
 				<LeftSidebarLink
-					icon={<FlatIcon icon="rs-pixabay" />}
+					icon={<FlatIcon icon="rs-warehouse-alt" />}
 					text={`Dashboard`}
 					to="/dashboard"
 					active={isActive("/dashboard", null, true)}

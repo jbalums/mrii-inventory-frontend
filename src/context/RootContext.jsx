@@ -12,14 +12,22 @@ export function RootContextWrapper({ children }) {
 		console.log("root useEffect", root);
 		localStorage.setItem("root", JSON.stringify({ ...root }));
 		if (typeof window == "object") {
+			console.log("window?.outerWidth", window?.outerWidth);
 			if (window?.outerWidth < 1024) {
-				dispatch({
-					type: "SET_DEVICE",
-					value: "mobile",
-				});
+				setTimeout(() => {
+					dispatch({
+						type: "SET_DEVICE",
+						value: "mobile",
+					});
+				}, 200);
 			}
 		}
-	}, [root.theme.theme, root.theme.collapseSidebar, root.theme.device]);
+	}, [
+		window,
+		root.theme.theme,
+		root.theme.collapseSidebar,
+		root.theme.device,
+	]);
 
 	return (
 		<RootContext.Provider
