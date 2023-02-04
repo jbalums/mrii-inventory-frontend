@@ -4,11 +4,11 @@ import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import LoadingScreen from "../components/LoadingScreen";
 import SplashScreen from "../components/SplashScreen";
-
+let token = null;
+if (typeof window == "object") {
+	token = window.localStorage.getItem("token");
+}
 const CheckAuth = () => {
-	const { user } = useAuth({
-		middleware: "auth",
-	});
 	const [showSplash, setShowSplash] = useState(true);
 
 	useEffect(() => {
@@ -18,14 +18,14 @@ const CheckAuth = () => {
 		return () => {
 			clearTimeout(t);
 		};
-	}, [user?.data?.id]);
+	}, [token]);
 
 	return showSplash ? (
 		<LoadingScreen />
-	) : user?.data?.id ? (
+	) : token ? (
 		<Navigate to="/dashboard" />
 	) : (
-		<Navigate to="/login" />
+		<Navigate to="/login" replace={true} />
 	);
 };
 
