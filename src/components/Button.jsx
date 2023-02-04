@@ -71,7 +71,7 @@ const Button = (props) => {
 			case "sm":
 				return "p-2 text-xs text-xs";
 			case "md":
-				return "p-3 text-sm font-light";
+				return "p-3 text-sm font-light min-w-[64px]";
 			case "square-sm":
 				return "!w-[30px] h-[30px] text-xs text-xs flex items-center justify-center";
 			case "square-md":

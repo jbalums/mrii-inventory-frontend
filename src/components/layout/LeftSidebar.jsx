@@ -9,9 +9,11 @@ import FlatIcon from "../FlatIcon";
 import ConfirmModal from "../modals/ConfirmModal";
 import MagicScrollBar from "./MagicScrollBar";
 
-const LeftSidebarTitle = ({ text }) => {
+const LeftSidebarTitle = ({ className = "", text }) => {
 	return (
-		<div className="font-semibold text-xs text-dark tracking-wide text-left my-2 px-4">
+		<div
+			className={`font-semibold text-xs text-dark tracking-wide text-left my-2 px-4 ${className}`}
+		>
 			{text}
 		</div>
 	);
@@ -106,7 +108,7 @@ const LeftSidebar = () => {
 				className="absolute top-0 h-full z-[1] object-cover opacity-5"
 			/>
 			<div
-				className={`absolute top-[78px] h-6 w-6 opacity-50 hover:opacity-100 cursor-pointer rounded bg-primary text-white z-20 flex items-center justify-center ${
+				className={`absolute top-[74px] h-8 w-8 opacity-50 hover:opacity-100 cursor-pointer rounded bg-primary text-white z-20 flex items-center justify-center ${
 					collapseSidebar ? "left-[52px]" : "left-[228px]"
 				} z-[5]`}
 				onClick={() => {
@@ -116,7 +118,7 @@ const LeftSidebar = () => {
 				}}
 			>
 				<BiArrowToLeft
-					className={`text-2xl duration-200 ${
+					className={`text-4xl duration-200 ${
 						collapseSidebar ? "rotate-180" : ""
 					}`}
 				/>
@@ -133,6 +135,7 @@ const LeftSidebar = () => {
 					}`}
 				/>
 			</div>
+
 			<div className="max-h-[calc(100vh-95px)] z-[2]">
 				<LeftSidebarTitle text="Main menu" />
 				<LeftSidebarLink
@@ -226,14 +229,14 @@ const LeftSidebar = () => {
 						<LeftSidebarLink
 							icon={<FlatIcon icon="rr-undo" />}
 							text={`Return Materials`}
-							to="/receiving-materials"
-							active={isActive("/receiving-materials")}
+							to="/return-materials"
+							active={isActive("/return-materials")}
 						/>
 						<LeftSidebarLink
 							icon={<FlatIcon icon="rr-diagram-project" />}
 							text={`Project/Plant`}
-							to="/project-or-plant"
-							active={isActive("/project-or-plant")}
+							to="/for-project-or-plant-requests"
+							active={isActive("/for-project-or-plant-requests")}
 						/>
 						<LeftSidebarLink
 							icon={<FlatIcon icon="rr-box-open" />}
@@ -292,60 +295,6 @@ const LeftSidebar = () => {
 						/>
 					</>
 				)}
-				<LeftSidebarTitle text="Logout" />
-				<LeftSidebarLink
-					icon={<FlatIcon icon="rs-sign-out-alt" />}
-					text={`Logout`}
-					to="/logout"
-					onClick={(e) => {
-						e.stopPropagation();
-						e.preventDefault();
-						confirm_logout_ref.current.show();
-					}}
-				/>
-
-				{/* <div className="mt-auto border-t p-4 flex items-center">
-				<img src="" alt=" " className="w-10 h-10 border rounded-full" />
-			</div> */}
-
-				<ConfirmModal
-					ref={confirm_logout_ref}
-					title="Confirm logout"
-					body={
-						<p className="text-red-600 text-lg text-center my-3">
-							Are you sure you want to Logout?{" "}
-						</p>
-					}
-					footer={
-						<div className="flex items-center">
-							<Button
-								onClick={() => {
-									confirm_logout_ref.current.hide();
-								}}
-							>
-								No
-							</Button>
-							<Button
-								type="danger"
-								className="ml-4"
-								onClick={() => {
-									setLoading(true);
-									if (typeof window == "object") {
-										window.localStorage.clear();
-									}
-									setTimeout(() => {
-										// logout();
-										confirm_logout_ref.current.hide();
-										window.location.pathname = "/login";
-									}, 500);
-								}}
-								loading={loading}
-							>
-								Yes
-							</Button>
-						</div>
-					}
-				/>
 			</div>
 		</div>
 	);

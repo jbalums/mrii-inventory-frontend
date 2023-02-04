@@ -39,7 +39,7 @@ const Modal = (props, ref) => {
 						>
 							<Dialog.Panel
 								as="div"
-								className={`w-full transform bg-foreground text-left align-middle rounded-xl shadow-xl transition-all  ${
+								className={`w-full transform bg-background text-left align-middle rounded-xl shadow-xl transition-all  ${
 									size ? `modal-${size}` : `max-w-md`
 								}`}
 							>

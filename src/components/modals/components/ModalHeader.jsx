@@ -13,7 +13,7 @@ const ModalHeader = ({
 	return (
 		<Dialog.Title
 			as="div"
-			className={`text-lg font-medium leading-6 flex border-b border-border p-4 ${className}`}
+			className={`text-lg font-medium leading-6 flex p-4 border-b ${className}`}
 		>
 			<div
 				className={`flex flex-col justify-center mr-auto ${headerClassName}`}

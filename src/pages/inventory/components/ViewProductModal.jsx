@@ -81,8 +81,11 @@ const ViewProductModal = (props, ref) => {
 							</p>
 						</div>
 						<div className="flex flex-col gap-y-4 p-4">
-							<Infotext label="Product code" text="" />
-							<Infotext label="Unit of measurement" text="" />
+							<Infotext label="Product code" text={item?.code} />
+							<Infotext
+								label="Unit of measurement"
+								text={item?.uom}
+							/>
 							<Infotext label="Unit value" text="" />
 							<Infotext label="Category" text="" />
 							<Infotext label="Location" text="" />

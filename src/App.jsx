@@ -22,13 +22,16 @@ import ViewRequestOrderPage from "./pages/approving/ViewRequestOrderPage";
 import Dashboard from "./pages/Dashboard";
 import Inventory from "./pages/inventory/Inventory";
 import PrintProducts from "./pages/products/PrintProducts";
+import ProjectPlantRequests from "./pages/project-plant/ProjectPlantRequests";
 import PurchaseOrderList from "./pages/purchase-order-list/PurchaseOrderList";
 import ReceiveOrderDetails from "./pages/receiving-orders/ReceivingOrderDetails";
 import ReceivingOrders from "./pages/receiving-orders/ReceivingOrders";
 import Receiving from "./pages/receiving/Receiving";
+import Repacking from "./pages/repacking/Repacking";
 import ItemDelivery from "./pages/request-orders/ItemDelivery";
 import PrepareItemDelivery from "./pages/request-orders/PrepareItemDelivery";
 import RequestOrders from "./pages/request-orders/RequestOrders";
+import ReturnMaterials from "./pages/return-materials/ReturnMaterials";
 import PrintSuppliers from "./pages/suppliers/PrintSuppliers";
 import Suppliers from "./pages/suppliers/Suppliers";
 import Test from "./pages/Test";
@@ -74,6 +77,14 @@ const AppRoutes = () => {
 				path="/approving/approve-request-order/view-request/:id"
 				element={<ViewRequestOrderPage />}
 			/>
+
+			<Route path="/repacking" element={<Repacking />} />
+			<Route path="/return-materials" element={<ReturnMaterials />} />
+			<Route
+				path="/for-project-or-plant-requests"
+				element={<ProjectPlantRequests />}
+			/>
+
 			<Route
 				path="/approving/approve-issuance-order"
 				element={<ApproveIssuance />}
