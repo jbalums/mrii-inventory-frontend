@@ -1,5 +1,5 @@
 import { useAuth } from "@/hooks/useAuth";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Button from "../../../components/Button";
@@ -8,148 +8,115 @@ import TextInputField from "../../../components/forms/TextInputField";
 import CardLayout from "../../../components/layout/CardLayout";
 
 const LoginForm = () => {
-    const {
-        register,
-        handleSubmit,
-        setError,
-        clearErrors,
-        formState: { errors },
-    } = useForm();
-    const [status, setStatus] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const { login } = useAuth({
-        middleware: "guest",
-        redirectIfAuthenticated: "/",
-    });
+	const {
+		register,
+		handleSubmit,
+		setError,
+		clearErrors,
+		formState: { errors },
+	} = useForm();
+	const [status, setStatus] = useState(null);
+	const [loading, setLoading] = useState(false);
+	const { login } = useAuth({
+		middleware: "guest",
+		redirectIfAuthenticated: "/",
+	});
 
-    const submit = async (data) => {
-        setLoading(true);
-        clearErrors();
-        try {
-            await login({ ...data, setStatus, setErrors });
-            console.log("status", status);
-            if (status == 422) {
-                throw exception;
-            } else {
-                toast.success("Login success");
-            }
-        } catch {
-            toast.error("Please check your credentials.");
-        }
-    };
+	const submit = async (data) => {
+		setLoading(true);
+		clearErrors();
+		try {
+			await login({ ...data, setStatus, setErrors });
+			console.log("status", status);
+			if (status == 422) {
+				throw exception;
+			} else {
+				toast.success("Login success");
+			}
+		} catch {
+			toast.error("Please check your credentials.");
+		}
+	};
 
-    const setErrors = (data) => {
-        console.log("errorserrors", data);
-        setError("username", {
-            type: "manual",
-            message: "The provided credentials are incorrect.",
-        });
-        setLoading(false);
-    };
+	const setErrors = (data) => {
+		console.log("errorserrors", data);
+		setError("username", {
+			type: "manual",
+			message: "The provided credentials are incorrect.",
+		});
+		setLoading(false);
+	};
 
-    const onEnter = (event) => {
-        if (event.key === "Enter") {
-            document.getElementById("submit-btn").click();
-        }
-    };
+	const onEnter = (event) => {
+		if (event.key === "Enter") {
+			document.getElementById("submit-btn").click();
+		}
+	};
 
-    return (
-        <div
-            className="bg-white w-full bg-no-repeat max-h-screen overflow-auto"
-            style={{
-                // background: "url(/login-bg.jpg)",
-                backgroundSize: "70% 100%",
-                backgroundPosition: "center right",
-                backgroundRepeat: "no-repeat",
-            }}
-        >
-            <div className="flex flex-wrap flex-row">
-                <span className="fixed bg-blue-900 bg-opacity-20 w-full h-full inset-x-0 top-0" />
-                <div className="flex-shrink max-w-full w-full min-h-screen sm:w-2/3 lg:w-1/2 xl:w-1/3 z-30">
-                    {/* login form */}
-                    <div className="max-w-full w-full h-full px-2 lg:px-6 bg-white bg-opacity-20 shadow-lg z-40 flex lg:items-center justify-center py-11">
-                        <div className="relative w-full">
-                            <div className="p-6 sm:p-8">
-                                <div className="text-center">
-                                    <a className="py-2 text-2xl" href="#">
-                                        <h2 className="font-semibold text-gray-200 px-4">
-                                            <img
-                                                className="inline-block h-11 ltr:mr-2 rtl:ml-2 -mt-1"
-                                                src="logo.png"
-                                            />
-                                        </h2>
-                                    </a>
-                                </div>
-                                <hr className="block w-2/3 h-[1px] mx-auto mb-11 mt-11 bg-primary " />
-                                <CardLayout className="flex flex-col shadow-none !bg-slate-50 border">
-                                    <h2 className="mb-6">Sign in</h2>
-                                    <TextInputField
-                                        className="mb-6"
-                                        label={`Your Username`}
-                                        placeholder={"Enter your username"}
-                                        id="username"
-                                        name="username"
-                                        inputClassName="bg-foreground !border"
-                                        error={errors?.username?.message}
-                                        onKeyUp={onEnter}
-                                        {...register("username", {
-                                            required: "This field is required",
-                                        })}
-                                    />
-                                    <TextInputField
-                                        className="mb-6"
-                                        type="password"
-                                        label={`Your Password`}
-                                        placeholder={
-                                            "Enter your email or username"
-                                        }
-                                        id="password"
-                                        name="password"
-                                        inputClassName="bg-foreground !border"
-                                        error={errors?.password?.message}
-                                        onKeyUp={onEnter}
-                                        {...register("password", {
-                                            required: "This field is required",
-                                        })}
-                                    />
-                                    <div className="flex w-full flex-col gap-2 lg:flex-row">
-                                        <CheckBoxField
-                                            className="lg:mb-6"
-                                            label="Remember me"
-                                        />
-                                        <a
-                                            href=""
-                                            className="mb-6 text-blue-500 lg:ml-auto"
-                                        >
-                                            Lost password?
-                                        </a>
-                                    </div>
-                                    <Button
-                                        className="mb-2"
-                                        id="submit-btn"
-                                        loading={loading}
-                                        onClick={handleSubmit(submit)}
-                                    >
-                                        Log-in to your account
-                                    </Button>
-                                </CardLayout>
-                            </div>
-
-                            <p className="text-center mb-0">
-                                Don't have an account?{" "}
-                                <a
-                                    className="text-blue-500 font-semibold hover:text-indigo-500"
-                                    href="register-cover.html"
-                                >
-                                    Register
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
+	return (
+		<>
+			<div className="flex items-center flex-col justify-start lg:justify-center w-full lg:w-1/2 lg:h-full z-20">
+				<div className="flex items-center justify-center mb-4 lg:mb-6">
+					<img src="/logo-white.png" className="h-14 lg:h-20" />
+				</div>
+				<span className="text-base lg:text-lg font-bold text-white tracking-wide mb-10 lg:mb-20 text-center">
+					Manufacturer of Water Treatment Chemicals & Equipment
+				</span>
+			</div>
+			<div className="bg-blue-50 bg-opacity-10 rounded-xl max-w-lg w-full px-6 py-8 lg:p-11 shadow flex flex-col z-20">
+				<h3 className="text-white font-bold text-xl lg:text-3xl text-left lg:text-center mb-0">
+					Login
+				</h3>
+				<hr className=" border-opacity-25 border-white lg:border-none mt-2 mb-2 block lg:hidden w-2/3" />
+				<p className="text-sm lg:text-base text-white text-left lg:text-center mb-6">
+					Fill up credentials to login
+				</p>
+				<TextInputField
+					labelClassName={"text-white"}
+					className="mb-6"
+					label={`Username`}
+					placeholder={"Enter username"}
+					id="username"
+					name="username"
+					inputClassName="bg-foreground !border"
+					error={errors?.username?.message}
+					onKeyUp={onEnter}
+					{...register("username", {
+						required: "This field is required",
+					})}
+				/>
+				<TextInputField
+					labelClassName={"text-white"}
+					className="mb-6"
+					type="password"
+					label={`Password`}
+					placeholder={"Enter password"}
+					id="password"
+					name="password"
+					inputClassName="bg-foreground !border"
+					error={errors?.password?.message}
+					onKeyUp={onEnter}
+					{...register("password", {
+						required: "This field is required",
+					})}
+				/>
+				{/* <a href="/" className="text-blue-400 mb-6">
+				Forgot password?
+			</a> */}
+				<div className="flex flex-col">
+					<Button
+						type="secondary-dark"
+						className="mb-2 tracking-wider"
+						id="submit-btn"
+						loading={loading}
+						onClick={handleSubmit(submit)}
+					>
+						LOGIN
+					</Button>
+				</div>
+			</div>
+		</>
+	);
 };
 
 export default LoginForm;

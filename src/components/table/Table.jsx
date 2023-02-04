@@ -1,8 +1,10 @@
+import { useRootContext } from "@/src/context/RootContext";
 import {
 	flexRender,
 	getCoreRowModel,
 	getPaginationRowModel,
 	useReactTable,
+	getSortedRowModel,
 } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 import Button from "../Button";
@@ -11,6 +13,8 @@ import SelectInputField from "../forms/SelectInputField";
 import TextInputField from "../forms/TextInputField";
 
 const Table = (props) => {
+	const [sorting, setSorting] = useState([]);
+
 	const {
 		columns,
 		/* 
@@ -33,6 +37,11 @@ const Table = (props) => {
 		emptyMessage = "No data available",
 		paginationClassName = "",
 	} = props;
+
+	const {
+		theme: { collapseSidebar, device },
+	} = useRootContext();
+
 	const [paginationState, setPagination] = useState({
 		pageIndex: 0,
 		pageSize: 10,
@@ -42,6 +51,11 @@ const Table = (props) => {
 		columns,
 		pageCount: meta?.last_page || 1,
 		manualPagination: true,
+		state: {
+			sorting,
+		},
+		onSortingChange: setSorting,
+		getSortedRowModel: getSortedRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
 		onPaginationChange: (data) => {
 			if (data) {
@@ -78,21 +92,38 @@ const Table = (props) => {
 			}`}
 		>
 			<div
-				className={`max-w-[calc(100vw-96px)] w-full overflow-auto rounded-xl ${className}`}
+				className={`${
+					collapseSidebar
+						? "max-w-[calc(100vw-96px)]"
+						: "max-w-[calc(100vw-50px)]"
+				} w-full overflow-auto rounded-xl ${className}`}
 			>
 				<table
 					className={`border-none ${tableClassName} ${
 						pagination ? "" : ""
 					}`}
 				>
-					<thead>
+					<thead className="">
 						{table.getHeaderGroups().map((headerGroup) => (
 							<tr key={`headerGroup.id-${headerGroup.id}`}>
 								{headerGroup.headers.map((header, index) => (
 									<th
 										key={`header.id-${index}-${headerGroup.id}-${header.id}`}
-										className={`${header.column.columnDef?.className} ${header.column.columnDef?.thClassName}`}
+										className={`${
+											header.column.columnDef?.className
+										} ${
+											header.column.columnDef?.thClassName
+										} ${
+											header.column.getCanSort()
+												? "cursor-pointer select-none"
+												: ""
+										}`}
+										onClick={header.column.getToggleSortingHandler()}
 									>
+										{console.log(
+											"headerheaderheader",
+											header
+										)}
 										{header.isPlaceholder
 											? null
 											: flexRender(
@@ -100,6 +131,10 @@ const Table = (props) => {
 														.header,
 													header.getContext()
 											  )}
+										{{
+											asc: " 🔼",
+											desc: " 🔽",
+										}[header.column.getIsSorted()] ?? null}
 									</th>
 								))}
 							</tr>
@@ -201,7 +236,7 @@ const Table = (props) => {
 			</div>
 			{pagination ? (
 				<div
-					className={`flex flex-col-reverse lg:flex-row items-start lg:items-center gap-6 pt-4  ${paginationClassName}`}
+					className={`flex flex-col-reverse lg:flex-row items-start lg:items-center gap-3 lg:gap-6 pt-4  ${paginationClassName}`}
 				>
 					<div className="flex items-center text-dark text-sm">
 						<label>Show:</label>
@@ -244,6 +279,7 @@ const Table = (props) => {
 						<Button
 							type="foreground"
 							size="sm"
+							className="!rounded-md"
 							disabled={paginationState.pageIndex <= 0}
 							onClick={() => table.setPageIndex(0)}
 						>
@@ -252,6 +288,7 @@ const Table = (props) => {
 						<Button
 							type="foreground"
 							size="sm"
+							className="!rounded-md"
 							disabled={paginationState.pageIndex <= 0}
 							onClick={() => table.previousPage()}
 						>
@@ -264,6 +301,7 @@ const Table = (props) => {
 						<Button
 							type="foreground"
 							size="sm"
+							className="!rounded-md"
 							disabled={
 								paginationState.pageIndex ==
 								table.getPageCount() - 1
@@ -275,6 +313,7 @@ const Table = (props) => {
 						<Button
 							type="foreground"
 							size="sm"
+							className="!rounded-md"
 							disabled={
 								paginationState.pageIndex ==
 								table.getPageCount() - 1

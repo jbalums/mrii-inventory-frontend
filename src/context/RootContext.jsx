@@ -19,7 +19,7 @@ export function RootContextWrapper({ children }) {
 				});
 			}
 		}
-	}, [root]);
+	}, [root.theme.theme, root.theme.collapseSidebar, root.theme.device]);
 
 	return (
 		<RootContext.Provider

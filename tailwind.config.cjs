@@ -13,7 +13,7 @@ module.exports = {
 				secondary: {
 					light: "#8286F0",
 					DEFAULT: "#8286F0",
-					dark: "#8286F0",
+					dark: "#41119f",
 				},
 				tertiary: {
 					light: "#E8D5B5",
@@ -28,11 +28,11 @@ module.exports = {
 				background: {
 					light: "#F5F7FF",
 					DEFAULT: "#F5F7FF",
-					dark: "#F5F7FF",
+					dark: "#e9ecf7",
 				},
 				foreground: {
 					light: "#EBECF6",
-					DEFAULT: "#EBECF6",
+					DEFAULT: "#eff0f4",
 					dark: "#EBECF6",
 				},
 				border: {

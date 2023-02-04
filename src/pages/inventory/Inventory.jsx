@@ -32,7 +32,6 @@ const Inventory = () => {
 
 	const { businessUnits } = useInventory();
 
-
 	useEffect(() => {
 		getBranches().then((res) => {
 			setBranches(res.data.data);
@@ -46,7 +45,8 @@ const Inventory = () => {
 		addProductRef.current.show(data);
 	};
 	const viewProductModal = (item) => {
-		viewProductRef.current.show();
+		console.log("itemitemitem", item);
+		viewProductRef.current.show(item);
 	};
 
 	const columns = useMemo(
@@ -141,7 +141,7 @@ const Inventory = () => {
 				</div>
 			}
 		>
-			<div className="flex flex-col lg:flex-row gap-6 pb-6">
+			<div className="flex flex-col md:flex-row gap-6 pb-6">
 				<TextInputField
 					className="w-full lg:w-[320px]"
 					icon={<FlatIcon icon="rr-search" className="text-sm" />}
@@ -195,7 +195,7 @@ const Inventory = () => {
 			<div className="w-full">
 				<Table
 					rowClick={(data) => {
-						viewProductModal(data);
+						viewProductModal(data?.original);
 					}}
 					columns={columns}
 					pagination={true}

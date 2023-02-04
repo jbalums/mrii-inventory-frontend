@@ -33,89 +33,89 @@ import PrintSuppliers from "./pages/suppliers/PrintSuppliers";
 import Suppliers from "./pages/suppliers/Suppliers";
 import Test from "./pages/Test";
 const AppRoutes = () => {
-    return (
-        <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/test" element={<Test />} />
-            <Route path="/" element={<Dashboard />} />
-            {/* USERS MANAGEMENT*/}
-            <Route path="/users" element={<Users />} />
-            <Route path="/users/print" element={<PrintUsers />} />
-            <Route path="/inventory" element={<Inventory />} />
-            <Route path="/inventory" element={<Inventory />} />
-            {/* PRODUCTS MANAGEMENT*/}
-            <Route path="/products" element={<Products />} />
-            <Route path="/products/print" element={<PrintProducts />} />
-            <Route path="/receiving" element={<Receiving />} />
-            <Route path="/accept-orders" element={<AcceptOrders />} />
-            <Route
-                path="/accept-orders/request/:id"
-                element={<RequestDetails />}
-            />
-            <Route path="/request-orders" element={<RequestOrders />} />
-            <Route
-                path="/request-orders/prepare-item-delivery"
-                element={<PrepareItemDelivery />}
-            />
-            <Route
-                path="/request-orders/prepare-item-delivery/:id"
-                element={<PrepareItemDelivery />}
-            />
-            <Route
-                path="/request-orders/item-delivery"
-                element={<ItemDelivery />}
-            />
-            <Route path="/approving" element={<Approving />} />
-            <Route
-                path="/approving/approve-request-order"
-                element={<ApproveRequestOrder />}
-            />
-            <Route
-                path="/approving/approve-request-order/view-request/:id"
-                element={<ViewRequestOrderPage />}
-            />
-            <Route
-                path="/approving/approve-issuance-order"
-                element={<ApproveIssuance />}
-            />
+	return (
+		<Routes>
+			<Route path="/login" element={<Login />} />
+			<Route path="/test" element={<Test />} />
+			<Route path="/" element={<Dashboard />} />
+			{/* USERS MANAGEMENT*/}
+			<Route path="/users" element={<Users />} />
+			<Route path="/users/print" element={<PrintUsers />} />
+			<Route path="/inventory" element={<Inventory />} />
+			<Route path="/inventory" element={<Inventory />} />
+			{/* PRODUCTS MANAGEMENT*/}
+			<Route path="/products" element={<Products />} />
+			<Route path="/products/print" element={<PrintProducts />} />
+			<Route path="/receiving" element={<Receiving />} />
+			<Route path="/accept-orders" element={<AcceptOrders />} />
+			<Route
+				path="/accept-orders/request/:id"
+				element={<RequestDetails />}
+			/>
+			<Route path="/request-orders" element={<RequestOrders />} />
+			<Route
+				path="/request-orders/prepare-item-delivery"
+				element={<PrepareItemDelivery />}
+			/>
+			<Route
+				path="/request-orders/prepare-item-delivery/:id"
+				element={<PrepareItemDelivery />}
+			/>
+			<Route
+				path="/request-orders/item-delivery"
+				element={<ItemDelivery />}
+			/>
+			<Route path="/approving" element={<Approving />} />
+			<Route
+				path="/approving/approve-request-order"
+				element={<ApproveRequestOrder />}
+			/>
+			<Route
+				path="/approving/approve-request-order/view-request/:id"
+				element={<ViewRequestOrderPage />}
+			/>
+			<Route
+				path="/approving/approve-issuance-order"
+				element={<ApproveIssuance />}
+			/>
 
-            <Route path="/receiving-orders" element={<ReceivingOrders />} />
-            <Route
-                path="/receiving-orders/:id"
-                element={<ReceiveOrderDetails />}
-            />
+			<Route path="/receiving-orders" element={<ReceivingOrders />} />
+			<Route
+				path="/receiving-orders/:id"
+				element={<ReceiveOrderDetails />}
+			/>
 
-            <Route
-                path="/approving/approve-issuance-order/view-issuance/:id"
-                element={<ViewIssuanceOrder />}
-            />
-            <Route path="/po-lists" element={<PurchaseOrderList />} />
-            {/* PRODUCT CATEGORIES MANAGEMENT*/}
-            <Route path="/item-categories" element={<ItemCategories />} />
-            <Route
-                path="/item-categories/print"
-                element={<PrintItemCategories />}
-            />
-            {/* LOCATIONS MANAGEMENT*/}
-            <Route path="/locations" element={<Locations />} />
-            <Route path="/locations/print" element={<PrintLocations />} />
-            {/* SUPPLIERS MANAGEMENT*/}
-            <Route path="/suppliers" element={<Suppliers />} />
-            <Route path="/suppliers/print" element={<PrintSuppliers />} />
-            <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-    );
+			<Route
+				path="/approving/approve-issuance-order/view-issuance/:id"
+				element={<ViewIssuanceOrder />}
+			/>
+			<Route path="/po-lists" element={<PurchaseOrderList />} />
+			{/* PRODUCT CATEGORIES MANAGEMENT*/}
+			<Route path="/item-categories" element={<ItemCategories />} />
+			<Route
+				path="/item-categories/print"
+				element={<PrintItemCategories />}
+			/>
+			{/* LOCATIONS MANAGEMENT*/}
+			<Route path="/locations" element={<Locations />} />
+			<Route path="/locations/print" element={<PrintLocations />} />
+			{/* SUPPLIERS MANAGEMENT*/}
+			<Route path="/suppliers" element={<Suppliers />} />
+			<Route path="/suppliers/print" element={<PrintSuppliers />} />
+			<Route path="*" element={<NotFoundPage />} />
+		</Routes>
+	);
 };
 function App() {
-    const [showSplash, setShowSplash] = useState(true);
+	const [showSplash, setShowSplash] = useState(true);
 
-    useEffect(() => {
-        setTimeout(() => {
-            setShowSplash(false);
-        }, 3000);
-    }, []);
+	useEffect(() => {
+		setTimeout(() => {
+			setShowSplash(false);
+		}, 2500);
+	}, []);
 
-    return showSplash ? <SplashScreen /> : <AppRoutes />;
+	return showSplash ? <SplashScreen /> : <AppRoutes />;
 }
 
 export default App;
