@@ -25,7 +25,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 				}),
 		{
 			revalidateIfStale: false,
-			revalidateOnFocus: false,
+			revalidateOnFocus: true,
 		}
 	);
 
@@ -98,6 +98,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 	};
 
 	useEffect(() => {
+		console.log("useruseruseruser", user);
 		if (middleware === "guest" && redirectIfAuthenticated && user)
 			navigate(redirectIfAuthenticated);
 		if (middleware === "auth" && error) logout();

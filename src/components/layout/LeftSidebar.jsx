@@ -141,8 +141,8 @@ const LeftSidebar = () => {
 				<LeftSidebarLink
 					icon={<FlatIcon icon="rs-pixabay" />}
 					text={`Dashboard`}
-					to="/"
-					active={isActive("/", null, true)}
+					to="/dashboard"
+					active={isActive("/dashboard", null, true)}
 				/>
 
 				{hasPermission([

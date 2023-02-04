@@ -1,7 +1,7 @@
 import Login from "@/src/pages/Login";
 import Products from "@/src/pages/products/Products.jsx";
 import { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import SplashScreen from "./components/SplashScreen";
@@ -19,6 +19,7 @@ import ApproveRequestOrder from "./pages/approving/ApproveRequestOrder";
 import Approving from "./pages/approving/Approving";
 import ViewIssuanceOrder from "./pages/approving/ViewIssuanceOrder";
 import ViewRequestOrderPage from "./pages/approving/ViewRequestOrderPage";
+import CheckAuth from "./pages/CheckAuth";
 import Dashboard from "./pages/Dashboard";
 import Inventory from "./pages/inventory/Inventory";
 import PrintProducts from "./pages/products/PrintProducts";
@@ -38,9 +39,10 @@ import Test from "./pages/Test";
 const AppRoutes = () => {
 	return (
 		<Routes>
+			<Route path="/" element={<CheckAuth />} />
 			<Route path="/login" element={<Login />} />
 			<Route path="/test" element={<Test />} />
-			<Route path="/" element={<Dashboard />} />
+			<Route path="/dashboard" element={<Dashboard />} />
 			{/* USERS MANAGEMENT*/}
 			<Route path="/users" element={<Users />} />
 			<Route path="/users/print" element={<PrintUsers />} />

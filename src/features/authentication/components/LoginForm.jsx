@@ -17,9 +17,10 @@ const LoginForm = () => {
 	} = useForm();
 	const [status, setStatus] = useState(null);
 	const [loading, setLoading] = useState(false);
+
 	const { login } = useAuth({
 		middleware: "guest",
-		redirectIfAuthenticated: "/",
+		redirectIfAuthenticated: "/dashboard",
 	});
 
 	const submit = async (data) => {
