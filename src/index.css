@@ -157,6 +157,10 @@ h6 {
 	.table th {
 		@apply max-w-xs;
 	}
+	.table thead td,
+	.table thead th {
+		@apply whitespace-nowrap;
+	}
 	.transparent-table,
 	.transparent-table table tr,
 	.transparent-table table th,

@@ -43,9 +43,9 @@ const MobileHeaderMenu = ({ children }) => {
 		<>
 			<div className="flex md:hidden mr-4">
 				<div
-					className={`rounded-lg bg-slate-100 border border-border hover:bg-slate-200 cursor-pointer p-1 w-11 h-11 flex items-center justify-center ${
+					className={`rounded-lg bg-slate-50 border border-border hover:bg-slate-200 cursor-pointer p-1 w-11 h-11 flex items-center justify-center ${
 						open
-							? "bg-white border-secondary-dark text-secondary-dark"
+							? "!bg-white border-secondary-dark text-secondary-dark"
 							: ""
 					}`}
 					onClick={() => {

@@ -8,7 +8,7 @@ const MobileMenuLink = ({ icon, text, active, to, onClick }) => {
 	return (
 		<Link to={to} className="" onClick={onClick}>
 			<div
-				className={`flex flex-col md:flex-row items-center justify-center md:justify-start aspect-square font-normal !py-4 bg-background text-dark px-4 !duration-200 text-sm group border border-border rounded-xl h-full ${
+				className={`flex flex-col md:flex-row items-center justify-center md:justify-start aspect-square font-normal !py-4 bg-background text-dark px-4 !duration-200 text-sm group border border-gray-400 rounded-xl h-full ${
 					active
 						? "!border-secondary-dark !text-secondary-dark bg-white !font-semibold "
 						: "hover:bg-white hover:border-secondary-dark hover:text-secondary-dark bg-opacity-0 hover:bg-opacity-100"

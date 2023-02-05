@@ -50,7 +50,7 @@ const LayoutContainer = ({ className = " animate-fadeIn", children }) => {
 									value: "transparent",
 								},
 							},
-							fpsLimit: 120,
+							fpsLimit: 30,
 							fullScreen: {
 								enable: true,
 								zIndex: 0,

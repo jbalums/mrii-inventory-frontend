@@ -66,7 +66,9 @@ const PageHeader = (props) => {
 										My profile
 									</>
 								),
-								onClick: () => {},
+								onClick: () => {
+									navigate("/profile");
+								},
 								className: "",
 							},
 							{
