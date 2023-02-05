@@ -17,7 +17,9 @@ const Page = (props) => {
 	});
 	const {
 		title,
+		icon,
 		titleChildren,
+		breadcrumbs,
 		children,
 		backBtn = false,
 		containerClassName = "",
@@ -30,9 +32,15 @@ const Page = (props) => {
 			>
 				<div className="w-full flex h-full z-[2] bg-opacity-40 overflow-hidden">
 					<LeftSidebar user={user} />
+					{/* <div className="absolute bg-red-500 p-4 rounded-lg top-4 left-4 z-20 h-11 w-11"></div> */}
 
 					<div className="relative bg-slate-200 h-full w-full max-h-screen overflow-auto">
-						<PageHeader title={title} backBtn={backBtn}>
+						<PageHeader
+							title={title}
+							icon={icon}
+							backBtn={backBtn}
+							breadcrumbs={breadcrumbs}
+						>
 							{titleChildren}
 						</PageHeader>
 						<div

@@ -94,8 +94,8 @@ const Table = (props) => {
 			<div
 				className={`${
 					collapseSidebar
-						? "max-w-[calc(100vw-96px)]"
-						: "max-w-[calc(100vw-50px)]"
+						? "max-w-[calc(100vw-32px)] md:max-w-[calc(100vw-96px)]"
+						: "max-w-[calc(100vw-32px)] md:max-w-[calc(100vw-50px)]"
 				} w-full overflow-auto rounded-xl ${className}`}
 			>
 				<table
@@ -120,10 +120,6 @@ const Table = (props) => {
 										}`}
 										onClick={header.column.getToggleSortingHandler()}
 									>
-										{console.log(
-											"headerheaderheader",
-											header
-										)}
 										{header.isPlaceholder
 											? null
 											: flexRender(

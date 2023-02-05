@@ -7,55 +7,11 @@ import { BiArrowToLeft } from "react-icons/bi";
 import { Link, useLocation } from "react-router-dom";
 import Button from "../Button";
 import FlatIcon from "../FlatIcon";
+import LeftSidebarLink from "../LeftSidebarLink";
+import LeftSidebarTitle from "../LeftSidebarTitle";
 import ConfirmModal from "../modals/ConfirmModal";
 import MagicScrollBar from "./MagicScrollBar";
 
-const LeftSidebarTitle = ({ className = "", text }) => {
-	return (
-		<div
-			className={`font-semibold text-xs text-dark tracking-wide text-left my-2 px-4 ${className}`}
-		>
-			{text}
-		</div>
-	);
-};
-const LeftSidebarLink = ({ icon, text, active, to, onClick }) => {
-	const {
-		theme: { collapseSidebar },
-	} = useRootContext();
-	return (
-		<Link to={to} className="" onClick={onClick}>
-			<div
-				className={`flex items-center font-normal bg-background  h-11 text-dark px-4 !duration-200 text-sm group ${
-					active
-						? "!bg-primary text-light !font-semibold bg-opacity-100"
-						: "hover:bg-foreground bg-opacity-0 hover:bg-opacity-100"
-				}`}
-			>
-				<span
-					className={`text-lg ${
-						collapseSidebar ? "ml-2 mr-3" : "mr-2"
-					}`}
-				>
-					{icon}
-				</span>
-				<span
-					className={`duration-200 transition-all ${
-						collapseSidebar
-							? `opacity-0 min-w-[0px] w-0 overflow-hidden group-hover:min-w-[200px] group-hover:opacity-100 group-hover:z-20 flex items-center group-hover:text-dark group-hover:bg-foreground h-full pl-4  ${
-									active
-										? "group-hover:text-light group-hover:!bg-primary"
-										: ""
-							  }`
-							: ""
-					}`}
-				>
-					{text}
-				</span>
-			</div>
-		</Link>
-	);
-};
 const LeftSidebar = () => {
 	const location = useLocation();
 	const {
@@ -94,10 +50,10 @@ const LeftSidebar = () => {
 		if (typeof window == "object") {
 			console.log(
 				"window?.outerWidth < 768 && !collapseSidebar",
-				window?.innerWidth < 768,
+				window?.innerWidth < 769,
 				!collapseSidebar
 			);
-			if (window?.innerWidth < 768 && !collapseSidebar) {
+			if (window?.innerWidth < 769 && !collapseSidebar) {
 				dispatch({
 					type: "TOGGLE_SIDEBAR",
 				});
@@ -106,7 +62,7 @@ const LeftSidebar = () => {
 	}, [window, device]);
 	return (
 		<div
-			className={`shadow-xl transition-all h-full duration-300 bg-background  flex flex-col md:w-64 z-10 
+			className={`hidden md:flex shadow-xl transition-all h-full duration-300 bg-background   flex-col md:w-64 z-10 
 		${
 			collapseSidebar
 				? `!relative pt-6 !px-0 !w-[64px] max-w-[64px] ${
@@ -123,7 +79,7 @@ const LeftSidebar = () => {
 				className="absolute top-0 h-full z-[1] object-cover opacity-5"
 			/>
 			<div
-				className={`absolute top-[74px] h-6 w-6 opacity-50 hover:opacity-100 cursor-pointer rounded bg-primary text-white z-20 flex items-center justify-center ${
+				className={`absolute top-6 opacity-80 hover:opacity-100 cursor-pointer rounded bg-slate-300 bg-opacity-60 shadow-sm border border-gray-300 p-1 z-20 flex items-center justify-center ${
 					collapseSidebar ? "left-[52px]" : "left-[228px]"
 				} z-[5]`}
 				onClick={() => {
@@ -133,28 +89,19 @@ const LeftSidebar = () => {
 				}}
 			>
 				<BiArrowToLeft
-					className={`text-4xl duration-200 ${
+					className={`text-lg duration-100 ${
 						collapseSidebar ? "rotate-180" : ""
-					}`}
-				/>
-			</div>
-			<div
-				className={
-					collapseSidebar ? "pb-6 px-2 z-[2]" : "pb-6 px-4 z-[2]"
-				}
-			>
-				<img
-					src={collapseSidebar ? "/mrii-icon.png" : "/logo.png"}
-					className={`duration-300 ${
-						collapseSidebar ? "h-[44px]" : "h-11"
 					}`}
 				/>
 			</div>
 
 			<div className="max-h-[calc(100vh-95px)] z-[2]">
-				<LeftSidebarTitle text="Main menu" />
+				<LeftSidebarTitle
+					text="Main menu"
+					collapseSidebar={collapseSidebar}
+				/>
 				<LeftSidebarLink
-					icon={<FlatIcon icon="rs-warehouse-alt" />}
+					icon={<FlatIcon icon="rr-home" />}
 					text={`Dashboard`}
 					to="/dashboard"
 					active={isActive("/dashboard", null, true)}
@@ -277,7 +224,10 @@ const LeftSidebar = () => {
 			/> */}
 				{hasPermission(["admin"]) && (
 					<>
-						<LeftSidebarTitle text="Admin menu" />
+						<LeftSidebarTitle
+							text="Admin menu"
+							collapseSidebar={collapseSidebar}
+						/>
 						<LeftSidebarLink
 							icon={<FlatIcon icon="rr-boxes" />}
 							text={`Products`}

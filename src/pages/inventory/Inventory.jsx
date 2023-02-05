@@ -115,9 +115,10 @@ const Inventory = () => {
 	);
 	return (
 		<AppLayout
+			icon={<FlatIcon icon="rr-boxes" />}
 			title="Inventory"
 			titleChildren={
-				<div className="ml-auto flex items-center gap-4 flex-wrap">
+				<div className="ml-auto flex items-center gap-4 flex-wrap w-full justify-center md:justify-end">
 					<Button type="background" className="border-none">
 						<FlatIcon
 							icon="rs-shopping-cart"
@@ -140,6 +141,13 @@ const Inventory = () => {
 					</Button>
 				</div>
 			}
+			breadcrumbs={[
+				{
+					to: "/inventory",
+					icon: "rr-boxes",
+					label: "Inventory",
+				},
+			]}
 		>
 			<div className="flex flex-col md:flex-row gap-6 pb-6">
 				<TextInputField

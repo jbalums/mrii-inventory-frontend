@@ -108,7 +108,7 @@ const RequestOrders = () => {
 					return (
 						<span
 							className={`px-2 py-1  bg-opacity-10  rounded-xl capitalize ${
-								original?.status == 'approved'
+								original?.status == "approved"
 									? "text-success bg-success"
 									: "text-warning bg-warning"
 							}`}
@@ -124,14 +124,14 @@ const RequestOrders = () => {
 				className: "",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					if(original?.status == 'approved')
-					return (
-						<span
-							className={`px-0 py-1  bg-opacity-10  rounded-xl text-success`}
-						>
-							{original.accepted_by?.name}
-						</span>
-					);
+					if (original?.status == "approved")
+						return (
+							<span
+								className={`px-0 py-1  bg-opacity-10  rounded-xl text-success`}
+							>
+								{original.accepted_by?.name}
+							</span>
+						);
 				},
 			},
 		],
@@ -186,7 +186,16 @@ const RequestOrders = () => {
 	};
 
 	return (
-		<AppLayout title="Request orders">
+		<AppLayout
+			title="Request orders"
+			breadcrumbs={[
+				{
+					to: "/request-orders",
+					icon: "rr-inbox-in",
+					label: "Request orders",
+				},
+			]}
+		>
 			<div className="w-full">
 				<div className="flex flex-col lg:flex-row gap-6 pb-6">
 					<TextInputField
@@ -213,17 +222,15 @@ const RequestOrders = () => {
 				</div>
 				<Table
 					rowClick={(data) => {
-
-						if(data.original.status == 'pending')
-						{
+						if (data.original.status == "pending") {
 							navigate(
 								`/approving/approve-request-order/view-request/${data.original.id}`
 							);
+						} else {
+							navigate(
+								`prepare-item-delivery/${data?.original?.id}`
+							);
 						}
-						else{
-							navigate(`prepare-item-delivery/${data?.original?.id}`);
-						}
-
 					}}
 					columns={columns}
 					pagination={true}

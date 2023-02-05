@@ -7,6 +7,7 @@ const DropdownMenu = (props) => {
 		className = "",
 		menuButtonClassName = "",
 		menuClassName = "",
+		menuChildren,
 		options = [],
 		children,
 	} = props;
@@ -28,12 +29,13 @@ const DropdownMenu = (props) => {
 				leaveTo="transform opacity-0 scale-95"
 			>
 				<Menu.Items
-					className={`absolute mt-2 w-full origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${menuClassName}`}
+					className={`absolute mt-4 w-full right-0 origin-top-left divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${menuClassName}`}
 				>
 					<div className="px-1 py-1 ">
-						{options?.map((option) => {
+						{menuChildren}
+						{options?.map((option, index) => {
 							return (
-								<Menu.Item key={`${id}`}>
+								<Menu.Item key={`${id}-dp-${index}`}>
 									{({ active }) => (
 										<button
 											onClick={option?.onClick}
