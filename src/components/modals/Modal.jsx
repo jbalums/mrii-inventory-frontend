@@ -8,7 +8,9 @@ const Modal = (props, ref) => {
 			<Dialog
 				as="div"
 				className="relative z-10"
-				onClose={hide}
+				onClose={() => {
+					// hide
+				}}
 				unmount={true}
 				static={true}
 			>

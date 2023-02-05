@@ -2,6 +2,7 @@ import { mobileNumber } from "@/libs/helpers";
 import AppLayout from "@/src/components/AppLayout";
 import Button from "@/src/components/Button";
 import FlatIcon from "@/src/components/FlatIcon";
+import TextInputField from "@/src/components/forms/TextInputField";
 import ConfirmModal from "@/src/components/modals/ConfirmModal";
 import Table from "@/src/components/table/Table";
 import useDataTable from "@/src/helpers/useDataTable";
@@ -31,9 +32,12 @@ const Suppliers = () => {
 	const [list, setList] = useState([]);
 	const [id, setId] = useState(null);
 	const [loading, setLoading] = useState(false);
-	const { data, loading: dataLoading } = useDataTable(
-		`/management/suppliers`
-	);
+	const {
+		data,
+		loading: dataLoading,
+		setKeyword,
+		keyword,
+	} = useDataTable(`/management/suppliers`);
 
 	const { deleteSupplier } = useSuppliersHook();
 
@@ -117,11 +121,11 @@ const Suppliers = () => {
 						<div className="flex flex-col gap-y-2">
 							{contacts?.map((contact) => {
 								return (
-									<div className="p-3 rounded-lg bg-white relative">
+									<div className="p-3 rounded-lg shadow-sm shadow-blue-400 bg-white relative">
 										<div className="absolute right-4 top-4">
 											<FlatIcon
 												icon="rr-circle-phone"
-												className="text-[50px] text-placeholder opacity-10 "
+												className="text-[50px] text-blue-400 opacity-30 "
 											/>
 										</div>
 										<div className="flex flex-col">
@@ -129,7 +133,7 @@ const Suppliers = () => {
 												<p className="text-base font-bold text-darker flex items-center gap-2">
 													{contact?.name}
 												</p>
-												<span className="text-xs">
+												<span className="text-sm mb-1">
 													{contact?.position || "-"}
 												</span>
 											</div>
@@ -166,10 +170,10 @@ const Suppliers = () => {
 						<div className="flex flex-col gap-y-2">
 							{banks?.map((bank) => {
 								return (
-									<div className="p-3 rounded-lg bg-white shadow flex items-start gap-3">
+									<div className="p-3 rounded-lg bg-white shadow-sm shadow-indigo-600 flex items-start gap-3">
 										<FlatIcon
 											icon="rr-bank"
-											className="text-[40px] text-placeholder opacity-20 mt-2"
+											className="text-[40px] text-indigo-400 opacity-30 mt-2"
 										/>
 										<div className="flex flex-col">
 											<div className="flex flex-col mb-2">
@@ -306,15 +310,34 @@ const Suppliers = () => {
 							Print supplier
 						</Button>
 					</Link>
-					<Button type="accent" onClick={openFormModal}>
-						<FlatIcon icon="rs-plus" className="mr-2" /> Register
-						supplier
-					</Button>
 				</div>
 			}
 		>
+			<div className="flex flex-col lg:flex-row gap-6 pb-6">
+				<TextInputField
+					className="w-full lg:w-[320px]"
+					icon={<FlatIcon icon="rr-search" className="text-sm" />}
+					placeholder="Search"
+					onChange={(e) => {
+						setKeyword(e.target.value);
+					}}
+				/>
+				<Button
+					type="accent"
+					className="ml-auto"
+					onClick={openFormModal}
+				>
+					<FlatIcon icon="rs-plus" className="mr-2" /> Register
+					supplier
+				</Button>
+			</div>
 			<div className="w-full">
-				<Table columns={columns} loading={dataLoading} data={list} />
+				<Table
+					columns={columns}
+					loading={dataLoading}
+					data={list}
+					keyword={keyword}
+				/>
 			</div>
 			<SuppliersFormModal
 				ref={form_modal_ref}

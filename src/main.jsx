@@ -7,8 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import axios from "@/libs/axios";
 import { getStorage } from "@/libs/storage";
-import { toast } from "react-toastify";
-
+import { toast, ToastContainer } from "react-toastify";
 axios.interceptors.request.use(
 	async function (config) {
 		const token = await getStorage("token");
@@ -68,6 +67,7 @@ axios.interceptors.response.use(
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
 		<BrowserRouter>
+			<ToastContainer />
 			<App />
 		</BrowserRouter>
 	</React.StrictMode>

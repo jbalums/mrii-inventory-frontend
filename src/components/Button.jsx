@@ -100,6 +100,7 @@ const Button = (props) => {
 		</LinkBtn>
 	) : (
 		<div
+			role="button"
 			className={`${defaultBtnClass} ${btnBg()} ${btnSize()} ${
 				className || ""
 			} ${

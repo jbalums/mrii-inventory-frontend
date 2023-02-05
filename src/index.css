@@ -142,7 +142,7 @@ h6 {
 
 	.printable-table table tbody > tr > td,
 	.printable-table table tbody > tr > th {
-		@apply px-3 py-3 text-sm text-dark;
+		@apply px-3 py-3 text-sm text-primary-dark;
 	}
 	.square-table,
 	.square-table table tr,
@@ -152,6 +152,10 @@ h6 {
 	.square-table tbody th,
 	.square-table tbody td {
 		@apply !rounded-none;
+	}
+	.table td,
+	.table th {
+		@apply max-w-xs;
 	}
 	.transparent-table,
 	.transparent-table table tr,
@@ -197,7 +201,7 @@ h6 {
 }
 
 .react-select__control > div {
-	@apply h-[46px] bg-white rounded-lg border-transparent;
+	@apply h-[46px] bg-white rounded-lg border-gray-300;
 }
 
 .react-select__control--is-focused > div {
@@ -266,4 +270,27 @@ h6 {
 		rgba(38, 27, 111, 1) 50%,
 		rgba(18, 74, 184, 1) 100%
 	);
+}
+.Toastify__toast {
+	z-index: 9999;
+}
+.Toastify__toast--success {
+	@apply bg-[#d6eade] text-success;
+}
+
+.Toastify__toast--danger,
+.Toastify__toast--error {
+	@apply bg-[#f0d6d6] text-danger;
+}
+.Toastify__toast--warning {
+	@apply bg-[#f5eadd] text-warning;
+}
+.Toastify__toast--info,
+.Toastify__toast--information {
+	@apply bg-[#deeef5] text-info;
+}
+
+.Toastify__toast-body {
+	font-family: "Inter", sans-serif;
+	@apply font-semibold tracking-wide text-sm;
 }

@@ -1,6 +1,7 @@
 import AppLayout from "@/src/components/AppLayout";
 import Button from "@/src/components/Button";
 import FlatIcon from "@/src/components/FlatIcon";
+import TextInputField from "@/src/components/forms/TextInputField";
 import ConfirmModal from "@/src/components/modals/ConfirmModal";
 import Table from "@/src/components/table/Table";
 import useDataTable from "@/src/helpers/useDataTable";
@@ -18,7 +19,12 @@ const Locations = () => {
 	const [list, setList] = useState([]);
 	const [id, setId] = useState(null);
 	const [loading, setLoading] = useState(false);
-	const { data, loading: dataLoading } = useDataTable(`/management/branches`);
+	const {
+		data,
+		loading: dataLoading,
+		keyword,
+		setKeyword,
+	} = useDataTable(`/management/branches`);
 
 	const { deleteItemBranch } = useBranchLocation();
 
@@ -121,6 +127,7 @@ const Locations = () => {
 				);
 			})
 			.finally(() => {
+				delete_modal_ref.current.hide();
 				setLoading(false);
 			});
 	};
@@ -131,13 +138,24 @@ const Locations = () => {
 
 	return (
 		<AppLayout
-			title={
-				<div className="flex items-center gap-2">
-					<FlatIcon icon="rr-map-pin" />
-					Manage locations
-				</div>
-			}
-			titleChildren={
+			icon={<FlatIcon icon="rs-map-marker" />}
+			title="Manage locations"
+			breadcrumbs={[
+				{
+					to: "/locations",
+					label: "Locations",
+				},
+			]}
+		>
+			<div className="w-full md:w-4/5 xl:w-1/2 flex flex-col lg:flex-row gap-6 pb-6">
+				<TextInputField
+					className="w-full lg:w-[320px]"
+					icon={<FlatIcon icon="rr-search" className="text-sm" />}
+					placeholder="Search locations"
+					onChange={(e) => {
+						setKeyword(e.target.value);
+					}}
+				/>
 				<div className="ml-auto flex items-center gap-4">
 					<Link to={"/locations/print"}>
 						<Button className="gap-2" type="foreground">
@@ -150,10 +168,14 @@ const Locations = () => {
 						Add location
 					</Button>
 				</div>
-			}
-		>
-			<div className="w-full lg:w-1/2">
-				<Table columns={columns} loading={dataLoading} data={list} />
+			</div>
+			<div className="w-full md:w-4/5 xl:w-1/2">
+				<Table
+					columns={columns}
+					loading={dataLoading}
+					data={list}
+					keyword={keyword}
+				/>
 			</div>
 			<LocationFormModal
 				ref={form_modal_ref}
@@ -164,7 +186,7 @@ const Locations = () => {
 				ref={delete_modal_ref}
 				title="Cofirm delete item category?"
 				body={
-					<p className="text-red-600 font-semibold text-lg text-center">
+					<p className=" font- text-lg text-center">
 						Are you sure you want to delete item category?{" "}
 					</p>
 				}

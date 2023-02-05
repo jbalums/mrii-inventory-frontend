@@ -22,7 +22,7 @@ const PageHeader = (props) => {
 		<>
 			<div className="flex min-h-[76px] sticky top-0 bg-background shadow-sm py-4 md:py-[unset] items-center justify-center md:justify-start md:items-center md:gap-y-0 border-b border-border px-4 pb-4 md:pb-0 md:px-6  md:flex-row z-[2]">
 				<div className="flex items-center md:w-[unset]">
-					<MobileHeaderMenu>TEST</MobileHeaderMenu>
+					<MobileHeaderMenu />
 					<div className={"z-[2]"}>
 						{/* "/mrii-icon.png" */}
 						<img
@@ -89,10 +89,10 @@ const PageHeader = (props) => {
 							<div className="flex flex-col items-center gap-2 md:hidden py-2 mb-1 bg-slate-50">
 								<div className="min-h-[44px] min-w-[44px] rounded-full bg-white border border-border overflow-hidden">
 									<img
-										src={`https://api.dicebear.com/5.x/adventurer-neutral/svg?seed=${user?.data?.name}&scale=75`}
+										src={`https://api.dicebear.com/5.x/initials/svg?seed=${user?.data?.name}&scale=75`}
 									/>
 								</div>
-								<span className="text-center text-sm">
+								<span className="text-center  text-xs font-bold">
 									{user?.data?.name}
 								</span>
 							</div>
@@ -100,7 +100,7 @@ const PageHeader = (props) => {
 					>
 						<div className="min-h-[36px] min-w-[36px] rounded-full bg-white border border-border overflow-hidden">
 							<img
-								src={`https://api.dicebear.com/5.x/adventurer-neutral/svg?seed=${user?.data?.name}&scale=75`}
+								src={`https://api.dicebear.com/5.x/initials/svg?seed=${user?.data?.name}&scale=75`}
 							/>
 						</div>
 						<span className=" hidden md:block">
@@ -115,12 +115,12 @@ const PageHeader = (props) => {
 					ref={confirm_logout_ref}
 					title="Confirm logout"
 					body={
-						<p className="text-red-600 text-lg text-center my-3">
+						<p className=" text-lg text-center my-3">
 							Are you sure you want to <b>logout user</b>?{" "}
 						</p>
 					}
 					footer={
-						<div className="flex items-center w-full">
+						<div className="flex items-center ml-auto gap-4">
 							<Button
 								className=""
 								onClick={() => {

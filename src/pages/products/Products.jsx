@@ -107,16 +107,12 @@ const Products = () => {
 					Products
 				</div>
 			}
-			titleChildren={
-				<div className="ml-auto flex items-center gap-4">
-					<Link to={"/products/print"}>
-						<Button className="gap-2" type="foreground">
-							<FlatIcon icon="rr-print" className="text-base" />{" "}
-							Print Products
-						</Button>
-					</Link>
-				</div>
-			}
+			breadcrumbs={[
+				{
+					to: "/products",
+					label: "Products",
+				},
+			]}
 		>
 			<div className="flex flex-col lg:flex-row gap-6 pb-6">
 				<TextInputField
@@ -124,16 +120,24 @@ const Products = () => {
 					icon={<FlatIcon icon="rr-search" className="text-sm" />}
 					placeholder="Search product"
 				/>
-				<Button
-					type="accent"
-					className="ml-auto"
-					onClick={() => {
-						openFormModal();
-					}}
-				>
-					<FlatIcon icon="rs-plus" className="mr-2" /> Register
-					product
-				</Button>
+				<div className="ml-auto flex items-center gap-4">
+					<Link to={"/products/print"}>
+						<Button className="gap-2" type="foreground">
+							<FlatIcon icon="rr-print" className="text-base" />{" "}
+							Print Products
+						</Button>
+					</Link>
+					<Button
+						type="accent"
+						className="ml-auto"
+						onClick={() => {
+							openFormModal();
+						}}
+					>
+						<FlatIcon icon="rs-plus" className="mr-2" /> Register
+						product
+					</Button>
+				</div>
 			</div>
 
 			<div className="w-full">

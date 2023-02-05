@@ -247,7 +247,7 @@ const LeftSidebar = () => {
 							active={isActive("/item-categories")}
 						/>
 						<LeftSidebarLink
-							icon={<FlatIcon icon="rs-map-marker" />}
+							icon={<FlatIcon icon="rr-map-marker" />}
 							text={`Locations`}
 							to="/locations"
 							active={isActive("/locations")}

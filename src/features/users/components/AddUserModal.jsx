@@ -117,7 +117,10 @@ const AddUserModal = (props, ref) => {
 			/>
 			<ModalBody className={`py-4`}>
 				{console.log("errors", errors)}
-				<div className="flex flex-col lg:grid grid-cols-12 gap-4">
+				<form
+					className="flex flex-col lg:grid grid-cols-12 gap-4"
+					autoComplete="off"
+				>
 					<Controller
 						render={({
 							field: { onChange, onBlur, value, name, ref },
@@ -126,7 +129,7 @@ const AddUserModal = (props, ref) => {
 							<ReactSelectInputField
 								label="Select User Position"
 								className="lg:col-span-6"
-								inputClassName="!border !border-borderColor "
+								inputClassName=" "
 								ref={ref}
 								value={value}
 								onChange={onChange} // send value to hook form
@@ -174,7 +177,7 @@ const AddUserModal = (props, ref) => {
 							<ReactSelectInputField
 								label="Select Division"
 								className="lg:col-span-6"
-								inputClassName="!border !border-borderColor "
+								inputClassName=" "
 								ref={ref}
 								value={value}
 								onChange={onChange} // send value to hook form
@@ -215,7 +218,7 @@ const AddUserModal = (props, ref) => {
 							<ReactSelectInputField
 								label="Select User's designated Location"
 								className="col-span-12"
-								inputClassName="!border !border-borderColor "
+								inputClassName=" "
 								ref={ref}
 								value={value}
 								onChange={onChange} // send value to hook form
@@ -246,7 +249,7 @@ const AddUserModal = (props, ref) => {
 						placeholder={"Enter firstname"}
 						id="firstname"
 						name="firstname"
-						inputClassName="!border !border-borderColor "
+						inputClassName=" "
 						error={errors?.firstname?.message}
 						{...register("firstname", {
 							required: "This field is required",
@@ -258,7 +261,7 @@ const AddUserModal = (props, ref) => {
 						placeholder={"Enter Middlename"}
 						id="middlename"
 						name="middlename"
-						inputClassName="!border !border-borderColor "
+						inputClassName=" "
 						error={errors?.middlename?.message}
 						{...register("lastname")}
 					/>
@@ -267,7 +270,7 @@ const AddUserModal = (props, ref) => {
 						className="col-span-4"
 						placeholder={"Enter Lastname"}
 						id="lastname"
-						inputClassName="!border !border-borderColor "
+						inputClassName=" "
 						name="lastname"
 						error={errors?.lastname?.message}
 						{...register("lastname", {
@@ -281,7 +284,7 @@ const AddUserModal = (props, ref) => {
 						placeholder={"Enter contact no."}
 						id="contact"
 						name="contact"
-						inputClassName="!border !border-borderColor "
+						inputClassName=" "
 						error={errors?.contact?.message}
 						{...register("contact", {
 							required: "This field is required",
@@ -295,7 +298,8 @@ const AddUserModal = (props, ref) => {
 						id="username"
 						name="username"
 						type="username"
-						inputClassName="!border !border-borderColor "
+						autoComplete="off"
+						inputClassName=" "
 						error={errors?.username?.message}
 						{...register("username", {
 							required: "This field is required",
@@ -308,7 +312,8 @@ const AddUserModal = (props, ref) => {
 						id="email"
 						name="email"
 						type="email"
-						inputClassName="!border !border-borderColor "
+						autoComplete="off"
+						inputClassName=" "
 						error={errors?.email?.message}
 						{...register("email", {
 							required: "This field is required",
@@ -324,7 +329,7 @@ const AddUserModal = (props, ref) => {
 								placeholder={"Enter Password"}
 								id="password"
 								name="password"
-								inputClassName="!border !border-borderColor "
+								inputClassName=" "
 								type="password"
 								error={errors?.password?.message}
 								{...register("password", {
@@ -336,7 +341,7 @@ const AddUserModal = (props, ref) => {
 								className="col-span-6"
 								placeholder={"Confirm password"}
 								id="password_confirmation"
-								inputClassName="!border !border-borderColor "
+								inputClassName=" "
 								type="password"
 								name="password_confirmation"
 								error={errors?.password_confirmation?.message}
@@ -357,7 +362,7 @@ const AddUserModal = (props, ref) => {
 							/>
 						</>
 					)}
-				</div>
+				</form>
 			</ModalBody>
 			<ModalFooter className={`flex items-center justify-end`}>
 				<Button onClick={handleSubmit(submitForm)} loading={loading}>

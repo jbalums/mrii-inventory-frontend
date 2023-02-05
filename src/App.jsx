@@ -36,6 +36,7 @@ import ReturnMaterials from "./pages/return-materials/ReturnMaterials";
 import PrintSuppliers from "./pages/suppliers/PrintSuppliers";
 import Suppliers from "./pages/suppliers/Suppliers";
 import Test from "./pages/Test";
+import Profile from "./pages/user/Profile";
 const AppRoutes = () => {
 	return (
 		<Routes>
@@ -115,6 +116,9 @@ const AppRoutes = () => {
 			{/* SUPPLIERS MANAGEMENT*/}
 			<Route path="/suppliers" element={<Suppliers />} />
 			<Route path="/suppliers/print" element={<PrintSuppliers />} />
+
+			<Route path="/profile" element={<Profile />} />
+
 			<Route path="*" element={<NotFoundPage />} />
 		</Routes>
 	);

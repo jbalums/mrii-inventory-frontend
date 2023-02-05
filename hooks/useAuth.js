@@ -92,9 +92,14 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 	};
 
 	const logout = async () => {
-		await axios.post("/logout");
-		mutate();
-		window.location.pathname = "/login";
+		// await axios.post("/logout");
+		// mutate();
+
+		if (typeof window == "object") {
+			window.localStorage.clear();
+			window.location.pathname = "/login";
+		}
+		return true;
 	};
 
 	useEffect(() => {

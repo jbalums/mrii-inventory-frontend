@@ -35,6 +35,7 @@ const Table = (props) => {
 		show = [10, 20, 50, 100],
 		loadingMessage = "Gathering data...",
 		emptyMessage = "No data available",
+		keyword = "",
 		paginationClassName = "",
 	} = props;
 
@@ -149,7 +150,17 @@ const Table = (props) => {
 							<tr>
 								<td colSpan={999}>
 									<div className="w-full flex items-center justify-start lg:items-center lg:justify-center py-4 text-placeholder">
-										{emptyMessage}
+										{keyword?.length > 0 ? (
+											<>
+												No results found for
+												<b className="ml-1">
+													"{`${keyword}`}"
+												</b>
+												.
+											</>
+										) : (
+											emptyMessage
+										)}
 									</div>
 								</td>
 							</tr>

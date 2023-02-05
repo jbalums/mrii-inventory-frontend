@@ -1,6 +1,7 @@
 import AppLayout from "@/src/components/AppLayout";
 import Button from "@/src/components/Button";
 import FlatIcon from "@/src/components/FlatIcon";
+import TextInputField from "@/src/components/forms/TextInputField";
 import ConfirmModal from "@/src/components/modals/ConfirmModal";
 import Table from "@/src/components/table/Table";
 import useDataTable from "@/src/helpers/useDataTable";
@@ -86,7 +87,7 @@ const Users = () => {
 			},
 			{
 				header: "Email",
-				accessorKey: "username",
+				accessorKey: "email",
 			},
 			{
 				header: "User type",
@@ -190,13 +191,25 @@ const Users = () => {
 	};
 	return (
 		<AppLayout
-			title={
-				<div className="flex items-center gap-2">
-					<FlatIcon icon="rr-users" />
-					Manage users
-				</div>
-			}
-			titleChildren={
+			icon={<FlatIcon icon="rr-users-alt" />}
+			title={<div className="flex items-center gap-2">Manage users</div>}
+			breadcrumbs={[
+				{
+					to: "/users",
+					label: "Users",
+				},
+			]}
+		>
+			<div className="w-full flex flex-col lg:flex-row gap-6 pb-6">
+				<TextInputField
+					className="w-full lg:w-[320px]"
+					icon={<FlatIcon icon="rr-search" className="text-sm" />}
+					placeholder="Search user"
+					onChange={(e) => {
+						setKeyword(e.target.value);
+					}}
+				/>
+
 				<div className="ml-auto flex items-center gap-4">
 					<Link to={"/users/print"}>
 						<Button className="gap-2" type="foreground">
@@ -209,8 +222,7 @@ const Users = () => {
 						User
 					</Button>
 				</div>
-			}
-		>
+			</div>
 			<div className="w-full">
 				<Table
 					meta={meta}
@@ -223,6 +235,7 @@ const Users = () => {
 						setPage(data.pageIndex + 1);
 						setPaginate(data.pageSize);
 					}}
+					keyword={keyword}
 				/>
 			</div>
 			<AddUserModal
