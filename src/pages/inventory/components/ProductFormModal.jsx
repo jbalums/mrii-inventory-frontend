@@ -99,7 +99,10 @@ const ProductFormModal = (props, ref) => {
 				hide={hide}
 			/>
 			<ModalBody className={`py-4`}>
-				<div className="flex flex-col lg:grid grid-cols-1 lg:grid-cols-2 gap-4">
+				<form
+					autoComplete="off"
+					className="flex flex-col lg:grid grid-cols-1 lg:grid-cols-2 gap-4"
+				>
 					{/*<TextInputField
                         label={`Product code`}
                         className="col-span-2"
@@ -141,7 +144,7 @@ const ProductFormModal = (props, ref) => {
 							required: "This field is required",
 						})}
 					/>
-				</div>
+				</form>
 			</ModalBody>
 			<ModalFooter className={`flex items-center justify-end`}>
 				<Button

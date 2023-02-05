@@ -91,7 +91,11 @@ const PageHeader = (props) => {
 							<div className="flex flex-col items-center gap-2 md:hidden py-2 mb-1 bg-slate-50">
 								<div className="min-h-[44px] min-w-[44px] rounded-full bg-white border border-border overflow-hidden">
 									<img
-										src={`https://api.dicebear.com/5.x/initials/svg?seed=${user?.data?.name}&scale=75`}
+										src={
+											user?.data?.avatar?.length > 0
+												? user?.data?.avatar
+												: `https://api.dicebear.com/5.x/initials/svg?seed=${user?.data?.name}&scale=75`
+										}
 									/>
 								</div>
 								<span className="text-center  text-xs font-bold">
@@ -102,11 +106,16 @@ const PageHeader = (props) => {
 					>
 						<div className="min-h-[36px] min-w-[36px] rounded-full bg-white border border-border overflow-hidden">
 							<img
-								src={`https://api.dicebear.com/5.x/initials/svg?seed=${user?.data?.name}&scale=75`}
+								className="h-[36px] w-[36px] object-contain bg-slate-600"
+								src={
+									user?.data?.avatar?.length > 0
+										? user?.data?.avatar
+										: `https://api.dicebear.com/5.x/initials/svg?seed=${user?.data?.name}&scale=75`
+								}
 							/>
 						</div>
 						<span className=" hidden md:block">
-							{user?.data?.name}
+							Hi, {user?.data?.firstname}!
 						</span>
 						<span className="text-dark mt-1 lg:ml-auto">
 							<FlatIcon icon="rr-caret-down" />

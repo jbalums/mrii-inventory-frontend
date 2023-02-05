@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "@/libs/axios";
 import { setStorage } from "@/libs/storage";
+import { toast } from "react-toastify";
 
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 	let navigate = useNavigate();
@@ -44,14 +45,16 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 	};
 
 	const login = async ({ setErrors, setStatus, ...props }) => {
-		setStatus(null);
-		axios
+		await axios
 			.post("/login", props)
 			.then(async (result) => {
+				setStatus("success");
 				await setStorage("token", result.data.access_token);
+				toast.success("Login success");
 				mutate();
 			})
 			.catch((error) => {
+				toast.error("Login failed! Please check your credentials.");
 				if (error.response.status !== 422) throw error;
 				setErrors(Object.values(error.response.data.errors).flat());
 			});
@@ -92,8 +95,8 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 	};
 
 	const logout = async () => {
-		// await axios.post("/logout");
-		// mutate();
+		await axios.post("/logout");
+		mutate();
 
 		if (typeof window == "object") {
 			window.localStorage.clear();
@@ -117,5 +120,6 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 		resetPassword,
 		resendEmailVerification,
 		logout,
+		mutate,
 	};
 };

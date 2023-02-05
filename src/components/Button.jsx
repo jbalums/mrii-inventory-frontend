@@ -17,7 +17,7 @@ const Button = (props) => {
 		...rest
 	} = props;
 
-	const defaultBtnClass = `text-center !duration-200 !transition-all hover:shadow-md transition-transform rounded-xl sm:w-auto cursor-pointer flex items-center justify-center hover:!bg-blend-darken text-sm`;
+	const defaultBtnClass = `text-center shadow-sm !duration-200 !transition-all hover:shadow-md transition-transform rounded-xl sm:w-auto cursor-pointer flex items-center justify-center hover:!bg-blend-darken text-sm`;
 
 	const btnBg = () => {
 		switch (type) {

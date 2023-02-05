@@ -46,7 +46,7 @@ const Suppliers = () => {
 			{
 				header: "Supplier",
 				accessorKey: "name",
-				className: "",
+				className: "min-w-[256px]",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
 					const {
@@ -113,7 +113,7 @@ const Suppliers = () => {
 			{
 				header: "Contacts",
 				accessorKey: "code",
-				className: "",
+				className: "min-w-[256px]",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
 					const { contacts } = original;
@@ -162,7 +162,7 @@ const Suppliers = () => {
 			{
 				header: "Bank Accounts",
 				accessorKey: "code",
-				className: "",
+				className: "min-w-[328px]",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
 					const { banks } = original;
@@ -302,16 +302,6 @@ const Suppliers = () => {
 					Suppliers
 				</div>
 			}
-			titleChildren={
-				<div className="ml-auto flex items-center gap-4">
-					<Link to={"/suppliers/print"}>
-						<Button className="gap-2" type="foreground">
-							<FlatIcon icon="rr-print" className="text-base" />{" "}
-							Print supplier
-						</Button>
-					</Link>
-				</div>
-			}
 		>
 			<div className="flex flex-col lg:flex-row gap-6 pb-6">
 				<TextInputField
@@ -322,14 +312,22 @@ const Suppliers = () => {
 						setKeyword(e.target.value);
 					}}
 				/>
-				<Button
-					type="accent"
-					className="ml-auto"
-					onClick={openFormModal}
-				>
-					<FlatIcon icon="rs-plus" className="mr-2" /> Register
-					supplier
-				</Button>
+				<div className="ml-auto flex items-center gap-4">
+					<Link to={"/suppliers/print"}>
+						<Button className="gap-2" type="foreground">
+							<FlatIcon icon="rr-print" className="text-base" />{" "}
+							Print supplier
+						</Button>
+					</Link>
+					<Button
+						type="accent"
+						className="ml-auto"
+						onClick={openFormModal}
+					>
+						<FlatIcon icon="rs-plus" className="mr-2" /> Register
+						supplier
+					</Button>
+				</div>
 			</div>
 			<div className="w-full">
 				<Table

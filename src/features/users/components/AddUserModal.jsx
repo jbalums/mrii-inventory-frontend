@@ -1,4 +1,5 @@
 import Button from "@/src/components/Button";
+import ImageUpload from "@/src/components/forms/ImageUpload";
 import ReactSelectInputField from "@/src/components/forms/ReactSelectInputField";
 import TextInputField from "@/src/components/forms/TextInputField";
 import ModalBody from "@/src/components/modals/components/ModalBody";
@@ -16,6 +17,7 @@ const AddUserModal = (props, ref) => {
 		register,
 		handleSubmit,
 		setError,
+		setValue,
 		watch,
 		clearErrors,
 		reset,
@@ -26,6 +28,7 @@ const AddUserModal = (props, ref) => {
 	const { getLocations } = useBranchLocation();
 	const [open, setOpen] = useState(false);
 	const [id, setId] = useState(null);
+	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [locations, setLocations] = useState([]);
 
@@ -40,6 +43,7 @@ const AddUserModal = (props, ref) => {
 			setLocations(res.data.data);
 		});
 		if (data) {
+			setUser(data);
 			reset({
 				...data,
 				type: data?.user_type,
@@ -50,6 +54,7 @@ const AddUserModal = (props, ref) => {
 				setId(data?.id);
 			}
 		} else {
+			setUser(null);
 			reset({
 				firstname: "",
 				middlename: "",
@@ -84,18 +89,34 @@ const AddUserModal = (props, ref) => {
 	const submitForm = (data) => {
 		console.log("submitform", data);
 		setLoading(true);
-		let formData = {
-			...data,
-			username: data?.username,
-			branch_id: data?.location_id,
-			location: data?.location_id,
-			branch: data?.location_id,
-		};
+		let formData = new FormData();
+		if (data?.avatar) {
+			formData.append("avatar", data?.avatar);
+		}
+		formData.append("firstname", data?.firstname);
+		formData.append("middlename", data?.middlename);
+		formData.append("lastname", data?.lastname);
+		formData.append("contact", data?.contact);
+		formData.append("email", data?.email);
+		formData.append("password", data?.password);
+		formData.append("password_confirmation", data?.password_confirmation);
+		formData.append("type", data?.type);
+		formData.append("division", data?.division);
+		formData.append("location_id", data?.location_id);
+		formData.append("username", data?.username);
+		formData.append("branch_id", data?.location_id);
+		formData.append("location", data?.location);
+		formData.append("branch", data?.branch);
+		if (id != null) {
+			formData.append("id", id);
+			formData.append("_method", "PATCH");
+		}
 		saveUser({
-			...formData,
+			formData: formData,
 			setLoading,
 			setErrors,
 			callback: successCallBack,
+			id: id,
 		});
 	};
 	const setErrors = (data) => {
@@ -121,6 +142,17 @@ const AddUserModal = (props, ref) => {
 					className="flex flex-col lg:grid grid-cols-12 gap-4"
 					autoComplete="off"
 				>
+					<ImageUpload
+						defaultPreview={
+							user?.avatar?.length > 0 ? user?.avatar : false
+						}
+						onChange={(file) => {
+							setValue("avatar", file);
+						}}
+						label="Upload profile picture"
+						className="col-span-12 items-center justify-center gap-4"
+						imgClassName="w-[144px] md:w-[288px] aspect-square rounded-xl border border-gray-400 object-contain bg-gray-400"
+					/>
 					<Controller
 						render={({
 							field: { onChange, onBlur, value, name, ref },
@@ -263,7 +295,7 @@ const AddUserModal = (props, ref) => {
 						name="middlename"
 						inputClassName=" "
 						error={errors?.middlename?.message}
-						{...register("lastname")}
+						{...register("middlename")}
 					/>
 					<TextInputField
 						label={`Lastname`}

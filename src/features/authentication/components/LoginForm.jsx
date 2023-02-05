@@ -29,10 +29,8 @@ const LoginForm = () => {
 		try {
 			await login({ ...data, setStatus, setErrors });
 			console.log("status", status);
-			if (status == 422 || status == null) {
+			if (status == 422) {
 				throw exception;
-			} else {
-				toast.success("Login success");
 			}
 		} catch {
 			toast.error("Please check your credentials.");

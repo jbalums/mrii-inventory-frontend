@@ -49,7 +49,6 @@ const Page = (props) => {
 							{children}
 						</div>
 					</div>
-					<ToastContainer />
 				</div>
 			</div>
 		</RootContextWrapper>
