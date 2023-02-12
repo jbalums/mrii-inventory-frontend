@@ -58,14 +58,14 @@ const Locations = () => {
 						<>
 							<div className="flex items-center justify-center text-center gap-4">
 								<Button
-									type="primary"
+									type="secondary-dark"
 									size="sm"
 									className="rounded-full"
 									onClick={() => {
 										openFormModal(row?.original);
 									}}
 								>
-									<FiEdit className="font-bold text-sm" />
+									<FiEdit className="font-bold text-base" />
 								</Button>
 								<Button
 									type="danger"
@@ -76,7 +76,7 @@ const Locations = () => {
 										openConfirmDelete();
 									}}
 								>
-									<FiTrash2 className="font-bold text-sm" />
+									<FiTrash2 className="font-bold text-base" />
 								</Button>
 							</div>
 						</>
@@ -164,7 +164,7 @@ const Locations = () => {
 						</Button>
 					</Link>
 					<Button type="accent" onClick={openFormModal}>
-						<FlatIcon icon="rs-plus" className="mr-2" />
+						<FlatIcon icon="rs-plus" />
 						Add location
 					</Button>
 				</div>

@@ -83,7 +83,7 @@ h6 {
 	}
 
 	.table table {
-		@apply w-full border bg-background rounded-lg;
+		@apply w-full border bg-background;
 	}
 	.table table thead > tr:last-child {
 		@apply border-b;
@@ -92,18 +92,18 @@ h6 {
 	.table table thead > tr > th {
 		font-size: 14px;
 		line-height: 14px;
-		@apply text-left px-3 py-4 bg-background border-b border-border text-darker;
+		@apply text-left px-2 md:px-3  py-4 bg-background border-b border-border text-darker;
 	}
 	.table table tbody > tr:not(:last-child) {
 		@apply border-b;
 	}
 	.table table thead > tr > td:first-child,
 	.table table thead > tr > th:first-child {
-		@apply rounded-tl-lg;
+		/* @apply rounded-tl-lg; */
 	}
 	.table table thead > tr > td:last-child,
 	.table table thead > tr > th:last-child {
-		@apply rounded-tr-lg;
+		/* @apply rounded-tr-lg; */
 	}
 	.table table tbody > tr > td:not(:last-child),
 	.table table tbody > tr > th:not(:last-child) {
@@ -112,7 +112,7 @@ h6 {
 
 	.table table tbody > tr > td,
 	.table table tbody > tr > th {
-		@apply px-3 py-3 text-sm text-dark;
+		@apply px-2 md:px-3 py-2 md:py-3 text-sm text-dark;
 	}
 	.printable-table table {
 		@apply w-full border-opacity-50 border bg-white rounded-none;

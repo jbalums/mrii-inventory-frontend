@@ -10,11 +10,17 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import ProductFormModal from "./components/ProductFormModal";
 import ViewProductModal from "./components/ViewProductModal";
 import useInventory from "@/src/pages/inventory/hooks/useInventory.js";
+import { formatToCurrency } from "@/libs/helpers";
+import axios from "@/libs/axios";
+import ViewLowStocksModal from "./components/ViewLowStocksModal";
 
 const Inventory = () => {
 	const addProductRef = useRef(null);
 	const viewProductRef = useRef(null);
+	const viewStatusRef = useRef(null);
+
 	const [list, setList] = useState([]);
+	const [inventoryStatus, setInventoryStatus] = useState(null);
 	const [branches, setBranches] = useState([]);
 	const {
 		data,
@@ -36,6 +42,7 @@ const Inventory = () => {
 		getBranches().then((res) => {
 			setBranches(res.data.data);
 		});
+		getStockStatus();
 	}, [1]);
 	useEffect(() => {
 		setList(data?.data || []);
@@ -49,41 +56,61 @@ const Inventory = () => {
 		viewProductRef.current.show(item);
 	};
 
+	const getStockStatus = () => {
+		return axios.get("/inventory/status").then((res) => {
+			setInventoryStatus({
+				low: res.data?.low || [],
+				empty: res.data?.empty || [],
+			});
+		});
+	};
+
 	const columns = useMemo(
 		() => [
 			{
 				header: "Code",
 				accessorKey: "code",
-				className: "w-lg",
+				className: "min-w-[64px]",
 			},
 			{
 				header: "Name",
 				accessorKey: "name",
+				className: "min-w-[128px]",
 			},
 			{
 				header: "UoM",
 				accessorKey: "uom",
+				className: "min-w-[64px]",
 			},
 			{
 				header: "Location",
 				accessorKey: "location.name",
+				className: "min-w-[128px]",
 			},
-			{
+			/* 	{
 				header: "Business Unit",
 				accessorKey: "unit_code",
-			},
+			}, */
 			{
 				header: "QTY on hand",
 				accessorKey: "quantity",
+				className: "!text-center min-w-[128px]",
+				thClassName: "items-center",
 			},
 			{
 				header: "Unit price",
 				accessorKey: "price",
+				className: "!text-right min-w-[128px]",
+				cell: ({ row }) => {
+					console.log("rrroooowww", row?.original);
+					let p = row?.original?.price || 0;
+					return formatToCurrency(p);
+				},
 			},
-			{
+			/* 	{
 				header: "Stocks",
 				accessorKey: "stocks",
-			},
+			}, */
 			{
 				header: "Action",
 				accessorKey: "action",
@@ -119,24 +146,44 @@ const Inventory = () => {
 			title="Inventory"
 			titleChildren={
 				<div className="ml-auto flex items-center gap-4 flex-wrap w-full justify-center md:justify-end">
-					<Button type="background" className="border-none">
+					<Button
+						loading={inventoryStatus == null}
+						type="background"
+						className="border-none"
+						onClick={() => {
+							viewStatusRef.current.show(
+								inventoryStatus?.empty,
+								"empty"
+							);
+						}}
+					>
 						<FlatIcon
 							icon="rs-shopping-cart"
 							className="text-danger mr-2 text-base"
 						/>
 						<span className="text-sm mr-2">Empty stocks:</span>
 						<span className="text-sm text-danger font-bold">
-							14
+							{inventoryStatus?.empty?.length || 0}
 						</span>
 					</Button>
-					<Button type="background" className="border-none">
+					<Button
+						loading={inventoryStatus == null}
+						type="background"
+						className="border-none"
+						onClick={() => {
+							viewStatusRef.current.show(
+								inventoryStatus?.low,
+								"low"
+							);
+						}}
+					>
 						<FlatIcon
 							icon="rs-stats"
 							className="text-warning mr-2 text-base"
 						/>
 						<span className="text-sm mr-2">Low stocks:</span>
 						<span className="text-sm text-warning font-bold">
-							14
+							{inventoryStatus?.low?.length || 0}
 						</span>
 					</Button>
 				</div>
@@ -149,7 +196,7 @@ const Inventory = () => {
 				},
 			]}
 		>
-			<div className="flex flex-col md:flex-row gap-6 pb-6">
+			<div className="flex flex-col md:flex-row gap-4 md:gap-6 pb-6">
 				<TextInputField
 					className="w-full lg:w-[320px]"
 					icon={<FlatIcon icon="rr-search" className="text-sm" />}
@@ -217,6 +264,7 @@ const Inventory = () => {
 				updateInList={updateInList}
 			/>
 			<ViewProductModal ref={viewProductRef} />
+			<ViewLowStocksModal ref={viewStatusRef} />
 		</AppLayout>
 	);
 };

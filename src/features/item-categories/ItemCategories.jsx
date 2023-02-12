@@ -99,14 +99,14 @@ const ItemCategories = () => {
 						<>
 							<div className="flex items-center justify-center text-center gap-4">
 								<Button
-									type="primary"
+									type="secondary-dark"
 									size="sm"
 									className="rounded-full"
 									onClick={() => {
 										openFormModal(row?.original);
 									}}
 								>
-									<FiEdit className="font-bold text-sm" />
+									<FiEdit className="font-bold text-base" />
 								</Button>
 								<Button
 									type="danger"
@@ -117,7 +117,7 @@ const ItemCategories = () => {
 										openConfirmDelete();
 									}}
 								>
-									<FiTrash2 className="font-bold text-sm" />
+									<FiTrash2 className="font-bold text-base" />
 								</Button>
 							</div>
 						</>
@@ -147,16 +147,18 @@ const ItemCategories = () => {
 						setKeyword(e.target.value);
 					}}
 				/>
-				<div className="ml-auto flex items-center gap-4">
+				<div className="ml-auto flex items-center flex-row gap-4">
 					<Link to={"/item-categories/print"}>
 						<Button className="gap-2" type="foreground">
-							<FlatIcon icon="rr-print" className="text-base" />{" "}
-							Print product categories
+							<FlatIcon icon="rr-print" /> Print
 						</Button>
 					</Link>
-					<Button type="accent" onClick={openFormModal}>
-						<FlatIcon icon="rs-plus" className="mr-2" /> Add product
-						category
+					<Button
+						className="gap-2"
+						type="accent"
+						onClick={openFormModal}
+					>
+						<FlatIcon icon="rs-plus" /> Add
 					</Button>
 				</div>
 			</div>

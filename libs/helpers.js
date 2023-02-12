@@ -28,3 +28,15 @@ export const mobileNumber = (number = "") => {
 		  }`
 		: `(+63)  ${output[0] || ""} ${output[1] || ""} ${output[2] || ""}`;
 };
+
+export const formatToCurrency = (value) => {
+	const formatter = new Intl.NumberFormat("en-PH", {
+		style: "currency",
+		currency: "PHP",
+		currencyDisplay: "symbol",
+		minimumFractionDigits: 2,
+		maximumFractionDigits: 2,
+	});
+	const result = formatter.format(value).replace("₱", "₱ ");
+	return result;
+};

@@ -216,7 +216,7 @@ const RequestOrders = () => {
 						className="ml-auto"
 						onClick={openFormModal}
 					>
-						<FlatIcon icon="rs-plus" className="mr-2" />
+						<FlatIcon icon="rs-plus" />
 						Add new order
 					</Button>
 				</div>

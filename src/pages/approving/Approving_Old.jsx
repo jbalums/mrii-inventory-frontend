@@ -98,8 +98,7 @@ const ApprovingOld = () => {
 					placeholder="Search request"
 				/>
 				<Button type="accent" className="ml-auto">
-					<FlatIcon icon="rs-plus" className="mr-2" /> Register Create
-					new PO
+					<FlatIcon icon="rs-plus" /> Register Create new PO
 				</Button>
 			</div>
 

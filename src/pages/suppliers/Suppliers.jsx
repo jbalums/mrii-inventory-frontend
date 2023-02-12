@@ -324,8 +324,7 @@ const Suppliers = () => {
 						className="ml-auto"
 						onClick={openFormModal}
 					>
-						<FlatIcon icon="rs-plus" className="mr-2" /> Register
-						supplier
+						<FlatIcon icon="rs-plus" /> Register supplier
 					</Button>
 				</div>
 			</div>

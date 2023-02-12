@@ -146,7 +146,7 @@ const RequestDetails = () => {
 							issuance_modal.current.show(list);
 						}}
 					>
-						<FlatIcon icon="rs-plus" className="mr-2" />
+						<FlatIcon icon="rs-plus" />
 						Create request issuance
 					</Button>
 				) : (
@@ -157,7 +157,7 @@ const RequestDetails = () => {
 							accept_modal_ref.current.show();
 						}}
 					>
-						<FlatIcon icon="rs-plus" className="mr-2" />
+						<FlatIcon icon="rs-plus" />
 						Accept request
 					</Button>
 				)

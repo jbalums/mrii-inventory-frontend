@@ -152,7 +152,16 @@ const Receiving = () => {
 	};
 
 	return (
-		<AppLayout title="Receiving Page" titleChildren={""}>
+		<AppLayout
+			icon={<FlatIcon icon="rr-hand-holding-box" />}
+			title={<div className="flex items-center gap-2">Receiving</div>}
+			breadcrumbs={[
+				{
+					to: "/receiving",
+					label: "Receiving",
+				},
+			]}
+		>
 			<div className="flex flex-col lg:flex-row gap-6 pb-6">
 				<TextInputField
 					className="lg:w-[320px]"
@@ -177,7 +186,7 @@ const Receiving = () => {
 					className="ml-auto"
 					onClick={openFormModal}
 				>
-					<FlatIcon icon="rs-plus" className="mr-2" /> Add received PO
+					<FlatIcon icon="rs-plus" /> Add received PO
 				</Button>
 			</div>
 			<Table

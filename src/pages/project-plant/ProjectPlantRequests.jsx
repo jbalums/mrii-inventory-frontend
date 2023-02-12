@@ -59,8 +59,7 @@ const ProjectPlantRequests = () => {
 					placeholder="Search"
 				/>
 				<Button type="accent" className="ml-auto" onClick={() => {}}>
-					<FlatIcon icon="rs-plus" className="mr-2" /> Add returned
-					materials
+					<FlatIcon icon="rs-plus" /> Add returned materials
 				</Button>
 			</div>
 			<div className="w-full">

@@ -17,7 +17,7 @@ const Button = (props) => {
 		...rest
 	} = props;
 
-	const defaultBtnClass = `text-center shadow-sm !duration-200 !transition-all hover:shadow-md transition-transform rounded-xl sm:w-auto cursor-pointer flex items-center justify-center hover:!bg-blend-darken text-sm`;
+	const defaultBtnClass = `text-center shadow-sm !duration-200 !transition-all hover:shadow-md transition-transform rounded-xl sm:w-auto cursor-pointer flex items-center justify-center hover:!bg-blend-darken text-xs md:text-sm gap-1 md:gap-2`;
 
 	const btnBg = () => {
 		switch (type) {
@@ -32,6 +32,8 @@ const Button = (props) => {
 				return `text-white bg-secondary`;
 			case "secondary-dark":
 				return `text-white bg-secondary-dark`;
+			case "secondary-dark-outline":
+				return `text-secondary-dark border border-secondary md:border-0`;
 
 			case "secondary-light":
 				return `text-secondary bg-secondary bg-opacity-10`;
@@ -45,6 +47,8 @@ const Button = (props) => {
 				return `text-accent bg-accent bg-opacity-10`;
 			case "danger":
 				return `text-white bg-danger`;
+			case "danger-outline":
+				return `text-danger border border-danger md:border-0`;
 			case "danger-light":
 				return `!text-danger bg-danger bg-opacity-10`;
 			case "success":
@@ -69,7 +73,7 @@ const Button = (props) => {
 	const btnSize = () => {
 		switch (size) {
 			case "sm":
-				return "p-2 text-xs text-xs";
+				return "p-2";
 			case "md":
 				return "p-3 text-sm font-light min-w-[64px]";
 			case "square-sm":

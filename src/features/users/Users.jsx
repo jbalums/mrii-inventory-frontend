@@ -76,6 +76,7 @@ const Users = () => {
 				header: "Username",
 				accessorKey: "username",
 				sortable: true,
+				className: "min-w-[128px]",
 			},
 			{
 				header: "Name",
@@ -84,10 +85,12 @@ const Users = () => {
 				cell: ({ row }) => {
 					return row?.original?.name || "";
 				},
+				className: "min-w-[144px]",
 			},
 			{
 				header: "Email",
 				accessorKey: "email",
+				className: "min-w-[128px]",
 			},
 			{
 				header: "User type",
@@ -100,6 +103,7 @@ const Users = () => {
 						)?.label || ""
 					);
 				},
+				className: "min-w-[128px]",
 			},
 			{
 				header: "Action",
@@ -112,14 +116,14 @@ const Users = () => {
 							<>
 								<div className="flex items-center justify-center text-center gap-4">
 									<Button
-										type="primary"
+										type="secondary-dark"
 										size="sm"
 										className="rounded-full"
 										onClick={() => {
 											openFormModal(row?.original);
 										}}
 									>
-										<FiEdit className="font-bold text-sm" />
+										<FiEdit className="font-bold text-base" />
 									</Button>
 									<Button
 										type="danger"
@@ -130,7 +134,7 @@ const Users = () => {
 											openConfirmDelete();
 										}}
 									>
-										<FiTrash2 className="font-bold text-sm" />
+										<FiTrash2 className="font-bold text-base" />
 									</Button>
 								</div>
 							</>
@@ -200,7 +204,7 @@ const Users = () => {
 				},
 			]}
 		>
-			<div className="w-full flex flex-col lg:flex-row gap-6 pb-6">
+			<div className="w-full flex flex-col lg:flex-row gap-4 md:gap-6 pb-4 md:pb-6">
 				<TextInputField
 					className="w-full lg:w-[320px]"
 					icon={<FlatIcon icon="rr-search" className="text-sm" />}
@@ -218,8 +222,7 @@ const Users = () => {
 						</Button>
 					</Link>
 					<Button type="accent" onClick={openFormModal}>
-						<FlatIcon icon="rs-plus" className="mr-2" /> Register
-						User
+						<FlatIcon icon="rs-plus" /> Register User
 					</Button>
 				</div>
 			</div>

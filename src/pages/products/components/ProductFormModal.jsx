@@ -15,213 +15,213 @@ import { Controller, useForm } from "react-hook-form";
 import useInventory from "../hooks/useInventory";
 
 const ProductFormModal = (props, ref) => {
-    const { addToList, updateInList } = props;
-    const {
-        register,
-        handleSubmit,
-        setError,
-        watch,
-        clearErrors,
-        reset,
-        control,
-        formState: { errors },
-    } = useForm();
-    const { setErrors } = useFormHelper();
-    const { saveProduct } = useInventory();
-    const { getCategories } = useItemCategories();
-    const { getBranches } = useBranchLocation();
+	const { addToList, updateInList } = props;
+	const {
+		register,
+		handleSubmit,
+		setError,
+		watch,
+		clearErrors,
+		reset,
+		control,
+		formState: { errors },
+	} = useForm();
+	const { setErrors } = useFormHelper();
+	const { saveProduct } = useInventory();
+	const { getCategories } = useItemCategories();
+	const { getBranches } = useBranchLocation();
 
-    const [open, setOpen] = useState(false);
-    const [id, setId] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [categories, setCategories] = useState([]);
-    const [locations, setLocations] = useState([]);
+	const [open, setOpen] = useState(false);
+	const [id, setId] = useState(null);
+	const [loading, setLoading] = useState(false);
+	const [categories, setCategories] = useState([]);
+	const [locations, setLocations] = useState([]);
 
-    useImperativeHandle(ref, () => ({
-        show: show,
-        hide: hide,
-    }));
+	useImperativeHandle(ref, () => ({
+		show: show,
+		hide: hide,
+	}));
 
-    const show = (data) => {
-        getBranches().then((res) => {
-            setLocations(res.data.data);
-        });
-        getCategories().then((res) => {
-            setCategories(res.data.data);
-        });
-        if (data) {
-            reset({
-                ...data,
-            });
-            if (data.id) {
-                setId(data?.id);
-            }
-        } else {
-            reset({
-                name: "",
-                code: "",
-                description: "",
-                unit_value: "",
-                unit_measurement: "",
-                stock_low_level: "",
-                reorder_point: "",
-                price: "",
-                brand: "",
-                category_id: ""
-            });
-            setId(null);
-        }
-        setOpen(true);
-    };
-    const hide = () => {
-        setOpen(false);
-        setTimeout(() => {
-            reset();
-            setId(null);
-        }, 300);
-    };
+	const show = (data) => {
+		getBranches().then((res) => {
+			setLocations(res.data.data);
+		});
+		getCategories().then((res) => {
+			setCategories(res.data.data);
+		});
+		if (data) {
+			reset({
+				...data,
+			});
+			if (data.id) {
+				setId(data?.id);
+			}
+		} else {
+			reset({
+				name: "",
+				code: "",
+				description: "",
+				unit_value: "",
+				unit_measurement: "",
+				stock_low_level: "",
+				reorder_point: "",
+				price: "",
+				brand: "",
+				category_id: "",
+			});
+			setId(null);
+		}
+		setOpen(true);
+	};
+	const hide = () => {
+		setOpen(false);
+		setTimeout(() => {
+			reset();
+			setId(null);
+		}, 300);
+	};
 
-    const successCallBack = (data) => {
-        if (id) {
-            updateInList(data);
-        } else {
-            addToList(data);
-        }
-        hide();
-    };
+	const successCallBack = (data) => {
+		if (id) {
+			updateInList(data);
+		} else {
+			addToList(data);
+		}
+		hide();
+	};
 
-    const submitForm = (data) => {
-        setLoading(true);
-        let formData = data
-        if(id){
-            formData = {
-                ...formData , _method: "PATCH"
-            }
-        }
-        saveProduct({
-            id,
-            setLoading,
-            setError,
-            callback: successCallBack,
-            ...formData,
-        });
-    };
+	const submitForm = (data) => {
+		setLoading(true);
+		let formData = data;
+		if (id) {
+			formData = {
+				...formData,
+				_method: "PATCH",
+			};
+		}
+		saveProduct({
+			id,
+			setLoading,
+			setError,
+			callback: successCallBack,
+			...formData,
+		});
+	};
 
-    return (
-        <Modal open={open} hide={hide} size="md">
-            <ModalHeader
-                title={id ? "Register product" : "Register product"}
-                subtitle={`Register your new product`}
-                hide={hide}
-            />
-            <ModalBody className={`py-4`}>
-                <div className="flex flex-col lg:grid grid-cols-1 lg:grid-cols-2 gap-4">
-                    <TextInputField
-                        label={`Product code`}
-                        className="col-span-2"
-                        inputClassName="bg-foreground"
-                        placeholder={"Enter product code"}
-                        error={errors?.code?.message}
-                        {...register("code", {
-                            required: "This field is required",
-                        })}
-                    />
-                    <TextInputField
-                        label={`Product name`}
-                        className="col-span-2"
-                        inputClassName="bg-foreground"
-                        placeholder={"Enter product name"}
-                        error={errors?.name?.message}
-                        {...register("name", {
-                            required: "This field is required",
-                        })}
-                    />
-                    <TextInputField
-                        label={`Product brand`}
-                        className="col-span-2"
-                        inputClassName="bg-foreground"
-                        placeholder={"Enter product brand"}
-                        error={errors?.brand?.message}
-                        {...register("brand", {
-                            required: "This field is required",
-                        })}
-                    />
-                    <TextAreaInputField
-                        label={`Product description`}
-                        className="col-span-2"
-                        rows={4}
-                        inputClassName="bg-foreground"
-                        placeholder={"Enter product description"}
-                        error={errors?.description?.message}
-                        {...register("description", {
-                            required: "This field is required",
-                        })}
-                    />
-                    <TextInputField
-                        label={`Unit of measurement`}
-                        inputClassName="bg-foreground"
-                        placeholder={"Unit of measurement"}
-                        error={errors?.unit_measurement?.message}
-                        {...register("unit_measurement", {
-                            required: "This field is required",
-                        })}
-                    />
-                    <TextInputField
-                        type="number"
-                        label={`Unit value`}
-                        inputClassName="bg-foreground"
-                        placeholder={"Unit value"}
-                        error={errors?.unit_value?.message}
-                        {...register("unit_value", {
-                            required: "This field is required",
-                        })}
-                    />
-                    <Controller
-                        render={({
-                            field: { onChange, onBlur, value, name, ref },
-                            fieldState: { invalid, isTouched, isDirty, error },
-                        }) => (
-                            <ReactSelectInputField
-                                label="Default Category"
-                                className="col-span-2"
-                                inputClassName="!bg-foreground"
-                                ref={ref}
-                                value={value}
-                                onChange={onChange} // send value to hook form
-                                onBlur={onBlur} // notify when input is touched
-                                error={error?.message}
-                                placeholder="Select category"
-                                options={categories.map((data) => ({
-                                    label: data.name,
-                                    value: data.id,
-                                }))}
-                            />
-                        )}
-                        name="category_id"
-                        control={control}
-                        rules={{
-                            required: {
-                                value: false,
-                                message: "This field is required",
-                            },
-                        }}
-                    />
-
-
-                </div>
-            </ModalBody>
-            <ModalFooter className={`flex items-center justify-end`}>
-                <Button
-                    type="accent"
-                    onClick={handleSubmit(submitForm)}
-                    loading={loading}
-                >
-                    <FlatIcon icon="rs-disk mr-2" />
-                    Save product
-                </Button>
-            </ModalFooter>
-        </Modal>
-    );
+	return (
+		<Modal open={open} hide={hide} size="md">
+			<ModalHeader
+				title={id ? "Update product" : "Register product"}
+				subtitle={
+					id ? `Update product details` : `Create a new product`
+				}
+				hide={hide}
+			/>
+			<ModalBody className={`py-4`}>
+				<div className="flex flex-col lg:grid grid-cols-1 lg:grid-cols-2 gap-4">
+					<TextInputField
+						label={`Product code`}
+						className="col-span-2"
+						inputClassName="bg-foreground"
+						placeholder={"Enter product code"}
+						error={errors?.code?.message}
+						{...register("code", {
+							required: "This field is required",
+						})}
+					/>
+					<TextInputField
+						label={`Product name`}
+						className="col-span-2"
+						inputClassName="bg-foreground"
+						placeholder={"Enter product name"}
+						error={errors?.name?.message}
+						{...register("name", {
+							required: "This field is required",
+						})}
+					/>
+					<TextInputField
+						label={`Product brand`}
+						className="col-span-2"
+						inputClassName="bg-foreground"
+						placeholder={"Enter product brand"}
+						error={errors?.brand?.message}
+						{...register("brand", {
+							required: "This field is required",
+						})}
+					/>
+					<TextAreaInputField
+						label={`Product description`}
+						className="col-span-2"
+						rows={4}
+						inputClassName="bg-foreground"
+						placeholder={"Enter product description"}
+						error={errors?.description?.message}
+						{...register("description", {
+							required: "This field is required",
+						})}
+					/>
+					<TextInputField
+						label={`Unit of measurement`}
+						inputClassName="bg-foreground"
+						placeholder={"Unit of measurement"}
+						error={errors?.unit_measurement?.message}
+						{...register("unit_measurement", {
+							required: "This field is required",
+						})}
+					/>
+					<TextInputField
+						type="number"
+						label={`Unit value`}
+						inputClassName="bg-foreground"
+						placeholder={"Unit value"}
+						error={errors?.unit_value?.message}
+						{...register("unit_value", {
+							required: "This field is required",
+						})}
+					/>
+					<Controller
+						render={({
+							field: { onChange, onBlur, value, name, ref },
+							fieldState: { invalid, isTouched, isDirty, error },
+						}) => (
+							<ReactSelectInputField
+								label="Default Category"
+								className="col-span-2"
+								ref={ref}
+								value={value}
+								onChange={onChange} // send value to hook form
+								onBlur={onBlur} // notify when input is touched
+								error={error?.message}
+								placeholder="Select category"
+								options={categories.map((data) => ({
+									label: data.name,
+									value: data.id,
+								}))}
+							/>
+						)}
+						name="category_id"
+						control={control}
+						rules={{
+							required: {
+								value: false,
+								message: "This field is required",
+							},
+						}}
+					/>
+				</div>
+			</ModalBody>
+			<ModalFooter className={`flex items-center justify-end`}>
+				<Button
+					type="accent"
+					onClick={handleSubmit(submitForm)}
+					loading={loading}
+				>
+					<FlatIcon icon="rs-disk mr-2" />
+					Save product
+				</Button>
+			</ModalFooter>
+		</Modal>
+	);
 };
 
 export default forwardRef(ProductFormModal);

@@ -11,9 +11,9 @@ module.exports = {
 					dark: "#1B2254",
 				},
 				secondary: {
-					light: "#8286F0",
-					DEFAULT: "#8286F0",
-					dark: "#41119f",
+					light: "#8593FF",
+					DEFAULT: "#6676F2",
+					dark: "#3542A6",
 				},
 				tertiary: {
 					light: "#E8D5B5",
@@ -22,7 +22,7 @@ module.exports = {
 				},
 				accent: {
 					light: "#00B9B8",
-					DEFAULT: "#00B9B8",
+					DEFAULT: "#2CA84D",
 					dark: "#00B9B8",
 				},
 				background: {
@@ -43,7 +43,7 @@ module.exports = {
 				warning: {
 					light: "#FF8800",
 					DEFAULT: "#FF8800",
-					dark: "#FF8800",
+					dark: "#EA9828",
 				},
 				info: {
 					light: "#0099CC",

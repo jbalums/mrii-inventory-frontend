@@ -52,19 +52,22 @@ const Products = () => {
 			{
 				header: "Code",
 				accessorKey: "code",
-				className: "w-lg",
+				className: "min-w-[128px]",
 			},
 			{
 				header: "Name",
 				accessorKey: "name",
+				className: "min-w-[144px]",
 			},
 			{
 				header: "Brand",
 				accessorKey: "brand",
+				className: "min-w-[64px]",
 			},
 			{
 				header: "Description",
 				accessorKey: "description",
+				className: "min-w-[256px]",
 			},
 			{
 				header: "UoM",
@@ -79,7 +82,7 @@ const Products = () => {
 						<>
 							<div className="flex items-center justify-center text-center gap-4">
 								<Button
-									type="background"
+									type="secondary-dark"
 									size="sm"
 									className="rounded-full"
 									onClick={() => {
@@ -88,7 +91,7 @@ const Products = () => {
 								>
 									<FlatIcon
 										icon="rr-edit"
-										className="text-sm text-dark"
+										className="text-sm "
 									/>
 								</Button>
 							</div>
@@ -134,8 +137,7 @@ const Products = () => {
 							openFormModal();
 						}}
 					>
-						<FlatIcon icon="rs-plus" className="mr-2" /> Register
-						product
+						<FlatIcon icon="rs-plus" /> Register product
 					</Button>
 				</div>
 			</div>
