@@ -134,7 +134,7 @@ const SelectItemsModal = (props, ref) => {
 				hide={hide}
 			/>
 			<ModalBody
-				className={`py-4 min-h-[448px] !bg-foreground !px-0 overflow-auto`}
+				className={`py-4 min-h-[448px] !bg- !px-0 overflow-auto`}
 			>
 				<div className="flex flex-col">
 					<div className="flex items-center pb-4 px-4 gap-4">

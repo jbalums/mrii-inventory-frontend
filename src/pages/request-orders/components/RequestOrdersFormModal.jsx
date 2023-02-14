@@ -133,19 +133,19 @@ const RequestOrdersFormModal = (props, ref) => {
 			{
 				header: "Product ID",
 				accessorKey: "code",
-				className: "border-t !bg-foreground",
+				className: "border-t",
 				cellClassName: "",
 			},
 			{
 				header: "Name",
 				accessorKey: "name",
-				className: "border-t !bg-foreground",
+				className: "border-t",
 				cellClassName: "",
 			},
 			{
 				header: "Location",
 				accessorKey: "location",
-				className: "border-t !bg-foreground",
+				className: "border-t",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
 					console.log("original?.location", original);
@@ -155,14 +155,14 @@ const RequestOrdersFormModal = (props, ref) => {
 			{
 				header: "UoM",
 				accessorKey: "unit_measurement",
-				className: "border-t !bg-foreground",
+				className: "border-t",
 				cellClassName: "",
 			},
 
 			{
 				header: "Quantity",
 				accessorKey: "qty_received",
-				className: "border-t !bg-foreground",
+				className: "border-t",
 				thClassName: "flex justify-center items-center",
 				cell: ({ row: { original } }) => {
 					console.log("datadatadata original", original);
@@ -181,7 +181,7 @@ const RequestOrdersFormModal = (props, ref) => {
 			{
 				header: "Action",
 				accessorKey: "name",
-				className: "border-t !bg-foreground",
+				className: "border-t",
 				cellClassName: "",
 				cell: () => {
 					return (
@@ -209,7 +209,7 @@ const RequestOrdersFormModal = (props, ref) => {
 				{console.log("errors", errors)}
 				<div className="grid grid-cols-12 gap-4 w-full">
 					<div className="col-span-3">
-						<CardLayout className="!bg-foreground shadow-none !p-4 flex flex-col !gap-4">
+						<CardLayout className="!bg-background shadow-none border border-slate-300 !p-4 flex flex-col !gap-4">
 							<h4 className="text-lg text-dark">Order form</h4>
 							<SelectInputField
 								label="Request purpose"
@@ -239,6 +239,25 @@ const RequestOrdersFormModal = (props, ref) => {
 										value: "for_purchase",
 									},
 								]}
+								{...register("purpose", {
+									required: "This field is required",
+								})}
+							/>
+							<TextInputField
+								label="Project Code"
+								placeholder="Enter project code"
+								{...register("project_code", {
+									required: "This field is required",
+								})}
+							/>
+							<TextInputField
+								label="Date needed"
+								placeholder="Enter a date"
+								type="date"
+								// value={defaultDateValue()}
+								{...register("date_needed", {
+									required: "This field is required",
+								})}
 							/>
 							<TextInputField
 								label="Requester name"
@@ -254,30 +273,14 @@ const RequestOrdersFormModal = (props, ref) => {
 								value={user?.data?.business_unit}
 								disabled={true}
 							/>
-							<TextInputField
-								label="Project Code"
-								placeholder="Enter project code"
-								{...register("project_code", {
-									required: "This field is required",
-								})}
-							/>
 							{/* <TextInputField
 								label="Approve by"
 								placeholder="Enter who approved this order"
 							/> */}
-							<TextInputField
-								label="Date needed"
-								placeholder="Enter a date"
-								type="date"
-								// value={defaultDateValue()}
-								{...register("date_needed", {
-									required: "This field is required",
-								})}
-							/>
 						</CardLayout>
 					</div>
 					<div className="col-span-9">
-						<CardLayout className="!bg-foreground shadow-none !pb-0 !px-0 flex flex-col !gap-4 h-full">
+						<CardLayout className="!bg-background !shadow-none border border-slate-300 !pb-0 !px-0 flex flex-col !gap-4 h-full">
 							<div className="flex items-center px-4">
 								<h4 className="text-lg text-dark">
 									Order form
@@ -308,7 +311,7 @@ const RequestOrdersFormModal = (props, ref) => {
 								loading={false}
 								data={list}
 								emptyMessage={`You don’t have an order`}
-								tableClassName={`!rounded-none !bg-foreground h-full`}
+								tableClassName={`!rounded-none h-full`}
 								className={`!rounded-none`}
 							/>
 						</CardLayout>
