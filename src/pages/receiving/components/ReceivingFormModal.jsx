@@ -266,11 +266,13 @@ const ReceivingFormModal = (props, ref) => {
 		}, 300);
 	};
 
-	const successCallBack = (data) => {
+	const successCallBack = (resData) => {
+		console.log("res inventory/receiving successCallBack", resData);
+
 		if (data?.id) {
-			updateInList(data);
+			updateInList(resData);
 		} else {
-			addToList(data);
+			addToList(resData);
 		}
 		hide();
 	};

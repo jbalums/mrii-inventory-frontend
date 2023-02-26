@@ -106,6 +106,15 @@ const Users = () => {
 				className: "min-w-[128px]",
 			},
 			{
+				header: "Branch",
+				accessorKey: "branch",
+				sortable: true,
+				cell: ({ row }) => {
+					return row?.original?.branch?.name || "";
+				},
+				className: "min-w-[144px]",
+			},
+			{
 				header: "Action",
 				accessorKey: "action",
 				className: "!text-center",

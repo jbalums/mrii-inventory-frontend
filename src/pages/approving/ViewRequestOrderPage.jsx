@@ -3,12 +3,12 @@ import Button from "@/src/components/Button";
 import FlatIcon from "@/src/components/FlatIcon";
 import AffirmationModal from "@/src/components/modals/AffirmationModal";
 import useDataTable from "@/src/helpers/useDataTable";
-import {useEffect, useMemo, useRef, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
-import {toast} from "react-toastify";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import RemarksFormModal from "./components/RemarksFormModal";
 import ViewRemarksModal from "./components/ViewRemarksModal";
-import {useRequisitions} from "@/src/pages/approving/hooks/useRequisitions.js";
+import { useRequisitions } from "@/src/pages/approving/hooks/useRequisitions.js";
 import Table from "@/src/components/table/Table.jsx";
 import CardLayout from "@/src/components/layout/CardLayout.jsx";
 
@@ -17,14 +17,10 @@ const ViewRequestOrderPage = () => {
 	const remarks_form_ref = useRef(null);
 	const view_remarks_form_ref = useRef(null);
 	const return_ref = useRef(null);
-	const {approvedRequisition} = useRequisitions()
+	const { approvedRequisition } = useRequisitions();
 	const navigate = useNavigate();
 
-
-
-	const {id} = useParams()
-
-
+	const { id } = useParams();
 
 	const [list, setList] = useState([
 		{
@@ -88,7 +84,7 @@ const ViewRequestOrderPage = () => {
 	);
 
 	useEffect(() => {
-		console.log('data',data?.data?.details)
+		console.log("data", data?.data?.details);
 	}, [data?.data]);
 
 	return (
@@ -101,68 +97,57 @@ const ViewRequestOrderPage = () => {
 						<span className="text-xs font-light text-dark">
 							Project code
 						</span>
-						<b className="text-sm text-darker">{data?.data?.project_code}</b>
+						<b className="text-sm text-darker">
+							{data?.data?.project_code}
+						</b>
 					</div>
 					<div className="h-11 border-r border-border"></div>
-					{
-						data?.data?.status == 'pending' && (
-							<Button
-
-								type="accent"
-								onClick={() => {
-									complete_order_ref.current.show();
-								}}
-							>
-								<FlatIcon icon="br-check" className="mr-2" /> Accept
-								Request
-							</Button>
-						)
-					}
+					{data?.data?.status == "pending" && (
+						<Button
+							type="accent"
+							onClick={() => {
+								complete_order_ref.current.show();
+							}}
+						>
+							<FlatIcon icon="br-check" className="mr-2" /> Accept
+							Request
+						</Button>
+					)}
 				</div>
 			}
 		>
 			<div className="w-full">
 				<div className="flex flex-col gap-y-6 pt-6">
-					<p className="text-sm text-dark">
+					{/* 	<p className="text-sm text-dark">
 						All ordered items will deliver by location
-					</p>
+					</p> */}
 
-
-					{
-						data?.data?.details?.map( request => (
-							<CardLayout className="!p-0 !bg-background !shadow-sm">
-								<div className="border-b px-4 py-6 flex flex-col lg:flex-row gap-4 items-center">
-									<div className="text-lg font-light">
-										<span>Order location:</span>
-										<b> {request.location.name}</b>
-									</div>
-									<div className="lg:ml-auto gap-4 flex items-center">
-										<p>
-											Date neeed:{" "}
-											<b className="text-accent">{data?.data.date_needed}</b>
-										</p>
-									</div>
+					{data?.data?.details?.map((request) => (
+						<CardLayout className="!p-0 !bg-background !shadow-sm">
+							<div className="border-b px-4 py-6 flex flex-col lg:flex-row gap-4 items-center">
+								<div className="text-lg font-light">
+									<span>Order location:</span>
+									<b> {request.location.name}</b>
 								</div>
-								<Table
-									rowClick={(data) => {}}
-									columns={columns}
-									pagination={false}
-									loading={dataLoading}
-									data={request.items}
-									emptyMessage={`You don’t have an order`}
-								/>
-							</CardLayout>
-						) )
-					}
-
-
-
-
-
-
-
-
-
+								<div className="lg:ml-auto gap-4 flex items-center">
+									<p>
+										Date neeed:{" "}
+										<b className="text-accent">
+											{data?.data.date_needed}
+										</b>
+									</p>
+								</div>
+							</div>
+							<Table
+								rowClick={(data) => {}}
+								columns={columns}
+								pagination={false}
+								loading={dataLoading}
+								data={request.items}
+								emptyMessage={`You don’t have an order`}
+							/>
+						</CardLayout>
+					))}
 				</div>
 			</div>
 			<AffirmationModal
@@ -178,23 +163,25 @@ const ViewRequestOrderPage = () => {
 									toast.success(
 										"Order has been received successfully"
 									);
-									setTimeout(() =>{
+									setTimeout(() => {
 										complete_order_ref.current.hide();
-										navigate(-1)
-
-									},1000)
-
-								})
+										navigate(-1);
+									}, 1000);
+								});
 							}}
 						>
 							<FlatIcon icon="rr-print" className="mr-1" /> Yes,
 							complete order
 						</Button>
 
-						<Button type="transparent" onClick={() => {
-
-							complete_order_ref.current.hide();
-						}}>Maybe later</Button>
+						<Button
+							type="transparent"
+							onClick={() => {
+								complete_order_ref.current.hide();
+							}}
+						>
+							Maybe later
+						</Button>
 					</>
 				}
 				footerClassName="!items-center !justify-center"

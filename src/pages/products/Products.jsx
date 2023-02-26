@@ -50,6 +50,11 @@ const Products = () => {
 	const columns = useMemo(
 		() => [
 			{
+				header: "Ref #",
+				accessorKey: "account_code",
+				className: "min-w-[128px]",
+			},
+			{
 				header: "Code",
 				accessorKey: "code",
 				className: "min-w-[128px]",

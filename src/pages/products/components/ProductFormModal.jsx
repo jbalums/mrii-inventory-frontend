@@ -120,6 +120,16 @@ const ProductFormModal = (props, ref) => {
 			<ModalBody className={`py-4`}>
 				<div className="flex flex-col lg:grid grid-cols-1 lg:grid-cols-2 gap-4">
 					<TextInputField
+						label={`Reference number`}
+						className="col-span-2"
+						inputClassName="bg-foreground"
+						placeholder={"Enter reference number"}
+						error={errors?.account_code?.message}
+						{...register("account_code", {
+							required: "This field is required",
+						})}
+					/>
+					<TextInputField
 						label={`Product code`}
 						className="col-span-2"
 						inputClassName="bg-foreground"
@@ -203,7 +213,7 @@ const ProductFormModal = (props, ref) => {
 						control={control}
 						rules={{
 							required: {
-								value: false,
+								value: true,
 								message: "This field is required",
 							},
 						}}

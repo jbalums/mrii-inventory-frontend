@@ -149,9 +149,9 @@ const ItemDelivery = () => {
 					</Button>
 				</div>
 				<div className="flex flex-col gap-y-6 pt-6">
-					<p className="text-sm text-dark">
+					{/* <p className="text-sm text-dark">
 						All ordered items will deliver by location
-					</p>
+					</p> */}
 					<CardLayout className="!p-0 !bg-background !shadow-sm">
 						<div className="border-b px-4 py-6 flex flex-col lg:flex-row gap-4 items-center">
 							<div className="text-lg font-light">

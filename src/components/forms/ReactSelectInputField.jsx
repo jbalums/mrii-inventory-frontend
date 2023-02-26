@@ -50,54 +50,56 @@ const ReactSelectInputField = (props, ref) => {
 		...rest
 	} = props;
 	return (
-		<label className={`${className}  text-sm`}>
-			{label && (
-				<span className={error ? "text-danger" : "text-dark"}>
-					{label}
-				</span>
-			)}
+		<form className={`${className}  text-sm`} autoComplete="off">
+			<label>
+				{label && (
+					<span className={error ? "text-danger" : "text-dark"}>
+						{label}
+					</span>
+				)}
 
-			{icon && <span className={` ${iconClassName}`}>{icon}</span>}
+				{icon && <span className={` ${iconClassName}`}>{icon}</span>}
 
-			{loading ? (
-				<div
-					className={`${
-						label && "mt-2"
-					} h-11 bg-slate-200 animate-pulse`}
-				/>
-			) : (
-				<Select
-					styles={customStyles}
-					ref={ref}
-					id={id}
-					isClearable={isClearable}
-					value={
-						value
-							? options.find((item) => item.value === value)
-							: ""
-					}
-					classNamePrefix="react-select"
-					className={`react-select-container text-sm ${selectClassName}`}
-					controlClassName={`text-sm flex flex-row  duration-200 ${
-						icon && "pl-7"
-					} ${error ? "error-input" : "default-input"} ${
-						label && "mt-2"
-					} ${inputClassName}`}
-					onChange={(val) => {
-						console.log("valval", val);
-						if (onChange) onChange(val?.value || "");
-						if (onChangeGetData) onChangeGetData(val);
-					}}
-					options={options}
-					placeholder={placeholder}
-					components={{ Control }}
-					isLoading={isLoading}
-					{...rest}
-				/>
-			)}
+				{loading ? (
+					<div
+						className={`${
+							label && "mt-2"
+						} h-11 bg-slate-200 animate-pulse`}
+					/>
+				) : (
+					<Select
+						styles={customStyles}
+						ref={ref}
+						id={id}
+						isClearable={isClearable}
+						value={
+							value
+								? options.find((item) => item.value === value)
+								: ""
+						}
+						classNamePrefix="react-select"
+						className={`react-select-container text-sm ${selectClassName}`}
+						controlClassName={`text-sm flex flex-row  duration-200 ${
+							icon && "pl-7"
+						} ${error ? "error-input" : "default-input"} ${
+							label && "mt-2"
+						} ${inputClassName}`}
+						onChange={(val) => {
+							console.log("valval", val);
+							if (onChange) onChange(val?.value || "");
+							if (onChangeGetData) onChangeGetData(val);
+						}}
+						options={options}
+						placeholder={placeholder}
+						components={{ Control }}
+						isLoading={isLoading}
+						{...rest}
+					/>
+				)}
 
-			{error && <div className="text-red-500 pt-1">{error}</div>}
-		</label>
+				{error && <div className="text-red-500 pt-1">{error}</div>}
+			</label>
+		</form>
 	);
 };
 export default forwardRef(ReactSelectInputField);

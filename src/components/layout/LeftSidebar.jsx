@@ -132,7 +132,7 @@ const LeftSidebar = () => {
 					"employee",
 				]) && (
 					<LeftSidebarLink
-						icon={<FlatIcon icon="rr-inbox-in" />}
+						icon={<FlatIcon icon="rr-add-document" />}
 						text={`Requests`}
 						to="/request-orders"
 						active={isActive("/request-orders")}

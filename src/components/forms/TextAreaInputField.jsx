@@ -34,8 +34,10 @@ const TextAreaInputField = (props, ref) => {
 					type={type}
 					ref={ref || register}
 					{...rest}
-					className={`bg-white border border-gray-300 py-3 border-transparent text-sm text-dark sm:text-sm rounded-lg focus:ring-1 focus:shadow-lg duration-100 shadow-blue-300 focus:ring-blue-500 block w-full p-2.5 outline-none ${
-						error ? "border-danger text-danger" : ""
+					className={`bg-white  py-3 text-sm text-dark sm:text-sm rounded-lg focus:ring-1 focus:shadow-lg duration-100 shadow-blue-300 focus:ring-blue-500 block w-full p-2.5 outline-none ${
+						error
+							? "border border-danger text-danger"
+							: "border border-gray-300"
 					}  ${icon ? "!pl-10" : ""} ${
 						inputClassName ? inputClassName : ""
 					}`}

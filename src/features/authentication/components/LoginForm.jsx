@@ -33,6 +33,7 @@ const LoginForm = () => {
 				throw exception;
 			}
 		} catch {
+			setLoading(false);
 			toast.error("Please check your credentials.");
 		}
 	};

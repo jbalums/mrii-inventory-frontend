@@ -13,7 +13,38 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import RequestOrdersFormModal from "./components/RequestOrdersFormModal";
 import useRequestOrdersHook from "./hooks/useRequestOrdersHook.js";
-
+const purpose = {
+	production: (
+		<span className="min-w-[128px] p-1 px-3 rounded-2xl text-xs bg-blue-500 text-blue-700 bg-opacity-5">
+			production
+		</span>
+	),
+	project_plant: (
+		<span className="min-w-[128px] p-1 px-3 rounded-2xl text-xs bg-indigo-700 text-indigo-700 bg-opacity-5">
+			project/plant
+		</span>
+	),
+	sale: (
+		<span className="min-w-[128px] p-1 px-3 rounded-2xl text-xs bg-green-600 text-green-700 bg-opacity-5">
+			sales
+		</span>
+	),
+	stocking: (
+		<span className="min-w-[128px] p-1 px-3 rounded-2xl text-xs bg-primary text-primary bg-opacity-5">
+			stocking
+		</span>
+	),
+	internal_use: (
+		<span className="min-w-[128px] p-1 px-3 rounded-2xl text-xs bg-secondary text-secondary bg-opacity-5">
+			Test
+		</span>
+	),
+	for_purchase: (
+		<span className="min-w-[128px] p-1 px-3 rounded-2xl text-xs bg-orange-500 text-orange-700 bg-opacity-5">
+			for purchase
+		</span>
+	),
+};
 const RequestOrders = () => {
 	const navigate = useNavigate();
 	const form_modal_ref = useRef(null);
@@ -71,10 +102,25 @@ const RequestOrders = () => {
 	const columns = useMemo(
 		() => [
 			{
+				header: "Ref #",
+				accessorKey: "account_code",
+				className: "cursor-pointer",
+				cellClassName: "",
+			},
+			{
 				header: "Project Code",
 				accessorKey: "project_code",
 				className: "cursor-pointer",
 				cellClassName: "",
+			},
+			{
+				header: "Purpose",
+				accessorKey: "purpose",
+				className: "cursor-pointer",
+				cellClassName: "",
+				cell: ({ row: { original } }) => {
+					return purpose[original?.purpose];
+				},
 			},
 			{
 				header: "Requestor name",
@@ -113,7 +159,7 @@ const RequestOrders = () => {
 									: "text-warning bg-warning"
 							}`}
 						>
-							{original?.status}
+							{original?.status || "Pending"}
 						</span>
 					);
 				},
@@ -187,6 +233,7 @@ const RequestOrders = () => {
 
 	return (
 		<AppLayout
+			icon={<FlatIcon icon="rr-add-document" />}
 			title="Request orders"
 			breadcrumbs={[
 				{
@@ -206,10 +253,20 @@ const RequestOrders = () => {
 					<ReactSelectInputField
 						className="w-full lg:w-[256px]"
 						placeholder="All status"
-						/* options={supliers?.map((supplier) => ({
-							label: supplier?.name + ` - [${supplier?.address}]`,
-							value: supplier?.id,
-						}))} */
+						options={[
+							{
+								value: "pending",
+								label: "Pending",
+							},
+							{
+								value: "approved",
+								label: "Approved",
+							},
+							{
+								value: "cancelled",
+								label: "Cancelled",
+							},
+						]}
 					/>
 					<Button
 						type="accent"

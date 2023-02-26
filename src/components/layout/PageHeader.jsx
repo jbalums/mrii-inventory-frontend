@@ -162,7 +162,7 @@ const PageHeader = (props) => {
 			<div className="w-full py-4 px-4 md:px-6 gap-4 flex flex-col md:flex-row md:items-center bg-slate-300 bg-opacity-50">
 				{title ? (
 					<div className="flex flex-col">
-						<div className="flex items-center gap-4 text-primary-dark text-xl">
+						<div className="flex items-center gap-2 text-primary-dark text-xl">
 							{icon && icon}
 							<h1 className="  font-bold mb-0">{title}</h1>
 						</div>

@@ -16,11 +16,12 @@ import {
 	useMemo,
 	useState,
 } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import useRequestOrdersHook from "../hooks/useRequestOrdersHook";
 import { useAuth } from "@/hooks/useAuth.js";
 import SelectInputField from "@/src/components/forms/SelectInputField";
+import ReactSelectInputField from "@/src/components/forms/ReactSelectInputField";
 
 const defaultDateValue = () => {
 	let date = new Date();
@@ -35,6 +36,7 @@ const RequestOrdersFormModal = (props, ref) => {
 		watch,
 		clearErrors,
 		reset,
+		control,
 		formState: { errors },
 	} = useForm();
 	const { saveRequestOrder } = useRequestOrdersHook();
@@ -110,6 +112,7 @@ const RequestOrdersFormModal = (props, ref) => {
 			.then((res) => {
 				console.log("saveRequestOrder", res);
 				toast.success("Request order submitted successfully!");
+				successCallBack(res.data.data);
 				hide();
 			})
 			.finally(() => {
@@ -163,7 +166,7 @@ const RequestOrdersFormModal = (props, ref) => {
 				header: "Quantity",
 				accessorKey: "qty_received",
 				className: "border-t",
-				thClassName: "flex justify-center items-center",
+				// thClassName: "flex justify-center items-center",
 				cell: ({ row: { original } }) => {
 					console.log("datadatadata original", original);
 					return (
@@ -211,41 +214,81 @@ const RequestOrdersFormModal = (props, ref) => {
 					<div className="col-span-3">
 						<CardLayout className="!bg-background shadow-none border border-slate-300 !p-4 flex flex-col !gap-4">
 							<h4 className="text-lg text-dark">Order form</h4>
-							<SelectInputField
-								label="Request purpose"
-								options={[
-									{
-										label: "Production",
-										value: "production",
+							<Controller
+								name="purpose"
+								control={control}
+								rules={{
+									required: {
+										value: true,
+										message: "This field is required",
 									},
-									{
-										label: "Plant/Project",
-										value: "project_plant ",
+								}}
+								render={({
+									field: {
+										onChange,
+										onBlur,
+										value,
+										name,
+										ref,
 									},
-									{
-										label: "Sale",
-										value: "sale",
+									fieldState: {
+										invalid,
+										isTouched,
+										isDirty,
+										error,
 									},
-									{
-										label: "Stocking",
-										value: "stocking",
-									},
-									{
-										label: "Internal Use",
-										value: "internal_use",
-									},
-									{
-										label: "For Purchase",
-										value: "for_purchase",
-									},
-								]}
-								{...register("purpose", {
+								}) => (
+									<ReactSelectInputField
+										label="Request purpose"
+										inputClassName=" "
+										ref={ref}
+										value={value}
+										onChange={onChange} // send value to hook form
+										onBlur={onBlur} // notify when input is touched
+										error={error?.message}
+										placeholder="Select purpose of request"
+										options={[
+											{
+												label: "Production",
+												value: "production",
+											},
+											{
+												label: "Plant/Project",
+												value: "project_plant ",
+											},
+											{
+												label: "Sale",
+												value: "sale",
+											},
+											{
+												label: "Stocking",
+												value: "stocking",
+											},
+											{
+												label: "Internal Use",
+												value: "internal_use",
+											},
+											{
+												label: "For Purchase",
+												value: "for_purchase",
+											},
+										]}
+									/>
+								)}
+							/>
+							<TextInputField
+								label="Reference number"
+								placeholder="Enter reference number"
+								error={errors?.account_code?.message}
+								{...register("account_code", {
 									required: "This field is required",
 								})}
 							/>
+
 							<TextInputField
-								label="Project Code"
+								label="Project code"
 								placeholder="Enter project code"
+								error={errors?.project_code?.message}
 								{...register("project_code", {
 									required: "This field is required",
 								})}
@@ -255,6 +298,7 @@ const RequestOrdersFormModal = (props, ref) => {
 								placeholder="Enter a date"
 								type="date"
 								// value={defaultDateValue()}
+								error={errors?.date_needed?.message}
 								{...register("date_needed", {
 									required: "This field is required",
 								})}
@@ -304,16 +348,18 @@ const RequestOrdersFormModal = (props, ref) => {
 								</Button>
 							</div>
 
-							<Table
-								rowClick={(data) => {}}
-								columns={columns}
-								pagination={false}
-								loading={false}
-								data={list}
-								emptyMessage={`You don’t have an order`}
-								tableClassName={`!rounded-none h-full`}
-								className={`!rounded-none`}
-							/>
+							<div className="bg-foreground bg-opacity-5 relative h-full !rounded-b-xl">
+								<Table
+									rowClick={(data) => {}}
+									columns={columns}
+									pagination={false}
+									loading={false}
+									data={list}
+									emptyMessage={`You don’t have an order`}
+									tableClassName={`!rounded-none h-full !bg-white`}
+									className={`!rounded-none `}
+								/>
+							</div>
 						</CardLayout>
 					</div>
 				</div>

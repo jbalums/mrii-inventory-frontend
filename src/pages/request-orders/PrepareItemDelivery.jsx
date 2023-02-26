@@ -160,9 +160,9 @@ const PrepareItemDelivery = () => {
 					</Button>
 				</div>
 				<div className="flex flex-col gap-y-6 pt-6">
-					<p className="text-sm text-dark">
+					{/* <p className="text-sm text-dark">
 						All ordered items will deliver by location
-					</p>
+					</p> */}
 					{orderInfo?.details?.map((data) => {
 						return (
 							<CardLayout className="!p-0 !bg-background !shadow-sm">

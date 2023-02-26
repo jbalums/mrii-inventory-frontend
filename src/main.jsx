@@ -29,7 +29,7 @@ const removeSession = () => {
 			);
 		}, 500);
 		window.localStorage.clear();
-		window.location.reload();
+		window.location.pathname = "/login";
 	}
 };
 axios.interceptors.response.use(

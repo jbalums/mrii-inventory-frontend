@@ -52,7 +52,7 @@ const Profile = () => {
 	};
 	return (
 		<AppLayout icon={<FlatIcon icon="rr-user" />} title={"My profile"}>
-			<div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+			<div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
 				<div className="p-6  rounded-xl flex flex-col">
 					<div className="flex flex-col gap-4 items-center justify-center">
 						<img
@@ -74,7 +74,7 @@ const Profile = () => {
 						{user?.data?.user_type}
 					</p>
 				</div>
-				<div className="flex flex-col gap-y-6">
+				<div className="flex flex-col gap-y-6 xl:col-span-3">
 					<div className="p-6 bg-slate-100 flex flex-col gap-y-2 rounded-xl">
 						<h2 className="text-xl font-bold pb-4 mb-4 border-b gap-2 flex items-center">
 							<FlatIcon icon="rr-id-badge" />

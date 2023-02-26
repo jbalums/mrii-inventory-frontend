@@ -180,7 +180,7 @@ const LocationFormModal = (props, ref) => {
 						})}
 					/>
 					<TextInputField
-						label={`Supplier Code`}
+						label={`Supplier code`}
 						placeholder={"Enter code"}
 						id="code"
 						name="code"
@@ -190,8 +190,8 @@ const LocationFormModal = (props, ref) => {
 						})}
 					/>
 					<TextInputField
-						label={`Supplier Owner`}
-						placeholder={"Enter Owner"}
+						label={`Supplier owner`}
+						placeholder={"Enter owner"}
 						id="owner"
 						name="owner"
 						error={errors?.owner?.message}
@@ -200,8 +200,8 @@ const LocationFormModal = (props, ref) => {
 						})}
 					/>
 					<TextInputField
-						label={`Supplier TIN No.`}
-						placeholder={"Enter Supplier TIN No."}
+						label={`Supplier TIN no.`}
+						placeholder={"Enter Supplier TIN no."}
 						id="tin"
 						name="tin"
 						error={errors?.tin?.message}
@@ -210,8 +210,8 @@ const LocationFormModal = (props, ref) => {
 						})}
 					/>
 					<TextInputField
-						label={`GL Account ID`}
-						placeholder={"Enter GL Account ID"}
+						label={`GL account id`}
+						placeholder={"Enter GL account id"}
 						id="gl_account"
 						name="gl_account"
 						error={errors?.gl_account?.message}

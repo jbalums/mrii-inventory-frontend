@@ -5,6 +5,8 @@ const useRequestOrdersHook = () => {
 
 		formData.append("project_code", data?.project_code);
 		formData.append("date_needed", data?.date_needed);
+		formData.append("account_code", data?.account_code);
+		formData.append("purpose", data?.purpose);
 		if (items?.length > 0) {
 			items.map((item) => {
 				formData.append("inventory_id[]", item?.id);

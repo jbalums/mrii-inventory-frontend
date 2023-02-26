@@ -139,7 +139,7 @@ const AddUserModal = (props, ref) => {
 			<ModalBody className={`py-4`}>
 				{console.log("errors", errors)}
 				<form
-					className="flex flex-col lg:grid grid-cols-12 gap-4"
+					className="flex flex-col lg:grid grid-cols-12 gap-4 pb-4"
 					autoComplete="off"
 				>
 					<ImageUpload
@@ -174,20 +174,28 @@ const AddUserModal = (props, ref) => {
 										label: "Admin",
 									},
 									{
-										value: "account_clerk",
-										label: "Account Clerk",
+										value: "area_manger",
+										label: "Area Manger",
+									},
+									{
+										value: "approving_manager",
+										label: "Approving Manager",
+									},
+									{
+										value: "bu_manager",
+										label: "BU Manager",
+									},
+									{
+										value: "checker",
+										label: "Checker",
+									},
+									{
+										value: "employee",
+										label: "Employee",
 									},
 									{
 										value: "warehouse_man",
-										label: "Warehouseman",
-									},
-									{
-										value: "warehouse_manger",
-										label: "Warehouse Manager",
-									},
-									{
-										value: "requestor",
-										label: "Requestor",
+										label: "Warehouse Man",
 									},
 								]}
 							/>

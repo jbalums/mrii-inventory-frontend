@@ -95,7 +95,7 @@ const LocationFormModal = (props, ref) => {
 				{console.log("errors", errors)}
 				<div className="grid grid-cols-1 gap-4">
 					<TextInputField
-						label={`Location/Branch Code`}
+						label={`Code`}
 						placeholder={"Enter location/branch code"}
 						id="code"
 						name="code"
@@ -105,7 +105,7 @@ const LocationFormModal = (props, ref) => {
 						})}
 					/>
 					<TextInputField
-						label={`Location/Branch Name`}
+						label={`Name`}
 						placeholder={"Enter location/branch name"}
 						id="name"
 						name="name"
@@ -115,7 +115,7 @@ const LocationFormModal = (props, ref) => {
 						})}
 					/>
 					<TextInputField
-						label={`Location/Branch Address`}
+						label={`Address`}
 						placeholder={"Enter location/branch address"}
 						id="address"
 						name="address"

@@ -16,9 +16,9 @@ const useReceiving = () => {
 			axios
 				.post(`/inventory/receiving`, { ...formData })
 				.then((res) => {
-					console.log("res", res);
+					console.log("res inventory/receiving", res);
 					toast.success("New received PO created successfully!");
-					callback ? callback(res.data.data) : "";
+					if (typeof callback == "function") callback(res.data.data);
 				})
 				.catch((error) => {
 					console.log("errror", error);
@@ -43,7 +43,7 @@ const useReceiving = () => {
 				.then((res) => {
 					console.log("res", res);
 					toast.success("PO recieved updated successfully!");
-					callback ? callback(res.data.data) : "";
+					if (typeof callback == "function") callback(res.data.data);
 				})
 				.catch((error) => {
 					console.log("errror", error);
