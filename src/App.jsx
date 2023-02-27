@@ -32,6 +32,7 @@ import Repacking from "./pages/repacking/Repacking";
 import ItemDelivery from "./pages/request-orders/ItemDelivery";
 import PrepareItemDelivery from "./pages/request-orders/PrepareItemDelivery";
 import RequestOrders from "./pages/request-orders/RequestOrders";
+import ViewCompletedRequest from "./pages/request-orders/ViewCompletedRequest";
 import ReturnMaterials from "./pages/return-materials/ReturnMaterials";
 import PrintSuppliers from "./pages/suppliers/PrintSuppliers";
 import Suppliers from "./pages/suppliers/Suppliers";
@@ -71,6 +72,11 @@ const AppRoutes = () => {
 				path="/request-orders/item-delivery"
 				element={<ItemDelivery />}
 			/>
+			<Route
+				path="/request-orders/view-completed/:id"
+				element={<ViewCompletedRequest />}
+			/>
+
 			<Route path="/approving" element={<Approving />} />
 			<Route
 				path="/approving/approve-request-order"

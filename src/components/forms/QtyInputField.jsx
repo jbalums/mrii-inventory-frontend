@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import FlatIcon from "../FlatIcon";
 
 const QtyInputField = ({ qty, setQty }) => {
-	const [value, setValue] = useState(qty);
+	const [value, setValue] = useState(1);
 
 	const plusOneQty = () => {
 		setValue((currentQty) => currentQty + 1);
@@ -25,16 +25,16 @@ const QtyInputField = ({ qty, setQty }) => {
 	};
 
 	return (
-		<div className="flex items-center justify-center">
+		<div className="flex items-center justify-center group">
 			<div
-				className="h-11 w-11 flex items-center justify-center rounded-l-lg border-t border-b border-l border-border cursor-pointer hover:bg-background duration-200 bg-opacity-25"
+				className="h-11 w-11 flex items-center justify-center rounded-l-lg border-t border-b border-l border-border group-hover:border-secondary group-focus-within:border-secondary cursor-pointer hover:bg-background duration-200 bg-opacity-25"
 				onClick={minusOneQty}
 			>
 				<FlatIcon icon="rr-minus" />
 			</div>
 			<input
 				type="text"
-				className="h-11 p-3 text-center bg-foreground border border-border w-20 active:bg-background hover:bg-background focus:bg-background  bg-opaci-25"
+				className="h-11 py-3 px-2 text-center bg-foreground border border-border group-hover:border-secondary group-focus-within:border-secondary w-20 active:bg-background hover:bg-background focus:bg-background bg-opacity-25"
 				value={value}
 				onChange={(e) => {
 					let input_value = e.target.value;
@@ -54,7 +54,7 @@ const QtyInputField = ({ qty, setQty }) => {
 				}}
 			/>
 			<div
-				className="h-11 w-11 flex items-center justify-center rounded-r-lg border-t border-b border-r border-border cursor-pointer hover:bg-background duration-200 bg-opacity-25"
+				className="h-11 w-11 flex items-center justify-center rounded-r-lg border-t border-b border-r border-border group-hover:border-secondary group-focus-within:border-secondary cursor-pointer hover:bg-background duration-200 bg-opacity-25"
 				onClick={plusOneQty}
 			>
 				<FlatIcon icon="rr-plus" />

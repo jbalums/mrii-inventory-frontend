@@ -79,6 +79,7 @@ const SelectItemsModal = (props, ref) => {
 			{
 				header: "Name",
 				accessorKey: "name",
+				className: "min-w-[128px] !whitespace-pre",
 			},
 			{
 				header: "Unit of measurement",
@@ -87,7 +88,7 @@ const SelectItemsModal = (props, ref) => {
 			},
 			{
 				header: "Quantity on hand",
-				accessorKey: "quantity",
+				accessorKey: "total_quantity",
 				className: "!text-center",
 			},
 			{
@@ -137,7 +138,7 @@ const SelectItemsModal = (props, ref) => {
 				className={`py-4 min-h-[448px] !bg- !px-0 overflow-auto`}
 			>
 				<div className="flex flex-col">
-					<div className="flex items-center pb-4 px-4 gap-4">
+					<div className="flex flex-col lg:flex-row lg:items-center pb-4 px-4 gap-4">
 						<TextInputField
 							className="lg:w-[288px] "
 							icon={

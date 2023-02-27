@@ -163,18 +163,24 @@ const RequestOrdersFormModal = (props, ref) => {
 			},
 
 			{
+				header: "Quantity on hand",
+				accessorKey: "total_quantity",
+				className: "!text-center border-t",
+			},
+			{
 				header: "Quantity",
 				accessorKey: "qty_received",
-				className: "border-t",
-				// thClassName: "flex justify-center items-center",
+				className: "text-center border-t",
+				cellClassName: "!text-center w-[128px]",
+				thClassName: "!text-center w-[128px]",
 				cell: ({ row: { original } }) => {
 					console.log("datadatadata original", original);
 					return (
 						<QtyInputField
-							qty={original?.quantity}
+							qty={original?.total_quantity}
 							setQty={(qty) => {
 								let item = original;
-								item.quantity = 1;
+								item.quantity = qty;
 								updateList(item);
 							}}
 						/>
@@ -210,8 +216,8 @@ const RequestOrdersFormModal = (props, ref) => {
 			/>
 			<ModalBody className={`py-4`}>
 				{console.log("errors", errors)}
-				<div className="grid grid-cols-12 gap-4 w-full">
-					<div className="col-span-3">
+				<div className="grid grid-cols-1 lg:grid-cols-12 gap-4 w-full">
+					<div className="lg:col-span-3">
 						<CardLayout className="!bg-background shadow-none border border-slate-300 !p-4 flex flex-col !gap-4">
 							<h4 className="text-lg text-dark">Order form</h4>
 							<Controller
@@ -323,8 +329,8 @@ const RequestOrdersFormModal = (props, ref) => {
 							/> */}
 						</CardLayout>
 					</div>
-					<div className="col-span-9">
-						<CardLayout className="!bg-background !shadow-none border border-slate-300 !pb-0 !px-0 flex flex-col !gap-4 h-full">
+					<div className="lg:col-span-9">
+						<CardLayout className="!bg-background overflow-hidden !shadow-none border border-slate-300 !pb-0 !px-0 flex flex-col !gap-4 h-full">
 							<div className="flex items-center px-4">
 								<h4 className="text-lg text-dark">
 									Order form

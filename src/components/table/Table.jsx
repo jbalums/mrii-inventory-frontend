@@ -32,7 +32,7 @@ const Table = (props) => {
 		rowHighlight = false,
 		tableClassName = "",
 		onTableChange,
-		show = [10, 20, 50, 100],
+		show = [5, 10, 20, 50, 100],
 		loadingMessage = "Gathering data...",
 		emptyMessage = "No data available",
 		keyword = "",

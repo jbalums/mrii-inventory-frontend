@@ -15,7 +15,7 @@ import { useMemo } from "react";
 import Table from "@/src/components/table/Table";
 import { toast } from "react-toastify";
 
-const ReturnMaterialsModal = (props, ref) => {
+const ConsumbedMaterialsModal = (props, ref) => {
 	const {
 		register,
 		handleSubmit,
@@ -79,7 +79,7 @@ const ReturnMaterialsModal = (props, ref) => {
 			},
 
 			{
-				header: "Qty fulfilled",
+				header: "Qty requested",
 				accessorKey: "request_quantity",
 				className: "text-center border-t",
 				cellClassName: "!text-center w-[128px]",
@@ -90,7 +90,7 @@ const ReturnMaterialsModal = (props, ref) => {
 				},
 			},
 			{
-				header: "Return Qty",
+				header: "Used/Consumed Qty",
 				accessorKey: "qty_received",
 				className: "text-center border-t",
 				cellClassName: "!text-center w-[128px]",
@@ -115,15 +115,15 @@ const ReturnMaterialsModal = (props, ref) => {
 	return (
 		<Modal open={open} hide={hide} size="xl">
 			<ModalHeader
-				title={`Return Materials`}
-				subtitle="Return of unused/excess materials to main warehouse"
+				title={`Used/Consumed Materials`}
+				subtitle="Update materials that was used/consumed."
 				hide={hide}
 			/>
 			<ModalBody className={`py-4`}>
 				<RequestOrderCard data={data} />
 				{data?.details?.map((detail) => {
 					return (
-						<div className="flex flex-col bg- shadow border border-border gap-2 rounded-lg my-4 p-4">
+						<div className="flex flex-col overflow-hidden gap-2 rounded-lg py-6">
 							<span className="text-sm">
 								Location:{" "}
 								<b className="text-secondary">
@@ -145,12 +145,16 @@ const ReturnMaterialsModal = (props, ref) => {
 				})}
 			</ModalBody>
 			<ModalFooter className={`flex items-center justify-end`}>
-				<Button onClick={handleSubmit(submitForm)} loading={loading}>
-					Return Items
+				<Button
+					type="success"
+					onClick={handleSubmit(submitForm)}
+					loading={loading}
+				>
+					Save used/consumbed materials
 				</Button>
 			</ModalFooter>
 		</Modal>
 	);
 };
 
-export default forwardRef(ReturnMaterialsModal);
+export default forwardRef(ConsumbedMaterialsModal);

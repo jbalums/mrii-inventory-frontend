@@ -51,7 +51,16 @@ const Profile = () => {
 			});
 	};
 	return (
-		<AppLayout icon={<FlatIcon icon="rr-user" />} title={"My profile"}>
+		<AppLayout
+			icon={<FlatIcon icon="rr-user" />}
+			title={"My profile"}
+			breadcrumbs={[
+				{
+					to: "/profile",
+					label: "My profile",
+				},
+			]}
+		>
 			<div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
 				<div className="p-6  rounded-xl flex flex-col">
 					<div className="flex flex-col gap-4 items-center justify-center">
@@ -80,59 +89,59 @@ const Profile = () => {
 							<FlatIcon icon="rr-id-badge" />
 							User Details
 						</h2>
-						<div className="grid grid-cols-4 gap-2">
+						<div className="grid grid-cols-1 lg:grid-cols-4 gap-1 lg:gap-2 pb-2 lg:pb-0">
 							<span className="font-">ID</span>
-							<span className="font-semibold col-span-3 text-blue-600">
+							<span className="font-semibold lg:col-span-3 text-blue-600">
 								{String(user?.data?.id).padStart(8, "0")}
 							</span>
 						</div>
-						<div className="grid grid-cols-4 gap-2">
+						<div className="grid grid-cols-1 lg:grid-cols-4 gap-1 lg:gap-2 pb-2 lg:pb-0">
 							<span className="font-">Firstname</span>
-							<span className="font-semibold col-span-3 text-blue-600">
+							<span className="font-semibold lg:col-span-3 text-blue-600">
 								{user?.data?.firstname}
 							</span>
 						</div>
-						<div className="grid grid-cols-4 gap-2">
+						<div className="grid grid-cols-1 lg:grid-cols-4 gap-1 lg:gap-2 pb-2 lg:pb-0">
 							<span className="font-">Middlename</span>
-							<span className="font-semibold col-span-3 text-blue-600">
+							<span className="font-semibold lg:col-span-3 text-blue-600">
 								{user?.data?.middlename}
 							</span>
 						</div>
-						<div className="grid grid-cols-4 gap-2">
+						<div className="grid grid-cols-1 lg:grid-cols-4 gap-1 lg:gap-2 pb-2 lg:pb-0">
 							<span className="font-">Lastname</span>
-							<span className="font-semibold col-span-3 text-blue-600">
+							<span className="font-semibold lg:col-span-3 text-blue-600">
 								{user?.data?.lastname}
 							</span>
 						</div>
 						<hr />
-						<div className="grid grid-cols-4 gap-2">
+						<div className="grid grid-cols-1 lg:grid-cols-4 gap-1 lg:gap-2 pb-2 lg:pb-0">
 							<span className="font-">Email</span>
-							<span className="font-semibold col-span-3 text-blue-600">
+							<span className="font-semibold lg:col-span-3 text-blue-600">
 								{user?.data?.email}
 							</span>
 						</div>
-						<div className="grid grid-cols-4 gap-2">
+						<div className="grid grid-cols-1 lg:grid-cols-4 gap-1 lg:gap-2 pb-2 lg:pb-0">
 							<span className="font-">Contact No.</span>
-							<span className="font-semibold col-span-3 text-blue-600">
+							<span className="font-semibold lg:col-span-3 text-blue-600">
 								{user?.data?.contact}
 							</span>
 						</div>
 						<hr />
-						<div className="grid grid-cols-4 gap-2">
+						<div className="grid grid-cols-1 lg:grid-cols-4 gap-1 lg:gap-2 pb-2 lg:pb-0">
 							<span className="font-">Branch</span>
-							<span className="font-semibold col-span-3 text-blue-600">
+							<span className="font-semibold lg:col-span-3 text-blue-600">
 								{user?.data?.branch?.name}
 							</span>
 						</div>
-						<div className="grid grid-cols-4 gap-2">
+						<div className="grid grid-cols-1 lg:grid-cols-4 gap-1 lg:gap-2 pb-2 lg:pb-0">
 							<span className="font-">Unit</span>
-							<span className="font-semibold col-span-3 text-blue-600">
+							<span className="font-semibold lg:col-span-3 text-blue-600">
 								{user?.data?.business_unit}
 							</span>
 						</div>
-						<div className="grid grid-cols-4 gap-2">
+						<div className="grid grid-cols-1 lg:grid-cols-4 gap-1 lg:gap-2 pb-2 lg:pb-0">
 							<span className="font-">Position</span>
-							<span className="font-semibold col-span-3 text-blue-600 capitalize">
+							<span className="font-semibold lg:col-span-3 text-blue-600 capitalize">
 								{user?.data?.user_type}
 							</span>
 						</div>

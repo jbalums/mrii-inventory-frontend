@@ -6,14 +6,12 @@ import useDataTable from "@/src/helpers/useDataTable";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import RemarksFormModal from "./components/RemarksFormModal";
-import ViewRemarksModal from "./components/ViewRemarksModal";
 import { useRequisitions } from "@/src/pages/approving/hooks/useRequisitions.js";
 import Table from "@/src/components/table/Table.jsx";
 import CardLayout from "@/src/components/layout/CardLayout.jsx";
 import RequestOrderCard from "../request-orders/components/RequestOrderCard";
-
-const ViewRequestOrderPage = () => {
+import { requestOrderStatus } from "@/libs/elementsHelper";
+const ViewCompletedRequest = () => {
 	const complete_order_ref = useRef(null);
 	const remarks_form_ref = useRef(null);
 	const view_remarks_form_ref = useRef(null);
@@ -49,7 +47,7 @@ const ViewRequestOrderPage = () => {
 				cellClassName: "",
 			},
 			{
-				header: "Request qty",
+				header: "Quantity",
 				accessorKey: "request_quantity",
 				className: "",
 				cellClassName: "",
@@ -82,6 +80,16 @@ const ViewRequestOrderPage = () => {
 					)}
 				</div>
 			}
+			breadcrumbs={[
+				{
+					to: "/request-orders",
+					label: "Request orders",
+				},
+				{
+					to: `/request-orders/view-completed/${data?.data?.id}`,
+					label: "View request",
+				},
+			]}
 		>
 			<div className="w-full">
 				<div className="flex flex-col gap-y-6 pt-6">
@@ -89,7 +97,17 @@ const ViewRequestOrderPage = () => {
 						All ordered items will deliver by location
 					</p> */}
 
-					<RequestOrderCard data={data?.data} />
+					<RequestOrderCard
+						data={data?.data}
+						status={{
+							title: "Status:",
+							value: (
+								<div className="!text-lg !font-bold">
+									{requestOrderStatus["completed"]}
+								</div>
+							),
+						}}
+					/>
 
 					{data?.data?.details?.map((request) => (
 						<CardLayout className="!p-0 !bg-background !shadow-sm">
@@ -119,79 +137,8 @@ const ViewRequestOrderPage = () => {
 					))}
 				</div>
 			</div>
-			<AffirmationModal
-				ref={complete_order_ref}
-				title="Accept request"
-				body="Are you sure you want to accept the request?"
-				footer={({ btnLoading, setBtnLoading }) => {
-					return (
-						<>
-							<Button
-								type="accent"
-								loading={btnLoading}
-								onClick={() => {
-									setBtnLoading(true);
-									approvedRequisition(id).then(() => {
-										toast.success(
-											"Order has been received successfully"
-										);
-										setTimeout(() => {
-											setBtnLoading(false);
-											complete_order_ref.current.hide();
-											navigate(-1);
-										}, 1000);
-									});
-								}}
-							>
-								<FlatIcon icon="rr-print" className="mr-1" />{" "}
-								Yes, complete order
-							</Button>
-
-							<Button
-								type="transparent"
-								onClick={() => {
-									complete_order_ref.current.hide();
-								}}
-							>
-								Maybe later
-							</Button>
-						</>
-					);
-				}}
-				footerClassName="!items-center !justify-center"
-			/>
-			<AffirmationModal
-				ref={return_ref}
-				title="Return items to requestor"
-				body="Are you sure you want to return this Purchase Order lists?"
-				footer={
-					<>
-						<Button
-							type="accent"
-							onClick={() => {
-								toast.success(
-									"Order has been returned successfully"
-								);
-								return_ref.current.hide();
-							}}
-						>
-							<FlatIcon icon="rr-print" className="mr-1" /> Yes,
-							return order
-						</Button>
-
-						<Button type="transparent">Maybe later</Button>
-					</>
-				}
-				footerClassName="!items-center !justify-center"
-			/>
-			{/* view_remarks_form_ref */}
-			<RemarksFormModal ref={remarks_form_ref} />
-			<ViewRemarksModal
-				ref={view_remarks_form_ref}
-				remarks_form_ref={remarks_form_ref}
-			/>
 		</AppLayout>
 	);
 };
 
-export default ViewRequestOrderPage;
+export default ViewCompletedRequest;

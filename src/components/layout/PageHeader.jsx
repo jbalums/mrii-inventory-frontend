@@ -66,7 +66,8 @@ const PageHeader = (props) => {
 								onClick: () => {
 									navigate("/profile");
 								},
-								className: "text-secondary-dark",
+								className:
+									"text-secondary-dark hover:!text-white !duration-200",
 							},
 							{
 								label: (
@@ -81,7 +82,8 @@ const PageHeader = (props) => {
 								onClick: () => {
 									confirm_logout_ref.current.show();
 								},
-								className: "text-secondary-dark",
+								className:
+									"text-secondary-dark hover:!text-white !duration-200",
 							},
 						]}
 						menuChildren={
@@ -170,7 +172,7 @@ const PageHeader = (props) => {
 							<Link to={`/`} className=" hover:text-blue-700">
 								Home
 							</Link>
-							{breadcrumbs?.map((data) => {
+							{breadcrumbs?.map((data, index) => {
 								return (
 									<>
 										<FlatIcon
@@ -180,7 +182,11 @@ const PageHeader = (props) => {
 										/>
 										<Link
 											to={`${data?.to}`}
-											className=" hover:text-blue-700"
+											className={` hover:text-blue-700 ${
+												breadcrumbs?.length - 1 == index
+													? "font-semibold"
+													: ""
+											}`}
 										>
 											{data?.label}
 										</Link>

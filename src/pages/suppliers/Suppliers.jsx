@@ -302,6 +302,12 @@ const Suppliers = () => {
 					Suppliers
 				</div>
 			}
+			breadcrumbs={[
+				{
+					to: "/suppliers",
+					label: "Suppliers",
+				},
+			]}
 		>
 			<div className="flex flex-col lg:flex-row gap-6 pb-6">
 				<TextInputField

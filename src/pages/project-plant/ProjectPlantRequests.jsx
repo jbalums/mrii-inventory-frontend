@@ -5,12 +5,14 @@ import TextInputField from "@/src/components/forms/TextInputField";
 import Table from "@/src/components/table/Table";
 import useDataTable from "@/src/helpers/useDataTable";
 import { useEffect, useMemo, useRef, useState } from "react";
+import ConsumbedMaterialsModal from "./components/ConsumbedMaterialsModal";
 import ReturnMaterialsModal from "./components/ReturnMaterialsModal";
 
 const ProjectPlantRequests = () => {
 	const [list, setList] = useState([]);
 
 	const return_materials_ref = useRef(null);
+	const consumed_materials_ref = useRef(null);
 
 	const [loading, setLoading] = useState(false);
 	const { data, loading: dataLoading } = useDataTable(
@@ -96,7 +98,23 @@ const ProjectPlantRequests = () => {
 				className: "!text-center",
 				cell: ({ row: { original } }) => {
 					return (
-						<div className="flex items-center justify-center text-center gap-4">
+						<div className="flex flex-col lg:flex-row items-center justify-center text-center gap-4">
+							<Button
+								type="success"
+								size="sm"
+								className="rounded-lg"
+								onClick={() => {
+									consumed_materials_ref.current.show(
+										original
+									);
+								}}
+							>
+								<FlatIcon
+									icon="rr-shopping-cart-check"
+									className="font-bold text-sm"
+								/>
+								Used/Consumed materials
+							</Button>
 							<Button
 								type="primary"
 								size="sm"
@@ -152,6 +170,7 @@ const ProjectPlantRequests = () => {
 			<div className="w-full">
 				<Table columns={columns} loading={false} data={list} />
 			</div>
+			<ConsumbedMaterialsModal ref={consumed_materials_ref} />
 			<ReturnMaterialsModal ref={return_materials_ref} />
 		</AppLayout>
 	);

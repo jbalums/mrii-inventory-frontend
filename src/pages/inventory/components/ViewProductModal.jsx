@@ -151,7 +151,7 @@ const ViewProductModal = (props, ref) => {
 							Inventory histories
 						</h3>
 
-						<div className="w-full border-t px-5 lg:px-0 overflow-auto">
+						<div className="w-full border-t lg:px-0 overflow-auto">
 							<Table
 								tableClassName=""
 								columns={columns}
@@ -164,7 +164,9 @@ const ViewProductModal = (props, ref) => {
 				</div>
 			</ModalBody>
 			<ModalFooter className={"flex justify-end"}>
-				<Button type="primary">Close</Button>
+				<Button type="primary" onClick={hide}>
+					Close
+				</Button>
 			</ModalFooter>
 		</Modal>
 	);

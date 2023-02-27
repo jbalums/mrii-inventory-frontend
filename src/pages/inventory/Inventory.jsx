@@ -93,7 +93,7 @@ const Inventory = () => {
 			}, */
 			{
 				header: "QTY on hand",
-				accessorKey: "quantity",
+				accessorKey: "total_quantity",
 				className: "!text-center min-w-[128px]",
 				thClassName: "items-center",
 			},

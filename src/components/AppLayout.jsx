@@ -28,13 +28,13 @@ const Page = (props) => {
 	return (
 		<RootContextWrapper>
 			<div
-				className={`antialiased h-screen min-h-[720px] w-screen max-h-screen overflow-auto flex flex-col relative`}
+				className={`antialiased h-[100dvh] w-screen max-h-[100dvh] overflow-auto flex flex-col relative`}
 			>
 				<div className="w-full flex h-full z-[2] bg-opacity-40 overflow-hidden">
 					<LeftSidebar user={user} />
 					{/* <div className="absolute bg-red-500 p-4 rounded-lg top-4 left-4 z-20 h-11 w-11"></div> */}
 
-					<div className="relative bg-slate-200 h-full w-full max-h-screen overflow-auto">
+					<div className="relative bg-slate-200 h-full w-full max-h-[100dvh] overflow-auto">
 						<PageHeader
 							title={title}
 							icon={icon}

@@ -8,6 +8,7 @@ import Modal from "./Modal";
 const AffirmationModal = (props, ref) => {
 	const { title, body, footer, footerClassName = "" } = props;
 	const [open, setOpen] = useState(false);
+	const [btnLoading, setBtnLoading] = useState(false);
 
 	useImperativeHandle(ref, () => ({
 		show: show,
@@ -41,7 +42,9 @@ const AffirmationModal = (props, ref) => {
 			<ModalFooter
 				className={`flex items-center justify-end bg-background rounded-b-xl pb-6 gap-2 ${footerClassName}`}
 			>
-				{footer}
+				{typeof footer == "function"
+					? footer({ btnLoading, setBtnLoading })
+					: footer}
 			</ModalFooter>
 		</Modal>
 	);

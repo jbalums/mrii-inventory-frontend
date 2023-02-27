@@ -1,3 +1,4 @@
+import { purposeElements, requestOrderStatus } from "@/libs/elementsHelper";
 import AppLayout from "@/src/components/AppLayout";
 import Button from "@/src/components/Button";
 import FlatIcon from "@/src/components/FlatIcon";
@@ -13,79 +14,27 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import RequestOrdersFormModal from "./components/RequestOrdersFormModal";
 import useRequestOrdersHook from "./hooks/useRequestOrdersHook.js";
-const purpose = {
-	production: (
-		<span className="min-w-[128px] p-1 px-3 rounded-2xl text-xs bg-blue-500 text-blue-700 bg-opacity-5">
-			production
-		</span>
-	),
-	project_plant: (
-		<span className="min-w-[128px] p-1 px-3 rounded-2xl text-xs bg-indigo-700 text-indigo-700 bg-opacity-5">
-			project/plant
-		</span>
-	),
-	sale: (
-		<span className="min-w-[128px] p-1 px-3 rounded-2xl text-xs bg-green-600 text-green-700 bg-opacity-5">
-			sales
-		</span>
-	),
-	stocking: (
-		<span className="min-w-[128px] p-1 px-3 rounded-2xl text-xs bg-primary text-primary bg-opacity-5">
-			stocking
-		</span>
-	),
-	internal_use: (
-		<span className="min-w-[128px] p-1 px-3 rounded-2xl text-xs bg-secondary text-secondary bg-opacity-5">
-			Test
-		</span>
-	),
-	for_purchase: (
-		<span className="min-w-[128px] p-1 px-3 rounded-2xl text-xs bg-orange-500 text-orange-700 bg-opacity-5">
-			for purchase
-		</span>
-	),
-};
+
 const RequestOrders = () => {
 	const navigate = useNavigate();
 	const form_modal_ref = useRef(null);
 	const delete_modal_ref = useRef(null);
 	const select_items_ref = useRef(null);
 
-	const [list, setList] = useState([
-		/* {
-			rs_number: "32132",
-			name: "Test Requestor name 1",
-			location: "Tagbilaran City, Bohol",
-			created: "Nov. 12, 2022",
-			needed: "Nov. 15, 2022",
-			qty: "12",
-			status: "2 of 7 completed",
-			by: "Ariel Man",
-		},
-		{
-			rs_number: "112233",
-			name: "Test Requestor name 2",
-			location: "Cebu City, Cebu",
-			created: "Nov. 12, 2022",
-			needed: "Nov. 16, 2022",
-			qty: "25",
-			status: "6 of 7 completed",
-			by: "Test User",
-		},
-		{
-			rs_number: "22234",
-			name: "Test Requestor name 2",
-			location: "Maribojoc, Bohol",
-			created: "Nov. 14, 2022",
-			needed: "Nov. 25, 2022",
-			qty: "5",
-			status: "2 of 7 completed",
-			by: "Ariel Man",
-		}, */
-	]);
+	const [list, setList] = useState([]);
 	const [id, setId] = useState(null);
 	const [loading, setLoading] = useState(false);
-	const { data, loading: dataLoading } = useDataTable(
+	const {
+		data,
+		loading: dataLoading,
+		filters,
+		setFilters,
+		meta,
+		setKeyword,
+		setPage,
+		setPaginate,
+		keyword,
+	} = useDataTable(
 		`/inventory/requisition`,
 		null
 		// setList
@@ -119,7 +68,7 @@ const RequestOrders = () => {
 				className: "cursor-pointer",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					return purpose[original?.purpose];
+					return purposeElements[original?.purpose];
 				},
 			},
 			{
@@ -151,17 +100,7 @@ const RequestOrders = () => {
 				className: "cursor-pointer",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					return (
-						<span
-							className={`px-2 py-1  bg-opacity-10  rounded-xl capitalize ${
-								original?.status == "approved"
-									? "text-success bg-success"
-									: "text-warning bg-warning"
-							}`}
-						>
-							{original?.status || "Pending"}
-						</span>
-					);
+					return requestOrderStatus[original?.status];
 				},
 			},
 			{
@@ -170,7 +109,8 @@ const RequestOrders = () => {
 				className: "!text-center",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					if (original?.status == "approved")
+					let condition = ["approved", "completed"];
+					if (condition.includes(original?.status))
 						return (
 							<span
 								className={`px-0 py-1  bg-opacity-10  rounded-xl text-success`}
@@ -249,10 +189,20 @@ const RequestOrders = () => {
 						className="lg:w-[320px]"
 						icon={<FlatIcon icon="rr-search" className="text-sm" />}
 						placeholder="Search request"
+						onChange={(e) => {
+							setKeyword(e.target.value);
+						}}
 					/>
 					<ReactSelectInputField
 						className="w-full lg:w-[256px]"
 						placeholder="All status"
+						value={filters?.type}
+						onChange={(data) => {
+							setFilters((currentFilters) => ({
+								...currentFilters,
+								type: data,
+							}));
+						}}
 						options={[
 							{
 								value: "pending",
@@ -265,6 +215,10 @@ const RequestOrders = () => {
 							{
 								value: "cancelled",
 								label: "Cancelled",
+							},
+							{
+								value: "completed",
+								label: "Completed",
 							},
 						]}
 					/>
@@ -279,21 +233,36 @@ const RequestOrders = () => {
 				</div>
 				<Table
 					rowClick={(data) => {
+						if (data.original.status == "completed") {
+							navigate(
+								`/request-orders/view-completed/${data.original.id}`
+							);
+							return;
+						}
+
 						if (data.original.status == "pending") {
 							navigate(
 								`/approving/approve-request-order/view-request/${data.original.id}`
 							);
+							return;
 						} else {
 							navigate(
 								`prepare-item-delivery/${data?.original?.id}`
 							);
+							return;
 						}
 					}}
 					columns={columns}
 					pagination={true}
 					loading={dataLoading}
 					data={list}
+					meta={meta}
 					emptyMessage={`You don’t have an order`}
+					onTableChange={(data) => {
+						setPage(data.pageIndex + 1);
+						setPaginate(data.pageSize);
+					}}
+					keyword={keyword}
 				/>
 			</div>
 			<RequestOrdersFormModal
