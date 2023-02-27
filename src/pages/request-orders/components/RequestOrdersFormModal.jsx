@@ -254,7 +254,7 @@ const RequestOrdersFormModal = (props, ref) => {
 											},
 											{
 												label: "Plant/Project",
-												value: "project_plant ",
+												value: "project_plant",
 											},
 											{
 												label: "Sale",

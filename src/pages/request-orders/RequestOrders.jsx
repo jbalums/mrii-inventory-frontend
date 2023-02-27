@@ -167,7 +167,7 @@ const RequestOrders = () => {
 			{
 				header: "Approved by",
 				accessorKey: "approved_by",
-				className: "",
+				className: "!text-center",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
 					if (original?.status == "approved")

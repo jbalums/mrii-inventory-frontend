@@ -3,54 +3,141 @@ import Button from "@/src/components/Button";
 import FlatIcon from "@/src/components/FlatIcon";
 import TextInputField from "@/src/components/forms/TextInputField";
 import Table from "@/src/components/table/Table";
+import useDataTable from "@/src/helpers/useDataTable";
 import { useEffect, useMemo, useRef, useState } from "react";
+import ReturnMaterialsModal from "./components/ReturnMaterialsModal";
 
 const ProjectPlantRequests = () => {
 	const [list, setList] = useState([]);
 
+	const return_materials_ref = useRef(null);
+
+	const [loading, setLoading] = useState(false);
+	const { data, loading: dataLoading } = useDataTable(
+		`/inventory/project-plant-orders`,
+		null,
+		false
+	);
 	const columns = useMemo(
 		() => [
 			{
+				header: "Ref #",
+				accessorKey: "account_code",
+				className: "cursor-pointer",
+				cellClassName: "",
+			},
+			{
 				header: "Project Code",
-				accessorKey: "code",
-				className: "",
-				cellClassName: "",
-			},
-
-			{
-				header: "Date entry",
-				accessorKey: "date_entry",
-				className: "",
+				accessorKey: "project_code",
+				className: "cursor-pointer",
 				cellClassName: "",
 			},
 			{
-				header: "Date returned",
-				accessorKey: "date_returned",
-				className: "",
+				header: "Requestor name",
+				accessorKey: "name",
+				className: "cursor-pointer",
+				cellClassName: "",
+				cell: ({ row: { original } }) => {
+					return `${original?.requester?.lastname}, ${
+						original?.requester?.firstname
+					} ${original?.requester?.middlename.slice(0, 1)}`;
+				},
+			},
+			{
+				header: "Date requested",
+				accessorKey: "created_at",
+				className: "cursor-pointer",
 				cellClassName: "",
 			},
 			{
-				header: "No. of returned items",
-				accessorKey: "num_returned",
+				header: "Date needed",
+				accessorKey: "date_needed",
+				className: "cursor-pointer",
+				cellClassName: "",
+			},
+			{
+				header: "Order status",
+				accessorKey: "order_status",
+				className: "cursor-pointer",
+				cellClassName: "",
+				cell: ({ row: { original } }) => {
+					return (
+						<span
+							className={`px-2 py-1  bg-opacity-10  rounded-xl capitalize ${
+								original?.status == "approved"
+									? "text-success bg-success"
+									: "text-warning bg-warning"
+							}`}
+						>
+							{original?.status || "Pending"}
+						</span>
+					);
+				},
+			},
+			{
+				header: "Approved by",
+				accessorKey: "approved_by",
 				className: "",
 				cellClassName: "",
+				cell: ({ row: { original } }) => {
+					if (original?.status == "approved")
+						return (
+							<span
+								className={`px-0 py-1  bg-opacity-10  rounded-xl text-success`}
+							>
+								{original.accepted_by?.name}
+							</span>
+						);
+				},
+			},
+			{
+				header: "Action",
+				accessorKey: "action",
+				className: "!text-center",
+				cell: ({ row: { original } }) => {
+					return (
+						<div className="flex items-center justify-center text-center gap-4">
+							<Button
+								type="primary"
+								size="sm"
+								className="rounded-lg"
+								onClick={() => {
+									return_materials_ref.current.show(original);
+								}}
+							>
+								<FlatIcon
+									icon="rr-undo"
+									className="font-bold text-sm"
+								/>
+								Return materials
+							</Button>
+						</div>
+					);
+				},
 			},
 		],
 		[]
 	);
 
-	/* useEffect(() => {
+	useEffect(() => {
 		setList(data?.data || []);
-	}, [data?.data]); */
+	}, [data?.data]);
 
 	return (
 		<AppLayout
 			title={
 				<div className="flex items-center gap-2">
-					<FlatIcon icon="rr-truck-moving" />
-					ProjectPlantRequests
+					<FlatIcon icon="rr-diagram-project" />
+					Project/Plant requests
 				</div>
 			}
+			breadcrumbs={[
+				{
+					to: "/for-project-or-plant-requests",
+					icon: "rr-inbox-in",
+					label: "Project/Plant requests",
+				},
+			]}
 		>
 			<div className="flex flex-col lg:flex-row gap-6 pb-6">
 				<TextInputField
@@ -58,13 +145,14 @@ const ProjectPlantRequests = () => {
 					icon={<FlatIcon icon="rr-search" className="text-sm" />}
 					placeholder="Search"
 				/>
-				<Button type="accent" className="ml-auto" onClick={() => {}}>
+				{/* <Button type="accent" className="ml-auto" onClick={() => {}}>
 					<FlatIcon icon="rs-plus" /> Add returned materials
-				</Button>
+				</Button> */}
 			</div>
 			<div className="w-full">
 				<Table columns={columns} loading={false} data={list} />
 			</div>
+			<ReturnMaterialsModal ref={return_materials_ref} />
 		</AppLayout>
 	);
 };

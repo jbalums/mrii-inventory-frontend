@@ -223,7 +223,14 @@ const ItemDelivery = () => {
 							complete order
 						</Button>
 
-						<Button type="transparent">Maybe later</Button>
+						<Button
+							type="transparent"
+							onClick={() => {
+								complete_order_ref.current.hide();
+							}}
+						>
+							Maybe later
+						</Button>
 					</>
 				}
 				footerClassName="!items-center !justify-center"

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 let cancel_token = axios2.CancelToken.source();
 
-export const useHttp = (url, dependencies) => {
+export const useHttp = (url, dependencies, allowFetch = true) => {
 	const [loading, setLoading] = useState(true);
 	const [data, setData] = useState(null);
 	const [meta, setMeta] = useState(null);
@@ -14,7 +14,7 @@ export const useHttp = (url, dependencies) => {
 		setLoading(true);
 		cancel_token = axios2.CancelToken.source();
 		let timeout = setTimeout(() => {
-			if (url) {
+			if (url && allowFetch) {
 				axios
 					.get(url, {
 						cancelToken: cancel_token.token,
