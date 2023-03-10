@@ -5,7 +5,6 @@ import ModalBody from "@/src/components/modals/components/ModalBody";
 import ModalFooter from "@/src/components/modals/components/ModalFooter";
 import ModalHeader from "@/src/components/modals/components/ModalHeader";
 import Modal from "@/src/components/modals/Modal";
-import Fade from "react-reveal/Fade";
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import axios from "@/libs/axios";

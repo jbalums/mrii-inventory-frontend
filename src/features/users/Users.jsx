@@ -94,7 +94,7 @@ const Users = () => {
 			},
 			{
 				header: "User type",
-				className: "!text-center",
+				className: "!text-center min-w-[128px]",
 				accessorKey: "user_type",
 				cell: ({ row }) => {
 					return (
@@ -103,7 +103,6 @@ const Users = () => {
 						)?.label || ""
 					);
 				},
-				className: "min-w-[128px]",
 			},
 			{
 				header: "Branch",
