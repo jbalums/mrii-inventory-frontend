@@ -57,7 +57,11 @@ const LoginForm = () => {
 		<>
 			<div className="flex items-center flex-col justify-start lg:justify-center w-full lg:w-1/2 lg:h-full z-20">
 				<div className="flex items-center justify-center mb-4 lg:mb-6">
-					<img src="/logo-white.png" className="h-14 lg:h-20" />
+					<img
+						src="/logo-bw.png"
+						className="h-14 lg:h-20"
+						style={{ filter: "drop-shadow(0px 0px 20px #000130)" }}
+					/>
 				</div>
 				<span className="text-base lg:text-lg font-bold text-white tracking-wide mb-10 lg:mb-20 text-center">
 					Manufacturer of Water Treatment Chemicals & Equipment
