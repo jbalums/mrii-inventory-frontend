@@ -343,6 +343,7 @@ const RequestOrdersFormModal = (props, ref) => {
 												setList(data);
 											},
 											items: [],
+											purpose: watch("purpose"),
 										});
 									}}
 								>

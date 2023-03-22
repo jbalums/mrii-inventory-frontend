@@ -87,8 +87,8 @@ const PageHeader = (props) => {
 							},
 						]}
 						menuChildren={
-							<div className="flex flex-col items-center gap-2 md:hidden py-2 mb-1 bg-slate-50">
-								<div className="min-h-[44px] min-w-[44px] rounded-full bg-white border border-border overflow-hidden">
+							<div className="flex flex-col items-center gap- py-2 mb-1 bg-slate-50">
+								<div className="min-h-[44px] min-w-[44px] mb-1 rounded-full bg-white border border-border overflow-hidden">
 									<img
 										className="object-cover h-11 rounded-full w-11"
 										src={
@@ -98,8 +98,11 @@ const PageHeader = (props) => {
 										}
 									/>
 								</div>
-								<span className="text-center  text-xs font-bold">
+								<span className="text-center text-sm font-bold">
 									{user?.data?.name}
+								</span>
+								<span className="text-center text-xs text-placeholder">
+									{user?.data?.branch?.name}
 								</span>
 							</div>
 						}

@@ -21,6 +21,7 @@ const SelectItemsModal = (props, ref) => {
 	const [open, setOpen] = useState(false);
 	const [list, setList] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [purpose, setPurpose] = useState("");
 	const [callBack, setCallBack] = useState({ fn: null });
 
 	const {
@@ -52,7 +53,8 @@ const SelectItemsModal = (props, ref) => {
 		hide: hide,
 	}));
 
-	const show = ({ callback, items }) => {
+	const show = ({ callback, items, purpose }) => {
+		setPurpose(purpose);
 		if (callback) {
 			setCallBack({
 				fn: callback,
@@ -61,6 +63,7 @@ const SelectItemsModal = (props, ref) => {
 		setSelectedItems(items);
 		setFilters({
 			key: Math.random(200),
+			purpose: purpose,
 			...defaultFilter,
 		});
 		setOpen(true);
@@ -79,6 +82,11 @@ const SelectItemsModal = (props, ref) => {
 			{
 				header: "Name",
 				accessorKey: "name",
+				className: "min-w-[128px] !whitespace-pre",
+			},
+			{
+				header: "Location",
+				accessorKey: "location.name",
 				className: "min-w-[128px] !whitespace-pre",
 			},
 			{
@@ -148,11 +156,6 @@ const SelectItemsModal = (props, ref) => {
 								/>
 							}
 							placeholder="Search product"
-						/>
-						<ReactSelectInputField
-							className="w-full lg:w-[256px]"
-							placeholder="All Location / Branches"
-							options={[]}
 						/>
 					</div>
 

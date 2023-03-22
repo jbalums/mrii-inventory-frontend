@@ -62,14 +62,14 @@ const LeftSidebar = () => {
 	}, [window, device]);
 	return (
 		<div
-			className={`hidden md:flex shadow-xl transition-all h-full duration-300 bg-background   flex-col md:w-64 z-10 
+			className={`hidden md:flex shadow-xl transition-all h-full duration-300 bg-background flex-col md:w-64 z-10 
 		${
 			collapseSidebar
 				? `!relative pt-6 !px-0 !w-[64px] max-w-[64px] ${
 						device == "mobile" ? " top-0 left-0" : ""
 				  }`
 				: `absolute
-				lg:relative pt-6 px-0 min-w-[240px] ${
+				lg:relative pt-0 px-0 min-w-[240px] ${
 					device == "mobile" ? " top-0 left-0" : " "
 				}`
 		}`}
@@ -92,6 +92,14 @@ const LeftSidebar = () => {
 					className={`text-lg duration-100 ${
 						collapseSidebar ? "rotate-180" : ""
 					}`}
+				/>
+			</div>
+
+			<div className="flex items-center p-2 px-4 gap-2 border-y relative h-[76px] bg-background z-[2]">
+				<b className="text-dark">{user?.data?.branch?.name}</b>
+				<FlatIcon
+					icon="rr-warehouse-alt"
+					className="-mt-[2px] absolute right-3 opacity-10 text-5xl text-primary"
 				/>
 			</div>
 
