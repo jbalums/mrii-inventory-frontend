@@ -161,12 +161,6 @@ const RequestOrdersFormModal = (props, ref) => {
 				className: "border-t",
 				cellClassName: "",
 			},
-
-			{
-				header: "Quantity on hand",
-				accessorKey: "total_quantity",
-				className: "!text-center border-t",
-			},
 			{
 				header: "Quantity",
 				accessorKey: "qty_received",
@@ -336,6 +330,7 @@ const RequestOrdersFormModal = (props, ref) => {
 									Order form
 								</h4>
 								<Button
+									disabled={!watch("purpose")}
 									className="ml-auto"
 									onClick={() => {
 										select_items_ref.current.show({

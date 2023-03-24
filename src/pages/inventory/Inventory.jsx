@@ -13,8 +13,10 @@ import useInventory from "@/src/pages/inventory/hooks/useInventory.js";
 import { formatToCurrency } from "@/libs/helpers";
 import axios from "@/libs/axios";
 import ViewLowStocksModal from "./components/ViewLowStocksModal";
+import { useAuth } from "@/hooks/useAuth";
 
 const Inventory = () => {
+	const { user } = useAuth();
 	const addProductRef = useRef(null);
 	const viewProductRef = useRef(null);
 	const viewStatusRef = useRef(null);
@@ -22,6 +24,7 @@ const Inventory = () => {
 	const [list, setList] = useState([]);
 	const [inventoryStatus, setInventoryStatus] = useState(null);
 	const [branches, setBranches] = useState([]);
+	console.log("useruseruser", user);
 	const {
 		data,
 		loading: dataLoading,
@@ -30,13 +33,26 @@ const Inventory = () => {
 		setFilters,
 		updateInList,
 		removeFromList,
-	} = useDataTable(`/inventory`, setList, {
-		location_id: "",
-	});
+	} = useDataTable(
+		user?.data?.branch?.id == 1
+			? `/inventory`
+			: `/inventory/branch-inventory`,
+		setList,
+		{
+			location_id:
+				user?.data?.branch?.id == 1 ? "" : user?.data?.branch?.id,
+		}
+	);
 
 	const { getBranches } = useBranchLocation();
-
 	const { businessUnits } = useInventory();
+
+	useEffect(() => {
+		setFilters((filters) => ({
+			...filters,
+			location_id: user?.data?.branch?.id,
+		}));
+	}, [user?.data?.branch?.id]);
 
 	useEffect(() => {
 		getBranches().then((res) => {
@@ -44,6 +60,7 @@ const Inventory = () => {
 		});
 		getStockStatus();
 	}, [1]);
+
 	useEffect(() => {
 		setList(data?.data || []);
 	}, [data?.data]);
@@ -96,13 +113,19 @@ const Inventory = () => {
 				accessorKey: "total_quantity",
 				className: "!text-center min-w-[128px]",
 				thClassName: "items-center",
+				cell: ({ row }) => {
+					let qty =
+						row?.original?.total_quantity >= 0
+							? row?.original?.total_quantity
+							: 0;
+					return qty;
+				},
 			},
 			{
 				header: "Unit price",
 				accessorKey: "price",
 				className: "!text-right min-w-[128px]",
 				cell: ({ row }) => {
-					console.log("rrroooowww", row?.original);
 					let p = row?.original?.price || 0;
 					return formatToCurrency(p);
 				},

@@ -95,11 +95,6 @@ const SelectItemsModal = (props, ref) => {
 				className: "!text-center",
 			},
 			{
-				header: "Quantity on hand",
-				accessorKey: "total_quantity",
-				className: "!text-center",
-			},
-			{
 				header: "Select",
 				id: "action",
 				className: "!text-center",

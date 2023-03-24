@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import { BiArrowToLeft } from "react-icons/bi";
 import { Link, useLocation } from "react-router-dom";
 import Button from "../Button";
+import CollapseMenu from "../CollapseMenu";
 import FlatIcon from "../FlatIcon";
 import LeftSidebarLink from "../LeftSidebarLink";
 import LeftSidebarTitle from "../LeftSidebarTitle";
@@ -103,7 +104,7 @@ const LeftSidebar = () => {
 				/>
 			</div>
 
-			<div className="max-h-[calc(100vh-95px)] z-[2]">
+			<div className="max-h-[calc(100vh-76px)] z-[2] overflow-auto">
 				<LeftSidebarTitle
 					text="Main menu"
 					collapseSidebar={collapseSidebar}
@@ -130,93 +131,132 @@ const LeftSidebar = () => {
 						active={isActive("/inventory")}
 					/>
 				)}
+				<LeftSidebarLink
+					icon={<FlatIcon icon="rr-hand-holding-box" />}
+					text={`Receiving`}
+					to="/receiving"
+					active={isActive("/receiving", "/receiving-orders")}
+				/>
+				<CollapseMenu
+					containerClassName="border-r-4 border-slate-400"
+					titleClassName="flex items-center gap-2 font-normal h-11 text-dark px-4 !duration-200 text-sm hover:bg-foreground bg-opacity-0 hover:bg-opacity-100"
+					title={
+						<>
+							<span className={`text-lg `}>
+								<FlatIcon icon="rr-list" />
+							</span>
+							Requests
+						</>
+					}
+					titleOpenClassName={
+						"!bg-slate-300 text-dark !font-semibold"
+					}
+					defaultOpen={
+						isActive("/request-orders") ||
+						isActive("/approving/approve-request-order") ||
+						isActive("/accept-orders")
+					}
+				>
+					{hasPermission([
+						"admin",
+						"warehouse_man",
+						"area_manger",
+						"approving_manager",
+						"bu_manager",
+						"employee",
+					]) && (
+						<LeftSidebarLink
+							icon={<FlatIcon icon="rr-add-document" />}
+							text={`Requests`}
+							to="/request-orders"
+							active={isActive("/request-orders")}
+						/>
+					)}
 
-				{hasPermission([
-					"admin",
-					"warehouse_man",
-					"area_manger",
-					"approving_manager",
-					"bu_manager",
-					"employee",
-				]) && (
+					{hasPermission([
+						"admin",
+						"warehouse_man",
+						"area_manger",
+						"approving_manager",
+						"bu_manager",
+						"employee",
+					]) && (
+						<>
+							<LeftSidebarLink
+								icon={<FlatIcon icon="rr-badge-check" />}
+								text={`Request Approval`}
+								to="/approving/approve-request-order"
+								active={isActive(
+									"/approving/approve-request-order"
+								)}
+							/>
+							<LeftSidebarLink
+								icon={<FlatIcon icon="rr-box-check" />}
+								text={`Request Acceptance`}
+								to="/accept-orders"
+								active={isActive("/accept-orders")}
+							/>
+						</>
+					)}
+				</CollapseMenu>
+
+				<CollapseMenu
+					containerClassName="border-r-4 border-primary"
+					titleClassName="flex items-center gap-2 font-normal h-11 text-dark px-4 !duration-200 text-sm hover:bg-foreground bg-opacity-0 hover:bg-opacity-100"
+					title={
+						<>
+							<span className={`text-lg `}>
+								<FlatIcon icon="rr-file-export" />
+							</span>
+							Issuances
+						</>
+					}
+					titleOpenClassName={
+						"!bg-primary text-light !font-semibold bg-opacity-80"
+					}
+					defaultOpen={
+						isActive("/approving/issuances") ||
+						isActive("/approving/approve-issuance-order") ||
+						isActive("/receiving-orders")
+					}
+				>
 					<LeftSidebarLink
-						icon={<FlatIcon icon="rr-add-document" />}
-						text={`Requests`}
-						to="/request-orders"
-						active={isActive("/request-orders")}
+						icon={<FlatIcon icon="rr-file-export" />}
+						text={`Issuances`}
+						to="/approving/issuances"
+						active={isActive("/approving/issuances")}
 					/>
-				)}
-
-				{hasPermission([
-					"admin",
-					"warehouse_man",
-					"area_manger",
-					"approving_manager",
-					"bu_manager",
-					"employee",
-				]) && (
-					<>
-						<LeftSidebarLink
-							icon={<FlatIcon icon="rr-badge-check" />}
-							text={`Request Approval`}
-							to="/approving/approve-request-order"
-							active={isActive(
-								"/approving/approve-request-order"
-							)}
-						/>
-						<LeftSidebarLink
-							icon={<FlatIcon icon="rr-box-check" />}
-							text={`Request Acceptance`}
-							to="/accept-orders"
-							active={isActive("/accept-orders")}
-						/>
-						<LeftSidebarLink
-							icon={<FlatIcon icon="rr-hand-holding-box" />}
-							text={`Receiving`}
-							to="/receiving"
-							active={isActive("/receiving", "/receiving-orders")}
-						/>
-						<LeftSidebarLink
-							icon={<FlatIcon icon="rr-file-export" />}
-							text={`Issuances`}
-							to="/approving/issuances"
-							active={isActive("/approving/issuances")}
-						/>
-						<LeftSidebarLink
-							icon={<FlatIcon icon="rr-assept-document" />}
-							text={`Issuance Approval`}
-							to="/approving/approve-issuance-order"
-							active={isActive(
-								"/approving/approve-issuance-order"
-							)}
-						/>
-						<LeftSidebarLink
-							icon={<FlatIcon icon="rr-inbox-in" />}
-							text={`Receiving Orders`}
-							to="/receiving-orders"
-							active={isActive("/receiving-orders")}
-						/>
-						<LeftSidebarLink
-							icon={<FlatIcon icon="rr-undo" />}
-							text={`Return Materials`}
-							to="/return-materials"
-							active={isActive("/return-materials")}
-						/>
-						<LeftSidebarLink
-							icon={<FlatIcon icon="rr-diagram-project" />}
-							text={`Project/Plant`}
-							to="/for-project-or-plant-requests"
-							active={isActive("/for-project-or-plant-requests")}
-						/>
-						<LeftSidebarLink
-							icon={<FlatIcon icon="rr-box-open" />}
-							text={`Repacking`}
-							to="/repacking"
-							active={isActive("/repacking")}
-						/>
-					</>
-				)}
-
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rr-assept-document" />}
+						text={`Issuance Approval`}
+						to="/approving/approve-issuance-order"
+						active={isActive("/approving/approve-issuance-order")}
+					/>
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rr-inbox-in" />}
+						text={`Receiving Orders`}
+						to="/receiving-orders"
+						active={isActive("/receiving-orders")}
+					/>
+				</CollapseMenu>
+				<LeftSidebarLink
+					icon={<FlatIcon icon="rr-undo" />}
+					text={`Return Materials`}
+					to="/return-materials"
+					active={isActive("/return-materials")}
+				/>
+				<LeftSidebarLink
+					icon={<FlatIcon icon="rr-diagram-project" />}
+					text={`Project/Plant`}
+					to="/for-project-or-plant-requests"
+					active={isActive("/for-project-or-plant-requests")}
+				/>
+				<LeftSidebarLink
+					icon={<FlatIcon icon="rr-box-open" />}
+					text={`Repacking`}
+					to="/repacking"
+					active={isActive("/repacking")}
+				/>
 				{/* <LeftSidebarLink
 				icon={<FlatIcon icon="rr-shopping-cart" />}
 				text={`PO lists`}

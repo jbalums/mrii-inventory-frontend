@@ -12,9 +12,11 @@
 @tailwind utilities;
 
 html {
-	font-family: "Inter", sans-serif;
 	overflow-y: hidden;
 	overflow-y: auto;
+}
+*:not(.fi):not(i) {
+	font-family: "Inter", sans-serif;
 }
 h1,
 h2,

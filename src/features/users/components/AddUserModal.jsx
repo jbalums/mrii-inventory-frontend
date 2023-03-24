@@ -45,7 +45,12 @@ const AddUserModal = (props, ref) => {
 		if (data) {
 			setUser(data);
 			reset({
-				...data,
+				username: data?.username,
+				firstname: data?.firstname,
+				middlename: data?.middlename,
+				lastname: data?.lastname,
+				contact: data?.contact,
+				email: data?.email,
 				type: data?.user_type,
 				division: data?.unit_code,
 				location_id: data?.branch_id,
@@ -236,6 +241,10 @@ const AddUserModal = (props, ref) => {
 									{
 										value: "WBU",
 										label: "WBU - Water Business Unit",
+									},
+									{
+										value: "others",
+										label: "Others",
 									},
 								]}
 							/>

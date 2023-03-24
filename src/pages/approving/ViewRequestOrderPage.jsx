@@ -133,7 +133,7 @@ const ViewRequestOrderPage = () => {
 									setBtnLoading(true);
 									approvedRequisition(id).then(() => {
 										toast.success(
-											"Order has been received successfully"
+											"Order has been accepted successfully"
 										);
 										setTimeout(() => {
 											setBtnLoading(false);
@@ -144,7 +144,7 @@ const ViewRequestOrderPage = () => {
 								}}
 							>
 								<FlatIcon icon="rr-print" className="mr-1" />{" "}
-								Yes, complete order
+								Yes, accept order
 							</Button>
 
 							<Button
