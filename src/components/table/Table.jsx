@@ -119,7 +119,11 @@ const Table = (props) => {
 												? "cursor-pointer select-none"
 												: ""
 										}`}
-										onClick={header.column.getToggleSortingHandler()}
+										onClick={
+											!header.column.columnDef
+												?.disableSort &&
+											header.column.getToggleSortingHandler()
+										}
 									>
 										{header.isPlaceholder
 											? null

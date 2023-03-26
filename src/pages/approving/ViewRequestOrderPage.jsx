@@ -63,26 +63,7 @@ const ViewRequestOrderPage = () => {
 	}, [data?.data]);
 
 	return (
-		<AppLayout
-			title="View request"
-			backBtn
-			titleChildren={
-				<div className="ml-auto flex items-start justify-center gap-4">
-					<div className="h-11 border-r border-border"></div>
-					{data?.data?.status == "pending" && (
-						<Button
-							size="lg"
-							type="accent"
-							onClick={() => {
-								complete_order_ref.current.show();
-							}}
-						>
-							<FlatIcon icon="br-check" /> Accept Request
-						</Button>
-					)}
-				</div>
-			}
-		>
+		<AppLayout title="View request" backBtn>
 			<div className="w-full">
 				<div className="flex flex-col gap-y-6 pt-6">
 					{/* 	<p className="text-sm text-dark">
@@ -118,11 +99,24 @@ const ViewRequestOrderPage = () => {
 						</CardLayout>
 					))}
 				</div>
+				<div className="ml-auto flex items-start justify-end py-6  gap-4 w-full">
+					{data?.data?.status == "pending" && (
+						<Button
+							size="lg"
+							type="accent"
+							onClick={() => {
+								complete_order_ref.current.show();
+							}}
+						>
+							<FlatIcon icon="br-check" /> Approve Request
+						</Button>
+					)}
+				</div>
 			</div>
 			<AffirmationModal
 				ref={complete_order_ref}
-				title="Accept request"
-				body="Are you sure you want to accept the request?"
+				title="Approve request"
+				body="Are you sure you want to approve this request?"
 				footer={({ btnLoading, setBtnLoading }) => {
 					return (
 						<>
@@ -133,7 +127,7 @@ const ViewRequestOrderPage = () => {
 									setBtnLoading(true);
 									approvedRequisition(id).then(() => {
 										toast.success(
-											"Order has been accepted successfully"
+											"Request has been approved successfully"
 										);
 										setTimeout(() => {
 											setBtnLoading(false);
@@ -144,7 +138,7 @@ const ViewRequestOrderPage = () => {
 								}}
 							>
 								<FlatIcon icon="rr-print" className="mr-1" />{" "}
-								Yes, accept order
+								Yes, approve order
 							</Button>
 
 							<Button

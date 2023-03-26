@@ -148,9 +148,11 @@ const AcceptOrders = () => {
 				</div>
 				<Table
 					rowClick={(data) => {
-						navigate(
+						console.log("datadata", data.original);
+						navigate(`/accept-orders/details/${data.original.id}`);
+						/* navigate(
 							`/accept-orders/request/${data?.original?.id}`
-						);
+						); */
 					}}
 					columns={columns}
 					loading={dataLoading}

@@ -28,7 +28,7 @@ const AffirmationModal = (props, ref) => {
 					<div className="h-24 w-24 rounded-full border-2 border-dark flex items-center justify-center">
 						<FlatIcon
 							icon="br-check"
-							className="text-accent text-3xl"
+							className="text-accent text-5xl"
 						/>
 					</div>
 				</div>

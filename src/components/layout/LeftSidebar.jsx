@@ -97,7 +97,7 @@ const LeftSidebar = () => {
 			</div>
 
 			<div className="flex items-center p-2 px-4 gap-2 border-y relative h-[76px] bg-background z-[2]">
-				<b className="text-dark">{user?.data?.branch?.name}</b>
+				<b className="text-primary">{user?.data?.branch?.name}</b>
 				<FlatIcon
 					icon="rr-warehouse-alt"
 					className="-mt-[2px] absolute right-3 opacity-10 text-5xl text-primary"
@@ -138,18 +138,18 @@ const LeftSidebar = () => {
 					active={isActive("/receiving", "/receiving-orders")}
 				/>
 				<CollapseMenu
-					containerClassName="border-r-4 border-slate-400"
+					containerClassName="sidebar-menu-collapse pl-4"
 					titleClassName="flex items-center gap-2 font-normal h-11 text-dark px-4 !duration-200 text-sm hover:bg-foreground bg-opacity-0 hover:bg-opacity-100"
 					title={
 						<>
-							<span className={`text-lg `}>
-								<FlatIcon icon="rr-list" />
+							<span className={`text-lg -mb-[6px]`}>
+								<FlatIcon icon="br-list" />
 							</span>
 							Requests
 						</>
 					}
 					titleOpenClassName={
-						"!bg-slate-300 text-dark !font-semibold"
+						"!bg-primary text-light !font-semibold bg-opacity-80"
 					}
 					defaultOpen={
 						isActive("/request-orders") ||
@@ -190,55 +190,60 @@ const LeftSidebar = () => {
 									"/approving/approve-request-order"
 								)}
 							/>
-							<LeftSidebarLink
-								icon={<FlatIcon icon="rr-box-check" />}
-								text={`Request Acceptance`}
-								to="/accept-orders"
-								active={isActive("/accept-orders")}
-							/>
+							{user?.data?.branch?.id == 1 && (
+								<LeftSidebarLink
+									icon={<FlatIcon icon="rr-box-check" />}
+									text={`Request Acceptance`}
+									to="/accept-orders"
+									active={isActive("/accept-orders")}
+								/>
+							)}
 						</>
 					)}
 				</CollapseMenu>
 
-				<CollapseMenu
-					containerClassName="border-r-4 border-primary"
-					titleClassName="flex items-center gap-2 font-normal h-11 text-dark px-4 !duration-200 text-sm hover:bg-foreground bg-opacity-0 hover:bg-opacity-100"
-					title={
-						<>
-							<span className={`text-lg `}>
-								<FlatIcon icon="rr-file-export" />
-							</span>
-							Issuances
-						</>
-					}
-					titleOpenClassName={
-						"!bg-primary text-light !font-semibold bg-opacity-80"
-					}
-					defaultOpen={
-						isActive("/approving/issuances") ||
-						isActive("/approving/approve-issuance-order") ||
-						isActive("/receiving-orders")
-					}
-				>
+				{/* {user?.data?.branch?.id == 1 && (
+					<CollapseMenu
+						containerClassName="sidebar-menu-collapse pl-4"
+						titleClassName="flex items-center gap-2 font-normal h-11 text-dark px-4 !duration-200 text-sm hover:bg-foreground bg-opacity-0 hover:bg-opacity-100"
+						title={
+							<>
+								<span className={`text-lg -mb-[6px]`}>
+									<FlatIcon icon="br-list" />
+								</span>
+								Issuances
+							</>
+						}
+						titleOpenClassName={
+							"!bg-primary text-light !font-semibold bg-opacity-80"
+						}
+						defaultOpen={
+							isActive("/issuances") ||
+							isActive("/for-approval-issuances")
+						}
+					>
+						<LeftSidebarLink
+							icon={<FlatIcon icon="rr-assept-document" />}
+							text={`Issuance Approval`}
+							to="/for-approval-issuances"
+							active={isActive("/for-approval-issuances")}
+						/>
+					</CollapseMenu>
+				)} */}
+				{user?.data?.branch?.id == 1 && (
 					<LeftSidebarLink
 						icon={<FlatIcon icon="rr-file-export" />}
 						text={`Issuances`}
-						to="/approving/issuances"
-						active={isActive("/approving/issuances")}
+						to="/issuances"
+						active={isActive("/issuances")}
 					/>
-					<LeftSidebarLink
-						icon={<FlatIcon icon="rr-assept-document" />}
-						text={`Issuance Approval`}
-						to="/approving/approve-issuance-order"
-						active={isActive("/approving/approve-issuance-order")}
-					/>
-					<LeftSidebarLink
-						icon={<FlatIcon icon="rr-inbox-in" />}
-						text={`Receiving Orders`}
-						to="/receiving-orders"
-						active={isActive("/receiving-orders")}
-					/>
-				</CollapseMenu>
+				)}
+				<LeftSidebarLink
+					icon={<FlatIcon icon="rr-inbox-in" />}
+					text={`Receiving Orders`}
+					to="/receiving-orders"
+					active={isActive("/receiving-orders")}
+				/>
 				<LeftSidebarLink
 					icon={<FlatIcon icon="rr-undo" />}
 					text={`Return Materials`}

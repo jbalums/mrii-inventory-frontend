@@ -22,6 +22,9 @@ import ViewRequestOrderPage from "./pages/approving/ViewRequestOrderPage";
 import CheckAuth from "./pages/CheckAuth";
 import Dashboard from "./pages/Dashboard";
 import Inventory from "./pages/inventory/Inventory";
+import IssuanceApproval from "./pages/issuances/IssuanceApproval";
+import Issuances from "./pages/issuances/Issuances";
+import ReceivingIssuances from "./pages/issuances/ReceivingIssuances";
 import PrintProducts from "./pages/products/PrintProducts";
 import ProjectPlantRequests from "./pages/project-plant/ProjectPlantRequests";
 import PurchaseOrderList from "./pages/purchase-order-list/PurchaseOrderList";
@@ -31,6 +34,7 @@ import Receiving from "./pages/receiving/Receiving";
 import Repacking from "./pages/repacking/Repacking";
 import ItemDelivery from "./pages/request-orders/ItemDelivery";
 import PrepareItemDelivery from "./pages/request-orders/PrepareItemDelivery";
+import RequestOrderDetail from "./pages/request-orders/RequestOrderDetail";
 import RequestOrders from "./pages/request-orders/RequestOrders";
 import ViewCompletedRequest from "./pages/request-orders/ViewCompletedRequest";
 import ReturnMaterials from "./pages/return-materials/ReturnMaterials";
@@ -56,10 +60,14 @@ const AppRoutes = () => {
 			<Route path="/receiving" element={<Receiving />} />
 			<Route path="/accept-orders" element={<AcceptOrders />} />
 			<Route
-				path="/accept-orders/request/:id"
-				element={<RequestDetails />}
+				path="/accept-orders/details/:id"
+				element={<RequestOrderDetail />}
 			/>
 			<Route path="/request-orders" element={<RequestOrders />} />
+			<Route
+				path="/request-orders/:id"
+				element={<RequestOrderDetail />}
+			/>
 			<Route
 				path="/request-orders/prepare-item-delivery"
 				element={<PrepareItemDelivery />}
@@ -78,6 +86,7 @@ const AppRoutes = () => {
 			/>
 
 			<Route path="/approving" element={<Approving />} />
+
 			<Route
 				path="/approving/approve-request-order"
 				element={<ApproveRequestOrder />}
@@ -85,6 +94,13 @@ const AppRoutes = () => {
 			<Route
 				path="/approving/approve-request-order/view-request/:id"
 				element={<ViewRequestOrderPage />}
+			/>
+
+			<Route path="/issuances" element={<Issuances />} />
+			<Route path="/issuances/:id" element={<RequestOrderDetail />} />
+			<Route
+				path="/for-approval-issuances/:id"
+				element={<RequestOrderDetail />}
 			/>
 
 			<Route path="/repacking" element={<Repacking />} />
@@ -99,12 +115,16 @@ const AppRoutes = () => {
 				element={<ApproveIssuance />}
 			/>
 
-			<Route path="/receiving-orders" element={<ReceivingOrders />} />
+			<Route path="/receiving-orders" element={<ReceivingIssuances />} />
 			<Route
+				path="/receiving-orders/:id"
+				element={<RequestOrderDetail />}
+			/>
+			{/* 	<Route
 				path="/receiving-orders/:id"
 				element={<ReceiveOrderDetails />}
 			/>
-
+ */}
 			<Route
 				path="/approving/approve-issuance-order/view-issuance/:id"
 				element={<ViewIssuanceOrder />}

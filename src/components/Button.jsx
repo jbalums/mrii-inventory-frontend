@@ -80,6 +80,8 @@ const Button = (props) => {
 				return "!w-[30px] h-[30px] text-xs text-xs flex items-center justify-center";
 			case "square-md":
 				return "!w-[44px] h-[44px] text-xs text-xs flex items-center justify-center";
+			case "lg":
+				return "h-[66px] py-3 px-5 text-lg text-xs flex items-center justify-center";
 			default:
 				return "p-3 text-sm font-light";
 		}

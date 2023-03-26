@@ -12,10 +12,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import RequestOrdersFormModal from "./components/RequestOrdersFormModal";
-import useRequestOrdersHook from "./hooks/useRequestOrdersHook.js";
 
-const RequestOrders = () => {
+const ReceivingIssuances = () => {
 	const navigate = useNavigate();
 	const form_modal_ref = useRef(null);
 	const delete_modal_ref = useRef(null);
@@ -35,7 +33,7 @@ const RequestOrders = () => {
 		setPaginate,
 		keyword,
 	} = useDataTable(
-		`/inventory/requisition`,
+		`/inventory/get-receiving-issuances`,
 		null
 		// setList
 	);
@@ -45,8 +43,6 @@ const RequestOrders = () => {
 			setList(data?.data);
 		}
 	}, [data]);
-
-	const { deleteSupplier } = useRequestOrdersHook();
 
 	const columns = useMemo(
 		() => [
@@ -67,9 +63,6 @@ const RequestOrders = () => {
 				accessorKey: "purpose",
 				className: "cursor-pointer",
 				cellClassName: "",
-				cell: ({ row: { original } }) => {
-					return purposeElements[original?.purpose];
-				},
 			},
 			{
 				header: "Requestor name",
@@ -95,29 +88,17 @@ const RequestOrders = () => {
 				cellClassName: "",
 			},
 			{
-				header: "Order status",
-				accessorKey: "order_status",
+				header: "Status",
+				accessorKey: "issuance_status",
 				className: "cursor-pointer",
 				cellClassName: "",
-				cell: ({ row: { original } }) => {
-					return original?.status;
-				},
-			},
-			{
-				header: "Approved by",
-				accessorKey: "approved_by",
-				className: "!text-center",
-				cellClassName: "",
-				cell: ({ row: { original } }) => {
-					let condition = ["approved", "completed"];
-					if (condition.includes(original?.status))
-						return (
-							<span
-								className={`px-0 py-1  bg-opacity-10  rounded-xl text-success`}
-							>
-								{original.accepted_by?.name}
-							</span>
-						);
+				cell: (data) => {
+					let original = data?.row?.original;
+					console.log("originaloriginal", original);
+					return original?.status == "accepted" &&
+						original?.issuance_status == "completed"
+						? "pending"
+						: "received";
 				},
 			},
 		],
@@ -173,13 +154,12 @@ const RequestOrders = () => {
 
 	return (
 		<AppLayout
-			icon={<FlatIcon icon="rr-add-document" />}
-			title="Request orders"
+			icon={<FlatIcon icon="rr-file-export" />}
+			title="Issuances"
 			breadcrumbs={[
 				{
 					to: "/request-orders",
-					icon: "rr-inbox-in",
-					label: "Request orders",
+					label: "Issuances",
 				},
 			]}
 		>
@@ -222,37 +202,10 @@ const RequestOrders = () => {
 							},
 						]}
 					/>
-					<Button
-						type="accent"
-						className="ml-auto"
-						onClick={openFormModal}
-					>
-						<FlatIcon icon="rs-plus" />
-						Add new order
-					</Button>
 				</div>
 				<Table
 					rowClick={(data) => {
-						navigate(`/request-orders/${data.original.id}`);
-
-						/* if (data.original.status == "completed") {
-							navigate(
-								`/request-orders/view-completed/${data.original.id}`
-							);
-							return;
-						}
-
-						if (data.original.status == "pending") {
-							navigate(
-								`/approving/approve-request-order/view-request/${data.original.id}`
-							);
-							return;
-						} else {
-							navigate(
-								`prepare-item-delivery/${data?.original?.id}`
-							);
-							return;
-						} */
+						navigate(`/receiving-orders/${data.original.id}`);
 					}}
 					columns={columns}
 					pagination={true}
@@ -267,43 +220,8 @@ const RequestOrders = () => {
 					keyword={keyword}
 				/>
 			</div>
-			<RequestOrdersFormModal
-				ref={form_modal_ref}
-				addToList={addToList}
-				updateInList={updateInList}
-				select_items_ref={select_items_ref}
-			/>
-			<ConfirmModal
-				ref={delete_modal_ref}
-				title="Cofirm delete item category?"
-				body={
-					<p className="text-red-600 font-semibold text-lg text-center">
-						Are you sure you want to delete item category?{" "}
-					</p>
-				}
-				footer={
-					<div className="flex items-center">
-						<Button onClick={closeConfirmDelete}>No</Button>
-						<Button
-							type="danger"
-							className="ml-4"
-							onClick={deleteData}
-							loading={loading}
-						>
-							Yes, delete item category!
-						</Button>
-					</div>
-				}
-			/>
-			<SelectItemsModal
-				ref={select_items_ref}
-				url={`/inventory`}
-				defaultFilter={{
-					request_order: "yes",
-				}}
-			/>
 		</AppLayout>
 	);
 };
 
-export default RequestOrders;
+export default ReceivingIssuances;

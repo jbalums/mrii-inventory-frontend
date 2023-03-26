@@ -121,7 +121,7 @@ const Inventory = () => {
 					return qty;
 				},
 			},
-			{
+			/* 	{
 				header: "Unit price",
 				accessorKey: "price",
 				className: "!text-right min-w-[128px]",
@@ -129,7 +129,7 @@ const Inventory = () => {
 					let p = row?.original?.price || 0;
 					return formatToCurrency(p);
 				},
-			},
+			}, */
 			/* 	{
 				header: "Stocks",
 				accessorKey: "stocks",

@@ -6,7 +6,7 @@ const LeftSidebarLink = ({ icon, text, active, to, onClick }) => {
 		theme: { collapseSidebar },
 	} = useRootContext();
 	return (
-		<Link to={to} className="" onClick={onClick}>
+		<Link to={to} className="relative" onClick={onClick}>
 			<div
 				className={`flex flex-col md:flex-row items-center justify-center md:justify-start font-normal bg-background  h-11 text-dark px-4 !duration-200 text-sm group ${
 					active

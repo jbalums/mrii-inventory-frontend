@@ -302,3 +302,28 @@ label {
 	font-family: "Inter", sans-serif;
 	@apply font-semibold tracking-wide text-sm;
 }
+
+.sidebar-menu-collapse > a:last-child::before {
+	height: 22px !important;
+}
+.sidebar-menu-collapse > a::before {
+	content: "";
+	border-left: 2px solid;
+	height: 44px;
+	width: 4px;
+	position: absolute;
+	left: -10px;
+	@apply border-primary;
+}
+.sidebar-menu-collapse > a::after {
+	content: "";
+	border-top: 2px solid;
+	height: 2px;
+	width: 8px;
+	position: absolute;
+	left: -1px;
+	z-index: 65;
+	top: 20px;
+	left: -10px;
+	@apply border-primary;
+}
