@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { useRequisitions } from "../approving/hooks/useRequisitions";
 import CreateIssuanceModal from "../issuances/components/CreateIssuanceModal";
 import ReceiveOrderModal from "../issuances/components/ReceiveOrderModal";
+import TestExport from "./TestExport";
 
 const RequestOrderDetail = () => {
 	const params = useParams();
@@ -154,6 +155,17 @@ const RequestOrderDetail = () => {
 		<AppLayout
 			icon={<FlatIcon icon="rr-document" />}
 			title={loading ? "Loading..." : `Viewing request Ref# ${data?.ref}`}
+			titleChildren={
+				<>
+					<Button className="ml-auto px-6 font-bold" type="secondary">
+						<FlatIcon icon="rr-print" /> Print Request
+					</Button>
+					<Button className="ml-4 px-6 font-bold" type="primary">
+						<FlatIcon icon="rr-print" /> Print QR
+					</Button>
+					<TestExport />
+				</>
+			}
 			breadcrumbs={[
 				{
 					to: "/request-orders",
