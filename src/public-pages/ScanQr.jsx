@@ -37,7 +37,7 @@ const ScanQr = () => {
 				},
 			]}
 		>
-			<div className="w-[256px] flex items-center justify-center">
+			<div className="w-[256px]">
 				<QrReader
 					constraints={constraints}
 					onResult={(result, error) => {
