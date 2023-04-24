@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FlatIcon from "../components/FlatIcon";
 import PublicAppLayout from "../components/PublicAppLayout";
 import { QrReader } from "react-qr-reader";
@@ -16,6 +16,14 @@ const ScanQr = () => {
 		console.error(error);
 	};
 
+	useEffect(() => {
+		navigator?.mediaDevices
+			?.getUserMedia({ video: { facingMode: "environment" } })
+			.then(() => {
+				console.log("success");
+			})
+			.catch((err) => console.error(err));
+	});
 	return (
 		<PublicAppLayout
 			containerClassName={`!p-0`}
