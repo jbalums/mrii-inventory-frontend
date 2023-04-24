@@ -2,8 +2,10 @@ import { useState } from "react";
 import FlatIcon from "../components/FlatIcon";
 import PublicAppLayout from "../components/PublicAppLayout";
 import { QrReader } from "react-qr-reader";
+import Button from "../components/Button";
 const ScanQr = () => {
 	const [data, setData] = useState("No result");
+	const [constraints, setConstraints] = useState({ facingMode: "user" });
 	const handleScan = (data) => {
 		if (data) {
 			alert(`Scanned QR code with data: ${data}`);
@@ -28,7 +30,7 @@ const ScanQr = () => {
 			]}
 		>
 			<QrReader
-				facingMode={{ exact: "environment" }}
+				constraints={constraints}
 				onResult={(result, error) => {
 					if (!!result) {
 						setData(result?.text);
@@ -45,6 +47,17 @@ const ScanQr = () => {
 				}}
 			/>
 			<p>{data}</p>
+			<Button
+				onClick={() => {
+					setConstraints((prevData) => {
+						if (prevData?.facingMode == "user")
+							return { facingMode: "environment" };
+						else return { facingMode: "user" };
+					});
+				}}
+			>
+				Switch
+			</Button>
 		</PublicAppLayout>
 	);
 };
