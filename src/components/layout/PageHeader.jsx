@@ -73,6 +73,22 @@ const PageHeader = (props) => {
 								label: (
 									<>
 										<FlatIcon
+											icon="br-mode-landscape"
+											className=""
+										/>
+										Scan QR
+									</>
+								),
+								onClick: () => {
+									navigate("/scan-qr");
+								},
+								className:
+									"text-secondary-dark hover:!text-white !duration-200",
+							},
+							{
+								label: (
+									<>
+										<FlatIcon
 											icon="br-sign-out-alt"
 											className=""
 										/>

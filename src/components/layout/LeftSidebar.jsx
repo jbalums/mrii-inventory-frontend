@@ -275,6 +275,46 @@ const LeftSidebar = () => {
 				to="/reports"
 				active={isActive("/reports")}
 			/> */}
+
+				<CollapseMenu
+					containerClassName="sidebar-menu-collapse pl-4"
+					titleClassName="flex items-center gap-2 font-normal h-11 text-dark px-4 !duration-200 text-sm hover:bg-foreground bg-opacity-0 hover:bg-opacity-100"
+					title={
+						<>
+							<span className={`text-lg -mb-[6px]`}>
+								<FlatIcon icon="br-list" />
+							</span>
+							Reports
+						</>
+					}
+					titleOpenClassName={
+						"!bg-primary text-light !font-semibold bg-opacity-80"
+					}
+					defaultOpen={
+						isActive("/reports/item-costing") ||
+						isActive("/reports/warehouse-issuance") ||
+						isActive("/reports/inputs-of-receipts")
+					}
+				>
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rr-add-document" />}
+						text={`Item costing`}
+						to="/reports/item-costing"
+						active={isActive("/reports/item-costing")}
+					/>
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rr-add-document" />}
+						text={`Warehouse issuance`}
+						to="/reports/warehouse-issuance"
+						active={isActive("/reports/warehouse-issuance")}
+					/>
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rr-add-document" />}
+						text={`Inputs of Receipts`}
+						to="/reports/inputs-of-receipts"
+						active={isActive("/reports/inputs-of-receipts")}
+					/>
+				</CollapseMenu>
 				{hasPermission(["admin"]) && (
 					<>
 						<LeftSidebarTitle

@@ -42,9 +42,14 @@ import PrintSuppliers from "./pages/suppliers/PrintSuppliers";
 import Suppliers from "./pages/suppliers/Suppliers";
 import Test from "./pages/Test";
 import Profile from "./pages/user/Profile";
+import ShowRequestOrder from "./public-pages/ShowRequestOrder";
+import PrintRequestOrder from "./pages/request-orders/PrintRequestOrder";
+import ScanQr from "./public-pages/ScanQr";
 const AppRoutes = () => {
 	return (
 		<Routes>
+			<Route path="/show-order/:id" element={<ShowRequestOrder />} />
+			<Route path="/scan-qr" element={<ScanQr />} />
 			<Route path="/" element={<CheckAuth />} />
 			<Route path="/login" element={<Login />} />
 			<Route path="/test" element={<Test />} />
@@ -67,6 +72,10 @@ const AppRoutes = () => {
 			<Route
 				path="/request-orders/:id"
 				element={<RequestOrderDetail />}
+			/>
+			<Route
+				path="/request-orders/:id/print"
+				element={<PrintRequestOrder />}
 			/>
 			<Route
 				path="/request-orders/prepare-item-delivery"

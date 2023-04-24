@@ -126,7 +126,7 @@ label {
 	}
 	.printable-table table thead > tr > td,
 	.printable-table table thead > tr > th {
-		@apply text-left px-3 py-4 bg-white border-opacity-50 border-b border-border text-darker;
+		@apply text-left px-2 py-1 bg-white border-opacity-50 border-b border-border text-darker;
 	}
 	.printable-table table tbody > tr:not(:last-child) {
 		@apply border-opacity-50 border-b;
@@ -144,9 +144,15 @@ label {
 		/* @apply border-r; */
 	}
 
+	.printable-table table thead > tr {
+		@apply divide-x;
+	}
+	.printable-table table tbody > tr {
+		@apply divide-x;
+	}
 	.printable-table table tbody > tr > td,
 	.printable-table table tbody > tr > th {
-		@apply px-3 py-3 text-sm text-primary-dark;
+		@apply px-2 py-1 text-sm text-primary-dark;
 	}
 	.square-table,
 	.square-table table tr,
@@ -176,6 +182,9 @@ label {
 	.transparent-table tbody th,
 	.transparent-table tbody td {
 		@apply !bg-transparent;
+	}
+
+	.simple-table {
 	}
 }
 
