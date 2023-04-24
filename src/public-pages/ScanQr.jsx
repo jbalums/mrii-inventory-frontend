@@ -37,23 +37,25 @@ const ScanQr = () => {
 				},
 			]}
 		>
-			<QrReader
-				constraints={constraints}
-				onResult={(result, error) => {
-					if (!!result) {
-						setData(result?.text);
-					}
+			<div className="w-[256px] flex items-center justify-center">
+				<QrReader
+					constraints={constraints}
+					onResult={(result, error) => {
+						if (!!result) {
+							setData(result?.text);
+						}
 
-					if (!!error) {
-						console.info(error);
-					}
-				}}
-				style={{
-					width: "100%",
-					background: "red",
-					border: "1px solid black",
-				}}
-			/>
+						if (!!error) {
+							console.info(error);
+						}
+					}}
+					style={{
+						width: "100%",
+						background: "red",
+						border: "1px solid black",
+					}}
+				/>
+			</div>
 			<p>{data}</p>
 			<Button
 				onClick={() => {

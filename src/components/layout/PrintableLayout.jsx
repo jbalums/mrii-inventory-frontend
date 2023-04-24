@@ -59,7 +59,7 @@ const PrintableLayout = (props, ref) => {
 									icon="rr-globe"
 									className="text-[10px] mr-1 -mb-[2px]"
 								/>
-								www.mactanrock.com/
+								www.mactanrock.com
 							</span>
 						</div>
 						{title && <p className={titleClassName}>{title}</p>}
