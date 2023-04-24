@@ -28,7 +28,7 @@ const ScanQr = () => {
 			]}
 		>
 			<QrReader
-				facingMode="environment"
+				facingMode={{ exact: "environment" }}
 				onResult={(result, error) => {
 					if (!!result) {
 						setData(result?.text);
