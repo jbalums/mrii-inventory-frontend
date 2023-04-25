@@ -78,6 +78,10 @@ const AppRoutes = () => {
 				element={<PrintRequestOrder />}
 			/>
 			<Route
+				path="/request-orders/:id/pdf"
+				element={<PrintRequestOrder />}
+			/>
+			<Route
 				path="/request-orders/prepare-item-delivery"
 				element={<PrepareItemDelivery />}
 			/>

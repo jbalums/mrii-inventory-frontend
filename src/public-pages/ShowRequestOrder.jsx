@@ -131,7 +131,7 @@ const ShowRequestOrder = () => {
 					<h3 className="mb-3">Request details</h3>
 					{loading ? (
 						<>
-							<div className=" bg-[#f5f7ff] animate-pulse flex gap-2 px-2 py-2 whitespace-pre rounded-t-lg">
+							<div className=" bg-[#f5f7ff] animate-pulse flex gap-2 px-4 py-2 whitespace-pre rounded-t-lg">
 								<span className="w-1/3 bg-background animate-pulse rounded-xl">
 									&nbsp;
 								</span>
@@ -139,7 +139,7 @@ const ShowRequestOrder = () => {
 									&nbsp;
 								</span>
 							</div>
-							<div className=" bg-[#f5f7ff] animate-pulse flex gap-2 px-2 py-2 whitespace-pre">
+							<div className=" bg-[#f5f7ff] animate-pulse flex gap-2 px-4 py-2 whitespace-pre">
 								<span className="w-1/3 bg-background animate-pulse rounded-xl">
 									&nbsp;
 								</span>
@@ -147,7 +147,7 @@ const ShowRequestOrder = () => {
 									&nbsp;
 								</span>
 							</div>
-							<div className=" bg-[#f5f7ff] animate-pulse flex gap-2 px-2 py-2 whitespace-pre">
+							<div className=" bg-[#f5f7ff] animate-pulse flex gap-2 px-4 py-2 whitespace-pre">
 								<span className="w-1/3 bg-background animate-pulse rounded-xl">
 									&nbsp;
 								</span>
@@ -155,7 +155,7 @@ const ShowRequestOrder = () => {
 									&nbsp;
 								</span>
 							</div>
-							<div className=" bg-[#f5f7ff] animate-pulse flex gap-2 px-2 py-2 whitespace-pre">
+							<div className=" bg-[#f5f7ff] animate-pulse flex gap-2 px-4 py-2 whitespace-pre">
 								<span className="w-1/3 bg-background animate-pulse rounded-xl">
 									&nbsp;
 								</span>
@@ -163,7 +163,7 @@ const ShowRequestOrder = () => {
 									&nbsp;
 								</span>
 							</div>
-							<div className=" bg-[#f5f7ff] animate-pulse flex gap-2 px-2 py-2 whitespace-pre">
+							<div className=" bg-[#f5f7ff] animate-pulse flex gap-2 px-4 py-2 whitespace-pre">
 								<span className="w-1/3 bg-background animate-pulse rounded-xl">
 									&nbsp;
 								</span>
@@ -172,7 +172,7 @@ const ShowRequestOrder = () => {
 								</span>
 							</div>
 
-							<div className=" bg-[#f5f7ff] animate-pulse flex gap-2 px-2 py-2 whitespace-pre rounded-b-xl">
+							<div className=" bg-[#f5f7ff] animate-pulse flex gap-2 px-4 py-2 whitespace-pre rounded-b-xl">
 								<span className="w-1/3 bg-background animate-pulse rounded-xl">
 									&nbsp;
 								</span>
@@ -183,31 +183,31 @@ const ShowRequestOrder = () => {
 						</>
 					) : (
 						<>
-							<div className=" bg-[#f5f7ff] flex gap-2 px-2 py-2 whitespace-pre rounded-t-xl">
+							<div className=" bg-[#f5f7ff] flex gap-2 px-4 pt-4 whitespace-pre rounded-">
 								<span className="w-[128px]">Purpose:</span>
 								<b className="break-all whitespace-normal uppercase">
 									{data?.purpose}
 								</b>
 							</div>
-							<div className=" bg-[#f5f7ff] flex gap-2 px-2 py-2 whitespace-pre">
+							<div className=" bg-[#f5f7ff] flex gap-2 px-4 py-2 whitespace-pre">
 								<span className="w-[128px]">Ref #:</span>
 								<b className="break-all whitespace-normal">
 									{data?.ref}
 								</b>
 							</div>
-							<div className=" bg-[#f5f7ff] flex gap-2 px-2 py-2 whitespace-pre">
+							<div className=" bg-[#f5f7ff] flex gap-2 px-4 py-2 whitespace-pre">
 								<span className="w-[128px]">Account code:</span>
 								<b className="break-all whitespace-normal">
 									{data?.account_code}
 								</b>
 							</div>
-							<div className=" bg-[#f5f7ff] flex gap-2 px-2 py-2 whitespace-pre">
+							<div className=" bg-[#f5f7ff] flex gap-2 px-4 py-2 whitespace-pre">
 								<span className="w-[128px]">Project code:</span>
 								<b className="break-all whitespace-normal">
 									{data?.project_code}
 								</b>
 							</div>
-							<div className=" bg-[#f5f7ff] flex gap-2 px-2 py-2 whitespace-pre">
+							<div className=" bg-[#f5f7ff] flex gap-2 px-4 py-2 whitespace-pre">
 								<span className="w-[128px]">
 									Request Status:
 								</span>
@@ -222,7 +222,7 @@ const ShowRequestOrder = () => {
 									data?.issuance_status == "completed") ||
 								(data?.status == "completed" &&
 									data?.issuance_status == "completed")) && (
-								<div className=" bg-[#f5f7ff] flex gap-2 px-2 py-2 whitespace-pre">
+								<div className=" bg-[#f5f7ff] flex gap-2 px-4 py-2 whitespace-pre">
 									<span className="w-[128px]">
 										Issuance Status:
 									</span>
@@ -231,13 +231,13 @@ const ShowRequestOrder = () => {
 									</b>
 								</div>
 							)}
-							<div className=" bg-[#f5f7ff] flex gap-2 px-2 py-2 whitespace-pre">
+							<div className=" bg-[#f5f7ff] flex gap-2 px-4 py-2 whitespace-pre">
 								<span className="w-[128px]">Date needed:</span>
 								<b className="break-all whitespace-normal">
 									{data?.date_needed}
 								</b>
 							</div>
-							<div className=" bg-[#f5f7ff] flex gap-2 px-2 py-2 whitespace-pre">
+							<div className=" bg-[#f5f7ff] flex gap-2 px-4 py-2 whitespace-pre">
 								<span className="w-[128px]">
 									Date approved:
 								</span>
@@ -245,13 +245,13 @@ const ShowRequestOrder = () => {
 									{data?.date_approved || "-"}
 								</b>
 							</div>
-							<div className=" bg-[#f5f7ff] flex gap-2 px-2 py-2 whitespace-pre">
+							<div className=" bg-[#f5f7ff] flex gap-2 px-4 py-2 whitespace-pre">
 								<span className="w-[128px]">Date created:</span>
 								<b className="break-all whitespace-normal">
 									{data?.created_at}
 								</b>
 							</div>
-							<div className=" bg-[#f5f7ff] flex gap-2 px-2 py-2 whitespace-pre">
+							<div className=" bg-[#f5f7ff] flex gap-2 px-4 py-2 whitespace-pre">
 								<span className="w-[128px]">Requested by:</span>
 								<div className="flex items-center gap-2">
 									<b className="break-all whitespace-normal">
@@ -261,40 +261,104 @@ const ShowRequestOrder = () => {
 							</div>
 						</>
 					)}
-					{/* 				account_code date_needed date_approved created_at project_code
-				purpose requester status */}
-					<h3 className="mb-3">QR Code</h3>
 				</div>
 				<div className="w-full lg:w-2/3 flex flex-col gap-4">
-					<h3>Request items</h3>
-					{loading ? (
-						<span className="p-4 !bg-background rounded-lg text-placeholder">
-							Loading...
-						</span>
-					) : (
-						<>
-							{data?.details?.map((detail) => {
-								return (
-									<CardLayout className="!p-0 !bg-background !shadow-sm pb-2">
-										<div className="flex items-center gap-2 px-2 pt-4 pb-2 border-b">
-											<span>Location: </span>
-											<b>{detail?.location?.name}</b>
+					<div className="w-full ">
+						<h3 className="text- mb-3">Requested items</h3>
+						{loading ? (
+							<div className="h-[88px] flex items-center justify-center !bg-white rounded-lg text-placeholder">
+								Loading...
+							</div>
+						) : (
+							<>
+								{data?.details?.map((detail) => {
+									return (
+										<div className="w-full max-w-full overflow-auto">
+											<div className="table p-6 bg-[#f5f7ff]">
+												<table className="min-w-[512px]">
+													<thead>
+														<tr>
+															<td
+																className="!text-sm !text-left"
+																colSpan={999}
+															>
+																Location:{" "}
+																<b>
+																	{
+																		detail
+																			?.location
+																			?.name
+																	}
+																</b>
+															</td>
+														</tr>
+														<tr className="divide-x">
+															<th className="!text-sm !text-left !font-semibold">
+																Code
+															</th>
+															<th className="!text-sm !text-left !font-semibold">
+																Description
+															</th>
+															<th className="!text-sm !text-left !font-semibold">
+																Item U/M
+															</th>
+															<th className="!text-sm !text-center !font-semibold">
+																Requested QTY
+															</th>
+															<th className="!text-sm !text-center !font-semibold">
+																Issued QTY
+															</th>
+														</tr>
+													</thead>
+													<tbody>
+														{detail?.items?.map(
+															(item) => {
+																return (
+																	<tr className="divide-x">
+																		<td className="!text-sm !text-left ">
+																			{
+																				item
+																					?.product
+																					?.code
+																			}
+																		</td>
+																		<td className="!text-sm !text-left ">
+																			{
+																				item
+																					?.product
+																					?.name
+																			}
+																		</td>
+																		<td className="!text-sm !text-left ">
+																			{
+																				item
+																					?.product
+																					?.unit_measurement
+																			}
+																		</td>
+																		<td className="!text-sm !text-center  w-[44px]">
+																			{
+																				item?.request_quantity
+																			}
+																		</td>
+																		<td className="!text-sm !text-center  w-[44px]">
+																			{
+																				item?.full_filled_quantity
+																			}
+																		</td>
+																	</tr>
+																);
+															}
+														)}
+													</tbody>
+												</table>
+											</div>
 										</div>
-										<div className="w-full overflow-auto">
-											<Table
-												rowClick={(data) => {}}
-												columns={columns}
-												pagination={false}
-												loading={loading}
-												data={detail?.items || []}
-												emptyMessage={`You don’t have an order`}
-											/>
-										</div>
-									</CardLayout>
-								);
-							})}
-						</>
-					)}
+									);
+								})}
+							</>
+						)}
+					</div>
 				</div>
 			</div>
 		</PublicAppLayout>

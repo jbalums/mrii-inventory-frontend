@@ -12,10 +12,11 @@ import { useCallback, useEffect, useMemo } from "react";
 import { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import QRCode from "qrcode.react";
-
+import Pdf from "react-to-pdf";
 import ReactToPrint from "react-to-print";
 import axios from "@/libs/axios";
 import PrintAppLayout from "@/src/components/PrintAppLayout";
+import { toast } from "react-toastify";
 const PrintRequestOrder = () => {
 	const componentRef = useRef(null);
 
@@ -116,30 +117,52 @@ const PrintRequestOrder = () => {
 		],
 		[data?.status, data?.issuance_status]
 	);
+
+	useEffect(() => {}, []);
 	return (
-		<PrintAppLayout
-			containerClassName={`!p-0`}
-			backBtn
-			titleChildren={
-				<div className="flex items-center ml-auto gap-4">
-					<Button className="gap-2" loading={loading}>
-						<FlatIcon icon="rr-disk" /> Save as PDF
-					</Button>
+		<PrintAppLayout containerClassName={`!p-0`} backBtn>
+			<div className="w-full py-5 bg-slate-700">
+				<div className="flex items-center justify-end ml-auto gap-4 w-[8.5in] mx-auto">
+					<Pdf
+						options={{
+							unit: "in",
+							format: [8.5, 11],
+						}}
+						targetRef={componentRef.current}
+						filename={`request-order-${data?.account_code}.pdf`}
+						onComplete={() => {
+							toast.success("PDF export success!");
+						}}
+					>
+						{({ toPdf }) => (
+							<Button
+								className="gap-2 !rounded font-normal shadow-lg"
+								type="background"
+								onClick={toPdf}
+								loading={loading}
+							>
+								<FlatIcon
+									icon="rr-download"
+									className="text-xs"
+								/>{" "}
+								Save as PDF
+							</Button>
+						)}
+					</Pdf>
 					<ReactToPrint
 						trigger={() => (
 							<Button
-								type="accent"
-								className="gap-2"
+								className="gap-2 !rounded font-normal shadow-lg"
+								type="background"
 								loading={loading}
 							>
-								<FlatIcon icon="rr-print" /> Print list
+								<FlatIcon icon="rr-print" /> Print document
 							</Button>
 						)}
 						content={() => componentRef.current}
 					/>
 				</div>
-			}
-		>
+			</div>
 			<PrintableLayout
 				ref={componentRef}
 				className={``}
@@ -149,7 +172,7 @@ const PrintRequestOrder = () => {
 					{data?.id && (
 						<QRCode
 							value={`${origin}/show-order/${data?.id}`}
-							size={72}
+							size={108}
 						/>
 					)}
 				</div>
@@ -172,58 +195,58 @@ const PrintRequestOrder = () => {
 								<table className="">
 									<tbody>
 										<tr>
-											<th className="!text-sm !text-left !font-semibold w-[128px]">
+											<th className="!text-[8pt] !text-left !font-semibold w-[128px]">
 												Purpose:
 											</th>
-											<td className="!text-sm !text-left capitalize">
+											<td className="!text-[8pt] !text-left capitalize">
 												{data?.purpose}
 											</td>
-											<th className="!text-sm !text-left !font-semibold w-[128px]">
+											<th className="!text-[8pt] !text-left !font-semibold w-[128px]">
 												Account code:
 											</th>
-											<td className="!text-sm !text-left">
+											<td className="!text-[8pt] !text-left">
 												{data?.account_code}
 											</td>
 										</tr>
 										<tr>
-											<th className="!text-sm !text-left !font-semibold w-[128px]">
+											<th className="!text-[8pt] !text-left !font-semibold w-[128px]">
 												Project code:
 											</th>
-											<td className="!text-sm !text-left">
+											<td className="!text-[8pt] !text-left">
 												{data?.project_code}
 											</td>
-											<th className="!text-sm !text-left !font-semibold w-[188px]">
+											<th className="!text-[8pt] !text-left !font-semibold w-[188px]">
 												Request Status:
 											</th>
-											<td className="!text-sm !text-left">
+											<td className="!text-[8pt] !text-left">
 												{data?.status}
 											</td>
 										</tr>
 										<tr>
-											<th className="!text-sm !text-left !font-semibold w-[128px]">
+											<th className="!text-[8pt] !text-left !font-semibold w-[128px]">
 												Date needed:
 											</th>
-											<td className="!text-sm !text-left">
+											<td className="!text-[8pt] !text-left">
 												{data?.date_needed}
 											</td>
-											<th className="!text-sm !text-left !font-semibold w-[188px]">
+											<th className="!text-[8pt] !text-left !font-semibold w-[188px]">
 												Date approved:
 											</th>
-											<td className="!text-sm !text-left">
+											<td className="!text-[8pt] !text-left">
 												{data?.date_approved || "-"}
 											</td>
 										</tr>
 										<tr>
-											<th className="!text-sm !text-left !font-semibold w-[128px]">
+											<th className="!text-[8pt] !text-left !font-semibold w-[128px]">
 												Date created:
 											</th>
-											<td className="!text-sm !text-left">
+											<td className="!text-[8pt] !text-left">
 												{data?.created_at}
 											</td>
-											<th className="!text-sm !text-left !font-semibold w-[188px]">
+											<th className="!text-[8pt] !text-left !font-semibold w-[188px]">
 												Requested by:
 											</th>
-											<td className="!text-sm !text-left">
+											<td className="!text-[8pt] !text-left">
 												{data?.requester?.name}
 											</td>
 										</tr>
@@ -250,7 +273,7 @@ const PrintRequestOrder = () => {
 													<thead>
 														<tr>
 															<td
-																className="!text-sm !text-left"
+																className="!text-[8pt] !text-left"
 																colSpan={999}
 															>
 																Location:{" "}
@@ -264,13 +287,13 @@ const PrintRequestOrder = () => {
 															</td>
 														</tr>
 														<tr>
-															<th className="!text-sm !text-left !font-semibold">
+															<th className="!text-[8pt] !text-left !font-semibold">
 																Code
 															</th>
-															<th className="!text-sm !text-left !font-semibold">
+															<th className="!text-[8pt] !text-left !font-semibold">
 																Description
 															</th>
-															<th className="!text-sm !text-left !font-semibold">
+															<th className="!text-[8pt] !text-left !font-semibold">
 																Item U/M
 															</th>
 															<th className="!text-xs !text-center !font-semibold">
@@ -286,33 +309,33 @@ const PrintRequestOrder = () => {
 															(item) => {
 																return (
 																	<tr>
-																		<td className="!text-sm !text-left ">
+																		<td className="!text-[8pt] !text-left ">
 																			{
 																				item
 																					?.product
 																					?.code
 																			}
 																		</td>
-																		<td className="!text-sm !text-left ">
+																		<td className="!text-[8pt] !text-left ">
 																			{
 																				item
 																					?.product
 																					?.name
 																			}
 																		</td>
-																		<td className="!text-sm !text-left ">
+																		<td className="!text-[8pt] !text-left ">
 																			{
 																				item
 																					?.product
 																					?.unit_measurement
 																			}
 																		</td>
-																		<td className="!text-sm !text-center  w-[44px]">
+																		<td className="!text-[8pt] !text-center  w-[44px]">
 																			{
 																				item?.request_quantity
 																			}
 																		</td>
-																		<td className="!text-sm !text-center  w-[44px]">
+																		<td className="!text-[8pt] !text-center  w-[44px]">
 																			{
 																				item?.full_filled_quantity
 																			}

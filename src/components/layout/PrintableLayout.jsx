@@ -1,6 +1,6 @@
-import { forwardRef } from "react";
+import { forwardRef, useRef } from "react";
 import FlatIcon from "../FlatIcon";
-
+import ReactToPrint from "react-to-print";
 const PrintableLayout = (props, ref) => {
 	const {
 		className = "",
@@ -32,9 +32,31 @@ const PrintableLayout = (props, ref) => {
 		// ("January 15, 2023");
 		return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
 	};
+	const saveAsPdf = () => {
+		var doc = new jsPDF();
+
+		// Source HTMLElement or a string containing HTML.
+		var elementHTML = document.querySelector("#document-content");
+
+		doc.html(elementHTML, {
+			callback: function (doc) {
+				// Save the PDF
+				doc.save("sample-document.pdf");
+			},
+			x: 15,
+			y: 15,
+			width: 170, //target width in the PDF document
+			windowWidth: 650, //window width in CSS pixels
+		});
+	};
+	const printRef = useRef(null);
 	return (
-		<div ref={ref} className={` bg-slate-600 py-11  ${className}`}>
-			<div className="w-[8.5in] bg-white p-[0.5in] mx-auto min-h-[11in] relative">
+		<div className={` bg-slate-600 py-11  ${className}`}>
+			<div
+				className="w-[8.5in] bg-white p-[0.5in] mx-auto min-h-[11in] relative"
+				id="document-content"
+				ref={ref}
+			>
 				{displayDefaultHeading && (
 					<div className="flex flex-col items-center justify-center mb-4">
 						<p className="text-base font-bold mb-0">{mactanRock}</p>

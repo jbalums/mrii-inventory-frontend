@@ -8,6 +8,7 @@ import useDataTable from "@/src/helpers/useDataTable";
 import { useEffect, useMemo } from "react";
 import { useRef, useState } from "react";
 
+import Pdf from "react-to-pdf";
 import ReactToPrint from "react-to-print";
 const PrintUsers = () => {
 	const componentRef = useRef(null);
@@ -53,9 +54,32 @@ const PrintUsers = () => {
 			title={"Print users"}
 			titleChildren={
 				<div className="flex items-center ml-auto gap-4">
-					<Button className="gap-2" loading={dataLoading}>
-						<FlatIcon icon="rr-disk" /> Save as PDF
-					</Button>
+					<Pdf
+						options={{
+							unit: "in",
+							format: [8.5, 11],
+						}}
+						targetRef={componentRef.current}
+						filename={`request-order-${data?.account_code}.pdf`}
+						onComplete={() => {
+							toast.success("PDF export success!");
+						}}
+					>
+						{({ toPdf }) => (
+							<Button
+								className="gap-2 !rounded font-normal shadow-lg"
+								type="background"
+								onClick={toPdf}
+								loading={loading}
+							>
+								<FlatIcon
+									icon="rr-download"
+									className="text-xs"
+								/>
+								Save as PDF
+							</Button>
+						)}
+					</Pdf>
 					<ReactToPrint
 						trigger={() => (
 							<Button
