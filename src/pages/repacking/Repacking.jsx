@@ -8,9 +8,11 @@ import { useBranchLocation } from "@/src/features/locations/hooks/useBranchLocat
 import useDataTable from "@/src/helpers/useDataTable";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import RepackingModal from "./components/RepackingModal";
 
 const Repacking = () => {
 	const addProductRef = useRef(null);
+	const repackModalRef = useRef(null);
 	const viewProductRef = useRef(null);
 	const [list, setList] = useState([]);
 	const [branches, setBranches] = useState([]);
@@ -106,13 +108,13 @@ const Repacking = () => {
 			title={
 				<div className="flex items-center gap-2">
 					<FlatIcon icon="rr-boxes" />
-					Products
+					Repacking
 				</div>
 			}
 			breadcrumbs={[
 				{
-					to: "/products",
-					label: "Products",
+					to: "/repacking",
+					label: "Repacking",
 				},
 			]}
 		>
@@ -122,6 +124,17 @@ const Repacking = () => {
 					icon={<FlatIcon icon="rr-search" className="text-sm" />}
 					placeholder="Search product"
 				/>
+				<div className="ml-auto">
+					<Button
+						type="secondary"
+						onClick={() => {
+							repackModalRef.current.show();
+						}}
+					>
+						<FlatIcon icon="rr-share-square" />
+						Repack Product
+					</Button>
+				</div>
 			</div>
 
 			<div className="w-full">
@@ -135,6 +148,7 @@ const Repacking = () => {
 					data={list}
 				/>
 			</div>
+			<RepackingModal ref={repackModalRef} />
 		</AppLayout>
 	);
 };

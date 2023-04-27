@@ -1,6 +1,7 @@
 import AppLayout from "@/src/components/AppLayout";
 import Button from "@/src/components/Button";
 import FlatIcon from "@/src/components/FlatIcon";
+import PrintAppLayout from "@/src/components/PrintAppLayout";
 import ContainerCard from "@/src/components/layout/ContainerCard";
 import PrintableLayout from "@/src/components/layout/PrintableLayout";
 import PrintableTable from "@/src/components/table/PrintableTable";
@@ -49,11 +50,9 @@ const PrintUsers = () => {
 	);
 
 	return (
-		<AppLayout
-			backBtn
-			title={"Print users"}
-			titleChildren={
-				<div className="flex items-center ml-auto gap-4">
+		<PrintAppLayout containerClassName={`!p-0`} backBtn>
+			<div className="w-full py-5 bg-slate-700">
+				<div className="flex items-center justify-end ml-auto gap-4 w-[8.5in] mx-auto">
 					<Pdf
 						options={{
 							unit: "in",
@@ -70,12 +69,12 @@ const PrintUsers = () => {
 								className="gap-2 !rounded font-normal shadow-lg"
 								type="background"
 								onClick={toPdf}
-								loading={loading}
+								loading={dataLoading}
 							>
 								<FlatIcon
 									icon="rr-download"
 									className="text-xs"
-								/>
+								/>{" "}
 								Save as PDF
 							</Button>
 						)}
@@ -83,34 +82,69 @@ const PrintUsers = () => {
 					<ReactToPrint
 						trigger={() => (
 							<Button
-								type="accent"
-								className="gap-2"
+								className="gap-2 !rounded font-normal shadow-lg"
+								type="background"
 								loading={dataLoading}
 							>
-								<FlatIcon icon="rr-print" /> Print list
+								<FlatIcon icon="rr-print" /> Print
 							</Button>
 						)}
 						content={() => componentRef.current}
 					/>
 				</div>
-			}
-		>
-			<PrintableLayout ref={componentRef}>
-				<ContainerCard
-					title="Users list"
-					className={`p-0`}
-					mainClassName={`bg-white rounded-none`}
-					headerClassName="bg-white !p-2"
-				>
-					<PrintableTable
-						columns={columns}
-						pagination={false}
-						loading={dataLoading}
-						data={list}
-					/>
-				</ContainerCard>
+			</div>
+			<PrintableLayout ref={componentRef} className={``} title="Users">
+				<div className="printable-table">
+					<table className="">
+						<thead>
+							<tr>
+								<th className="!text-[8pt] !text-left !font-semibold w-[128px]">
+									Firstname
+								</th>
+								<th className="!text-[8pt] !text-left !font-semibold capitalize">
+									Lastname
+								</th>
+								<th className="!text-[8pt] !text-left !font-semibold w-[128px]">
+									Username
+								</th>
+								<th className="!text-[8pt] !text-left !font-semibold">
+									User type
+								</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							{dataLoading ? (
+								<tr>
+									<td colSpan={999} className="!text-center">
+										Loading...
+									</td>
+								</tr>
+							) : (
+								data?.data?.map((user) => {
+									return (
+										<tr>
+											<td className="!text-[8pt] !text-left w-[128px]">
+												{user?.firstname}
+											</td>
+											<td className="!text-[8pt] !text-left capitalize">
+												{user?.lastname}
+											</td>
+											<td className="!text-[8pt] !text-left w-[128px]">
+												{user?.username}
+											</td>
+											<td className="!text-[8pt] !text-left">
+												{user?.user_type}
+											</td>
+										</tr>
+									);
+								})
+							)}
+						</tbody>
+					</table>
+				</div>
 			</PrintableLayout>
-		</AppLayout>
+		</PrintAppLayout>
 	);
 };
 

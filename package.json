@@ -4,7 +4,8 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "set HTTPS=true&&vite --host",
+		"dev": "vite --host",
+		"devhttps": "set HTTPS=true&&vite --host",
 		"build": "vite build",
 		"preview": "vite preview"
 	},

@@ -336,3 +336,6 @@ label {
 	left: -10px;
 	@apply border-primary;
 }
+
+@media print {
+}

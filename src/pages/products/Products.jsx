@@ -24,6 +24,7 @@ const Products = () => {
 		setFilters,
 		updateInList,
 		removeFromList,
+		meta,
 	} = useDataTable(`/management/products`, setList, {
 		branch_id: "",
 	});
@@ -127,6 +128,12 @@ const Products = () => {
 					className="w-full lg:w-[320px]"
 					icon={<FlatIcon icon="rr-search" className="text-sm" />}
 					placeholder="Search product"
+					onChange={(e) => {
+						setFilters((prevFilters) => ({
+							...prevFilters,
+							keyword: e.target.value,
+						}));
+					}}
 				/>
 				<div className="ml-auto flex items-center gap-4">
 					<Link to={"/products/print"}>
@@ -152,10 +159,19 @@ const Products = () => {
 					rowClick={(data) => {
 						//	viewProductModal(data);
 					}}
+					meta={meta}
 					columns={columns}
 					pagination={true}
 					loading={dataLoading}
 					data={list}
+					onTableChange={(data) => {
+						console.log("onTableChange", data);
+						setFilters((prevFilters) => ({
+							...prevFilters,
+							paginate: data?.pageSize,
+							page: data?.pageIndex + 1 || 1,
+						}));
+					}}
 				/>
 			</div>
 

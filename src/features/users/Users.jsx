@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import AddUserModal from "./components/AddUserModal";
 import { useUserHook } from "./hooks/useUserHook";
+import { useAuth } from "@/hooks/useAuth";
 
 let user_types = [
 	{
@@ -39,6 +40,7 @@ let user_types = [
 	},
 ];
 const Users = () => {
+	const { user } = useAuth();
 	const form_modal_ref = useRef(null);
 	const delete_user_modal_ref = useRef(null);
 
@@ -119,7 +121,7 @@ const Users = () => {
 				className: "!text-center",
 				cell: ({ row, getValue }) => {
 					console.log("roww", row);
-					if (row?.original?.id != 1)
+					if (row?.original?.id != 1 || user?.data?.id == 1)
 						return (
 							<>
 								<div className="flex items-center justify-center text-center gap-4">

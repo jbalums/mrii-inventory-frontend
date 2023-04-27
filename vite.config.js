@@ -12,10 +12,10 @@ export default defineConfig({
 			"@": path.resolve(__dirname, "./"),
 		},
 	},
-	server: {
+	/* server: {
 		https: {
 			key: fs.readFileSync("server.key"),
 			cert: fs.readFileSync("server.cert"),
 		},
-	},
+	}, */
 });

@@ -40,3 +40,13 @@ export const formatToCurrency = (value) => {
 	const result = formatter.format(value).replace("₱", "₱ ");
 	return result;
 };
+export const setErrors = (data, setError) => {
+	if (data) {
+		Object.keys(data).map((key) => {
+			setError(key == "username" ? "email" : key, {
+				type: "manual",
+				message: data[key][0],
+			});
+		});
+	}
+};
