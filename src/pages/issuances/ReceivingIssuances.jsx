@@ -155,11 +155,11 @@ const ReceivingIssuances = () => {
 	return (
 		<AppLayout
 			icon={<FlatIcon icon="rr-file-export" />}
-			title="Issuances"
+			title="Receiving Orders"
 			breadcrumbs={[
 				{
-					to: "/request-orders",
-					label: "Issuances",
+					to: "/receiving-orders",
+					label: "Receiving Orders",
 				},
 			]}
 		>

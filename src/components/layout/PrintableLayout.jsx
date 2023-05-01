@@ -1,8 +1,15 @@
 import { forwardRef, useRef } from "react";
 import FlatIcon from "../FlatIcon";
 import ReactToPrint from "react-to-print";
+
+const portraitShort = `min-h-[11in] w-[8.5in]`
+const portraitLong = `min-h-[11in] w-[13in]`
+const landscapeShort = `min-h-[8.5in] w-[11in]`
+const landscapeLong = `min-h-[8.5in] w-[13in]`
 const PrintableLayout = (props, ref) => {
 	const {
+		size='short',
+		orientation= 'portrait',
 		className = "",
 		children,
 		displayDefaultHeading = true,
@@ -49,11 +56,13 @@ const PrintableLayout = (props, ref) => {
 			windowWidth: 650, //window width in CSS pixels
 		});
 	};
-	const printRef = useRef(null);
+	const printRef = useRef(null); 
 	return (
 		<div className={` bg-slate-600 py-11  ${className}`}>
 			<div
-				className="w-[8.5in] bg-white p-[0.5in] mx-auto min-h-[11in] relative"
+				className={` bg-white p-[0.5in] mx-auto ${orientation == 'portrait' ? size == 'short' ? portraitShort
+				: portraitLong : orientation == 'landscape' ? size == 'short' ? landscapeShort
+				: landscapeLong : '' } relative`}
 				id="document-content"
 				ref={ref}
 			>

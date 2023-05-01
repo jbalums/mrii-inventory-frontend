@@ -14,13 +14,17 @@ import { formatToCurrency } from "@/libs/helpers";
 import axios from "@/libs/axios";
 import ViewLowStocksModal from "./components/ViewLowStocksModal";
 import { useAuth } from "@/hooks/useAuth";
-
+import RepackingModal from "../repacking/components/RepackingModal";
+import { v4 as uuidv4 } from "uuid";
+import UpdatePriceModal from "./components/UpdatePriceModal";
 const Inventory = () => {
 	const { user } = useAuth();
 	const addProductRef = useRef(null);
 	const viewProductRef = useRef(null);
 	const viewStatusRef = useRef(null);
-
+	const repackModalRef = useRef(null);
+	const updatePriceref = useRef(null);
+	
 	const [list, setList] = useState([]);
 	const [inventoryStatus, setInventoryStatus] = useState(null);
 	const [branches, setBranches] = useState([]);
@@ -50,7 +54,7 @@ const Inventory = () => {
 	useEffect(() => {
 		setFilters((filters) => ({
 			...filters,
-			location_id: user?.data?.branch?.id,
+			location_id: user?.data?.branch_id,
 		}));
 	}, [user?.data?.branch?.id]);
 
@@ -68,6 +72,9 @@ const Inventory = () => {
 	const openFormModal = (data) => {
 		addProductRef.current.show(data);
 	};
+	const openPriceFormModal = (data) => {
+		updatePriceref.current.show(data);
+	};
 	const viewProductModal = (item) => {
 		console.log("itemitemitem", item);
 		viewProductRef.current.show(item);
@@ -84,6 +91,11 @@ const Inventory = () => {
 
 	const columns = useMemo(
 		() => [
+			{
+				header: "ID",
+				accessorKey: "product_id",
+				className: "min-w-[64px]",
+			},
 			{
 				header: "Code",
 				accessorKey: "code",
@@ -139,30 +151,49 @@ const Inventory = () => {
 				accessorKey: "action",
 				className: "!text-center",
 				cell: ({ row, getValue }) => {
-					return (
-						<>
-							<div className="flex items-center justify-center text-center gap-4">
+					console.log('useruseruser', row?.original)
+					if(row?.original?.location?.id == user?.data?.branch_id)
+						return (
+							<>
+								<div className="flex items-center justify-center text-center gap-4">
 								<Button
-									type="background"
-									size="sm"
-									className="rounded-full"
-									onClick={() => {
-										openFormModal(row?.original);
-									}}
-								>
-									<FlatIcon
-										icon="rr-edit"
-										className="text-sm text-dark"
-									/>
-								</Button>
-							</div>
-						</>
-					);
+										type="foreground"
+										size="sm"
+										className="gap-1"
+										onClick={() => {
+											openFormModal(row?.original);
+										}}
+									>
+										<FlatIcon
+											icon="rr-edit"
+											className="text-sm text-dark"
+										/> Edit levels
+									</Button>
+									<Button
+										type="primary"
+										size="sm"
+										className="gap-1"
+										onClick={() => {
+											openPriceFormModal(row?.original);
+										}}
+									>
+										<FlatIcon
+											icon="rr-edit"
+											className="text-sm text-white"
+										/> Edit price
+									</Button>
+								</div>
+							</>
+						);
+
+					return ''
 				},
 			},
 		],
 		[]
 	);
+
+	
 	return (
 		<AppLayout
 			icon={<FlatIcon icon="rr-boxes" />}
@@ -268,6 +299,17 @@ const Inventory = () => {
 						})),
 					]}
 				/>
+				<div className="ml-auto">
+					<Button
+						type="secondary"
+						onClick={() => {
+							repackModalRef.current.show();
+						}}
+					>
+						<FlatIcon icon="rr-boxes" />
+						Repack Product
+					</Button>
+				</div>
 			</div>
 
 			<div className="w-full">
@@ -288,6 +330,13 @@ const Inventory = () => {
 			/>
 			<ViewProductModal ref={viewProductRef} />
 			<ViewLowStocksModal ref={viewStatusRef} />
+			<UpdatePriceModal ref={updatePriceref} />
+			<RepackingModal ref={repackModalRef} onSuccess={()=>{
+				setFilters((prevFilters)=>({
+					...prevFilters,
+					key: uuidv4()
+				}))
+			}} />
 		</AppLayout>
 	);
 };

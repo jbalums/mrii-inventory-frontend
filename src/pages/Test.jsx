@@ -1,28 +1,46 @@
-import { Disclosure, Transition } from "@headlessui/react";
+import { getGPUTier } from "detect-gpu";
+import { useEffect, useState } from "react";
 
 const Test = () => {
-	return (
-		<div className="h-screen w-full bg-slate-200 p-20">
-			<Disclosure>
-				<Disclosure.Button className="py-2">
-					Is team pricing available?
-				</Disclosure.Button>
-				<Transition
-					enter="transition duration-300 ease-out"
-					enterFrom="transform opacity-0"
-					enterTo="transform scale-300 opacity-100"
-					leave="transition duration-200 ease-out"
-					leaveFrom="transform scale-100 opacity-100"
-					leaveTo="transform opacity-0"
-				>
-					<Disclosure.Panel as="div" className={"bg-red-500"}>
-						Yes! You can purchase a license that you can share with
-						your entire team.
-					</Disclosure.Panel>
-				</Transition>
-			</Disclosure>
-		</div>
-	);
+	const [accelerated, setAccelerated] = useState(null);
+
+	useEffect(() => {
+		const canvas = document.createElement("canvas");
+		const gl = canvas.getContext("webgl");
+		const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+		const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+
+		console.log("Renderer:", renderer);
+
+		const hardwareAccelerationEnabled =
+			renderer.toLowerCase().includes("swiftshader") === false;
+
+		console.log(
+			"Hardware acceleration enabled:",
+			hardwareAccelerationEnabled
+		);
+		/* 
+		let t = setTimeout(async () => {
+			let getGPU = await getGPUTier();
+
+			if (getGPU?.fps && getGPU?.tier > 1) {
+			//  Hardware Acceleration is active. 
+				setAccelerated(true);
+			} else {
+				//  Hardware Acceleration is NOT active 
+				setAccelerated(false);
+			}
+		}, 2000);
+		return () => {
+			clearTimeout(t);
+		}; */
+	}, []);
+
+	return accelerated == null
+		? "LOADING"
+		: accelerated
+		? "Hardware Acceleration is active."
+		: "Hardware Acceleration is NOT active.";
 };
 
 export default Test;

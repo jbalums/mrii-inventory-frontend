@@ -54,23 +54,30 @@ const ViewProductModal = (props, ref) => {
 	const hide = () => {
 		setOpen(false);
 	};
-
+	const formatDate = (date) => {
+		let d = new Date(date);
+		return `${d.getDay()}/${d.getMonth()+1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()} ${d.getHours() >= 12 ? 'PM':'AM'}`;
+	}
 	const columns = useMemo(
-		() => [
+		() => [ 
 			{
-				header: "PO #",
-				accessorKey: "receives.purchase_order",
+				header: "Date",
+				accessorKey: "created_at",
+				cell: ({ row }) => { 
+					return row?.original?.created_at ? formatDate(row?.original?.created_at) : '';
+				},
 			},
 			{
-				header: "Date received",
-				accessorKey: "receives.date_receive",
-			},
-			{
-				header: "QTY received",
-				accessorKey: "quantity",
+				header: "Movement",
+				accessorKey: "movement",
 				className: "!text-center",
 			},
 			{
+				header: "QTY",
+				accessorKey: "quantity",
+				className: "!text-center",
+			},
+			/* {
 				header: "Unit price",
 				accessorKey: "price",
 				className: "!text-right",
@@ -78,7 +85,7 @@ const ViewProductModal = (props, ref) => {
 					let p = row?.original?.price || 0;
 					return formatToCurrency(p);
 				},
-			},
+			}, */
 		],
 		[]
 	);
@@ -103,7 +110,7 @@ const ViewProductModal = (props, ref) => {
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-4 border-b pb-4 px-4">
 					<div className="p-3 rounded-xl flex flex-col gap-1 bg-success bg-opacity-10 text-success">
 						<span>QTY on hand</span>
-						<b className="text-2xl">{info?.quantity}</b>
+						<b className="text-2xl">{info?.total_quantity}</b>
 					</div>
 					<div className="p-3 rounded-xl flex flex-col gap-1 bg-warning bg-opacity-5 text-warning">
 						<span>Stock minimum level</span>
@@ -148,7 +155,7 @@ const ViewProductModal = (props, ref) => {
 					</div>
 					<div className="col-span-8 flex flex-col">
 						<h3 className="text-lg font-bold text-darker px-4 pt-4 pb-[15px]">
-							Inventory histories
+							Inventory Transactions
 						</h3>
 
 						<div className="w-full border-t lg:px-0 overflow-auto">

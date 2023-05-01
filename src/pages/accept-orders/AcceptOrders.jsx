@@ -148,8 +148,8 @@ const AcceptOrders = () => {
 				</div>
 				<Table
 					rowClick={(data) => {
-						console.log("datadata", data.original);
-						navigate(`/accept-orders/details/${data.original.id}`);
+						console.log("rowClickrowClick", data.original);
+						navigate(`/accept-orders/details/${data.original?.requisition?.id}`);
 						/* navigate(
 							`/accept-orders/request/${data?.original?.id}`
 						); */

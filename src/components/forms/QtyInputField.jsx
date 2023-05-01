@@ -2,12 +2,20 @@ import { isNumeric } from "@/libs/helpers";
 import { useEffect, useState } from "react";
 import FlatIcon from "../FlatIcon";
 
-const QtyInputField = ({ qty, setQty }) => {
+const QtyInputField = ({ qty, setQty, max, ...props}) => {
 	const [value, setValue] = useState(1);
 
 	const plusOneQty = () => {
-		setValue((currentQty) => currentQty + 1);
-		setQty((currentQty) => currentQty + 1);
+		setValue((currentQty) => {
+			if(currentQty < max){
+				return currentQty + 1
+			}
+		});
+		setQty((currentQty) => {
+			if(currentQty < max){
+				return currentQty + 1
+			}
+		});
 	};
 	const minusOneQty = () => {
 		setValue((currentQty) => {
@@ -52,6 +60,7 @@ const QtyInputField = ({ qty, setQty }) => {
 						setQty(1);
 					}
 				}}
+				{...props}
 			/>
 			<div
 				className="h-11 w-11 flex items-center justify-center rounded-r-lg border-t border-b border-r border-border group-hover:border-secondary group-focus-within:border-secondary cursor-pointer hover:bg-background duration-200 bg-opacity-25"

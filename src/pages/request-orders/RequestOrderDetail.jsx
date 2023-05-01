@@ -423,7 +423,7 @@ const RequestOrderDetail = () => {
 							value={`${origin}/show-order/${data?.id}`}
 							size={244}
 						/>
-						<span className="text-blue-600">{`${origin}/show-order/${data?.id}`}</span>
+						{/* <span className="text-blue-600">{`${origin}/show-order/${data?.id}`}</span> */}
 					</div>
 				</div>
 				<div className="w-full lg:w-2/3 flex flex-col gap-4">
@@ -546,6 +546,9 @@ const RequestOrderDetail = () => {
 											getOrderData();
 											approve_order_ref.current.hide();
 										}, 1000);
+									}).finally(()=>{
+										
+										setBtnLoading(false);
 									});
 								}}
 							>

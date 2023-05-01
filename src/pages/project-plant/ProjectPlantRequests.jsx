@@ -7,8 +7,12 @@ import useDataTable from "@/src/helpers/useDataTable";
 import { useEffect, useMemo, useRef, useState } from "react";
 import ConsumbedMaterialsModal from "./components/ConsumbedMaterialsModal";
 import ReturnMaterialsModal from "./components/ReturnMaterialsModal";
+import { useAuth } from "@/hooks/useAuth";
 
 const ProjectPlantRequests = () => {
+	const {
+		user
+	} = useAuth()
 	const [list, setList] = useState([]);
 
 	const return_materials_ref = useRef(null);
@@ -33,6 +37,16 @@ const ProjectPlantRequests = () => {
 				accessorKey: "project_code",
 				className: "cursor-pointer",
 				cellClassName: "",
+			},
+			{
+				header: "Branch",
+				accessorKey: "location",
+				className: "cursor-pointer",
+				cellClassName: "",
+				cell: ({ row: { original } }) => {
+					console.log('originaloriginaloriginal', original)
+					return original?.location?.name || ''
+				},
 			},
 			{
 				header: "Requestor name",
@@ -76,7 +90,7 @@ const ProjectPlantRequests = () => {
 					);
 				},
 			},
-			{
+			/* {
 				header: "Approved by",
 				accessorKey: "approved_by",
 				className: "",
@@ -91,46 +105,48 @@ const ProjectPlantRequests = () => {
 							</span>
 						);
 				},
-			},
+			}, */
 			{
 				header: "Action",
 				accessorKey: "action",
 				className: "!text-center",
 				cell: ({ row: { original } }) => {
-					return (
-						<div className="flex flex-col lg:flex-row items-center justify-center text-center gap-4">
-							<Button
-								type="success"
-								size="sm"
-								className="rounded-lg"
-								onClick={() => {
-									consumed_materials_ref.current.show(
-										original
-									);
-								}}
-							>
-								<FlatIcon
-									icon="rr-shopping-cart-check"
-									className="font-bold text-sm"
-								/>
-								Used/Consumed materials
-							</Button>
-							<Button
-								type="primary"
-								size="sm"
-								className="rounded-lg"
-								onClick={() => {
-									return_materials_ref.current.show(original);
-								}}
-							>
-								<FlatIcon
-									icon="rr-undo"
-									className="font-bold text-sm"
-								/>
-								Return materials
-							</Button>
-						</div>
-					);
+					if(original?.location?.id == user?.data?.branch_id)
+						return (
+							<div className="flex flex-col lg:flex-row items-center justify-center text-center gap-4">
+								<Button
+									type="success"
+									size="sm"
+									className="rounded-lg"
+									onClick={() => {
+										consumed_materials_ref.current.show(
+											original
+										);
+									}}
+								>
+									<FlatIcon
+										icon="rr-shopping-cart-check"
+										className="font-bold text-sm"
+									/>
+									Use materials
+								</Button>
+								<Button
+									type="primary"
+									size="sm"
+									className="rounded-lg"
+									onClick={() => {
+										return_materials_ref.current.show(original);
+									}}
+								>
+									<FlatIcon
+										icon="rr-undo"
+										className="font-bold text-sm"
+									/>
+									Return materials
+								</Button>
+							</div>
+						);
+					return <span className="text-placeholder">This request is from another branch</span>
 				},
 			},
 		],

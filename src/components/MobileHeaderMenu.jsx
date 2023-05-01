@@ -173,12 +173,12 @@ const MobileHeaderMenu = ({ children }) => {
 												<FlatIcon icon="rr-file-export" />
 											}
 											text={`Issuances`}
-											to="/approving/issuances"
+											to="/issuances"
 											active={isActive(
-												"/approving/issuances"
+												"/issuances"
 											)}
 										/>
-										<MobileMenuLink
+										{/* <MobileMenuLink
 											icon={
 												<FlatIcon icon="rr-assept-document" />
 											}
@@ -187,7 +187,7 @@ const MobileHeaderMenu = ({ children }) => {
 											active={isActive(
 												"/approving/approve-issuance-order"
 											)}
-										/>
+										/> */}
 										<MobileMenuLink
 											icon={
 												<FlatIcon icon="rr-inbox-in" />
@@ -198,14 +198,7 @@ const MobileHeaderMenu = ({ children }) => {
 												"/receiving-orders"
 											)}
 										/>
-										<MobileMenuLink
-											icon={<FlatIcon icon="rr-undo" />}
-											text={`Return Materials`}
-											to="/return-materials"
-											active={isActive(
-												"/return-materials"
-											)}
-										/>
+										 
 										<MobileMenuLink
 											icon={
 												<FlatIcon icon="rr-diagram-project" />
@@ -216,14 +209,7 @@ const MobileHeaderMenu = ({ children }) => {
 												"/for-project-or-plant-requests"
 											)}
 										/>
-										<MobileMenuLink
-											icon={
-												<FlatIcon icon="rr-box-open" />
-											}
-											text={`Repacking`}
-											to="/repacking"
-											active={isActive("/repacking")}
-										/>
+										
 									</>
 								)}
 							</div>

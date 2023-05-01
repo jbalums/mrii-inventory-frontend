@@ -41,11 +41,33 @@ const ReturnMaterialsModal = (props, ref) => {
 		setOpen(true);
 	};
 	const hide = () => {
+		setData(null)
 		setOpen(false);
 	};
-	const submitForm = (data) => {
-		console.log(data);
-		toast.success("Item successfully returned!");
+	const submitForm = () => {
+		console.log('submitForm', data);
+		let details =  data?.details
+		let items = [];
+
+		details.map(detail=>{
+			detail.items.map(item=>{
+				items.push(item)
+			})
+		})
+		console.log('submitForm itemsitems', items);
+
+		let formData = new FormData();
+
+		items.map(item=>{
+			formData.append('requisition_items_id[]', item?.id)
+			formData.append('product_id[]', item?.product?.id)
+			formData.append('qty[]', item?.quantity)
+		})
+
+		axios.post(`/inventory/return-items`, formData).then(res=>{
+			console.log('inventory/return-items', res.data)
+			toast.success('Material successfully returned!');
+		})
 		hide();
 	};
 	const getDetails = (showData) => {
@@ -78,7 +100,7 @@ const ReturnMaterialsModal = (props, ref) => {
 			},
 
 			{
-				header: "Qty fulfilled",
+				header: "Qty requested",
 				accessorKey: "request_quantity",
 				className: "text-center border-t",
 				cellClassName: "!text-center w-[128px]",
@@ -86,6 +108,28 @@ const ReturnMaterialsModal = (props, ref) => {
 				cell: ({ row: { original } }) => {
 					console.log("datadatadata original", original);
 					return original?.request_quantity || 0;
+				},
+			},
+			{
+				header: "Used Qty",
+				accessorKey: "used_qty",
+				className: "text-center border-t",
+				cellClassName: "!text-center w-[128px]",
+				thClassName: "!text-center w-[128px]",
+				cell: ({ row: { original } }) => {
+					console.log("datadatadata original", original);
+					return original?.used_qty || 0;
+				},
+			},
+			{
+				header: "Returned Qty",
+				accessorKey: "returned_qty",
+				className: "text-center border-t",
+				cellClassName: "!text-center w-[128px]",
+				thClassName: "!text-center w-[128px]",
+				cell: ({ row: { original } }) => {
+					console.log("datadatadata original", original);
+					return original?.returned_qty || 0;
 				},
 			},
 			{

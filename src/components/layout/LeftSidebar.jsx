@@ -245,23 +245,17 @@ const LeftSidebar = () => {
 					active={isActive("/receiving-orders")}
 				/>
 				<LeftSidebarLink
-					icon={<FlatIcon icon="rr-undo" />}
-					text={`Return Materials`}
-					to="/return-materials"
-					active={isActive("/return-materials")}
-				/>
-				<LeftSidebarLink
 					icon={<FlatIcon icon="rr-diagram-project" />}
 					text={`Project/Plant`}
 					to="/for-project-or-plant-requests"
 					active={isActive("/for-project-or-plant-requests")}
-				/>
-				<LeftSidebarLink
+				/> 
+				{/* <LeftSidebarLink
 					icon={<FlatIcon icon="rr-box-open" />}
 					text={`Repacking`}
 					to="/repacking"
 					active={isActive("/repacking")}
-				/>
+				/> */}
 				{/* <LeftSidebarLink
 				icon={<FlatIcon icon="rr-shopping-cart" />}
 				text={`PO lists`}

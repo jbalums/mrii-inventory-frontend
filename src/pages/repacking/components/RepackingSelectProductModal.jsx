@@ -14,8 +14,11 @@ import { useForm } from "react-hook-form";
 import Button from "@/src/components/Button";
 import axios from "@/libs/axios";
 import FlatIcon from "@/src/components/FlatIcon";
+import { useAuth } from "@/hooks/useAuth";
 
 const RepackingSelectProductModal = (props, ref) => {
+	const { setProduct } = props;
+	const {user} = useAuth();
 	const {
 		register,
 		handleSubmit,
@@ -46,6 +49,8 @@ const RepackingSelectProductModal = (props, ref) => {
 	}));
 
 	const show = (data) => {
+		setLoading(true);
+		getProductList();
 		setOpen(true);
 	};
 	const hide = () => {
@@ -61,7 +66,7 @@ const RepackingSelectProductModal = (props, ref) => {
 	const submitForm = (data) => {};
 	const getProductList = () => {
 		axios
-			.get(`/inventory?keyword=${keyword}`)
+			.get(`/inventory?location_id=${user?.data?.id}&keyword=${keyword}`)
 			.then((res) => {
 				setProducts(res.data.data);
 			})
@@ -138,8 +143,11 @@ const RepackingSelectProductModal = (props, ref) => {
 																className="divide-x"
 																key={`product-${item?.id}`}
 															>
+															<td>
+																{item?.id}
+															</td>
 																<td>
-																	{item?.code}
+																	{item?.id}
 																</td>
 																<td>
 																	<b>
@@ -169,6 +177,17 @@ const RepackingSelectProductModal = (props, ref) => {
 																		className="mx-auto max-w-[100px]"
 																		size="sm"
 																		type="success"
+																		onClick={() => {
+																			setProduct(
+																				item
+																			);
+																			setTimeout(
+																				() => {
+																					hide();
+																				},
+																				100
+																			);
+																		}}
 																	>
 																		<FlatIcon icon="rr-check" />
 																		Select

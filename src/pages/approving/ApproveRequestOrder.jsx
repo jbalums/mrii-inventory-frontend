@@ -78,7 +78,7 @@ const ApproveRequestOrder = () => {
 				className: "cursor-pointer",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					return purpose[original?.purpose];
+					return original?.purpose;
 				},
 			},
 			{

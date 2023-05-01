@@ -45,6 +45,9 @@ import Profile from "./pages/user/Profile";
 import ShowRequestOrder from "./public-pages/ShowRequestOrder";
 import PrintRequestOrder from "./pages/request-orders/PrintRequestOrder";
 import ScanQr from "./public-pages/ScanQr";
+import ItemCosting from "./pages/reports/ItemCosting";
+import IssuanceReport from "./pages/reports/IssuanceReport";
+import InputsOfReceipts from "./pages/reports/InputsOfReceipts";
 const AppRoutes = () => {
 	return (
 		<Routes>
@@ -116,6 +119,7 @@ const AppRoutes = () => {
 				element={<RequestOrderDetail />}
 			/>
 
+
 			<Route path="/repacking" element={<Repacking />} />
 			<Route path="/return-materials" element={<ReturnMaterials />} />
 			<Route
@@ -132,12 +136,21 @@ const AppRoutes = () => {
 			<Route
 				path="/receiving-orders/:id"
 				element={<RequestOrderDetail />}
+			/> 
+
+			<Route
+				path="/reports/item-costing"
+				element={<ItemCosting />}
 			/>
-			{/* 	<Route
-				path="/receiving-orders/:id"
-				element={<ReceiveOrderDetails />}
+			<Route
+				path="/reports/warehouse-issuance"
+				element={<IssuanceReport />}
 			/>
- */}
+			<Route
+				path="/reports/inputs-of-receipts"
+				element={<InputsOfReceipts />}
+			/>
+	
 			<Route
 				path="/approving/approve-issuance-order/view-issuance/:id"
 				element={<ViewIssuanceOrder />}

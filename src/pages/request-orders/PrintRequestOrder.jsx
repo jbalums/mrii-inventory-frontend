@@ -121,7 +121,7 @@ const PrintRequestOrder = () => {
 	useEffect(() => {}, []);
 	return (
 		<PrintAppLayout containerClassName={`!p-0`} backBtn>
-			<div className="w-full py-5 bg-slate-700">
+			<div className="w-full py-5 bg-slate-700 sticky top-0 z-20">
 				<div className="flex items-center justify-end ml-auto gap-4 w-[8.5in] mx-auto">
 					<Pdf
 						options={{

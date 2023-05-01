@@ -41,11 +41,33 @@ const ConsumbedMaterialsModal = (props, ref) => {
 		setOpen(true);
 	};
 	const hide = () => {
+		setData(null)
 		setOpen(false);
 	};
-	const submitForm = (data) => {
-		console.log(data);
-		toast.success("Item successfully returned!");
+	const submitForm = () => {
+		console.log('submitForm', data);
+		let details =  data?.details
+		let items = [];
+
+		details.map(detail=>{
+			detail.items.map(item=>{
+				items.push(item)
+			})
+		})
+		console.log('submitForm itemsitems', items);
+
+		let formData = new FormData();
+
+		items.map(item=>{
+			formData.append('requisition_items_id[]', item?.id)
+			formData.append('product_id[]', item?.product?.id)
+			formData.append('qty[]', item?.quantity)
+		})
+
+		axios.post(`/inventory/consume-items`, formData).then(res=>{
+			console.log('inventory/consume-items', res.data)
+			toast.success('Materials successfully used/consumed!');
+		})
 		hide();
 	};
 	const getDetails = (showData) => {
@@ -76,7 +98,6 @@ const ConsumbedMaterialsModal = (props, ref) => {
 				className: "border-t",
 				cellClassName: "",
 			},
-
 			{
 				header: "Qty requested",
 				accessorKey: "request_quantity",
@@ -89,7 +110,18 @@ const ConsumbedMaterialsModal = (props, ref) => {
 				},
 			},
 			{
-				header: "Used/Consumed Qty",
+				header: "Used Qty",
+				accessorKey: "used_qty",
+				className: "text-center border-t",
+				cellClassName: "!text-center w-[128px]",
+				thClassName: "!text-center w-[128px]",
+				cell: ({ row: { original } }) => {
+					console.log("datadatadata original", original);
+					return original?.used_qty || 0;
+				},
+			},
+			{
+				header: "Use material",
 				accessorKey: "qty_received",
 				className: "text-center border-t",
 				cellClassName: "!text-center w-[128px]",
@@ -99,10 +131,12 @@ const ConsumbedMaterialsModal = (props, ref) => {
 					return (
 						<QtyInputField
 							setQty={(qty) => {
+								console.log('submitForm setQty', qty)
 								let item = original;
 								item.quantity = qty;
 								updateList(item);
 							}}
+							max={parseInt(original?.request_quantity) - parseInt(original?.used_qty)}
 						/>
 					);
 				},
@@ -114,7 +148,7 @@ const ConsumbedMaterialsModal = (props, ref) => {
 	return (
 		<Modal open={open} hide={hide} size="xl">
 			<ModalHeader
-				title={`Used/Consumed Materials`}
+				title={`Use/Consume Materials`}
 				subtitle="Update materials that was used/consumed."
 				hide={hide}
 			/>
