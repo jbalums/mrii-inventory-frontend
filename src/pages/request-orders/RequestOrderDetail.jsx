@@ -537,19 +537,20 @@ const RequestOrderDetail = () => {
 								loading={btnLoading}
 								onClick={() => {
 									setBtnLoading(true);
-									approvedRequisition(params?.id).then(() => {
-										toast.success(
-											"Request has been approved successfully"
-										);
-										setTimeout(() => {
+									approvedRequisition(params?.id)
+										.then(() => {
+											toast.success(
+												"Request has been approved successfully"
+											);
+											setTimeout(() => {
+												setBtnLoading(false);
+												getOrderData();
+												approve_order_ref.current.hide();
+											}, 1000);
+										})
+										.finally(() => {
 											setBtnLoading(false);
-											getOrderData();
-											approve_order_ref.current.hide();
-										}, 1000);
-									}).finally(()=>{
-										
-										setBtnLoading(false);
-									});
+										});
 								}}
 							>
 								<FlatIcon icon="rr-check" className="mr-1" />{" "}
