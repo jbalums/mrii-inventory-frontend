@@ -26,6 +26,8 @@ const AddItemsReceivedModal = (props, ref) => {
 		meta,
 		filters,
 		setFilters,
+		setPage,
+		setPaginate,
 	} = useDataTable("/management/products", null, {
 		location_id: 1,
 	});
@@ -151,6 +153,11 @@ const AddItemsReceivedModal = (props, ref) => {
 						data={list}
 						meta={meta}
 						rowHighlight={true}
+						onTableChange={(data) => {
+							console.log("onTableChange", data);
+							setPage(data.pageIndex + 1);
+							setPaginate(data.pageSize);
+						}}
 						pagination={true}
 						paginationClassName={"px-6"}
 					/>

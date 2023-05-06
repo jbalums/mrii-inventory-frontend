@@ -10,12 +10,14 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useSuppliersHook } from "../suppliers/hooks/useSuppliersHook";
 import AddItemsReceivedModal from "./components/AddItemsReceivedModal";
 import ReceivingFormModal from "./components/ReceivingFormModal";
+import ViewReceivedPOModal from "./components/ViewReceivedPOModal";
 
 const Receiving = () => {
 	const addFormRef = useRef(null);
 	const viewProductRef = useRef(null);
 	const add_items_received = useRef(null);
 	const delete_modal_ref = useRef(null);
+	const view_po_ref = useRef(null);
 
 	const [list, setList] = useState([]);
 	const [id, setId] = useState(null);
@@ -44,8 +46,8 @@ const Receiving = () => {
 	const openFormModal = (data = null) => {
 		addFormRef.current.show(data);
 	};
-	const viewProductModal = (item) => {
-		viewProductRef.current.show();
+	const viewProductModal = (data) => {
+		viewProductRef.current.show(data);
 	};
 
 	const openConfirmDelete = () => {
@@ -191,7 +193,7 @@ const Receiving = () => {
 			</div>
 			<Table
 				rowClick={(data) => {
-					viewProductModal(data);
+					viewProductModal(data?.original);
 				}}
 				columns={columns}
 				pagination={true}
@@ -227,6 +229,7 @@ const Receiving = () => {
 					</div>
 				}
 			/>
+			<ViewReceivedPOModal ref={viewProductRef} />
 		</AppLayout>
 	);
 };

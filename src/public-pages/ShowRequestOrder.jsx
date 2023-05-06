@@ -5,6 +5,7 @@ import Table from "@/src/components/table/Table";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import PublicAppLayout from "../components/PublicAppLayout";
+import { useAuth } from "@/hooks/useAuth";
 
 const ShowRequestOrder = () => {
 	const params = useParams();
@@ -15,14 +16,22 @@ const ShowRequestOrder = () => {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		getOrderData();
+		let t = setTimeout(() => {
+			getOrderData();
+		}, 500);
+
+		return () => {
+			clearTimeout(t);
+		};
 	}, [params.id]);
 	const getOrderData = useCallback(() => {
 		if (params.id) {
 			setLoading(true);
 			axios.get(`/public/requisition/${params.id}`).then((res) => {
 				setData(res.data.data);
-				setLoading(false);
+				setTimeout(() => {
+					setLoading(false);
+				}, 500);
 			});
 		}
 	}, [params?.id]);
@@ -127,7 +136,193 @@ const ShowRequestOrder = () => {
 				data?.issuance_status
 			)}
 			<div className="flex gap-6 flex-col lg:flex-row">
-				<div className="w-full lg:w-1/3 grid grid-cols-1">
+				<div className="w-full lg:w-1/3 ">
+					<h3 className="mb-2 text-lg">Request Order Details</h3>
+					{loading ? (
+						<>
+							<div className=" bg-[#f5f7ff] opacity-50 animate-pulse flex gap-2 px-2 py-2 whitespace-pre rounded-t-lg h-[144px]">
+								<span className="w-1/3 bg-background animate-pulse rounded-xl">
+									&nbsp;
+								</span>
+								<span className="w-2/3 bg-background animate-pulse rounded-xl">
+									&nbsp;
+								</span>
+							</div>
+						</>
+					) : (
+						<div className="printable-table">
+							<table className="">
+								<tbody>
+									<tr>
+										<th className="!text-base !text-left !font-semibold w-[144px]">
+											Purpose:
+										</th>
+										<td className="!text-base !text-left capitalize">
+											{data?.purpose}
+										</td>
+									</tr>
+									<tr>
+										<th className="!text-base !text-left !font-semibold w-[144px]">
+											Account code:
+										</th>
+										<td className="!text-base !text-left">
+											{data?.account_code}
+										</td>
+									</tr>
+									<tr>
+										<th className="!text-base !text-left !font-semibold w-[144px]">
+											Project code:
+										</th>
+										<td className="!text-base !text-left">
+											{data?.project_code}
+										</td>
+									</tr>
+									<tr>
+										<th className="!text-base !text-left !font-semibold w-[144px]">
+											Request Status:
+										</th>
+										<td className="!text-base !text-left">
+											{data?.status}
+										</td>
+									</tr>
+									<tr>
+										<th className="!text-base !text-left !font-semibold w-[144px]">
+											Date needed:
+										</th>
+										<td className="!text-base !text-left">
+											{data?.date_needed}
+										</td>
+									</tr>
+									<tr>
+										<th className="!text-base !text-left !font-semibold w-[144px]">
+											Date approved:
+										</th>
+										<td className="!text-base !text-left">
+											{data?.date_approved || "-"}
+										</td>
+									</tr>
+									<tr>
+										<th className="!text-base !text-left !font-semibold w-[144px]">
+											Date created:
+										</th>
+										<td className="!text-base !text-left">
+											{data?.created_at}
+										</td>
+									</tr>
+									<tr>
+										<th className="!text-base !text-left !font-semibold w-[144px]">
+											Requested by:
+										</th>
+										<td className="!text-base !text-left">
+											{data?.requester?.name}
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					)}
+					{/* 				account_code date_needed date_approved created_at project_code
+				purpose requester status */}
+				</div>
+				<div className="w-full lg:w-2/3 flex flex-col overflow-auto">
+					<h3 className=" text-lg mb-2">Requested items</h3>
+					{loading ? (
+						<div className="h-[88px] flex items-center justify-center !bg-white rounded-lg text-placeholder">
+							Loading...
+						</div>
+					) : (
+						<>
+							{data?.details?.map((detail) => {
+								return (
+									<>
+										<div className="printable-table overflow-auto">
+											<table className=" min-w-[720px]">
+												<thead>
+													<tr>
+														<td
+															className="!text-base !text-left"
+															colSpan={999}
+														>
+															Location:{" "}
+															<b>
+																{
+																	detail
+																		?.location
+																		?.name
+																}
+															</b>
+														</td>
+													</tr>
+													<tr>
+														<th className="!text-base !text-left !font-semibold">
+															Code
+														</th>
+														<th className="!text-base !text-left !font-semibold">
+															Description
+														</th>
+														<th className="!text-base !text-left !font-semibold">
+															Item U/M
+														</th>
+														<th className="!text-xs !text-center !font-semibold">
+															Requested QTY
+														</th>
+														<th className="!text-xs !text-center !font-semibold">
+															Issued QTY
+														</th>
+													</tr>
+												</thead>
+												<tbody>
+													{detail?.items?.map(
+														(item) => {
+															return (
+																<tr>
+																	<td className="!text-base !text-left ">
+																		{
+																			item
+																				?.product
+																				?.code
+																		}
+																	</td>
+																	<td className="!text-base !text-left ">
+																		{
+																			item
+																				?.product
+																				?.name
+																		}
+																	</td>
+																	<td className="!text-base !text-left ">
+																		{
+																			item
+																				?.product
+																				?.unit_measurement
+																		}
+																	</td>
+																	<td className="!text-base !text-center  w-[44px]">
+																		{
+																			item?.request_quantity
+																		}
+																	</td>
+																	<td className="!text-base !text-center  w-[44px]">
+																		{
+																			item?.full_filled_quantity
+																		}
+																	</td>
+																</tr>
+															);
+														}
+													)}
+												</tbody>
+											</table>
+										</div>
+									</>
+								);
+							})}
+						</>
+					)}
+				</div>
+			</div>
+			<div className="flex gap-6 flex-col lg:flex-row">
+				{/* <div className="w-full lg:w-1/3 grid grid-cols-1">
 					<h3 className="mb-3">Request details</h3>
 					{loading ? (
 						<>
@@ -261,8 +456,8 @@ const ShowRequestOrder = () => {
 							</div>
 						</>
 					)}
-				</div>
-				<div className="w-full lg:w-2/3 flex flex-col gap-4">
+				</div> */}
+				{/* <div className="w-full lg:w-2/3 flex flex-col gap-4">
 					<div className="w-full ">
 						<h3 className="text- mb-3">Requested items</h3>
 						{loading ? (
@@ -274,8 +469,8 @@ const ShowRequestOrder = () => {
 								{data?.details?.map((detail) => {
 									return (
 										<div className="w-full max-w-full overflow-auto">
-											<div className="table p-6 bg-[#f5f7ff]">
-												<table className="min-w-[512px]">
+											<div className="table p-6 w-full bg-[#f5f7ff]">
+												<table className="min-w-[512px] w-full">
 													<thead>
 														<tr>
 															<td
@@ -359,7 +554,7 @@ const ShowRequestOrder = () => {
 							</>
 						)}
 					</div>
-				</div>
+				</div> */}
 			</div>
 		</PublicAppLayout>
 	);

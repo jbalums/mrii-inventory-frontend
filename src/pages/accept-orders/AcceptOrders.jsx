@@ -137,19 +137,21 @@ const AcceptOrders = () => {
 						icon={<FlatIcon icon="rr-search" className="text-sm" />}
 						placeholder="Search request"
 					/>
-					<ReactSelectInputField
+					{/* 	<ReactSelectInputField
 						className="w-full lg:w-[256px]"
 						placeholder="All status"
-						/* options={supliers?.map((supplier) => ({
+						 options={supliers?.map((supplier) => ({
 							label: supplier?.name + ` - [${supplier?.address}]`,
 							value: supplier?.id,
-						}))} */
-					/>
+						}))} 
+					/> */}
 				</div>
 				<Table
 					rowClick={(data) => {
 						console.log("rowClickrowClick", data.original);
-						navigate(`/accept-orders/details/${data.original?.requisition?.id}`);
+						navigate(
+							`/accept-orders/details/${data.original?.requisition?.id}`
+						);
 						/* navigate(
 							`/accept-orders/request/${data?.original?.id}`
 						); */

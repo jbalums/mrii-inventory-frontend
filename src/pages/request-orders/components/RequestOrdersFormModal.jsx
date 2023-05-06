@@ -73,6 +73,9 @@ const RequestOrdersFormModal = (props, ref) => {
 	const updateList = (item) => {
 		setList((list) => list.map((x) => (x.id == item.id ? item : x)));
 	};
+	const removeInList = (item) => {
+		setList((list) => list.filter((x) => x.id != item?.id));
+	};
 	const show = (data) => {
 		setList([]);
 		setLoading(false);
@@ -186,12 +189,16 @@ const RequestOrdersFormModal = (props, ref) => {
 				accessorKey: "name",
 				className: "border-t",
 				cellClassName: "",
-				cell: () => {
+				cell: ({ row }) => {
+					let item = row?.original;
 					return (
 						<Button
 							type="danger-light"
 							size="sm"
 							className="!w-8 !h-8 !rounded-full !p-0"
+							onClick={() => {
+								removeInList(item);
+							}}
 						>
 							<FlatIcon icon="rr-trash" className="text-danger" />
 						</Button>

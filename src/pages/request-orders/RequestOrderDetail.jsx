@@ -161,7 +161,6 @@ const RequestOrderDetail = () => {
 				<>
 					<Link
 						className="ml-auto"
-						target="_blank"
 						to={`/request-orders/${data?.id}/print`}
 					>
 						<Button
@@ -418,12 +417,13 @@ const RequestOrderDetail = () => {
 					{/* 				account_code date_needed date_approved created_at project_code
 				purpose requester status */}
 					<h3 className="mt-6 mb-3">QR Code</h3>
-					<div className="flex flex-col gap-2 items-center justify-center py-6 px-4 bg-[#f5f7ff]">
+					<div className="flex flex-col gap-0 items-center justify-center py-0 px-4 bg-[#f5f7ff]">
+						<span className="text-transparent">{`${origin}/show-order/${data?.id}`}</span>
 						<QRCode
 							value={`${origin}/show-order/${data?.id}`}
-							size={244}
+							size={128}
 						/>
-						{/* <span className="text-blue-600">{`${origin}/show-order/${data?.id}`}</span> */}
+						<span className="text-transparent">{`${origin}/show-order/${data?.id}`}</span>
 					</div>
 				</div>
 				<div className="w-full lg:w-2/3 flex flex-col gap-4">

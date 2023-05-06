@@ -24,7 +24,7 @@ const Inventory = () => {
 	const viewStatusRef = useRef(null);
 	const repackModalRef = useRef(null);
 	const updatePriceref = useRef(null);
-	
+
 	const [list, setList] = useState([]);
 	const [inventoryStatus, setInventoryStatus] = useState(null);
 	const [branches, setBranches] = useState([]);
@@ -91,11 +91,11 @@ const Inventory = () => {
 
 	const columns = useMemo(
 		() => [
-			{
-				header: "ID",
-				accessorKey: "product_id",
-				className: "min-w-[64px]",
-			},
+			// {
+			// 	header: "ID",
+			// 	accessorKey: "product_id",
+			// 	className: "min-w-[64px]",
+			// },
 			{
 				header: "Code",
 				accessorKey: "code",
@@ -151,12 +151,12 @@ const Inventory = () => {
 				accessorKey: "action",
 				className: "!text-center",
 				cell: ({ row, getValue }) => {
-					console.log('useruseruser', row?.original)
-					if(row?.original?.location?.id == user?.data?.branch_id)
+					console.log("useruseruser", row?.original);
+					if (row?.original?.location?.id == user?.data?.branch_id)
 						return (
 							<>
 								<div className="flex items-center justify-center text-center gap-4">
-								<Button
+									<Button
 										type="foreground"
 										size="sm"
 										className="gap-1"
@@ -167,7 +167,8 @@ const Inventory = () => {
 										<FlatIcon
 											icon="rr-edit"
 											className="text-sm text-dark"
-										/> Edit levels
+										/>{" "}
+										Edit levels
 									</Button>
 									<Button
 										type="primary"
@@ -180,20 +181,20 @@ const Inventory = () => {
 										<FlatIcon
 											icon="rr-edit"
 											className="text-sm text-white"
-										/> Edit price
+										/>{" "}
+										Edit price
 									</Button>
 								</div>
 							</>
 						);
 
-					return ''
+					return "";
 				},
 			},
 		],
 		[]
 	);
 
-	
 	return (
 		<AppLayout
 			icon={<FlatIcon icon="rr-boxes" />}
@@ -331,12 +332,15 @@ const Inventory = () => {
 			<ViewProductModal ref={viewProductRef} />
 			<ViewLowStocksModal ref={viewStatusRef} />
 			<UpdatePriceModal ref={updatePriceref} />
-			<RepackingModal ref={repackModalRef} onSuccess={()=>{
-				setFilters((prevFilters)=>({
-					...prevFilters,
-					key: uuidv4()
-				}))
-			}} />
+			<RepackingModal
+				ref={repackModalRef}
+				onSuccess={() => {
+					setFilters((prevFilters) => ({
+						...prevFilters,
+						key: uuidv4(),
+					}));
+				}}
+			/>
 		</AppLayout>
 	);
 };

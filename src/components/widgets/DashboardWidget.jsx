@@ -13,7 +13,7 @@ const DashboardWidget = ({ bgColor, color, title, count, icon }) => {
 			<div className="px-4 pt-6 pb-6 flex items-center justify-start">
 				<h2 className={`text-[44px] font-bold ${color}`}>{count}</h2>
 			</div>
-			<div className="absolute top-11 right-4 2xl:right-6 opacity-10">
+			<div className="absolute top-11 right-4 2xl:right-6 opacity-30">
 				<FlatIcon
 					icon={icon}
 					className={`text-[52px] 2xl:text-[52px] ${color}`}

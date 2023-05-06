@@ -2,21 +2,28 @@ import { isNumeric } from "@/libs/helpers";
 import { useEffect, useState } from "react";
 import FlatIcon from "../FlatIcon";
 
-const QtyInputField = ({ qty, setQty, max, ...props}) => {
+const QtyInputField = ({ qty, setQty, max, ...props }) => {
 	const [value, setValue] = useState(1);
 
 	const plusOneQty = () => {
 		setValue((currentQty) => {
-			if(currentQty < max){
-				return currentQty + 1
+			if (max) {
+				if (currentQty < max) {
+					return currentQty + 1;
+				} else {
+					return max;
+				}
+			} else {
+				return currentQty + 1;
 			}
 		});
-		setQty((currentQty) => {
-			if(currentQty < max){
-				return currentQty + 1
-			}
-		});
+		// setQty((currentQty) => {
+		// 	if(currentQty < max){
+		// 		return currentQty + 1
+		// 	}
+		// });
 	};
+
 	const minusOneQty = () => {
 		setValue((currentQty) => {
 			if (currentQty > 1) {
@@ -24,12 +31,12 @@ const QtyInputField = ({ qty, setQty, max, ...props}) => {
 			}
 			return 0;
 		});
-		setQty((currentQty) => {
-			if (currentQty > 1) {
-				return currentQty - 1;
-			}
-			return 0;
-		});
+		// setQty((currentQty) => {
+		// 	if (currentQty > 1) {
+		// 		return currentQty - 1;
+		// 	}
+		// 	return 0;
+		// });
 	};
 
 	return (
@@ -48,8 +55,10 @@ const QtyInputField = ({ qty, setQty, max, ...props}) => {
 					let input_value = e.target.value;
 					if (isNumeric(String(input_value))) {
 						setValue(input_value);
+						setQty(input_value);
 					} else {
 						setValue(1);
+						setQty(1);
 					}
 				}}
 				onBlur={(e) => {

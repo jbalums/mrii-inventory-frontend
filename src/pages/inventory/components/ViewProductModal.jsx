@@ -56,15 +56,32 @@ const ViewProductModal = (props, ref) => {
 	};
 	const formatDate = (date) => {
 		let d = new Date(date);
-		return `${d.getDay()}/${d.getMonth()+1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()} ${d.getHours() >= 12 ? 'PM':'AM'}`;
-	}
+		return `${d.getDay()}/${
+			d.getMonth() + 1
+		}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()} ${
+			d.getHours() >= 12 ? "PM" : "AM"
+		}`;
+	};
 	const columns = useMemo(
-		() => [ 
+		() => [
+			{
+				header: "Details",
+				accessorKey: "created_at",
+				cell: ({ row }) => {
+					return row?.original?.receive
+						? `PO #${row?.original?.receive?.purchase_order}`
+						: row?.original?.request
+						? `Ref #${row?.original?.request?.account_code}`
+						: "-";
+				},
+			},
 			{
 				header: "Date",
 				accessorKey: "created_at",
-				cell: ({ row }) => { 
-					return row?.original?.created_at ? formatDate(row?.original?.created_at) : '';
+				cell: ({ row }) => {
+					return row?.original?.created_at
+						? formatDate(row?.original?.created_at)
+						: "";
 				},
 			},
 			{
@@ -76,6 +93,21 @@ const ViewProductModal = (props, ref) => {
 				header: "QTY",
 				accessorKey: "quantity",
 				className: "!text-center",
+				cell: ({ row }) => {
+					let item = row?.original;
+					return (
+						<span
+							className={
+								item?.movement == "in"
+									? "text-green-700"
+									: "text-red-700"
+							}
+						>
+							{item?.movement == "in" ? "+ " : "- "}
+							{item?.quantity}
+						</span>
+					);
+				},
 			},
 			/* {
 				header: "Unit price",

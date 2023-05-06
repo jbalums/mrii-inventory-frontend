@@ -29,7 +29,16 @@ const Page = (props) => {
 				<div className="w-full flex h-full z-[2] bg-opacity-40 overflow-hidden">
 					{/* <div className="absolute bg-red-500 p-4 rounded-lg top-4 left-4 z-20 h-11 w-11"></div> */}
 
-					<div className="relative bg-slate-200 h-full w-full max-h-[100dvh] overflow-auto">
+					<div className="relative bg-white h-full w-full max-h-[100dvh] overflow-auto">
+						<div className="p-4">
+							<div className={"z-[2]"}>
+								{/* "/mrii-icon.png" */}
+								<img
+									src={"/logo.png"}
+									className={`duration-300 h-8 lg:h-11`}
+								/>
+							</div>
+						</div>
 						<div
 							className={`p-4 lg:p-6 w-full animate-fadeIn ${containerClassName}`}
 						>

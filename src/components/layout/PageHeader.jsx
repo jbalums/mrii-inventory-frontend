@@ -69,7 +69,7 @@ const PageHeader = (props) => {
 								className:
 									"text-secondary-dark hover:!text-white !duration-200",
 							},
-							{
+							/* 	{
 								label: (
 									<>
 										<FlatIcon
@@ -84,7 +84,7 @@ const PageHeader = (props) => {
 								},
 								className:
 									"text-secondary-dark hover:!text-white !duration-200",
-							},
+							}, */
 							{
 								label: (
 									<>

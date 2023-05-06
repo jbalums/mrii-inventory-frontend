@@ -135,7 +135,7 @@ const Users = () => {
 									>
 										<FiEdit className="font-bold text-base" />
 									</Button>
-									<Button
+									{/* <Button
 										type="danger"
 										size="sm"
 										className="rounded-full"
@@ -145,7 +145,7 @@ const Users = () => {
 										}}
 									>
 										<FiTrash2 className="font-bold text-base" />
-									</Button>
+									</Button> */}
 								</div>
 							</>
 						);

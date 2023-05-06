@@ -41,33 +41,33 @@ const ConsumbedMaterialsModal = (props, ref) => {
 		setOpen(true);
 	};
 	const hide = () => {
-		setData(null)
+		setData(null);
 		setOpen(false);
 	};
 	const submitForm = () => {
-		console.log('submitForm', data);
-		let details =  data?.details
+		console.log("submitForm", data);
+		let details = data?.details;
 		let items = [];
 
-		details.map(detail=>{
-			detail.items.map(item=>{
-				items.push(item)
-			})
-		})
-		console.log('submitForm itemsitems', items);
+		details.map((detail) => {
+			detail.items.map((item) => {
+				items.push(item);
+			});
+		});
+		console.log("submitForm itemsitems", items);
 
 		let formData = new FormData();
 
-		items.map(item=>{
-			formData.append('requisition_items_id[]', item?.id)
-			formData.append('product_id[]', item?.product?.id)
-			formData.append('qty[]', item?.quantity)
-		})
+		items.map((item) => {
+			formData.append("requisition_items_id[]", item?.id);
+			formData.append("product_id[]", item?.product?.id);
+			formData.append("qty[]", item?.quantity);
+		});
 
-		axios.post(`/inventory/consume-items`, formData).then(res=>{
-			console.log('inventory/consume-items', res.data)
-			toast.success('Materials successfully used/consumed!');
-		})
+		axios.post(`/inventory/consume-items`, formData).then((res) => {
+			console.log("inventory/consume-items", res.data);
+			toast.success("Materials successfully used/consumed!");
+		});
 		hide();
 	};
 	const getDetails = (showData) => {
@@ -128,16 +128,24 @@ const ConsumbedMaterialsModal = (props, ref) => {
 				thClassName: "!text-center w-[128px]",
 				cell: ({ row: { original } }) => {
 					console.log("datadatadata original", original);
-					return (
+					return parseInt(original?.request_quantity) -
+						parseInt(original?.used_qty) ? (
 						<QtyInputField
 							setQty={(qty) => {
-								console.log('submitForm setQty', qty)
+								console.log("submitForm setQty", qty);
 								let item = original;
 								item.quantity = qty;
 								updateList(item);
 							}}
-							max={parseInt(original?.request_quantity) - parseInt(original?.used_qty)}
+							max={
+								parseInt(original?.request_quantity) -
+								parseInt(original?.used_qty)
+							}
 						/>
+					) : (
+						<span className="text-xs text-placeholder">
+							maxed out
+						</span>
 					);
 				},
 			},
