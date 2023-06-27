@@ -336,7 +336,7 @@ const ReceivingFormModal = (props, ref) => {
 								})}
 							/>
 							<TextInputField
-								label={`Enter PO Number`}
+								label={`PO Number`}
 								className="col-span-2"
 								inputClassName="bg-"
 								placeholder={"Enter purchase order number"}
@@ -346,7 +346,17 @@ const ReceivingFormModal = (props, ref) => {
 								})}
 							/>
 							<TextInputField
-								label={`Enter Project Name`}
+								label={`Reference Invoice Number`}
+								className="col-span-2"
+								inputClassName="bg-"
+								placeholder={"Enter reference invoice number"}
+								error={
+									errors?.reference_invoice_number?.message
+								}
+								{...register("reference_invoice_number")}
+							/>
+							<TextInputField
+								label={`Project Name`}
 								className="col-span-2"
 								inputClassName="bg-"
 								placeholder={"Enter project name"}

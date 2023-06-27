@@ -243,6 +243,10 @@ const AddUserModal = (props, ref) => {
 										label: "WBU - Water Business Unit",
 									},
 									{
+										value: "Support Group",
+										label: "Support Group",
+									},
+									{
 										value: "others",
 										label: "Others",
 									},
