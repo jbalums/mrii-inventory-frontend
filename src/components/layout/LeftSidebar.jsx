@@ -182,11 +182,8 @@ const LeftSidebar = () => {
 
 					{hasPermission([
 						"admin",
-						"warehouse_man",
 						"area_manger",
 						"approving_manager",
-						"bu_manager",
-						"employee",
 					]) && (
 						<>
 							<LeftSidebarLink

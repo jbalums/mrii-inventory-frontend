@@ -256,6 +256,7 @@ const Table = (props) => {
 							onChange={(e) => {
 								// table.setPageSize(Number(e.target.value));
 
+								table.setPageIndex(0);
 								setPagination((data) => ({
 									...data,
 									pageSize: Number(e.target.value),
@@ -307,15 +308,14 @@ const Table = (props) => {
 						</Button>
 						<div className="flex items-center gap-2 mx-2 text-xs lg:text-sm">
 							Page <b>{paginationState.pageIndex + 1}</b> of{" "}
-							<b>{table.getPageCount()}</b>
+							<b>{meta?.last_page}</b>
 						</div>
 						<Button
 							type="foreground"
 							size="sm"
 							className="!rounded-md"
 							disabled={
-								paginationState.pageIndex ==
-								table.getPageCount() - 1
+								paginationState.pageIndex == meta?.last_page
 							}
 							onClick={() => table.nextPage()}
 						>
