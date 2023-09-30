@@ -286,6 +286,7 @@ const Suppliers = () => {
 				);
 			})
 			.finally(() => {
+				delete_modal_ref.current.hide();
 				setLoading(false);
 			});
 	};

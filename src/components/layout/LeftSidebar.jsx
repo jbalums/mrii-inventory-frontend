@@ -12,6 +12,7 @@ import LeftSidebarLink from "../LeftSidebarLink";
 import LeftSidebarTitle from "../LeftSidebarTitle";
 import ConfirmModal from "../modals/ConfirmModal";
 import MagicScrollBar from "./MagicScrollBar";
+import { extractFirstLetters } from "@/libs/helpers";
 
 const LeftSidebar = () => {
 	const location = useLocation();
@@ -66,7 +67,7 @@ const LeftSidebar = () => {
 			className={`hidden md:flex shadow-xl transition-all h-full duration-300 bg-background flex-col md:w-64 z-10 
 		${
 			collapseSidebar
-				? `!relative pt-6 !px-0 !w-[64px] max-w-[64px] ${
+				? `!relative pt-6 !px-0 !w-[64px] max-w-[64px] top-0 pt-0 ${
 						device == "mobile" ? " top-0 left-0" : ""
 				  }`
 				: `absolute
@@ -97,7 +98,13 @@ const LeftSidebar = () => {
 			</div>
 
 			<div className="flex items-center p-2 px-4 gap-2 border-y relative h-[76px] bg-background z-[2]">
-				<b className="text-primary">{user?.data?.branch?.name}</b>
+				{collapseSidebar ? (
+					<b className="text-primary">
+						{extractFirstLetters(user?.data?.branch?.name, 2)}
+					</b>
+				) : (
+					<b className="text-primary">{user?.data?.branch?.name}</b>
+				)}
 				<FlatIcon
 					icon="rr-warehouse-alt"
 					className="-mt-[2px] absolute right-3 opacity-10 text-5xl text-primary"
@@ -138,7 +145,7 @@ const LeftSidebar = () => {
 					active={isActive("/receiving", "/receiving-orders")}
 				/>
 				<CollapseMenu
-					containerClassName="sidebar-menu-collapse pl-4"
+					containerClassName="sidebar-menu-collapse pl-4 relative"
 					titleClassName="flex items-center gap-2 font-normal h-11 text-dark px-4 !duration-200 text-sm hover:bg-foreground bg-opacity-0 hover:bg-opacity-100"
 					title={
 						<>
@@ -249,7 +256,7 @@ const LeftSidebar = () => {
 					text={`Project/Plant`}
 					to="/for-project-or-plant-requests"
 					active={isActive("/for-project-or-plant-requests")}
-				/> 
+				/>
 				{/* <LeftSidebarLink
 					icon={<FlatIcon icon="rr-box-open" />}
 					text={`Repacking`}

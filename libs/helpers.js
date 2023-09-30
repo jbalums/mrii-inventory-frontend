@@ -50,3 +50,25 @@ export const setErrors = (data, setError) => {
 		});
 	}
 };
+
+export const extractFirstLetters = (sentence, limit) => {
+	// Split the sentence into words
+	const words = sentence.split(" ");
+
+	// Initialize an empty array to store the first letters
+	const firstLetters = [];
+
+	// Loop through all words and extract their first letters
+	for (let i = 0; i < limit; i++) {
+		const word = words[i].trim(); // Trim to remove any leading/trailing spaces
+		if (word !== "") {
+			// Check if the word is not empty
+			firstLetters.push(word[0]);
+		}
+	}
+
+	// Join the first letters and return as a string
+	const result = firstLetters.join("");
+
+	return String(result).toUpperCase();
+};
