@@ -89,6 +89,12 @@ const CreateIssuanceModal = (props, ref) => {
 										e.target.value
 									);
 								}}
+								onKeyUp={(e) => {
+									updateIssuedQty(
+										data?.row?.original?.id,
+										e.target.value
+									);
+								}}
 								max={data?.getValue()}
 								className="px-2 py-1 rounded-lg w-[112px] text-center border border-border"
 								placeholder="Issued qty"

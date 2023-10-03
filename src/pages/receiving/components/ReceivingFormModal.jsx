@@ -27,6 +27,15 @@ const QtyInput = ({ qty, updateQty }) => {
 	useEffect(() => {
 		setVal(qty || 0);
 	}, [qty]);
+
+	useEffect(() => {
+		let t = setTimeout(() => {
+			updateQty(val);
+		}, 200);
+		return () => {
+			clearTimeout(t);
+		};
+	}, [val]);
 	return (
 		<input
 			value={val}
@@ -34,6 +43,9 @@ const QtyInput = ({ qty, updateQty }) => {
 			className="rounded-md px-2 py-1 w-[88px] text-center bg-foreground"
 			placeholder="Qty"
 			onChange={(e) => {
+				setVal(e.target.value);
+			}}
+			onKeyUp={(e) => {
 				setVal(e.target.value);
 			}}
 			onBlur={(e) => {
@@ -78,6 +90,15 @@ const PriceInput = ({ price, update }) => {
 	useEffect(() => {
 		setVal(price || 0.0);
 	}, [price]);
+
+	useEffect(() => {
+		let t = setTimeout(() => {
+			update(val);
+		}, 200);
+		return () => {
+			clearTimeout(t);
+		};
+	}, [val]);
 	return (
 		<input
 			type="text"
@@ -85,6 +106,9 @@ const PriceInput = ({ price, update }) => {
 			className="rounded-md px-2 py-1 w-[100px] text-center bg-foreground"
 			placeholder="Unit Price"
 			onChange={(e) => {
+				setVal(e.target.value);
+			}}
+			onKeyUp={(e) => {
 				setVal(e.target.value);
 			}}
 			onBlur={(e) => {
@@ -361,9 +385,7 @@ const ReceivingFormModal = (props, ref) => {
 								inputClassName="bg-"
 								placeholder={"Enter project name"}
 								error={errors?.project_name?.message}
-								{...register("project_name", {
-									required: "This field is required",
-								})}
+								{...register("project_name")}
 							/>
 
 							<Controller
