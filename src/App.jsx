@@ -48,6 +48,8 @@ import ScanQr from "./public-pages/ScanQr";
 import ItemCosting from "./pages/reports/ItemCosting";
 import IssuanceReport from "./pages/reports/IssuanceReport";
 import InputsOfReceipts from "./pages/reports/InputsOfReceipts";
+import ItemUnits from "./features/item-units/ItemUnits";
+import PrintItemUnits from "./features/item-units/PrintItemUnits";
 const AppRoutes = () => {
 	return (
 		<Routes>
@@ -119,7 +121,6 @@ const AppRoutes = () => {
 				element={<RequestOrderDetail />}
 			/>
 
-
 			<Route path="/repacking" element={<Repacking />} />
 			<Route path="/return-materials" element={<ReturnMaterials />} />
 			<Route
@@ -136,12 +137,9 @@ const AppRoutes = () => {
 			<Route
 				path="/receiving-orders/:id"
 				element={<RequestOrderDetail />}
-			/> 
-
-			<Route
-				path="/reports/item-costing"
-				element={<ItemCosting />}
 			/>
+
+			<Route path="/reports/item-costing" element={<ItemCosting />} />
 			<Route
 				path="/reports/warehouse-issuance"
 				element={<IssuanceReport />}
@@ -150,7 +148,7 @@ const AppRoutes = () => {
 				path="/reports/inputs-of-receipts"
 				element={<InputsOfReceipts />}
 			/>
-	
+
 			<Route
 				path="/approving/approve-issuance-order/view-issuance/:id"
 				element={<ViewIssuanceOrder />}
@@ -162,6 +160,8 @@ const AppRoutes = () => {
 				path="/item-categories/print"
 				element={<PrintItemCategories />}
 			/>
+			<Route path="/item-units" element={<ItemUnits />} />
+			<Route path="/item-units/print" element={<PrintItemUnits />} />
 			{/* LOCATIONS MANAGEMENT*/}
 			<Route path="/locations" element={<Locations />} />
 			<Route path="/locations/print" element={<PrintLocations />} />

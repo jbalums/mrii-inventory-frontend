@@ -338,6 +338,12 @@ const LeftSidebar = () => {
 							active={isActive("/item-categories")}
 						/>
 						<LeftSidebarLink
+							icon={<FlatIcon icon="rr-ruler-combined" />}
+							text={`Item Units`}
+							to="/item-units"
+							active={isActive("/item-units")}
+						/>
+						<LeftSidebarLink
 							icon={<FlatIcon icon="rr-map-marker" />}
 							text={`Locations`}
 							to="/locations"

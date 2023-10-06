@@ -13,6 +13,7 @@ import useFormHelper from "@/src/helpers/useFormHelper";
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import useInventory from "../hooks/useInventory";
+import { useItemUnits } from "@/src/features/item-units/hooks/useItemUnitsHook";
 
 const ProductFormModal = (props, ref) => {
 	const { addToList, updateInList } = props;
@@ -29,12 +30,14 @@ const ProductFormModal = (props, ref) => {
 	const { setErrors } = useFormHelper();
 	const { saveProduct } = useInventory();
 	const { getCategories } = useItemCategories();
+	const { getItemUnits } = useItemUnits();
 	const { getBranches } = useBranchLocation();
 
 	const [open, setOpen] = useState(false);
 	const [id, setId] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [categories, setCategories] = useState([]);
+	const [units, setUnits] = useState([]);
 	const [locations, setLocations] = useState([]);
 
 	useImperativeHandle(ref, () => ({
@@ -48,6 +51,9 @@ const ProductFormModal = (props, ref) => {
 		});
 		getCategories().then((res) => {
 			setCategories(res.data.data);
+		});
+		getItemUnits().then((res) => {
+			setUnits(res.data.data);
 		});
 		if (data) {
 			reset({
@@ -160,14 +166,35 @@ const ProductFormModal = (props, ref) => {
 							required: "This field is required",
 						})}
 					/>
-					<TextInputField
-						label={`Unit of measurement`}
-						inputClassName="bg-foreground"
-						placeholder={"Unit of measurement"}
-						error={errors?.unit_measurement?.message}
-						{...register("unit_measurement", {
-							required: "This field is required",
-						})}
+
+					<Controller
+						render={({
+							field: { onChange, onBlur, value, name, ref },
+							fieldState: { invalid, isTouched, isDirty, error },
+						}) => (
+							<ReactSelectInputField
+								label="Unit of measurement"
+								className="col-span-1"
+								ref={ref}
+								value={value}
+								onChange={onChange} // send value to hook form
+								onBlur={onBlur} // notify when input is touched
+								error={error?.message}
+								placeholder="Select unit of measurement"
+								options={units.map((data) => ({
+									label: data.name,
+									value: data.name,
+								}))}
+							/>
+						)}
+						name="unit_measurement"
+						control={control}
+						rules={{
+							required: {
+								value: true,
+								message: "This field is required",
+							},
+						}}
 					/>
 					<TextInputField
 						type="number"
