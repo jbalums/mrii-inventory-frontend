@@ -270,7 +270,7 @@ const Inventory = () => {
 					options={[
 						{
 							label: "All location / branches",
-							value: "",
+							value: "all",
 						},
 						...branches.map((branch) => ({
 							value: branch?.id,
