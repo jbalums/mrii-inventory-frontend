@@ -330,6 +330,14 @@ const Inventory = () => {
 					loading={dataLoading}
 					data={list}
 					meta={meta}
+					onTableChange={(data) => {
+						console.log("onTableChange", data);
+						setFilters((prevFilters) => ({
+							...prevFilters,
+							paginate: data?.pageSize,
+							page: data?.pageIndex + 1 || 1,
+						}));
+					}}
 				/>
 			</div>
 			<ProductFormModal
