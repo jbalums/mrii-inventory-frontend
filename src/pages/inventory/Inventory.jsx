@@ -37,6 +37,7 @@ const Inventory = () => {
 		setFilters,
 		updateInList,
 		removeFromList,
+		meta,
 	} = useDataTable(
 		user?.data?.branch?.id == 1
 			? `/inventory`
@@ -113,8 +114,11 @@ const Inventory = () => {
 			},
 			{
 				header: "Location",
-				accessorKey: "location.name",
+				accessorKey: "location",
 				className: "min-w-[128px]",
+				cell: ({ row }) => {
+					return row?.original?.location?.name;
+				},
 			},
 			/* 	{
 				header: "Business Unit",
@@ -257,28 +261,31 @@ const Inventory = () => {
 					icon={<FlatIcon icon="rr-search" className="text-sm" />}
 					placeholder="Search product"
 				/>
-				<ReactSelectInputField
-					className="w-full lg:w-[256px]"
-					placeholder="All location / Branches"
-					value={filters?.location_id}
-					onChange={(data) => {
-						setFilters((filters) => ({
-							...filters,
-							location_id: data,
-						}));
-					}}
-					options={[
-						{
-							label: "All location / branches",
-							value: "all",
-						},
-						...branches.map((branch) => ({
-							value: branch?.id,
-							label: branch?.name,
-						})),
-					]}
-				/>
-
+				{user?.data?.branch_id == 1 ? (
+					<ReactSelectInputField
+						className="w-full lg:w-[256px]"
+						placeholder="All location / Branches"
+						value={filters?.location_id}
+						onChange={(data) => {
+							setFilters((filters) => ({
+								...filters,
+								location_id: data,
+							}));
+						}}
+						options={[
+							{
+								label: "All location / branches",
+								value: "",
+							},
+							...branches.map((branch) => ({
+								value: branch?.id,
+								label: branch?.name,
+							})),
+						]}
+					/>
+				) : (
+					""
+				)}
 				<ReactSelectInputField
 					className="w-full lg:w-[256px]"
 					placeholder="All business units"
@@ -322,6 +329,15 @@ const Inventory = () => {
 					pagination={true}
 					loading={dataLoading}
 					data={list}
+					meta={meta}
+					onTableChange={(data) => {
+						console.log("onTableChange", data);
+						setFilters((prevFilters) => ({
+							...prevFilters,
+							paginate: data?.pageSize,
+							page: data?.pageIndex + 1 || 1,
+						}));
+					}}
 				/>
 			</div>
 			<ProductFormModal
@@ -331,7 +347,11 @@ const Inventory = () => {
 			/>
 			<ViewProductModal ref={viewProductRef} />
 			<ViewLowStocksModal ref={viewStatusRef} />
-			<UpdatePriceModal ref={updatePriceref} />
+			<UpdatePriceModal
+				ref={updatePriceref}
+				updateInList={updateInList}
+				addToList={addToList}
+			/>
 			<RepackingModal
 				ref={repackModalRef}
 				onSuccess={() => {

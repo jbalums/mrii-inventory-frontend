@@ -100,10 +100,19 @@ const LeftSidebar = () => {
 			<div className="flex items-center p-2 px-4 gap-2 border-y relative h-[76px] bg-background z-[2]">
 				{collapseSidebar ? (
 					<b className="text-primary">
-						{extractFirstLetters(user?.data?.branch?.name, 2)}
+						{extractFirstLetters(
+							user?.data?.branch_id == 1
+								? "Main Warehouse"
+								: user?.data?.branch?.name,
+							2
+						)}
 					</b>
 				) : (
-					<b className="text-primary">{user?.data?.branch?.name}</b>
+					<b className="text-primary">
+						{user?.data?.branch_id == 1
+							? "Main Warehouse"
+							: user?.data?.branch?.name}
+					</b>
 				)}
 				<FlatIcon
 					icon="rr-warehouse-alt"

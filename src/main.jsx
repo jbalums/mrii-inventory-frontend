@@ -24,9 +24,7 @@ axios.interceptors.request.use(
 const removeSession = () => {
 	if (!window.location.pathname.includes("login")) {
 		setTimeout(() => {
-			toast.error(
-				"Session expired! Login to your credentails to continue."
-			);
+			toast.error("You have been logout!");
 		}, 500);
 		window.localStorage.clear();
 		window.location.pathname = "/login";

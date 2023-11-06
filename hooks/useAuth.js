@@ -106,7 +106,13 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 	};
 
 	useEffect(() => {
-		console.log("useruseruseruser", user, error, middleware);
+		console.log(
+			"useruseruseruser",
+			user,
+			error,
+			middleware,
+			redirectIfAuthenticated
+		);
 		if (middleware === "guest" && redirectIfAuthenticated && user)
 			navigate(redirectIfAuthenticated);
 		if (middleware === "auth" && error) logout();

@@ -4,6 +4,7 @@ import { FiChevronDown } from "react-icons/fi";
 import DropdownMenu from "../DropdownMenu";
 const Header = () => {
 	const { user } = useAuth();
+	console.log("useruser", user);
 	return (
 		<div className="w-full flex items-center h-16">
 			{console.log("user", user)}
