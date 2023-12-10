@@ -22,6 +22,7 @@ import useRequestOrdersHook from "../hooks/useRequestOrdersHook";
 import { useAuth } from "@/hooks/useAuth.js";
 import SelectInputField from "@/src/components/forms/SelectInputField";
 import ReactSelectInputField from "@/src/components/forms/ReactSelectInputField";
+import { useBranchLocation } from "@/src/features/locations/hooks/useBranchLocationHook";
 
 const defaultDateValue = () => {
 	let date = new Date();
@@ -40,13 +41,13 @@ const RequestOrdersFormModal = (props, ref) => {
 		formState: { errors },
 	} = useForm();
 	const { saveRequestOrder } = useRequestOrdersHook();
-
+	const { getBranches } = useBranchLocation();
 	const [open, setOpen] = useState(false);
 	const [id, setId] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const [branches, setBranches] = useState(false);
 	const { user } = useAuth();
 
-	console.log("useruseruser", user);
 	const [list, setList] = useState([
 		/* {
 			id: "AG454",
@@ -79,6 +80,9 @@ const RequestOrdersFormModal = (props, ref) => {
 	const show = (data) => {
 		setList([]);
 		setLoading(false);
+		getBranches().then((res) => {
+			setBranches(res.data.data);
+		});
 		if (data) {
 			reset({
 				...data,
@@ -216,9 +220,9 @@ const RequestOrdersFormModal = (props, ref) => {
 				hide={hide}
 			/>
 			<ModalBody className={`py-4`}>
-				{console.log("errors", errors)}
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-4 w-full">
 					<div className="lg:col-span-3">
+						{JSON.stringify(user?.data?.branch_id)}
 						<CardLayout className="!bg-background shadow-none border border-slate-300 !p-4 flex flex-col !gap-4">
 							<h4 className="text-lg text-dark">Order form</h4>
 							<Controller
@@ -283,6 +287,52 @@ const RequestOrdersFormModal = (props, ref) => {
 									/>
 								)}
 							/>
+							{user?.data?.branch_id == 1 ? (
+								<Controller
+									name="branch_id"
+									control={control}
+									rules={{
+										required: {
+											value: true,
+											message: "This field is required",
+										},
+									}}
+									render={({
+										field: {
+											onChange,
+											onBlur,
+											value,
+											name,
+											ref,
+										},
+										fieldState: {
+											invalid,
+											isTouched,
+											isDirty,
+											error,
+										},
+									}) => (
+										<ReactSelectInputField
+											label="Request from branch"
+											inputClassName=" "
+											ref={ref}
+											value={value}
+											onChange={onChange} // send value to hook form
+											onBlur={onBlur} // notify when input is touched
+											error={error?.message}
+											placeholder="Select branch"
+											options={branches?.map((branch) => {
+												return {
+													label: branch?.name,
+													value: branch?.id,
+												};
+											})}
+										/>
+									)}
+								/>
+							) : (
+								""
+							)}
 							<TextInputField
 								label="Reference number"
 								placeholder="Enter reference number"
