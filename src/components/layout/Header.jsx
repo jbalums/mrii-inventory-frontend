@@ -2,9 +2,23 @@ import { useAuth } from "@/hooks/useAuth";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
 import DropdownMenu from "../DropdownMenu";
+import notificationEcho from "@/src/services/notificationService";
 const Header = () => {
 	const { user } = useAuth();
-	console.log("useruser", user);
+	// console.log("useruser", user);
+
+	useEffect(() => {
+		console.log("TestEvent11");
+		const channel = notificationEcho.channel("notifications");
+		channel.listen(".TestEvent", (data) => {
+			// Handle incoming notifications
+			console.log("TestEvent", data);
+		});
+
+		return () => {
+			channel.unbind();
+		};
+	});
 	return (
 		<div className="w-full flex items-center h-16">
 			{console.log("user", user)}

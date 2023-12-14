@@ -29,6 +29,26 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 			revalidateOnFocus: true,
 		}
 	);
+	const {
+		data: notifications,
+		error: errorNotifications,
+		mutate: mutateNotifications,
+	} = useSWR(
+		"/api/inventory/notifications",
+		() =>
+			axios
+				.get("/inventory/notifications")
+				.then((res) => res.data)
+				.catch((error) => {
+					if (error.response.status !== 409) throw error;
+
+					mutate("/api/inventory/notifications");
+				}),
+		{
+			revalidateIfStale: true,
+			revalidateOnFocus: true,
+		}
+	);
 
 	const csrf = () => axios.get("/sanctum/csrf-cookie");
 
@@ -106,13 +126,13 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 	};
 
 	useEffect(() => {
-		console.log(
-			"useruseruseruser",
-			user,
-			error,
-			middleware,
-			redirectIfAuthenticated
-		);
+		// console.log(
+		// 	"useruseruseruser",
+		// 	user,
+		// 	error,
+		// 	middleware,
+		// 	redirectIfAuthenticated
+		// );
 		if (middleware === "guest" && redirectIfAuthenticated && user)
 			navigate(redirectIfAuthenticated);
 		if (middleware === "auth" && error) logout();
@@ -127,5 +147,8 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 		resendEmailVerification,
 		logout,
 		mutate,
+		notifications,
+		errorNotifications,
+		mutateNotifications,
 	};
 };

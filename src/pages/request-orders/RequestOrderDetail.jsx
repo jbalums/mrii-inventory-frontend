@@ -320,6 +320,8 @@ const RequestOrderDetail = () => {
 										<Button
 											className="font-semibold text-lg"
 											type="success"
+											disabled={approving}
+											loading={approving}
 											onClick={() => {
 												approve_order_ref.current.show();
 											}}
@@ -537,6 +539,7 @@ const RequestOrderDetail = () => {
 								loading={btnLoading}
 								onClick={() => {
 									setBtnLoading(true);
+									setApproving(true);
 									approvedRequisition(params?.id)
 										.then(() => {
 											toast.success(
@@ -544,12 +547,17 @@ const RequestOrderDetail = () => {
 											);
 											setTimeout(() => {
 												setBtnLoading(false);
+												setApproving(false);
 												getOrderData();
 												approve_order_ref.current.hide();
 											}, 1000);
 										})
+										.catch((err) => {
+											console.log("errrr", err);
+										})
 										.finally(() => {
 											setBtnLoading(false);
+											setApproving(false);
 										});
 								}}
 							>

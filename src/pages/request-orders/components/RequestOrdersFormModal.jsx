@@ -45,7 +45,7 @@ const RequestOrdersFormModal = (props, ref) => {
 	const [open, setOpen] = useState(false);
 	const [id, setId] = useState(null);
 	const [loading, setLoading] = useState(false);
-	const [branches, setBranches] = useState(false);
+	const [branches, setBranches] = useState([]);
 	const { user } = useAuth();
 
 	const [list, setList] = useState([
@@ -222,7 +222,6 @@ const RequestOrdersFormModal = (props, ref) => {
 			<ModalBody className={`py-4`}>
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-4 w-full">
 					<div className="lg:col-span-3">
-						{JSON.stringify(user?.data?.branch_id)}
 						<CardLayout className="!bg-background shadow-none border border-slate-300 !p-4 flex flex-col !gap-4">
 							<h4 className="text-lg text-dark">Order form</h4>
 							<Controller
@@ -262,32 +261,52 @@ const RequestOrdersFormModal = (props, ref) => {
 											{
 												label: "Production",
 												value: "production",
+												disabled:
+													user?.data?.branch_id == 1,
+												description:
+													"Use for PRODUCTION in the Warehouse. (STOCK-OUT)",
 											},
 											{
 												label: "Plant/Project",
 												value: "project_plant",
+												disabled:
+													user?.data?.branch_id == 1,
+												description:
+													"Use for PROJECT or PLANT. (STOCK-IN)",
 											},
 											{
 												label: "Sale",
 												value: "sale",
+												description:
+													"Internal stocks being SOLD TO CUSTOMER. (STOCK-OUT)",
 											},
 											{
 												label: "Stocking",
 												value: "stocking",
+												disabled:
+													user?.data?.branch_id == 1,
+												description:
+													"Select when branch wants to get/request stocks from main branch. (STOCK-IN)",
 											},
 											{
 												label: "Internal Use",
 												value: "internal_use",
+												description:
+													"Select when local branch wants to use/consume products. (STOCK-OUT)",
 											},
 											{
 												label: "For Purchase",
 												value: "for_purchase",
+												disabled:
+													user?.data?.branch_id == 1,
+												description:
+													"For production request transactions. (STOCK-IN)",
 											},
 										]}
 									/>
 								)}
 							/>
-							{user?.data?.branch_id == 1 ? (
+							{watch("purpose") == "stocking" ? (
 								<Controller
 									name="branch_id"
 									control={control}

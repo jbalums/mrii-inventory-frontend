@@ -19,6 +19,29 @@ const customStyles = {
 	},
 };
 
+const customOption = (props) => (
+	<div
+		className={`p-3 border-y first:rounded-t last:rounded-b last:border-b-0
+		 hover:bg-slate-100 hover:text-darker duration-200 cursor-pointer ${
+				props?.isSelected ? "!bg-blue-500 !text-white" : ""
+			} ${
+			props?.data?.disabled
+				? "opacity-20 cursor-not-allowed pointer-events-none"
+				: ""
+		}`}
+		{...props?.innerProps}
+	>
+		<div className="font-semibold">{props?.label}</div>
+		{props?.data?.description ? (
+			<div style={{ fontSize: "0.8em" }} className="opacity-50">
+				{props.data.description}
+			</div>
+		) : (
+			""
+		)}
+	</div>
+);
+
 const Control = ({ children, ...props }) => (
 	<components.Control {...props} name="sample">
 		<div
@@ -53,7 +76,11 @@ const ReactSelectInputField = (props, ref) => {
 		<form className={`${className}  text-sm`} autoComplete="off">
 			<label>
 				{label && (
-					<span className={error ? "text-danger" : "text-dark"}>
+					<span
+						className={`font-semibold mb-0 font-roboto ${
+							error ? "text-danger" : "text-dark"
+						}`}
+					>
 						{label}
 					</span>
 				)}
@@ -91,7 +118,7 @@ const ReactSelectInputField = (props, ref) => {
 						}}
 						options={options}
 						placeholder={placeholder}
-						components={{ Control }}
+						components={{ Control, Option: customOption }}
 						isLoading={isLoading}
 						{...rest}
 					/>

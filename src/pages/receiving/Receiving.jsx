@@ -29,6 +29,8 @@ const Receiving = () => {
 		addToList,
 		updateInList,
 		removeFromList,
+		setFilters,
+		filters,
 	} = useDataTable(`/inventory/receiving`, setList);
 
 	const { getSuppliers } = useSuppliersHook();
@@ -169,6 +171,14 @@ const Receiving = () => {
 					className="lg:w-[320px]"
 					icon={<FlatIcon icon="rr-search" className="text-sm" />}
 					placeholder="Search PO"
+					onChange={(e) => {
+						let val = e.target.value;
+						setFilters((prevFilters) => ({
+							...prevFilters,
+							keyword: val,
+							query: val,
+						}));
+					}}
 				/>
 				<ReactSelectInputField
 					className="w-full lg:w-[256px]"
@@ -177,11 +187,25 @@ const Receiving = () => {
 						label: supplier?.name + ` - [${supplier?.address}]`,
 						value: supplier?.id,
 					}))}
+					value={filters?.supplier_id}
+					onChange={(val) => {
+						setFilters((prevFilters) => ({
+							...prevFilters,
+							supplier_id: val,
+						}));
+					}}
 				/>
 				<TextInputField
 					type="date"
 					className="w-full lg:w-[192px]"
 					placeholder="By date"
+					onChange={(e) => {
+						let val = e.target.value;
+						setFilters((prevFilters) => ({
+							...prevFilters,
+							date: val,
+						}));
+					}}
 				/>
 				<Button
 					type="accent"

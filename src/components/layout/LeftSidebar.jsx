@@ -22,11 +22,11 @@ const LeftSidebar = () => {
 	} = useRootContext();
 	const confirm_logout_ref = useRef(null);
 	const [loading, setLoading] = useState(false);
-	const { logout, user } = useAuth({
+	const { logout, user, notifications } = useAuth({
 		middleware: "auth",
 		redirectIfAuthenticated: "/",
 	});
-	console.log("useruser", user);
+	// console.log("useruser", user);
 	const isActive = useCallback(
 		(name, mustNotInclude = null, exact = false) => {
 			if (exact) {
@@ -162,6 +162,16 @@ const LeftSidebar = () => {
 								<FlatIcon icon="br-list" />
 							</span>
 							Requests
+							{notifications?.total_requests > 0 ? (
+								<span className="relative ml-2">
+									<span className="bg-red-500 absolute -top-[10px] z-10 h-5 w-5 text-white rounded-full flex items-center justify-center text-[10px]">
+										{notifications?.total_requests}
+									</span>
+									<span className="bg-red-500 animate-ping absolute -top-[10px] h-5 w-5 text-white rounded-full flex items-center justify-center text-[10px]"></span>
+								</span>
+							) : (
+								""
+							)}
 						</>
 					}
 					titleOpenClassName={
@@ -183,7 +193,23 @@ const LeftSidebar = () => {
 					]) && (
 						<LeftSidebarLink
 							icon={<FlatIcon icon="rr-add-document" />}
-							text={`Requests`}
+							text={
+								<>
+									Requests
+									{notifications?.pending_for_requests > 0 ? (
+										<span className="relative ml-2">
+											<span className="bg-red-500 absolute -right-6 -top-[4px] z-10 h-5 w-5 text-white rounded-full flex items-center justify-center text-[10px]">
+												{
+													notifications?.pending_for_requests
+												}
+											</span>
+											<span className="bg-red-500 animate-ping absolute -right-6 -top-[4px] h-5 w-5 text-white rounded-full flex items-center justify-center text-[10px]"></span>
+										</span>
+									) : (
+										""
+									)}
+								</>
+							}
 							to="/request-orders"
 							active={isActive("/request-orders")}
 						/>
@@ -197,7 +223,24 @@ const LeftSidebar = () => {
 						<>
 							<LeftSidebarLink
 								icon={<FlatIcon icon="rr-badge-check" />}
-								text={`Request Approval`}
+								text={
+									<>
+										Request Approval
+										{notifications?.pending_for_approval >
+										0 ? (
+											<span className="relative ml-2">
+												<span className="bg-red-500 absolute -right-6 -top-[4px] z-10 h-5 w-5 text-white rounded-full flex items-center justify-center text-[10px]">
+													{
+														notifications?.pending_for_approval
+													}
+												</span>
+												<span className="bg-red-500 animate-ping absolute -right-6 -top-[4px] h-5 w-5 text-white rounded-full flex items-center justify-center text-[10px]"></span>
+											</span>
+										) : (
+											""
+										)}
+									</>
+								}
 								to="/approving/approve-request-order"
 								active={isActive(
 									"/approving/approve-request-order"
@@ -206,7 +249,24 @@ const LeftSidebar = () => {
 							{user?.data?.branch?.id == 1 && (
 								<LeftSidebarLink
 									icon={<FlatIcon icon="rr-box-check" />}
-									text={`Request Acceptance`}
+									text={
+										<>
+											Request Acceptance
+											{notifications?.pending_for_acceptance >
+											0 ? (
+												<span className="relative ml-2">
+													<span className="bg-red-500 absolute -right-6 -top-[4px] z-10 h-5 w-5 text-white rounded-full flex items-center justify-center text-[10px]">
+														{
+															notifications?.pending_for_acceptance
+														}
+													</span>
+													<span className="bg-red-500 animate-ping absolute -right-6 -top-[4px] h-5 w-5 text-white rounded-full flex items-center justify-center text-[10px]"></span>
+												</span>
+											) : (
+												""
+											)}
+										</>
+									}
 									to="/accept-orders"
 									active={isActive("/accept-orders")}
 								/>
@@ -246,7 +306,23 @@ const LeftSidebar = () => {
 				{user?.data?.branch?.id == 1 && (
 					<LeftSidebarLink
 						icon={<FlatIcon icon="rr-file-export" />}
-						text={`Issuances`}
+						text={
+							<>
+								Issuances
+								{notifications?.pending_for_issuance > 0 ? (
+									<span className="relative ml-2">
+										<span className="bg-red-500 absolute -right-6 -top-[4px] z-10 h-5 w-5 text-white rounded-full flex items-center justify-center text-[10px]">
+											{
+												notifications?.pending_for_issuance
+											}
+										</span>
+										<span className="bg-red-500 animate-ping absolute -right-6 -top-[4px] h-5 w-5 text-white rounded-full flex items-center justify-center text-[10px]"></span>
+									</span>
+								) : (
+									""
+								)}
+							</>
+						}
 						to="/issuances"
 						active={isActive("/issuances")}
 					/>

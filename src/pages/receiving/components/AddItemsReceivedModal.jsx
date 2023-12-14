@@ -143,6 +143,13 @@ const AddItemsReceivedModal = (props, ref) => {
 									className="text-sm"
 								/>
 							}
+							onChange={(e) => {
+								setFilters((prevFilters) => ({
+									...prevFilters,
+									keyword: e.target.value,
+									query: e.target.value,
+								}));
+							}}
 							placeholder="Search Purchase order"
 						/>
 					</div>

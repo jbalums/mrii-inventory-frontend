@@ -17,7 +17,13 @@ const SelectInputField = (props, ref) => {
 				error ? "text-danger" : ""
 			}`}
 		>
-			{label ? <label className="text-sm mb-2">{label}</label> : ""}
+			{label ? (
+				<label className="text-sm  mb-1 font-roboto font-[600]">
+					{label}
+				</label>
+			) : (
+				""
+			)}
 			<div className="w-full relative">
 				<select
 					ref={ref || register}

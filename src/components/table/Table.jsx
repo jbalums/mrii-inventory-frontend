@@ -172,9 +172,9 @@ const Table = (props) => {
 							table.getRowModel().rows.map((row) => (
 								<tr
 									key={`row.id-${row.id} `}
-									className={`group ${
+									className={`group duration-200 ${
 										rowHighlight && row?.original?.selected
-											? "!bg-primary-light"
+											? "!bg-primary-light selected-row"
 											: ""
 									}`}
 								>
@@ -200,7 +200,7 @@ const Table = (props) => {
 											} ${
 												rowHighlight &&
 												row?.original?.selected
-													? "!bg-primary-light"
+													? "!bg-indigo-100 selected-row"
 													: ""
 											}`}
 											onClick={() => {

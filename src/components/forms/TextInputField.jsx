@@ -20,7 +20,9 @@ const TextInputField = (props, ref) => {
 			}`}
 		>
 			{label ? (
-				<span className={`text-sm mb-2 ${labelClassName}`}>
+				<span
+					className={`text-sm mb-1 font-roboto font-[600] ${labelClassName}`}
+				>
 					{label}
 				</span>
 			) : (

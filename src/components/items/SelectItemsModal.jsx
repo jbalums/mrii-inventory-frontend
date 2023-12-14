@@ -14,7 +14,12 @@ import ReactSelectInputField from "../forms/ReactSelectInputField";
 import SelectInputField from "../forms/SelectInputField";
 
 const SelectItemsModal = (props, ref) => {
-	const { url = "/management/products", defaultFilter = {} } = props;
+	const {
+		url = "/management/products",
+		defaultFilter = {
+			paginate: 10,
+		},
+	} = props;
 	const { selectedItems, setSelectedItems, isSelected, selectItem } =
 		useSelection();
 
@@ -30,6 +35,8 @@ const SelectItemsModal = (props, ref) => {
 		meta,
 		filters,
 		setFilters,
+		setPage,
+		setPaginate,
 	} = useDataTable(url, null, {
 		location_id: 1,
 	});
@@ -86,12 +93,23 @@ const SelectItemsModal = (props, ref) => {
 			},
 			{
 				header: "Location",
-				accessorKey: "location.name",
+				accessorKey: "location",
 				className: "min-w-[128px] !whitespace-pre",
+				className: "!text-center",
+				cell: ({ row, getValue }) => {
+					console.log("rowwwww", row);
+					const item = row.original;
+					return item?.location?.name;
+				},
 			},
 			{
 				header: "Unit of measurement",
 				accessorKey: "unit_measurement",
+				className: "!text-center",
+			},
+			{
+				header: "Stock",
+				accessorKey: "quantity",
 				className: "!text-center",
 			},
 			{
@@ -106,7 +124,7 @@ const SelectItemsModal = (props, ref) => {
 							<div
 								className={`w-6 h-6 rounded border-border border-2 flex justify-center items-center cursor-pointer  duration-200 group ${
 									isSelected(item)
-										? "!bg-darker hover:!opacity-100"
+										? "!bg-blue-600 hover:!opacity-100"
 										: " hover:opacity-50"
 								}`}
 								onClick={() => {
@@ -115,10 +133,10 @@ const SelectItemsModal = (props, ref) => {
 							>
 								<FlatIcon
 									icon="br-check"
-									className={`-mb-1 opacity-0 text-light group-hover:opacity-100 duration-200 ${
+									className={`-mb-1  text-white group-hover:opacity-100 duration-200 ${
 										isSelected(item)
-											? "text-light opacity-100"
-											: ""
+											? "text-white opacity-100"
+											: "opacity-0"
 									}`}
 								/>
 							</div>
@@ -150,8 +168,32 @@ const SelectItemsModal = (props, ref) => {
 									className="text-sm"
 								/>
 							}
+							onChange={(e) => {
+								setFilters((prevFilters) => ({
+									...prevFilters,
+									keyword: e.target.value,
+									query: e.target.value,
+								}));
+							}}
 							placeholder="Search product"
 						/>
+						{/* <ReactSelectInputField
+							inputClassName=" "
+							// ref={ref}
+							// value={value}
+							// onChange={onChange} // send value to hook form
+							// onBlur={onBlur} // notify when input is touched
+							// error={error?.message}
+							placeholder="Select Branch"
+							options={[
+								{
+									label: "Production",
+									value: "production",
+									description:
+										"Use for PRODUCTION in the Warehouse. (STOCK-OUT)",
+								},
+							]}
+						/> */}
 					</div>
 
 					<Table
@@ -162,6 +204,11 @@ const SelectItemsModal = (props, ref) => {
 						rowHighlight={true}
 						pagination={true}
 						paginationClassName={"px-6"}
+						onTableChange={(data) => {
+							// console.log("onTableChange", data);
+							setPage(data.pageIndex + 1);
+							setPaginate(data.pageSize);
+						}}
 					/>
 				</div>
 			</ModalBody>

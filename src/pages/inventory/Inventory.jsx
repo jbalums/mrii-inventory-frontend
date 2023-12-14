@@ -28,7 +28,7 @@ const Inventory = () => {
 	const [list, setList] = useState([]);
 	const [inventoryStatus, setInventoryStatus] = useState(null);
 	const [branches, setBranches] = useState([]);
-	console.log("useruseruser", user);
+	// console.log("useruseruser", user);
 	const {
 		data,
 		loading: dataLoading,
@@ -155,7 +155,7 @@ const Inventory = () => {
 				accessorKey: "action",
 				className: "!text-center",
 				cell: ({ row, getValue }) => {
-					console.log("useruseruser", row?.original);
+					// console.log("useruseruser", row?.original);
 					if (row?.original?.location?.id == user?.data?.branch_id)
 						return (
 							<>
@@ -260,6 +260,12 @@ const Inventory = () => {
 					className="w-full lg:w-[320px]"
 					icon={<FlatIcon icon="rr-search" className="text-sm" />}
 					placeholder="Search product"
+					onChange={(e) => {
+						setFilters((prevFilters) => ({
+							...prevFilters,
+							keyword: e.target.value,
+						}));
+					}}
 				/>
 				{user?.data?.branch_id == 1 ? (
 					<ReactSelectInputField
@@ -286,7 +292,7 @@ const Inventory = () => {
 				) : (
 					""
 				)}
-				<ReactSelectInputField
+				{/* <ReactSelectInputField
 					className="w-full lg:w-[256px]"
 					placeholder="All business units"
 					value={filters?.by_unit}
@@ -306,7 +312,7 @@ const Inventory = () => {
 							label: unit?.name,
 						})),
 					]}
-				/>
+				/> */}
 				<div className="ml-auto">
 					<Button
 						type="secondary"

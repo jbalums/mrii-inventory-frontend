@@ -19,7 +19,13 @@ const TextAreaInputField = (props, ref) => {
 				error ? "text-danger" : ""
 			}`}
 		>
-			{label ? <span className="text-sm mb-2">{label}</span> : ""}
+			{label ? (
+				<span className="text-sm  mb-1 font-roboto font-[600]">
+					{label}
+				</span>
+			) : (
+				""
+			)}
 			<div className="w-full relative">
 				{icon ? (
 					<div

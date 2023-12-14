@@ -50,6 +50,8 @@ import IssuanceReport from "./pages/reports/IssuanceReport";
 import InputsOfReceipts from "./pages/reports/InputsOfReceipts";
 import ItemUnits from "./features/item-units/ItemUnits";
 import PrintItemUnits from "./features/item-units/PrintItemUnits";
+import "react-tippy/dist/tippy.css";
+
 const AppRoutes = () => {
 	return (
 		<Routes>

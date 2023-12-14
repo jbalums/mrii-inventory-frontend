@@ -1,5 +1,5 @@
 import { useAuth } from "@/hooks/useAuth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../Button";
@@ -7,6 +7,8 @@ import DropdownMenu from "../DropdownMenu";
 import FlatIcon from "../FlatIcon";
 import MobileHeaderMenu from "../MobileHeaderMenu";
 import ConfirmModal from "../modals/ConfirmModal";
+import { Tooltip } from "react-tippy";
+// import notificationService from "@/src/services/notificationService";
 
 const PageHeader = (props) => {
 	const { title, icon, children, backBtn, backAction, breadcrumbs } = props;
@@ -18,6 +20,26 @@ const PageHeader = (props) => {
 		redirectIfAuthenticated: "/",
 	});
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		// let channel = null;
+		// let t = setTimeout(() => {
+		// 	channel = notificationService.subscribe("test-notification");
+		// 	channel.bind("test-event", function (data) {
+		// 		console.log(JSON.stringify(data));
+		// 	});
+		// 	// const channel = notificationEcho.channel("notifications");
+		// 	// channel.listen(".TestEvent", (data) => {
+		// 	// 	// Handle incoming notifications
+		// 	// 	console.log("TestEvent22", data);
+		// 	// });
+		// }, 500);
+		// return () => {
+		// 	clearTimeout(t);
+		// 	if (channel?.unbind) channel.unbind();
+		// };
+	});
+
 	return (
 		<>
 			<div className="flex min-h-[76px] sticky top-0 bg-background shadow-sm py-4 md:py-[unset] items-center justify-center md:justify-start md:items-center md:gap-y-0 border-b border-border px-4 pb-4 md:pb-0 md:px-6  md:flex-row z-[2]">
@@ -51,6 +73,32 @@ const PageHeader = (props) => {
 					)} */}
 				</div>
 				<div className="ml-auto md:flex items-center ">
+					{/* <Tooltip
+						title="New request order notifications."
+						position="bottom"
+						trigger="mouseenter"
+					>
+						<div
+							className="cursor-pointer"
+							onClick={() => {
+								navigate("/request-orders");
+							}}
+						>
+							<DropdownMenu
+								key={`notification-menu`}
+								className="self-center place-self-end ml-4 pointer-events-none"
+								menuButtonClassName="flex items-center flex items-center gap-1 md:gap-3 w-full"
+								// menuClassName={"min-w-[128px]"}
+							>
+								<div className="min-h-[36px] min-w-[36px] rounded-full bg-white border border-border relative flex items-center justify-center">
+									<FlatIcon icon="rr-bells" />
+									<span className="bg-red-500 rounded-full text-white absolute w-5 h-5 text-xs -top-1 -right-2 flex items-center justify-center">
+										1
+									</span>
+								</div>
+							</DropdownMenu>
+						</div>
+					</Tooltip> */}
 					<DropdownMenu
 						className="self-center place-self-end ml-4 md:min-w-[128px]"
 						menuButtonClassName="flex items-center flex items-center gap-1 md:gap-3 w-full"

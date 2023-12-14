@@ -7,6 +7,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;500;600;700&family=Rubik:wght@300;400;600;700&Inter:wght@100;300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Roboto:wght@500;600;7000&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -15,7 +16,8 @@ html {
 	overflow-y: hidden;
 	overflow-y: auto;
 }
-*:not(.fi):not(i) {
+*:not(.fi):not(i),
+.font-inter {
 	font-family: "Inter", sans-serif;
 }
 h1,
@@ -23,12 +25,23 @@ h2,
 h3,
 h4,
 h5,
-h6 {
-	font-family: "Lato", sans-serif;
+h6,
+.font-lato {
+	font-family: "Lato", sans-serif !important;
+}
+
+.font-rubik {
+	font-family: "Rubik", sans-serif !important;
+}
+.font-arvo {
+	font-family: "Arvo", serif !important;
+}
+.font-rubik {
+	font-family: "Roboto", sans-serif !important;
 }
 /* SPLASH SCREEN */
 label {
-	@apply text-gray-600;
+	@apply text-gray-700;
 }
 .splash-screen-loader {
 	border: 4px solid #f3f3f3;
@@ -96,7 +109,7 @@ label {
 	.table table thead > tr > th {
 		font-size: 14px;
 		line-height: 14px;
-		@apply text-left px-2 md:px-3  py-4 bg-background border-b border-border text-darker;
+		@apply text-left px-2 md:px-3  py-4 bg-white border-b border-border text-darker;
 	}
 	.table table tbody > tr:not(:last-child) {
 		@apply border-b;
@@ -116,7 +129,7 @@ label {
 
 	.table table tbody > tr > td,
 	.table table tbody > tr > th {
-		@apply px-2 md:px-3 py-2 md:py-3 text-sm text-dark;
+		@apply px-2 md:px-3 py-2 md:py-2 text-sm text-dark;
 	}
 	.printable-table table {
 		@apply w-full border-opacity-50 border bg-white rounded-none;
@@ -338,4 +351,8 @@ label {
 }
 
 @media print {
+}
+
+.selected-row td {
+	@apply !text-black;
 }

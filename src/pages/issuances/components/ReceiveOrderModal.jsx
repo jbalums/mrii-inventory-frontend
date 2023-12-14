@@ -140,9 +140,7 @@ const ReceiveOrderModal = (props, ref) => {
 			.then((res) => {
 				setLoading(false);
 				setTimeout(() => {
-					toast.success(
-						"Issuance submitted successfully, and pending for approval!"
-					);
+					toast.success("Success! Issuance received successfully!");
 					getOrderData();
 				}, 200);
 				hide();

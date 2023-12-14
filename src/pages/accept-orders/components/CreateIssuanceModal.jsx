@@ -37,7 +37,7 @@ const CreateIssuanceModal = (props, ref) => {
 	const [loading, setLoading] = useState(false);
 	const { user } = useAuth();
 
-	console.log("useruseruser", user);
+	// console.log("useruseruser", user);
 	const [list, setList] = useState([
 		/* {
 			id: "AG454",

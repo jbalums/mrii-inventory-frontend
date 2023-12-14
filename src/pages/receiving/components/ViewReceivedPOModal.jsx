@@ -92,7 +92,7 @@ const ViewReceivedPOModal = (props, ref) => {
 
 	return (
 		<Modal open={open} hide={hide} size="xl">
-			<ModalHeader title={"View purchae order details"} hide={hide} />
+			<ModalHeader title={"View purchase order details"} hide={hide} />
 			<ModalBody className={`p-4 min-h-[448px] !bg-white overflow-auto`}>
 				<h4 className="font-bold text-base mb-2">
 					Purchase Order Details

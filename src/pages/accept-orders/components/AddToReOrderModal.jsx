@@ -41,7 +41,7 @@ const AddToReOrderModal = (props, ref) => {
 	const { user } = useAuth();
 	const componentRef = useRef(null);
 
-	console.log("useruseruser", user);
+	// console.log("useruseruser", user);
 	const [list, setList] = useState([
 		/* {
 			id: "AG454",
