@@ -329,7 +329,21 @@ const LeftSidebar = () => {
 				)}
 				<LeftSidebarLink
 					icon={<FlatIcon icon="rr-inbox-in" />}
-					text={`Receiving Orders`}
+					text={
+						<>
+							Receiving Orders
+							{notifications?.pending_for_receiving > 0 ? (
+								<span className="relative ml-2">
+									<span className="bg-red-500 absolute -right-6 -top-[4px] z-10 h-5 w-5 text-white rounded-full flex items-center justify-center text-[10px]">
+										{notifications?.pending_for_receiving}
+									</span>
+									<span className="bg-red-500 animate-ping absolute -right-6 -top-[4px] h-5 w-5 text-white rounded-full flex items-center justify-center text-[10px]"></span>
+								</span>
+							) : (
+								""
+							)}
+						</>
+					}
 					to="/receiving-orders"
 					active={isActive("/receiving-orders")}
 				/>
