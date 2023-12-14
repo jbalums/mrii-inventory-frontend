@@ -340,12 +340,12 @@ const RequestOrdersFormModal = (props, ref) => {
 											onBlur={onBlur} // notify when input is touched
 											error={error?.message}
 											placeholder="Select branch"
-											options={branches?.map((branch) => {
-												return {
-													label: branch?.name,
-													value: branch?.id,
-												};
-											})}
+											options={[
+												{
+													label: `Main Warehouse`,
+													value: 1,
+												},
+											]}
 										/>
 									)}
 								/>

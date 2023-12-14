@@ -117,6 +117,17 @@ const Products = () => {
 					label: "Products",
 				},
 			]}
+			titleChildren={
+				<Button
+					type="primary"
+					className="ml-auto"
+					onClick={() => {
+						openFormModal();
+					}}
+				>
+					<FlatIcon icon="rs-download" /> Import Products
+				</Button>
+			}
 		>
 			<div className="flex flex-col lg:flex-row gap-6 pb-6">
 				<TextInputField
