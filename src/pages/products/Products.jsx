@@ -10,10 +10,14 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import ProductFormModal from "./components/ProductFormModal";
 import ViewProductModal from "./components/ViewProductModal";
-
+import ImportProductModal from "./components/ImportProductModal";
+import { v4 as uuidv4 } from "uuid";
+let first_id = uuidv4();
 const Products = () => {
 	const addProductRef = useRef(null);
 	const viewProductRef = useRef(null);
+	const importProductsRef = useRef(null);
+
 	const [list, setList] = useState([]);
 	const [branches, setBranches] = useState([]);
 	const {
@@ -27,6 +31,7 @@ const Products = () => {
 		meta,
 	} = useDataTable(`/management/products`, setList, {
 		branch_id: "",
+		key: first_id,
 	});
 
 	const { getBranches } = useBranchLocation();
@@ -48,6 +53,12 @@ const Products = () => {
 		viewProductRef.current.show();
 	};
 
+	const refreshData = () => {
+		setFilters((prevFils) => ({
+			...prevFils,
+			key: uuidv4(),
+		}));
+	};
 	const columns = useMemo(
 		() => [
 			{
@@ -61,15 +72,23 @@ const Products = () => {
 				className: "min-w-[144px]",
 			},
 			{
+				header: "Category",
+				accessorKey: "category",
+				className: "min-w-[108px]",
+				cell: ({ row, getValue }) => {
+					return row?.original?.category?.name || "-";
+				},
+			},
+			{
 				header: "Brand",
 				accessorKey: "brand",
 				className: "min-w-[64px]",
 			},
-			{
-				header: "Description",
-				accessorKey: "description",
-				className: "min-w-[256px]",
-			},
+			// {
+			// 	header: "Description",
+			// 	accessorKey: "description",
+			// 	className: "min-w-[256px]",
+			// },
 			{
 				header: "UoM",
 				accessorKey: "uom",
@@ -122,7 +141,7 @@ const Products = () => {
 					type="primary"
 					className="ml-auto"
 					onClick={() => {
-						openFormModal();
+						importProductsRef.current.show();
 					}}
 				>
 					<FlatIcon icon="rs-download" /> Import Products
@@ -188,6 +207,10 @@ const Products = () => {
 			/>
 
 			<ViewProductModal ref={viewProductRef} />
+			<ImportProductModal
+				refreshData={refreshData}
+				ref={importProductsRef}
+			/>
 		</AppLayout>
 	);
 };
