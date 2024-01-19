@@ -17,9 +17,11 @@ import { useAuth } from "@/hooks/useAuth";
 import RepackingModal from "../repacking/components/RepackingModal";
 import { v4 as uuidv4 } from "uuid";
 import UpdatePriceModal from "./components/UpdatePriceModal";
+import SetBeginningBalanceModal from "./components/SetBeginningBalanceModal";
 const Inventory = () => {
 	const { user } = useAuth();
 	const addProductRef = useRef(null);
+	const begBalProductRef = useRef(null);
 	const viewProductRef = useRef(null);
 	const viewStatusRef = useRef(null);
 	const repackModalRef = useRef(null);
@@ -79,6 +81,9 @@ const Inventory = () => {
 	const viewProductModal = (item) => {
 		console.log("itemitemitem", item);
 		viewProductRef.current.show(item);
+	};
+	const openBegBalFormModal = (data) => {
+		begBalProductRef.current.show(data);
 	};
 
 	const getStockStatus = () => {
@@ -156,12 +161,36 @@ const Inventory = () => {
 				className: "!text-center",
 				cell: ({ row, getValue }) => {
 					// console.log("useruseruser", row?.original);
+					let qty =
+						row?.original?.total_quantity >= 0
+							? row?.original?.total_quantity
+							: 0;
 					if (row?.original?.location?.id == user?.data?.branch_id)
 						return (
 							<>
 								<div className="flex items-center justify-center text-center gap-4">
+									{qty == 0 ? (
+										<Button
+											type="accent"
+											size="sm"
+											className="gap-1"
+											onClick={() => {
+												openBegBalFormModal(
+													row?.original
+												);
+											}}
+										>
+											<FlatIcon
+												icon="rr-edit"
+												className="text-sm text-white"
+											/>
+											Set stock
+										</Button>
+									) : (
+										""
+									)}
 									<Button
-										type="foreground"
+										type="secondary"
 										size="sm"
 										className="gap-1"
 										onClick={() => {
@@ -170,7 +199,7 @@ const Inventory = () => {
 									>
 										<FlatIcon
 											icon="rr-edit"
-											className="text-sm text-dark"
+											className="text-sm text-white"
 										/>{" "}
 										Edit levels
 									</Button>
@@ -355,6 +384,11 @@ const Inventory = () => {
 			<ViewLowStocksModal ref={viewStatusRef} />
 			<UpdatePriceModal
 				ref={updatePriceref}
+				updateInList={updateInList}
+				addToList={addToList}
+			/>
+			<SetBeginningBalanceModal
+				ref={begBalProductRef}
 				updateInList={updateInList}
 				addToList={addToList}
 			/>

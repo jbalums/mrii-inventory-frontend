@@ -14,7 +14,7 @@ import { forwardRef, useImperativeHandle, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import useInventory from "../hooks/useInventory";
 
-const ProductFormModal = (props, ref) => {
+const SetBeginningBalanceModal = (props, ref) => {
 	const { addToList, updateInList } = props;
 	const {
 		register,
@@ -27,7 +27,7 @@ const ProductFormModal = (props, ref) => {
 		formState: { errors },
 	} = useForm();
 	const { setErrors } = useFormHelper();
-	const { savePrice } = useInventory();
+	const { updateBeginningBalance } = useInventory();
 	const { getCategories } = useItemCategories();
 	const { getBranches } = useBranchLocation();
 
@@ -35,6 +35,7 @@ const ProductFormModal = (props, ref) => {
 	const [id, setId] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [categories, setCategories] = useState([]);
+	const [product, setProduct] = useState(null);
 	const [locations, setLocations] = useState([]);
 
 	useImperativeHandle(ref, () => ({
@@ -43,19 +44,21 @@ const ProductFormModal = (props, ref) => {
 	}));
 
 	const show = (data) => {
+		console.log("begBalProductRef", data);
 		if (data) {
 			reset({
 				...data,
 			});
-			if (data.id) {
+			setProduct(data);
+			if (data?.id) {
 				setId(data?.id);
 			}
 		} else {
 			reset({
-				stock_low_level: "",
-				reorder_point: "",
+				qty: "",
 			});
 			setId(null);
+			setProduct(null);
 		}
 		setOpen(true);
 	};
@@ -69,9 +72,15 @@ const ProductFormModal = (props, ref) => {
 
 	const successCallBack = (data) => {
 		if (id) {
-			updateInList(data);
+			updateInList({
+				...product,
+				total_quantity: data?.stock_in?.total_quantity,
+			});
 		} else {
-			addToList(data);
+			addToList({
+				...product,
+				total_quantity: data?.stock_in?.total_quantity,
+			});
 		}
 		hide();
 	};
@@ -80,9 +89,10 @@ const ProductFormModal = (props, ref) => {
 		setLoading(true);
 		let formData = {
 			...data,
+			product_id: product?.id,
 			_method: "PATCH",
 		};
-		savePrice({
+		updateBeginningBalance({
 			setLoading,
 			setError,
 			id,
@@ -92,9 +102,14 @@ const ProductFormModal = (props, ref) => {
 	};
 
 	return (
-		<Modal open={open} hide={hide} size="md">
-			<ModalHeader title={`Update product Price`} hide={hide} />
+		<Modal open={open} hide={hide} size="sm">
+			<ModalHeader
+				title={`Set Inventory Stock`}
+				subtitle={`This will update your current inventory stock`}
+				hide={hide}
+			/>
 			<ModalBody className={`py-4`}>
+				<div className="grid grid-cols-1 lg:grid-cols-3"></div>
 				<form
 					autoComplete="off"
 					className="flex flex-col lg:grid grid-cols-1 lg:grid-cols-1 gap-4"
@@ -102,10 +117,10 @@ const ProductFormModal = (props, ref) => {
 					<TextInputField
 						type="number"
 						min={0}
-						label={`Price`}
-						placeholder={"Set new price"}
-						error={errors?.price?.message}
-						{...register("price", {
+						label={`Quantity`}
+						placeholder={"Enter quantity"}
+						error={errors?.qty?.message}
+						{...register("qty", {
 							required: "This field is required",
 						})}
 					/>
@@ -118,11 +133,11 @@ const ProductFormModal = (props, ref) => {
 					loading={loading}
 				>
 					<FlatIcon icon="rs-disk mr-2" />
-					Save product
+					Save
 				</Button>
 			</ModalFooter>
 		</Modal>
 	);
 };
 
-export default forwardRef(ProductFormModal);
+export default forwardRef(SetBeginningBalanceModal);

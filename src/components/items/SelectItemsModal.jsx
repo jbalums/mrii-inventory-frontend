@@ -94,8 +94,7 @@ const SelectItemsModal = (props, ref) => {
 			{
 				header: "Location",
 				accessorKey: "location",
-				className: "min-w-[128px] !whitespace-pre",
-				className: "!text-center",
+				className: "min-w-[128px] !whitespace-pre !text-center",
 				cell: ({ row, getValue }) => {
 					console.log("rowwwww", row);
 					const item = row.original;
