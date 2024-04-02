@@ -1,15 +1,19 @@
 import { useAuth } from "@/hooks/useAuth";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { RootContextWrapper } from "../context/RootContext";
 import LeftSidebar from "./layout/LeftSidebar";
 import PageHeader from "./layout/PageHeader";
 
 import { Navigate } from "react-router-dom";
 import FlatIcon from "./FlatIcon";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useState } from "react";
 import SplashScreen from "./SplashScreen";
 import LoadingScreen from "./LoadingScreen";
+import ConfirmModal from "./modals/ConfirmModal";
+import useNoBugUseEffect from "@/hooks/useNoBugUseEffect";
+import Button from "./Button";
+import axios from "@/libs/axios";
 const Page = (props) => {
 	const { user } = useAuth({
 		middleware: "auth",
@@ -24,6 +28,39 @@ const Page = (props) => {
 		backBtn = false,
 		containerClassName = "",
 	} = props;
+	const [loading, setLoading] = useState(false);
+	const [inventoryStatus, setInventoryStatus] = useState({ pending: 0 });
+	const initInventoryRef = useRef(null);
+	useNoBugUseEffect({
+		functions: () => {
+			getStockStatus();
+		},
+	});
+	useNoBugUseEffect({
+		functions: () => {
+			if (inventoryStatus.pending[0]?.length > 0)
+				initInventoryRef.current.show();
+		},
+		params: [inventoryStatus.pending],
+	});
+
+	const getStockStatus = () => {
+		axios.get("/inventory/status").then((res) => {
+			setInventoryStatus({
+				pending: res.data?.pending || 0,
+			});
+		});
+	};
+	const initInventory = () => {
+		setLoading(true);
+		axios.post("/inventory/populate").then((res) => {
+			setTimeout(() => {
+				toast.success("Product(s) initialization successful!");
+				initInventoryRef.current.hide();
+				setLoading(false);
+			}, 2000);
+		});
+	};
 
 	return (
 		<RootContextWrapper>
@@ -51,6 +88,38 @@ const Page = (props) => {
 					</div>
 				</div>
 			</div>
+
+			<ConfirmModal
+				ref={initInventoryRef}
+				title="Info"
+				body={
+					<>
+						<p className="text- text-lg text-center py-5">
+							You have{" "}
+							<b className="text-red-600">
+								{inventoryStatus.pending[0]?.length} product
+								{inventoryStatus.pending[0]?.length > 1
+									? "s"
+									: ""}
+							</b>{" "}
+							that needs to be initialize.
+						</p>
+					</>
+				}
+				footer={
+					<div className="flex items-center">
+						{/* <Button onClick={closeConfirmDelete}>No</Button> */}
+						<Button
+							type="success"
+							className="ml-4 font-bold"
+							onClick={initInventory}
+							loading={loading}
+						>
+							START INITIALIZATION
+						</Button>
+					</div>
+				}
+			/>
 		</RootContextWrapper>
 	);
 };

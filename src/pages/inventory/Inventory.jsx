@@ -91,6 +91,7 @@ const Inventory = () => {
 			setInventoryStatus({
 				low: res.data?.low || [],
 				empty: res.data?.empty || [],
+				pending: res.data?.pending || 0,
 			});
 		});
 	};

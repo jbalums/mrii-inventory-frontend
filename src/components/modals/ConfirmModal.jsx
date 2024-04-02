@@ -21,7 +21,11 @@ const ConfirmModal = (props, ref) => {
 	};
 	return (
 		<Modal open={open} hide={hide} size="">
-			<ModalHeader title={title || "Confirm"} hide={hide} />
+			<ModalHeader
+				// className="bg-indigo-50 rounded-t-xl"
+				title={title || "Confirm"}
+				hide={hide}
+			/>
 			<ModalBody className={`py-6`}>{body}</ModalBody>
 			<ModalFooter className={`flex items-center justify-end`}>
 				{footer}
