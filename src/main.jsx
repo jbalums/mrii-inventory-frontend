@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
 
+import { SWRConfig } from "swr";
 import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import axios from "@/libs/axios";
@@ -62,12 +63,15 @@ axios.interceptors.response.use(
 		return Promise.reject(error.message);
 	}
 );
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
-		<BrowserRouter>
-			<ToastContainer position="bottom-right" autoClose={3000} />
-			<App />
-		</BrowserRouter>
+		<SWRConfig value={{ fetcher }}>
+			<BrowserRouter>
+				<ToastContainer position="bottom-right" autoClose={3000} />
+				<App />
+			</BrowserRouter>
+		</SWRConfig>
 	</React.StrictMode>
 );
 

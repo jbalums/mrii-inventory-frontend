@@ -164,8 +164,8 @@ const LeftSidebar = () => {
 							Requests
 							{notifications?.total_requests > 0 ? (
 								<span className="relative ml-2">
-									<span className="bg-red-500 absolute -top-[10px] z-10 h-5 w-5 text-white rounded-full flex items-center justify-center text-[10px]">
-										{notifications?.total_requests}
+									<span className="bg-red-500 absolute -top-[10px] z-10 h-5 w-5 text-white rounded-full flex items-center justify-center text-[14px]">
+										!
 									</span>
 									<span className="bg-red-500 animate-ping absolute -top-[10px] h-5 w-5 text-white rounded-full flex items-center justify-center text-[10px]"></span>
 								</span>
@@ -196,7 +196,7 @@ const LeftSidebar = () => {
 							text={
 								<>
 									Requests
-									{notifications?.pending_for_requests > 0 ? (
+									{/* {notifications?.pending_for_requests > 0 ? (
 										<span className="relative ml-2">
 											<span className="bg-red-500 absolute -right-6 -top-[4px] z-10 h-5 w-5 text-white rounded-full flex items-center justify-center text-[10px]">
 												{
@@ -207,7 +207,7 @@ const LeftSidebar = () => {
 										</span>
 									) : (
 										""
-									)}
+									)} */}
 								</>
 							}
 							to="/request-orders"
@@ -394,22 +394,28 @@ const LeftSidebar = () => {
 					}
 				>
 					<LeftSidebarLink
-						icon={<FlatIcon icon="rr-add-document" />}
+						icon={<FlatIcon icon="rr-document" />}
 						text={`Item costing`}
 						to="/reports/item-costing"
 						active={isActive("/reports/item-costing")}
 					/>
 					<LeftSidebarLink
-						icon={<FlatIcon icon="rr-add-document" />}
+						icon={<FlatIcon icon="rr-document" />}
 						text={`Warehouse issuance`}
 						to="/reports/warehouse-issuance"
 						active={isActive("/reports/warehouse-issuance")}
 					/>
 					<LeftSidebarLink
-						icon={<FlatIcon icon="rr-add-document" />}
+						icon={<FlatIcon icon="rr-document" />}
 						text={`Inputs of Receipts`}
 						to="/reports/inputs-of-receipts"
 						active={isActive("/reports/inputs-of-receipts")}
+					/>
+					<LeftSidebarLink
+						icon={<FlatIcon icon="rr-document" />}
+						text={`Accounts Payable Voucher`}
+						to="/reports/accounts-payable-voucher"
+						active={isActive("/reports/accounts-payable-voucher")}
 					/>
 				</CollapseMenu>
 				{hasPermission(["admin"]) && (

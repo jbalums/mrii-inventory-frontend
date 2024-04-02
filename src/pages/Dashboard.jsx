@@ -5,27 +5,32 @@ import BarChart from "../components/charts/BarChart";
 import DashboardWidget from "../components/widgets/DashboardWidget";
 import axios from "@/libs/axios";
 import FlatIcon from "../components/FlatIcon";
+import useNoBugUseEffect from "@/hooks/useNoBugUseEffect";
 
 const Dashboard = () => {
 	const [dashboard, setDashboard] = useState(null);
 	const [loading, setLoading] = useState(true);
 
-	useEffect(() => {
-		let t = setTimeout(() => {
+	useNoBugUseEffect({
+		functions: () => {
 			setLoading(true);
 			getDashboardData();
-		}, 500);
-
-		return () => {
-			clearTimeout(t);
-		};
-	}, []);
+		},
+		params: [1],
+	});
 
 	const getDashboardData = () => {
 		axios.get(`inventory/dashboard-data`).then((res) => {
 			setDashboard(res.data);
 			setLoading(false);
 		});
+	};
+
+	const getFastMovingItems = () => {
+		// axios.get(`inventory/dashboard-data`).then((res) => {
+		// 	setDashboard(res.data);
+		// 	setLoading(false);
+		// });
 	};
 
 	const formatDate = (date) => {
@@ -150,7 +155,7 @@ const Dashboard = () => {
 				<div className="flex flex-col max-w-full overflow-auto rounded-lg border border-indigo-700 bg-background animate-all duration-200">
 					<h3 className="text-base mb- p-4 bg-indigo-500 text-white flex items-center gap-2">
 						<FlatIcon icon="rr-box" className="text-lg" /> Inventory
-						levels per product
+						levels
 					</h3>
 					<div className="table duration-200">
 						<table>

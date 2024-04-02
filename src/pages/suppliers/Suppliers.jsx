@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import SuppliersFormModal from "./components/SuppliersFormModal";
 import { useSuppliersHook } from "./hooks/useSuppliersHook";
+import ImportSupplierModal from "./components/ImportSupplierModal";
 
 const TextInfoH3 = ({ label = "", text = "" }) => {
 	if (label && text)
@@ -28,7 +29,7 @@ const TextInfoH3 = ({ label = "", text = "" }) => {
 const Suppliers = () => {
 	const form_modal_ref = useRef(null);
 	const delete_modal_ref = useRef(null);
-
+	const importSuppliersRef = useRef(null);
 	const [list, setList] = useState([]);
 	const [id, setId] = useState(null);
 	const [loading, setLoading] = useState(false);
@@ -37,6 +38,7 @@ const Suppliers = () => {
 		loading: dataLoading,
 		setKeyword,
 		keyword,
+		refreshData,
 	} = useDataTable(`/management/suppliers`);
 
 	const { deleteSupplier } = useSuppliersHook();
@@ -309,6 +311,17 @@ const Suppliers = () => {
 					label: "Suppliers",
 				},
 			]}
+			titleChildren={
+				<Button
+					type="primary"
+					className="ml-auto"
+					onClick={() => {
+						importSuppliersRef.current.show();
+					}}
+				>
+					<FlatIcon icon="rs-download" /> Import Suppliers
+				</Button>
+			}
 		>
 			<div className="flex flex-col lg:flex-row gap-6 pb-6">
 				<TextInputField
@@ -369,6 +382,10 @@ const Suppliers = () => {
 						</Button>
 					</div>
 				}
+			/>
+			<ImportSupplierModal
+				refreshData={refreshData}
+				ref={importSuppliersRef}
 			/>
 		</AppLayout>
 	);

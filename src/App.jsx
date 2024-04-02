@@ -51,6 +51,7 @@ import InputsOfReceipts from "./pages/reports/InputsOfReceipts";
 import ItemUnits from "./features/item-units/ItemUnits";
 import PrintItemUnits from "./features/item-units/PrintItemUnits";
 import "react-tippy/dist/tippy.css";
+import "rsuite/dist/rsuite.min.css";
 
 const AppRoutes = () => {
 	return (
@@ -148,6 +149,10 @@ const AppRoutes = () => {
 			/>
 			<Route
 				path="/reports/inputs-of-receipts"
+				element={<InputsOfReceipts />}
+			/>
+			<Route
+				path="/reports/accounts-payable-voucher"
 				element={<InputsOfReceipts />}
 			/>
 

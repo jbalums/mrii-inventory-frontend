@@ -23,6 +23,7 @@ import { useAuth } from "@/hooks/useAuth.js";
 import SelectInputField from "@/src/components/forms/SelectInputField";
 import ReactSelectInputField from "@/src/components/forms/ReactSelectInputField";
 import { useBranchLocation } from "@/src/features/locations/hooks/useBranchLocationHook";
+import { dateTodayInput } from "@/libs/helpers";
 
 const defaultDateValue = () => {
 	let date = new Date();
@@ -374,6 +375,7 @@ const RequestOrdersFormModal = (props, ref) => {
 								placeholder="Enter a date"
 								type="date"
 								// value={defaultDateValue()}
+								defaultValue={dateTodayInput()}
 								error={errors?.date_needed?.message}
 								{...register("date_needed", {
 									required: "This field is required",

@@ -31,6 +31,7 @@ const Table = (props) => {
 		rowClick = false,
 		rowHighlight = false,
 		tableClassName = "",
+		onTableSort = null,
 		onTableChange,
 		show = [5, 10, 15, 20, 50, 100],
 		loadingMessage = "Gathering data...",
@@ -119,11 +120,18 @@ const Table = (props) => {
 												? "cursor-pointer select-none"
 												: ""
 										}`}
-										onClick={
-											!header.column.columnDef
-												?.disableSort &&
-											header.column.getToggleSortingHandler()
-										}
+										onClick={() => {
+											console.log(
+												"onTableSort",
+												!header.column.columnDef
+													?.disableSort &&
+													header.column.getToggleSortingHandler(),
+												{
+													asc: " 🔼",
+													desc: " 🔽",
+												}[header.column.getIsSorted()]
+											);
+										}}
 									>
 										{header.isPlaceholder
 											? null

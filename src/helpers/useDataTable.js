@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useHttp } from "./useHttp";
-
+import { v4 as uuidv4 } from "uuid";
 const useDataTable = (url, setList, defaultFilters, allowFetch = true) => {
 	const [page, setPage] = useState(1);
 	const [paginate, setPaginate] = useState(10);
@@ -33,6 +33,12 @@ const useDataTable = (url, setList, defaultFilters, allowFetch = true) => {
 		allowFetch
 	);
 
+	const refreshData = () => {
+		setFilters((prevFils) => ({
+			...prevFils,
+			key: uuidv4(),
+		}));
+	};
 	return {
 		data,
 		loading,
@@ -50,6 +56,7 @@ const useDataTable = (url, setList, defaultFilters, allowFetch = true) => {
 		addToList,
 		updateInList,
 		removeFromList,
+		refreshData,
 	};
 };
 

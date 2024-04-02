@@ -15,6 +15,7 @@ import {
 	useMemo,
 	useState,
 } from "react";
+import { Link } from "react-router-dom";
 
 const ViewProductModal = (props, ref) => {
 	const [open, setOpen] = useState(false);
@@ -53,12 +54,16 @@ const ViewProductModal = (props, ref) => {
 
 	const hide = () => {
 		setOpen(false);
+		setItem(null);
 	};
 	const formatDate = (date) => {
 		let d = new Date(date);
-		return `${d.getDay()}/${
+		return `${String(d.getDay()).padStart(2, "0")}/${String(
 			d.getMonth() + 1
-		}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()} ${
+		).padStart(2, "0")}/${d.getFullYear()} ${String(d.getHours()).padStart(
+			2,
+			"0"
+		)}:${String(d.getMinutes()).padStart(2, "0")} ${
 			d.getHours() >= 12 ? "PM" : "AM"
 		}`;
 	};
@@ -68,11 +73,18 @@ const ViewProductModal = (props, ref) => {
 				header: "Details",
 				accessorKey: "created_at",
 				cell: ({ row }) => {
-					return row?.original?.receive
-						? `PO #${row?.original?.receive?.purchase_order}`
-						: row?.original?.request
-						? `Ref #${row?.original?.request?.account_code}`
-						: "-";
+					return row?.original?.receive ? (
+						`PO #${row?.original?.receive?.purchase_order}`
+					) : row?.original?.request ? (
+						<Link
+							target="_blank"
+							to={`/request-orders/${row?.original?.request?.id}`}
+						>
+							<span className="text-blue-600 hover:underline">{`Ref #${row?.original?.request?.account_code}`}</span>
+						</Link>
+					) : (
+						row?.original?.details || "-"
+					);
 				},
 			},
 			{
@@ -129,7 +141,7 @@ const ViewProductModal = (props, ref) => {
 	};
 
 	return (
-		<Modal open={open} hide={hide} size="lg">
+		<Modal open={open} hide={hide} size="xl">
 			<ModalHeader
 				title={"Inventory information"}
 				subtitle={`You can see product information and inventory histories.`}
@@ -137,6 +149,7 @@ const ViewProductModal = (props, ref) => {
 			/>
 			<ModalBody className={`!p-0 !bg-background`}>
 				<h3 className="text-2xl mb-2 text-darker px-4 pt-4 bg-background border-b pb-4">
+					{item?.id}
 					{item?.name}
 				</h3>
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-4 border-b pb-4 px-4">

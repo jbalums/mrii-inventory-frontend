@@ -19,6 +19,7 @@ import {
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useAuth } from "@/hooks/useAuth.js";
+import { dateTodayInput } from "@/libs/helpers";
 
 const CreateIssuanceModal = (props, ref) => {
 	const { addToList, updateInList, select_items_ref } = props;
@@ -253,6 +254,7 @@ const CreateIssuanceModal = (props, ref) => {
 								placeholder="Enter a date"
 								type="date"
 								// value={defaultDateValue()}
+								defaultValue={dateTodayInput()}
 								{...register("date_needed", {
 									required: "This field is required",
 								})}

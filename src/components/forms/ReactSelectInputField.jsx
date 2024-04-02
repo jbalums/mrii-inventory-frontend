@@ -70,16 +70,17 @@ const ReactSelectInputField = (props, ref) => {
 		isLoading,
 		isClearable = true,
 		loading = false,
+		labelClassName = "",
 		...rest
 	} = props;
 	return (
 		<form className={`${className}  text-sm`} autoComplete="off">
-			<label>
+			<label className="flex flex-col">
 				{label && (
 					<span
 						className={`font-semibold mb-0 font-roboto ${
 							error ? "text-danger" : "text-dark"
-						}`}
+						}  ${labelClassName}`}
 					>
 						{label}
 					</span>

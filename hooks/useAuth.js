@@ -25,7 +25,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 					mutate("/verify-email");
 				}),
 		{
-			revalidateIfStale: false,
+			revalidateIfStale: true,
 			revalidateOnFocus: true,
 		}
 	);
@@ -45,7 +45,8 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 					mutate("/api/inventory/notifications");
 				}),
 		{
-			revalidateIfStale: true,
+			// revalidateIfStale: true,
+			refreshInterval: 2000,
 			revalidateOnFocus: true,
 		}
 	);
