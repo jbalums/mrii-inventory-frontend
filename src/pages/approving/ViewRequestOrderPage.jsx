@@ -53,6 +53,10 @@ const ViewRequestOrderPage = () => {
 				accessorKey: "request_quantity",
 				className: "",
 				cellClassName: "",
+				cell: ({ row }) => {
+					console.log("row?.original", row);
+					return row?.original?.request_quantity;
+				},
 			},
 		],
 		[]
@@ -71,13 +75,16 @@ const ViewRequestOrderPage = () => {
 					</p> */}
 
 					<RequestOrderCard data={data?.data} />
-
-					{data?.data?.details?.map((request) => (
+					{console.log(
+						"data?.data?.detailsdata?.data?.details",
+						data?.data?.details
+					)}
+					{data?.data?.details?.map((detail) => (
 						<CardLayout className="!p-0 !bg-background !shadow-sm">
 							<div className="border-b px-4 py-6 flex flex-col lg:flex-row gap-4 items-center">
 								<div className="text-lg font-light">
 									<span>Order location:</span>
-									<b> {request.location.name}</b>
+									<b> {detail.location.name}</b>
 								</div>
 								<div className="lg:ml-auto gap-4 flex items-center">
 									<p>
@@ -93,7 +100,7 @@ const ViewRequestOrderPage = () => {
 								columns={columns}
 								pagination={false}
 								loading={dataLoading}
-								data={request.items}
+								data={detail.items}
 								emptyMessage={`You don’t have an order`}
 							/>
 						</CardLayout>

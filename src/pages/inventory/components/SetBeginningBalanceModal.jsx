@@ -13,6 +13,8 @@ import useFormHelper from "@/src/helpers/useFormHelper";
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import useInventory from "../hooks/useInventory";
+import Infotext from "@/src/components/InfoText";
+import { formatToCurrency } from "@/libs/helpers";
 
 const SetBeginningBalanceModal = (props, ref) => {
 	const { addToList, updateInList } = props;
@@ -56,6 +58,7 @@ const SetBeginningBalanceModal = (props, ref) => {
 		} else {
 			reset({
 				qty: "",
+				price: 0,
 			});
 			setId(null);
 			setProduct(null);
@@ -74,12 +77,14 @@ const SetBeginningBalanceModal = (props, ref) => {
 		if (id) {
 			updateInList({
 				...product,
-				total_quantity: data?.stock_in?.total_quantity,
+				...data?.stock_in,
+				// total_quantity: data?.stock_in?.total_quantity,
 			});
 		} else {
 			addToList({
 				...product,
-				total_quantity: data?.stock_in?.total_quantity,
+				...data?.stock_in,
+				// total_quantity: data?.stock_in?.total_quantity,
 			});
 		}
 		hide();
@@ -89,7 +94,7 @@ const SetBeginningBalanceModal = (props, ref) => {
 		setLoading(true);
 		let formData = {
 			...data,
-			product_id: product?.id,
+			product_id: product?.product?.id,
 			_method: "PATCH",
 		};
 		updateBeginningBalance({
@@ -102,17 +107,69 @@ const SetBeginningBalanceModal = (props, ref) => {
 	};
 
 	return (
-		<Modal open={open} hide={hide} size="sm">
+		<Modal open={open} hide={hide} size="md">
 			<ModalHeader
-				title={`Set Inventory Stock`}
+				title={`Set Beginning Balance`}
 				subtitle={`This will update your current inventory stock`}
 				hide={hide}
 			/>
 			<ModalBody className={`py-4`}>
-				<div className="grid grid-cols-1 lg:grid-cols-3"></div>
+				<div className="flex flex-col ">
+					<div className="flex flex-wrap gap-6 pb-4">
+						<Infotext
+							label="Product code"
+							titleClassName="text-left"
+							valueClassName="text-left"
+							text={product?.product?.code}
+						/>
+						<Infotext
+							className="text-center"
+							label="Product name"
+							titleClassName="text-left"
+							valueClassName="text-left"
+							text={product?.product?.name}
+						/>
+						<Infotext
+							className=""
+							label="Product description"
+							titleClassName="text-left"
+							valueClassName="text-left"
+							text={product?.product?.description}
+						/>
+						<Infotext
+							className=""
+							label="Category"
+							titleClassName="text-left"
+							valueClassName="text-left"
+							text={product?.product?.category?.name}
+						/>
+						<Infotext
+							className=""
+							label="Unit of measurement"
+							titleClassName="text-left"
+							valueClassName="text-left"
+							text={product?.product?.unit_measurement}
+						/>
+						<Infotext
+							className=""
+							label="Unit value"
+							titleClassName="text-left"
+							valueClassName="text-left"
+							text={product?.product?.unit_value}
+						/>
+						<Infotext
+							className=""
+							label="Brand"
+							titleClassName="text-left"
+							valueClassName="text-left"
+							text={product?.product?.brand?.name || "-"}
+						/>
+					</div>
+				</div>
+				<hr className="mb-4" />
 				<form
 					autoComplete="off"
-					className="flex flex-col lg:grid grid-cols-1 lg:grid-cols-1 gap-4"
+					className="flex flex-col lg:grid grid-cols-2 lg:grid-cols-2 gap-4"
 				>
 					<TextInputField
 						type="number"
@@ -124,7 +181,36 @@ const SetBeginningBalanceModal = (props, ref) => {
 							required: "This field is required",
 						})}
 					/>
+					<TextInputField
+						type="number"
+						min={0}
+						label={`Price`}
+						placeholder={"Enter price"}
+						error={errors?.price?.message}
+						{...register("price", {
+							required: "This field is required",
+						})}
+					/>
 				</form>
+				<hr className="mt-5" />
+				<div className=" mt-4 w-full">
+					<table className="w-full">
+						<tbody>
+							<tr>
+								<td className="text-xl text-right">
+									TOTAL COST:
+								</td>
+								<th className="text-xl text-center">
+									{formatToCurrency(
+										(watch("qty") || 0) *
+											(watch("price") || 0)
+									)}
+								</th>
+								<td>&nbsp;</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</ModalBody>
 			<ModalFooter className={`flex items-center justify-end`}>
 				<Button

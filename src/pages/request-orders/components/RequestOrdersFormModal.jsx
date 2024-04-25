@@ -23,7 +23,7 @@ import { useAuth } from "@/hooks/useAuth.js";
 import SelectInputField from "@/src/components/forms/SelectInputField";
 import ReactSelectInputField from "@/src/components/forms/ReactSelectInputField";
 import { useBranchLocation } from "@/src/features/locations/hooks/useBranchLocationHook";
-import { dateTodayInput } from "@/libs/helpers";
+import { dateTodayInput, isNumeric } from "@/libs/helpers";
 
 const defaultDateValue = () => {
 	let date = new Date();
@@ -46,6 +46,7 @@ const RequestOrdersFormModal = (props, ref) => {
 	const [open, setOpen] = useState(false);
 	const [id, setId] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const [disableBtn, setDisableBtn] = useState(false);
 	const [branches, setBranches] = useState([]);
 	const { user } = useAuth();
 
@@ -146,12 +147,18 @@ const RequestOrdersFormModal = (props, ref) => {
 				accessorKey: "code",
 				className: "border-t",
 				cellClassName: "",
+				cell: ({ row: { original } }) => {
+					return original?.product?.code || "-";
+				},
 			},
 			{
 				header: "Name",
 				accessorKey: "name",
 				className: "border-t",
 				cellClassName: "",
+				cell: ({ row: { original } }) => {
+					return original?.product?.name || "-";
+				},
 			},
 			{
 				header: "Location",
@@ -159,8 +166,7 @@ const RequestOrdersFormModal = (props, ref) => {
 				className: "border-t",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					console.log("original?.location", original);
-					return original?.location?.name || "-";
+					return original?.branch?.name || "-";
 				},
 			},
 			{
@@ -168,6 +174,9 @@ const RequestOrdersFormModal = (props, ref) => {
 				accessorKey: "unit_measurement",
 				className: "border-t",
 				cellClassName: "",
+				cell: ({ row: { original } }) => {
+					return original?.product?.unit_measurement || "-";
+				},
 			},
 			{
 				header: "Quantity",
@@ -176,14 +185,18 @@ const RequestOrdersFormModal = (props, ref) => {
 				cellClassName: "!text-center w-[128px]",
 				thClassName: "!text-center w-[128px]",
 				cell: ({ row: { original } }) => {
-					console.log("datadatadata original", original);
 					return (
 						<QtyInputField
-							qty={original?.total_quantity}
+							qty={original?.quantity}
 							setQty={(qty) => {
 								let item = original;
 								item.quantity = qty;
 								updateList(item);
+								if (isNumeric(qty)) {
+									setDisableBtn(false);
+								} else {
+									setDisableBtn(true);
+								}
 							}}
 						/>
 					);
@@ -449,6 +462,7 @@ const RequestOrdersFormModal = (props, ref) => {
 					type="accent"
 					onClick={handleSubmit(submitForm)}
 					loading={loading}
+					disabled={disableBtn}
 				>
 					<FlatIcon icon="rs-paper-plane" className="mr-2" />
 					Send order

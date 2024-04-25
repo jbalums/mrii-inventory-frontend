@@ -1,6 +1,7 @@
 import { isNumeric } from "@/libs/helpers";
 import { useEffect, useState } from "react";
 import FlatIcon from "../FlatIcon";
+import useNoBugUseEffect from "@/hooks/useNoBugUseEffect";
 
 const QtyInputField = ({ qty, setQty, max, ...props }) => {
 	const [value, setValue] = useState(1);
@@ -39,6 +40,12 @@ const QtyInputField = ({ qty, setQty, max, ...props }) => {
 		// });
 	};
 
+	useNoBugUseEffect({
+		functions: () => {
+			setQty(value);
+		},
+		params: [value],
+	});
 	return (
 		<div className="flex items-center justify-center group">
 			<div
@@ -53,20 +60,16 @@ const QtyInputField = ({ qty, setQty, max, ...props }) => {
 				value={value}
 				onChange={(e) => {
 					let input_value = e.target.value;
-					if (isNumeric(String(input_value))) {
-						setValue(input_value);
-						setQty(input_value);
-					} else {
-						setValue(1);
-						setQty(1);
-					}
+					// if (isNumeric(String(input_value))) {
+					setValue(input_value);
+					// }
 				}}
 				onBlur={(e) => {
 					let input_value = e.target.value;
 					if (isNumeric(String(input_value))) {
-						setQty(input_value);
+						setValue(input_value);
 					} else {
-						setQty(1);
+						setValue(1);
 					}
 				}}
 				{...props}

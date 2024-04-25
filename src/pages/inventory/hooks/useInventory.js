@@ -31,7 +31,9 @@ const useInventory = () => {
 				// setErrors(error.response.data.errors, setError);
 			})
 			.finally(() => {
-				setLoading(false);
+				setTimeout(() => {
+					setLoading(false);
+				}, 2000);
 			});
 	};
 
@@ -80,7 +82,9 @@ const useInventory = () => {
 				// setErrors(error.response.data.errors, setError);
 			})
 			.finally(() => {
-				setLoading(false);
+				setTimeout(() => {
+					setLoading(false);
+				}, 2000);
 			});
 	};
 

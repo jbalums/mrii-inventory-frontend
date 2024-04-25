@@ -13,18 +13,20 @@ const ModalHeader = ({
 	return (
 		<Dialog.Title
 			as="div"
-			className={`text-lg font-medium leading-6 flex p-4 border-b ${className}`}
+			className={`text-lg font-medium leading-6 flex p-4 border-b bg-indigo-50 rounded-t-xl ${className}`}
 		>
 			<div
 				className={`flex flex-col justify-center mr-auto ${headerClassName}`}
 			>
 				<h2
-					className={`text-lg font-bold text-darker mb-0 ${titleClassName}`}
+					className={`text-lg font-bold text-indigo-800 mb-0 ${titleClassName}`}
 				>
 					{title}
 				</h2>
 				{subtitle ? (
-					<p className={`text-xs text-dark ${subtitleClassName}`}>
+					<p
+						className={`text-xs font-light text-purple-950 ${subtitleClassName}`}
+					>
 						{subtitle}
 					</p>
 				) : (

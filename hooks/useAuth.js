@@ -46,7 +46,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 				}),
 		{
 			// revalidateIfStale: true,
-			refreshInterval: 2000,
+			refreshInterval: 5000,
 			revalidateOnFocus: true,
 		}
 	);

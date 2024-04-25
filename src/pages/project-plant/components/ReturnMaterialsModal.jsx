@@ -106,7 +106,6 @@ const ReturnMaterialsModal = (props, ref) => {
 				cellClassName: "!text-center w-[128px]",
 				thClassName: "!text-center w-[128px]",
 				cell: ({ row: { original } }) => {
-					console.log("datadatadata original", original);
 					return original?.request_quantity || 0;
 				},
 			},
@@ -117,7 +116,6 @@ const ReturnMaterialsModal = (props, ref) => {
 				cellClassName: "!text-center w-[128px]",
 				thClassName: "!text-center w-[128px]",
 				cell: ({ row: { original } }) => {
-					console.log("datadatadata original", original);
 					return original?.used_qty || 0;
 				},
 			},
@@ -128,7 +126,6 @@ const ReturnMaterialsModal = (props, ref) => {
 				cellClassName: "!text-center w-[128px]",
 				thClassName: "!text-center w-[128px]",
 				cell: ({ row: { original } }) => {
-					console.log("datadatadata original", original);
 					return original?.returned_qty || 0;
 				},
 			},
@@ -139,7 +136,6 @@ const ReturnMaterialsModal = (props, ref) => {
 				cellClassName: "!text-center w-[128px]",
 				thClassName: "!text-center w-[128px]",
 				cell: ({ row: { original } }) => {
-					console.log("datadatadata original", original);
 					return parseInt(original?.request_quantity) -
 						parseInt(original?.used_qty) ? (
 						<QtyInputField

@@ -18,6 +18,7 @@ import RepackingModal from "../repacking/components/RepackingModal";
 import { v4 as uuidv4 } from "uuid";
 import UpdatePriceModal from "./components/UpdatePriceModal";
 import SetBeginningBalanceModal from "./components/SetBeginningBalanceModal";
+import useNoBugUseEffect from "@/hooks/useNoBugUseEffect";
 const Inventory = () => {
 	const { user } = useAuth();
 	const addProductRef = useRef(null);
@@ -55,18 +56,22 @@ const Inventory = () => {
 	const { businessUnits } = useInventory();
 
 	useEffect(() => {
-		setFilters((filters) => ({
-			...filters,
-			location_id: user?.data?.branch_id,
-		}));
-	}, [user?.data?.branch?.id]);
-
-	useEffect(() => {
 		getBranches().then((res) => {
 			setBranches(res.data.data);
 		});
 		getStockStatus();
 	}, [1]);
+
+	useNoBugUseEffect({
+		functions: () => {
+			setFilters((filters) => ({
+				...filters,
+				key: uuidv4(),
+				location_id: user?.data?.branch_id,
+			}));
+		},
+		params: [user?.data?.branch_id],
+	});
 
 	useEffect(() => {
 		setList(data?.data || []);
@@ -107,23 +112,32 @@ const Inventory = () => {
 				header: "Code",
 				accessorKey: "code",
 				className: "min-w-[64px]",
+				cell: ({ row }) => {
+					return row?.original?.product?.code;
+				},
 			},
 			{
 				header: "Name",
 				accessorKey: "name",
 				className: "min-w-[128px]",
+				cell: ({ row }) => {
+					return row?.original?.product?.name;
+				},
 			},
 			{
 				header: "UoM",
 				accessorKey: "uom",
 				className: "min-w-[64px]",
+				cell: ({ row }) => {
+					return row?.original?.product?.unit_measurement;
+				},
 			},
 			{
-				header: "Location",
-				accessorKey: "location",
+				header: "Branch",
+				accessorKey: "branch",
 				className: "min-w-[128px]",
 				cell: ({ row }) => {
-					return row?.original?.location?.name;
+					return row?.original?.branch?.name;
 				},
 			},
 			/* 	{
@@ -136,10 +150,7 @@ const Inventory = () => {
 				className: "!text-center min-w-[128px]",
 				thClassName: "items-center",
 				cell: ({ row }) => {
-					let qty =
-						row?.original?.total_quantity >= 0
-							? row?.original?.total_quantity
-							: 0;
+					let qty = row?.original?.total_quantity;
 					return qty;
 				},
 			},
@@ -162,15 +173,13 @@ const Inventory = () => {
 				className: "!text-center",
 				cell: ({ row, getValue }) => {
 					// console.log("useruseruser", row?.original);
-					let qty =
-						row?.original?.total_quantity >= 0
-							? row?.original?.total_quantity
-							: 0;
-					if (row?.original?.location?.id == user?.data?.branch_id)
+					let is_manageable = row?.original?.is_manageable;
+
+					if (is_manageable)
 						return (
 							<>
 								<div className="flex items-center justify-center text-center gap-4">
-									{qty == 0 ? (
+									{row?.original?.begining_balance == null ? (
 										<Button
 											type="accent"
 											size="sm"
@@ -181,11 +190,7 @@ const Inventory = () => {
 												);
 											}}
 										>
-											<FlatIcon
-												icon="rr-edit"
-												className="text-sm text-white"
-											/>
-											Set stock
+											Set Beginning Bal.
 										</Button>
 									) : (
 										""

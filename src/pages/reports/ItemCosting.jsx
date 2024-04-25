@@ -33,10 +33,12 @@ const ItemCosting = () => {
 		setFilters,
 		filters,
 		loading: dataLoading,
+		setPaginate,
 		setPage,
 	} = useDataTable(`/inventory/item-costing`, setList, {});
 	useEffect(() => {
 		setPage("all");
+		setPaginate("all");
 		getCategories().then((res) => {
 			setCategories(res.data.data);
 		});
@@ -74,7 +76,7 @@ const ItemCosting = () => {
 			},
 			{
 				header: "Qty Received",
-				accessorKey: "total_quantity",
+				accessorKey: "quantity",
 				className: " !text-center",
 			},
 			{
@@ -169,7 +171,7 @@ const ItemCosting = () => {
 							{({ toPdf }) => (
 								<Button
 									className="gap-2 !rounded-lg !text-sm font-normal shadow-lg"
-									type="background"
+									type="secondary"
 									onClick={toPdf}
 									loading={dataLoading}
 								>
@@ -185,7 +187,7 @@ const ItemCosting = () => {
 							trigger={() => (
 								<Button
 									className="gap-2 !rounded-lg !text-sm font-normal shadow-lg"
-									type="background"
+									type="accent"
 									loading={dataLoading}
 								>
 									<FlatIcon
@@ -207,7 +209,12 @@ const ItemCosting = () => {
 					date={
 						filters?.date ? formatDateWithTime(filters?.date) : null
 					}
-					title="Item Costing"
+					title={
+						<>
+							Item Costing: &nbsp;
+							<u>{currentDate()}</u>
+						</>
+					}
 				>
 					<div className="printable-table">
 						<table className="">
@@ -258,9 +265,29 @@ const ItemCosting = () => {
 														) {
 															if (
 																col.accessorKey ==
-																	"actual_cost" ||
+																"actual_cost"
+															)
+																return (
+																	<td className="!text-[8pt] !text-right">
+																		{formatToCurrency(
+																			parseFloat(
+																				item[
+																					"quantity"
+																				] ||
+																					0
+																			) *
+																				parseFloat(
+																					item[
+																						"price"
+																					] ||
+																						0
+																				)
+																		)}
+																	</td>
+																);
+															if (
 																col.accessorKey ==
-																	"remain_value"
+																"remain_value"
 															)
 																return (
 																	<td className="!text-[8pt] !text-right">

@@ -60,7 +60,7 @@ const PrintItemUnits = () => {
 							{({ toPdf }) => (
 								<Button
 									className="gap-2 !rounded font-normal shadow-lg"
-									type="background"
+									type="secondary"
 									onClick={toPdf}
 									loading={dataLoading}
 								>
@@ -76,7 +76,7 @@ const PrintItemUnits = () => {
 							trigger={() => (
 								<Button
 									className="gap-2 !rounded font-normal shadow-lg"
-									type="background"
+									type="accent"
 									loading={dataLoading}
 								>
 									<FlatIcon icon="rr-print" /> Print

@@ -106,31 +106,36 @@ const PrintableTable = (props) => {
 									key={`row.id-${row.id} `}
 									className={`group`}
 								>
-									{row.getVisibleCells().map((cell) => (
-										<td
-											key={`cell.id-${cell.id}`}
-											className={`duration-300  ${cell.column?.columnDef?.className}
+									{row
+										.getVisibleCells()
+										.map((cell, index) => (
+											<td
+												key={`cell.id-${
+													cell.id || index
+												}`}
+												className={`duration-300  ${cell.column?.columnDef?.className}
 											`}
-											onClick={() => {
-												if (
-													cell.column.columnDef
-														?.header != "Action" ||
-													cell.column.columnDef
-														?.accessorKey !=
-														"action"
-												) {
-													if (rowClick) {
-														rowClick(row);
+												onClick={() => {
+													if (
+														cell.column.columnDef
+															?.header !=
+															"Action" ||
+														cell.column.columnDef
+															?.accessorKey !=
+															"action"
+													) {
+														if (rowClick) {
+															rowClick(row);
+														}
 													}
-												}
-											}}
-										>
-											{flexRender(
-												cell.column.columnDef.cell,
-												cell.getContext()
-											)}
-										</td>
-									))}
+												}}
+											>
+												{flexRender(
+													cell.column.columnDef.cell,
+													cell.getContext()
+												)}
+											</td>
+										))}
 								</tr>
 							))
 						)}

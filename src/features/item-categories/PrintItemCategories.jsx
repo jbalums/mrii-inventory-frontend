@@ -56,7 +56,7 @@ const PrintItemCategories = () => {
 							{({ toPdf }) => (
 								<Button
 									className="gap-2 !rounded font-normal shadow-lg"
-									type="background"
+									type="primary"
 									onClick={toPdf}
 									loading={dataLoading}
 								>

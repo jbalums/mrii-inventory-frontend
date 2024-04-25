@@ -85,31 +85,46 @@ const SelectItemsModal = (props, ref) => {
 			{
 				header: "Product ID",
 				accessorKey: "code",
+				cell: ({ row, getValue }) => {
+					const item = row.original;
+					return item?.product?.code;
+				},
 			},
 			{
 				header: "Name",
 				accessorKey: "name",
 				className: "min-w-[128px] !whitespace-pre",
+				cell: ({ row, getValue }) => {
+					const item = row.original;
+					return item?.product?.name;
+				},
 			},
 			{
 				header: "Location",
 				accessorKey: "location",
 				className: "min-w-[128px] !whitespace-pre !text-center",
 				cell: ({ row, getValue }) => {
-					console.log("rowwwww", row);
 					const item = row.original;
-					return item?.location?.name;
+					return item?.branch?.name;
 				},
 			},
 			{
 				header: "Unit of measurement",
 				accessorKey: "unit_measurement",
 				className: "!text-center",
+				cell: ({ row, getValue }) => {
+					const item = row.original;
+					return item?.product?.unit_measurement;
+				},
 			},
 			{
 				header: "Stock",
 				accessorKey: "quantity",
 				className: "!text-center",
+				cell: ({ row, getValue }) => {
+					const item = row.original;
+					return item?.total_quantity;
+				},
 			},
 			{
 				header: "Select",

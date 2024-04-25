@@ -44,7 +44,7 @@ export const useHttp = (url, dependencies, allowFetch = true) => {
 				cancel_token.cancel();
 			}
 		};
-	}, dependencies);
+	}, [JSON.stringify(dependencies)]);
 
 	return { loading, data, meta, setLoading, setData };
 };

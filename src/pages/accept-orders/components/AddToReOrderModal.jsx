@@ -162,7 +162,6 @@ const AddToReOrderModal = (props, ref) => {
 				className: "border-t !bg-foreground",
 				thClassName: "",
 				cell: ({ row: { original } }) => {
-					console.log("datadatadata original", original);
 					return 5;
 				},
 			},
@@ -172,7 +171,6 @@ const AddToReOrderModal = (props, ref) => {
 				className: "border-t !bg-foreground",
 				thClassName: "",
 				cell: ({ row: { original } }) => {
-					console.log("datadatadata original", original);
 					return 2;
 				},
 			},
@@ -182,7 +180,6 @@ const AddToReOrderModal = (props, ref) => {
 				className: "border-t !bg-foreground",
 				thClassName: "flex justify-center items-center",
 				cell: ({ row: { original } }) => {
-					console.log("datadatadata original", original);
 					return (
 						<QtyInputField
 							qty={original?.quantity}

@@ -193,9 +193,6 @@ label {
 	.transparent-table tbody td {
 		@apply !bg-transparent;
 	}
-
-	.simple-table {
-	}
 }
 
 .modal-xs {

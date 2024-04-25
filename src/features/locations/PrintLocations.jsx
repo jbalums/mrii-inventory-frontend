@@ -63,7 +63,7 @@ const PrintLocations = () => {
 						{({ toPdf }) => (
 							<Button
 								className="gap-2 !rounded font-normal shadow-lg"
-								type="background"
+								type="secondary"
 								onClick={toPdf}
 							>
 								<FlatIcon

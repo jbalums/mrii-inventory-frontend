@@ -9,9 +9,9 @@ if (typeof window == "object") {
 
 window.Pusher = Pusher;
 
-var notificationService = new Pusher("f843752b321309b04c52", {
-	cluster: "ap1",
-});
+// var notificationService = new Pusher("f843752b321309b04c52", {
+// 	cluster: "ap1",
+// });
 
 // const notificationEcho = new Echo({
 // 	broadcaster: "pusher",
