@@ -29,7 +29,7 @@ const ItemUnits = () => {
 		setKeyword,
 	} = useDataTable(`/management/units`);
 
-	const { deleteItemCategory } = useItemUnits();
+	const { deleteItemUnits } = useItemUnits();
 
 	useEffect(() => {
 		setList(data?.data || []);
@@ -59,7 +59,7 @@ const ItemUnits = () => {
 
 	const deleteData = () => {
 		setLoading(true);
-		deleteItemCategory(id)
+		deleteItemUnits(id)
 			.then((res) => {
 				delete_modal_ref.current.hide();
 				toast.success("Item unit deleted successfully!");
