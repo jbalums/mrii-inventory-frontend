@@ -38,6 +38,7 @@ const ProductFormModal = (props, ref) => {
 	const [loading, setLoading] = useState(false);
 	const [categories, setCategories] = useState([]);
 	const [units, setUnits] = useState([]);
+	const [product, setProduct] = useState(null);
 	const [locations, setLocations] = useState([]);
 
 	useImperativeHandle(ref, () => ({
@@ -55,6 +56,7 @@ const ProductFormModal = (props, ref) => {
 		getItemUnits().then((res) => {
 			setUnits(res.data.data);
 		});
+		setProduct(data);
 		if (data) {
 			reset({
 				...data,
@@ -102,6 +104,10 @@ const ProductFormModal = (props, ref) => {
 		if (id) {
 			formData = {
 				...formData,
+				code:
+					product?.transactions_count > 0
+						? product?.code
+						: data?.code,
 				_method: "PATCH",
 			};
 		}
@@ -130,6 +136,9 @@ const ProductFormModal = (props, ref) => {
 						className="col-span-2"
 						inputClassName="bg-foreground"
 						placeholder={"Enter product code"}
+						readOnly={
+							product?.transactions_count > 0 ? true : false
+						}
 						error={errors?.code?.message}
 						{...register("code", {
 							required: "This field is required",

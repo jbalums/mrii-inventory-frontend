@@ -117,6 +117,22 @@ const PageHeader = (props) => {
 								className:
 									"text-secondary-dark hover:!text-white !duration-200",
 							},
+							{
+								label: (
+									<>
+										<FlatIcon
+											icon="rr-time-past"
+											className=""
+										/>
+										My Logs
+									</>
+								),
+								onClick: () => {
+									navigate("/my-logs");
+								},
+								className:
+									"text-secondary-dark hover:!text-white !duration-200",
+							},
 							/* 	{
 								label: (
 									<>
