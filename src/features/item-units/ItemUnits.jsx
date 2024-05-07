@@ -2,22 +2,22 @@ import AppLayout from "@/src/components/AppLayout";
 import Button from "@/src/components/Button";
 import FlatIcon from "@/src/components/FlatIcon";
 import TextInputField from "@/src/components/forms/TextInputField";
-import CardLayout from "@/src/components/layout/CardLayout";
-import ContainerCard from "@/src/components/layout/ContainerCard";
 import ConfirmModal from "@/src/components/modals/ConfirmModal";
 import Table from "@/src/components/table/Table";
 import useDataTable from "@/src/helpers/useDataTable";
-import { useHttp } from "@/src/helpers/useHttp";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { FiPlus, FiEdit, FiTrash2 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import AddItemUnits from "./components/AddItemUnits";
 import { useItemUnits } from "./hooks/useItemUnitsHook";
+import HistoryModal from "@/src/components/HistoryModal";
+import HistoryBtn from "@/src/components/HistoryBtn";
 
 const ItemUnits = () => {
 	const form_modal_ref = useRef(null);
 	const delete_modal_ref = useRef(null);
+	const history_modal_ref = useRef(null);
 
 	const [list, setList] = useState([]);
 	const [id, setId] = useState(null);
@@ -137,6 +137,7 @@ const ItemUnits = () => {
 					label: "Units",
 				},
 			]}
+			titleChildren={<HistoryBtn entity={"unit"} />}
 		>
 			<div className="w-full xl:w-2/3 flex flex-col lg:flex-row gap-6 pb-6">
 				<TextInputField
@@ -174,6 +175,11 @@ const ItemUnits = () => {
 				ref={form_modal_ref}
 				addToList={addToList}
 				updateInList={updateInList}
+			/>
+			<HistoryModal
+				title="Change History Logs"
+				entity="unit"
+				ref={history_modal_ref}
 			/>
 			<ConfirmModal
 				ref={delete_modal_ref}

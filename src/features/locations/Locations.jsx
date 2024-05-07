@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import LocationFormModal from "./components/LocationFormModal";
 import { useBranchLocation } from "./hooks/useBranchLocationHook";
+import HistoryBtn from "@/src/components/HistoryBtn";
 
 const Locations = () => {
 	const form_modal_ref = useRef(null);
@@ -146,6 +147,7 @@ const Locations = () => {
 					label: "Locations",
 				},
 			]}
+			titleChildren={<HistoryBtn entity={"location"} />}
 		>
 			<div className="w-full md:w-4/5 xl:w-1/2 flex flex-col lg:flex-row gap-6 pb-6">
 				<TextInputField

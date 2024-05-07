@@ -12,6 +12,7 @@ import ProductFormModal from "./components/ProductFormModal";
 import ViewProductModal from "./components/ViewProductModal";
 import ImportProductModal from "./components/ImportProductModal";
 import { v4 as uuidv4 } from "uuid";
+import HistoryBtn from "@/src/components/HistoryBtn";
 let first_id = uuidv4();
 const Products = () => {
 	const addProductRef = useRef(null);
@@ -137,15 +138,20 @@ const Products = () => {
 				},
 			]}
 			titleChildren={
-				<Button
-					type="primary"
-					className="ml-auto"
-					onClick={() => {
-						importProductsRef.current.show();
-					}}
-				>
-					<FlatIcon icon="rs-download" /> Import Products
-				</Button>
+				<>
+					<Button
+						type="primary"
+						className="ml-auto"
+						onClick={() => {
+							importProductsRef.current.show();
+						}}
+					>
+						<FlatIcon icon="rs-download" /> Import Products
+					</Button>
+					<div>
+						<HistoryBtn entity={"Product"} />
+					</div>
+				</>
 			}
 		>
 			<div className="flex flex-col lg:flex-row gap-6 pb-6">

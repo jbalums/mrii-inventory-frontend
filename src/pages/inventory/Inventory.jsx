@@ -19,6 +19,7 @@ import { v4 as uuidv4 } from "uuid";
 import UpdatePriceModal from "./components/UpdatePriceModal";
 import SetBeginningBalanceModal from "./components/SetBeginningBalanceModal";
 import useNoBugUseEffect from "@/hooks/useNoBugUseEffect";
+import HistoryBtn from "@/src/components/HistoryBtn";
 const Inventory = () => {
 	const { user } = useAuth();
 	const addProductRef = useRef(null);
@@ -280,6 +281,9 @@ const Inventory = () => {
 							{inventoryStatus?.low?.length || 0}
 						</span>
 					</Button>
+					<div className="ml-4">
+						<HistoryBtn entity={"InventoryLocation"} />
+					</div>
 				</div>
 			}
 			breadcrumbs={[

@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import AddItemCategories from "./components/AddItemCategories";
 import { useItemCategories } from "./hooks/useItemCategoriesHook";
+import HistoryBtn from "@/src/components/HistoryBtn";
 
 const ItemCategories = () => {
 	const form_modal_ref = useRef(null);
@@ -137,6 +138,7 @@ const ItemCategories = () => {
 					label: "Categories",
 				},
 			]}
+			titleChildren={<HistoryBtn entity={"Category"} />}
 		>
 			<div className="w-full xl:w-2/3 flex flex-col lg:flex-row gap-6 pb-6">
 				<TextInputField

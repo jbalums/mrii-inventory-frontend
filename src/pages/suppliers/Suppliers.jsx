@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import SuppliersFormModal from "./components/SuppliersFormModal";
 import { useSuppliersHook } from "./hooks/useSuppliersHook";
 import ImportSupplierModal from "./components/ImportSupplierModal";
+import HistoryBtn from "@/src/components/HistoryBtn";
 
 const TextInfoH3 = ({ label = "", text = "" }) => {
 	if (label && text)
@@ -312,15 +313,20 @@ const Suppliers = () => {
 				},
 			]}
 			titleChildren={
-				<Button
-					type="primary"
-					className="ml-auto"
-					onClick={() => {
-						importSuppliersRef.current.show();
-					}}
-				>
-					<FlatIcon icon="rs-download" /> Import Suppliers
-				</Button>
+				<>
+					<Button
+						type="primary"
+						className="ml-auto"
+						onClick={() => {
+							importSuppliersRef.current.show();
+						}}
+					>
+						<FlatIcon icon="rs-download" /> Import Suppliers
+					</Button>
+					<div>
+						<HistoryBtn entity={"Supplier"} />
+					</div>
+				</>
 			}
 		>
 			<div className="flex flex-col lg:flex-row gap-6 pb-6">

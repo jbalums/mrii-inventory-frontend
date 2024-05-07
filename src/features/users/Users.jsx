@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import AddUserModal from "./components/AddUserModal";
 import { useUserHook } from "./hooks/useUserHook";
 import { useAuth } from "@/hooks/useAuth";
+import HistoryBtn from "@/src/components/HistoryBtn";
 
 let user_types = [
 	{
@@ -213,6 +214,11 @@ const Users = () => {
 					label: "Users",
 				},
 			]}
+			titleChildren={
+				<div className="ml-auto">
+					<HistoryBtn entity={"User"} />
+				</div>
+			}
 		>
 			<div className="w-full flex flex-col lg:flex-row gap-4 md:gap-6 pb-4 md:pb-6">
 				<TextInputField
