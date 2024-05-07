@@ -23,12 +23,12 @@ const MyLogs = () => {
 
 	return (
 		<AppLayout
-			icon={<FlatIcon icon="rr-user" />}
-			title={"My profile"}
+			icon={<FlatIcon icon="rr-time-past" />}
+			title={"My Logs"}
 			breadcrumbs={[
 				{
-					to: "/profile",
-					label: "My profile",
+					to: "/my-logs",
+					label: "My Logs",
 				},
 			]}
 		>
@@ -83,18 +83,25 @@ const MyLogs = () => {
 																				metaData?.key
 																			}{" "}
 																		</b>{" "}
-																		from{" "}
-																		<b>
-																			{
-																				metaData?.old
-																			}
-																		</b>{" "}
-																		to{" "}
-																		<b>
-																			{
-																				metaData?.new
-																			}
-																		</b>
+																		{metaData?.key !=
+																		"password" ? (
+																			<>
+																				from{" "}
+																				<b>
+																					{
+																						metaData?.old
+																					}
+																				</b>{" "}
+																				to{" "}
+																				<b>
+																					{
+																						metaData?.new
+																					}
+																				</b>
+																			</>
+																		) : (
+																			""
+																		)}
 																	</span>
 																);
 															}

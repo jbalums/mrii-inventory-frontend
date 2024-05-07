@@ -133,6 +133,25 @@ const PageHeader = (props) => {
 								className:
 									"text-secondary-dark hover:!text-white !duration-200",
 							},
+							...[
+								user?.data?.user_type == "admin" && {
+									label: (
+										<>
+											<FlatIcon
+												icon="rr-settings"
+												className=""
+											/>
+											System Logs
+										</>
+									),
+									onClick: () => {
+										navigate("/system-changes-logs");
+									},
+									className:
+										"text-secondary-dark hover:!text-white !duration-200",
+								},
+							],
+
 							/* 	{
 								label: (
 									<>

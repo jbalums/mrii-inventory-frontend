@@ -53,6 +53,7 @@ import PrintItemUnits from "./features/item-units/PrintItemUnits";
 import "react-tippy/dist/tippy.css";
 import "rsuite/dist/rsuite.min.css";
 import MyLogs from "./pages/user/MyLogs";
+import SystemLogs from "./pages/user/SystemLogs";
 
 const AppRoutes = () => {
 	return (
@@ -179,6 +180,7 @@ const AppRoutes = () => {
 
 			<Route path="/profile" element={<Profile />} />
 			<Route path="/my-logs" element={<MyLogs />} />
+			<Route path="/system-changes-logs" element={<SystemLogs />} />
 
 			<Route path="*" element={<NotFoundPage />} />
 		</Routes>
