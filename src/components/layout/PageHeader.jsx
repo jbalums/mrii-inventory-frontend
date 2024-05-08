@@ -141,7 +141,7 @@ const PageHeader = (props) => {
 												icon="rr-settings"
 												className=""
 											/>
-											System Logs
+											Activity Logs
 										</>
 									),
 									onClick: () => {

@@ -83,11 +83,11 @@ const SystemLogs = () => {
 	return (
 		<AppLayout
 			icon={<FlatIcon icon="rr-settings" />}
-			title={"System Logs"}
+			title={"Activity Logs"}
 			breadcrumbs={[
 				{
 					to: "/system-changes-logs",
-					label: "System Logs",
+					label: "Activity Logs",
 				},
 			]}
 		>
