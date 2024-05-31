@@ -184,7 +184,7 @@ const Inventory = () => {
 										<Button
 											type="accent"
 											size="sm"
-											className="gap-1"
+											className="gap-1 !text-xs"
 											onClick={() => {
 												openBegBalFormModal(
 													row?.original

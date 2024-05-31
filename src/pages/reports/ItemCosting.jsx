@@ -15,12 +15,13 @@ import PrintableLayout from "@/src/components/layout/PrintableLayout";
 import PrintableTable from "@/src/components/table/PrintableTable";
 import { useItemCategories } from "@/src/features/item-categories/hooks/useItemCategoriesHook";
 import useDataTable from "@/src/helpers/useDataTable";
+import Html2Pdf, { html2pdf } from "js-html2pdf";
 import { useEffect, useMemo } from "react";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
-import Pdf from "react-to-pdf";
-import ReactToPrint from "react-to-print";
+// import Pdf from "react-to-pdf";
+import ReactToPrint, { useReactToPrint } from "react-to-print";
 import { toast } from "react-toastify";
 const excluded_cols = ["price", "date", "actual_cost", "remain_value"];
 const ItemCosting = () => {
@@ -103,6 +104,41 @@ const ItemCosting = () => {
 		[]
 	);
 
+	const handlePrint = useReactToPrint({
+		content: () => componentRef.current,
+		onPrintError: (error) => console.log(error),
+		print: async (printIframe) => {
+			console.log(printIframe);
+			const document = printIframe;
+			document.style.display = "block";
+			if (document) {
+				// const ticketElement = document.getElementsByClassName("ticket")[0];
+				// ticketElement.style.display = "block";
+				const options = {
+					margin: 0.15,
+					filename: `ITEMCOSTING-${currentDate()}`,
+					jsPDF: {
+						unit: "in",
+						format: [12.5, 8.5],
+						orientation: "landscape",
+					},
+				};
+				options.download = true;
+				options.source = document;
+				console.log("PRINTING");
+				const exporter = new Html2Pdf(document, options);
+				await exporter.getPdf(options);
+				// Html2Pdf.getPdf(options);
+				console.log("PRINTING", exporter);
+
+				// exporter.getPdf(true).then((pdf) => {
+				// 	console.log("doing something before downloading pdf file");
+				// 	pdf.save();
+				// });
+			}
+		},
+	});
+
 	return (
 		<>
 			<PrintAppLayout containerClassName={`!p-0`} backBtn>
@@ -157,44 +193,32 @@ const ItemCosting = () => {
 								]}
 							/>
 						</div>
-						<Pdf
-							options={{
-								unit: "in",
-								format: [8.5, 11],
-							}}
-							targetRef={componentRef.current}
-							filename={`${dateTodayInput()}-item-costing.pdf`}
-							onComplete={() => {
-								toast.success("PDF export success!");
-							}}
+						<Button
+							className="gap-2 !rounded-lg !text-sm font-normal shadow-lg"
+							type="secondary"
+							loading={dataLoading}
+							onClick={handlePrint}
 						>
-							{({ toPdf }) => (
-								<Button
-									className="gap-2 !rounded-lg !text-sm font-normal shadow-lg"
-									type="secondary"
-									onClick={toPdf}
-									loading={dataLoading}
-								>
-									<FlatIcon
-										icon="rr-file-pdf"
-										className="text-xl"
-									/>{" "}
-									Save as PDF
-								</Button>
-							)}
-						</Pdf>
+							<FlatIcon icon="rr-file-pdf" className="text-xl" />{" "}
+							Save as PDF
+						</Button>
 						<ReactToPrint
 							trigger={() => (
 								<Button
-									className="gap-2 !rounded-lg !text-sm font-normal shadow-lg"
+									className="gap-2 !rounded-lg !flex-col items-center justify-center !text-sm font-normal shadow-lg"
 									type="accent"
 									loading={dataLoading}
 								>
-									<FlatIcon
-										icon="rr-print"
-										className="text-xl"
-									/>{" "}
-									Print
+									<span className="font-bold flex items-center gap-1">
+										<FlatIcon
+											icon="rr-print"
+											className="text-xl"
+										/>
+										PRINT / Save as PDF
+									</span>
+									<span className="absolute -mb-6 ml-5 text-[8px]">
+										Select "destination" on dialog
+									</span>
 								</Button>
 							)}
 							content={() => componentRef.current}
@@ -250,97 +274,99 @@ const ItemCosting = () => {
 										</td>
 									</tr>
 								) : (
-									list?.map((item, index) => {
-										return (
-											<>
-												<tr>
-													<td className="!text-[8pt] !text-center">
-														{index + 1}
-													</td>
-													{columns?.map((col) => {
-														if (
-															excluded_cols.includes(
-																col.accessorKey
-															)
-														) {
+									[...list, ...list, ...list]?.map(
+										(item, index) => {
+											return (
+												<>
+													<tr>
+														<td className="!text-[8pt] !text-center">
+															{index + 1}
+														</td>
+														{columns?.map((col) => {
 															if (
-																col.accessorKey ==
-																"actual_cost"
-															)
-																return (
-																	<td className="!text-[8pt] !text-right">
-																		{formatToCurrency(
-																			parseFloat(
-																				item[
-																					"quantity"
-																				] ||
-																					0
-																			) *
+																excluded_cols.includes(
+																	col.accessorKey
+																)
+															) {
+																if (
+																	col.accessorKey ==
+																	"actual_cost"
+																)
+																	return (
+																		<td className="!text-[8pt] !text-right">
+																			{formatToCurrency(
 																				parseFloat(
 																					item[
-																						"price"
+																						"quantity"
 																					] ||
 																						0
-																				)
-																		)}
-																	</td>
-																);
-															if (
-																col.accessorKey ==
-																"remain_value"
-															)
-																return (
-																	<td className="!text-[8pt] !text-right">
-																		{formatToCurrency(
-																			parseFloat(
-																				item[
-																					"total_quantity"
-																				] ||
-																					0
-																			) *
+																				) *
+																					parseFloat(
+																						item[
+																							"price"
+																						] ||
+																							0
+																					)
+																			)}
+																		</td>
+																	);
+																if (
+																	col.accessorKey ==
+																	"remain_value"
+																)
+																	return (
+																		<td className="!text-[8pt] !text-right">
+																			{formatToCurrency(
 																				parseFloat(
 																					item[
-																						"price"
+																						"total_quantity"
 																					] ||
 																						0
-																				)
-																		)}
-																	</td>
-																);
-															if (
-																col.accessorKey ==
-																"price"
-															)
+																				) *
+																					parseFloat(
+																						item[
+																							"price"
+																						] ||
+																							0
+																					)
+																			)}
+																		</td>
+																	);
+																if (
+																	col.accessorKey ==
+																	"price"
+																)
+																	return (
+																		<td className="!text-[8pt] !text-right">
+																			{formatToCurrency(
+																				item[
+																					"price"
+																				]
+																			)}
+																		</td>
+																	);
+															} else {
 																return (
-																	<td className="!text-[8pt] !text-right">
-																		{formatToCurrency(
-																			item[
-																				"price"
-																			]
-																		)}
+																	<td
+																		className={`!text-[8pt] !text-left ${col.className}`}
+																	>
+																		{col?.cell
+																			? col.cell(
+																					item
+																			  )
+																			: item[
+																					col
+																						.accessorKey
+																			  ]}
 																	</td>
 																);
-														} else {
-															return (
-																<td
-																	className={`!text-[8pt] !text-left ${col.className}`}
-																>
-																	{col?.cell
-																		? col.cell(
-																				item
-																		  )
-																		: item[
-																				col
-																					.accessorKey
-																		  ]}
-																</td>
-															);
-														}
-													})}
-												</tr>
-											</>
-										);
-									})
+															}
+														})}
+													</tr>
+												</>
+											);
+										}
+									)
 								)}
 							</tbody>
 						</table>

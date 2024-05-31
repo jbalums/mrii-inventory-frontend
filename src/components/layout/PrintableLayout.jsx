@@ -1,6 +1,5 @@
 import { forwardRef, useRef } from "react";
 import FlatIcon from "../FlatIcon";
-import ReactToPrint from "react-to-print";
 
 const portraitShort = `min-h-[11in] w-[8.5in]`;
 const portraitLong = `min-h-[11in] w-[13in]`;
@@ -40,24 +39,7 @@ const PrintableLayout = (props, ref) => {
 		// ("January 15, 2023");
 		return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
 	};
-	const saveAsPdf = () => {
-		var doc = new jsPDF();
 
-		// Source HTMLElement or a string containing HTML.
-		var elementHTML = document.querySelector("#document-content");
-
-		doc.html(elementHTML, {
-			callback: function (doc) {
-				// Save the PDF
-				doc.save("sample-document.pdf");
-			},
-			x: 15,
-			y: 15,
-			width: 170, //target width in the PDF document
-			windowWidth: 650, //window width in CSS pixels
-		});
-	};
-	const printRef = useRef(null);
 	return (
 		<div className={` bg-slate-600 py-11  ${className}`}>
 			<div

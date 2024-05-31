@@ -45,8 +45,8 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 					mutate("/api/inventory/notifications");
 				}),
 		{
-			// revalidateIfStale: true,
-			refreshInterval: 5000,
+			revalidateIfStale: true,
+			// refreshInterval: 5000,
 			revalidateOnFocus: true,
 		}
 	);
