@@ -54,6 +54,7 @@ import "react-tippy/dist/tippy.css";
 import "rsuite/dist/rsuite.min.css";
 import MyLogs from "./pages/user/MyLogs";
 import SystemLogs from "./pages/user/SystemLogs";
+import ManageProductInventory from "./pages/products/ManageProductInventory";
 
 const AppRoutes = () => {
 	return (
@@ -68,7 +69,10 @@ const AppRoutes = () => {
 			<Route path="/users" element={<Users />} />
 			<Route path="/users/print" element={<PrintUsers />} />
 			<Route path="/inventory" element={<Inventory />} />
-			<Route path="/inventory" element={<Inventory />} />
+			<Route
+				path="/manage-product-inventory"
+				element={<ManageProductInventory />}
+			/>
 			{/* PRODUCTS MANAGEMENT*/}
 			<Route path="/products" element={<Products />} />
 			<Route path="/products/print" element={<PrintProducts />} />

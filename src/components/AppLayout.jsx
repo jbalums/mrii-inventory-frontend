@@ -38,8 +38,7 @@ const Page = (props) => {
 	});
 	useNoBugUseEffect({
 		functions: () => {
-			if (inventoryStatus.pending[0]?.length > 0)
-				initInventoryRef.current.show();
+			if (inventoryStatus.pending > 0) initInventoryRef.current.show();
 		},
 		params: [inventoryStatus.pending],
 	});
@@ -97,10 +96,8 @@ const Page = (props) => {
 						<p className="text- text-lg text-center py-5">
 							You have{" "}
 							<b className="text-red-600">
-								{inventoryStatus.pending[0]?.length} product
-								{inventoryStatus.pending[0]?.length > 1
-									? "s"
-									: ""}
+								{inventoryStatus.pending} product
+								{inventoryStatus.pending > 1 ? "s" : ""}
 							</b>{" "}
 							that needs to be initialize.
 						</p>

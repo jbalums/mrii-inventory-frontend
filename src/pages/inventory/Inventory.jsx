@@ -20,6 +20,8 @@ import UpdatePriceModal from "./components/UpdatePriceModal";
 import SetBeginningBalanceModal from "./components/SetBeginningBalanceModal";
 import useNoBugUseEffect from "@/hooks/useNoBugUseEffect";
 import HistoryBtn from "@/src/components/HistoryBtn";
+import ConfirmModal from "@/src/components/modals/ConfirmModal";
+import { toast } from "react-toastify";
 const Inventory = () => {
 	const { user } = useAuth();
 	const addProductRef = useRef(null);
@@ -28,11 +30,60 @@ const Inventory = () => {
 	const viewStatusRef = useRef(null);
 	const repackModalRef = useRef(null);
 	const updatePriceref = useRef(null);
+	const initInventoryRef = useRef(null);
+
+	const [locationID, setLocationID] = useState(null);
+	const [selectedBranch, setSelectedBranch] = useState(null);
 
 	const [list, setList] = useState([]);
 	const [inventoryStatus, setInventoryStatus] = useState(null);
 	const [branches, setBranches] = useState([]);
-	// console.log("useruseruser", user);
+
+	const [loadingInit, setLoadingInit] = useState(false);
+	const [reInit, setReInit] = useState(false);
+
+	const initInventory = () => {
+		setLoadingInit(true);
+		axios
+			.post(`/inventory/populate?location_id=${locationID}`)
+			.then((res) => {
+				setTimeout(() => {
+					getStockStatus(locationID).then((res) => {
+						if (res.data?.pending > 0) {
+							// alert(res.data?.pending);
+							setInventoryStatus(res.data);
+							// setLocationID(data);
+							setReInit(true);
+							toast.success(
+								`Initialization success, but there are still ${res.data?.pending} products to initialize...`
+							);
+							setLoadingInit(false);
+						} else {
+							setReInit(false);
+							setTimeout(() => {
+								toast.success(
+									"All Product(s) inventory initialization successful!"
+								);
+								setFilters((filters) => ({
+									...filters,
+									key: uuidv4(),
+									location_id: locationID,
+								}));
+								initInventoryRef.current.hide();
+								setLoadingInit(false);
+							}, 5000);
+						}
+					});
+				}, 5000);
+			})
+			.catch((e) => {
+				toast.warning(
+					"There was a problem initializing data, please try again."
+				);
+				setLoadingInit(false);
+			});
+	};
+
 	const {
 		data,
 		loading: dataLoading,
@@ -60,7 +111,13 @@ const Inventory = () => {
 		getBranches().then((res) => {
 			setBranches(res.data.data);
 		});
-		getStockStatus();
+		getStockStatus().then((res) => {
+			setInventoryStatus({
+				low: res.data?.low || [],
+				empty: res.data?.empty || [],
+				pending: res.data?.pending || 0,
+			});
+		});
 	}, [1]);
 
 	useNoBugUseEffect({
@@ -92,14 +149,8 @@ const Inventory = () => {
 		begBalProductRef.current.show(data);
 	};
 
-	const getStockStatus = () => {
-		return axios.get("/inventory/status").then((res) => {
-			setInventoryStatus({
-				low: res.data?.low || [],
-				empty: res.data?.empty || [],
-				pending: res.data?.pending || 0,
-			});
-		});
+	const getStockStatus = (location_id) => {
+		return axios.get(`/inventory/status?location_id=${location_id || 1}`);
 	};
 
 	const columns = useMemo(
@@ -176,7 +227,7 @@ const Inventory = () => {
 					// console.log("useruseruser", row?.original);
 					let is_manageable = row?.original?.is_manageable;
 
-					if (is_manageable)
+					if (is_manageable || user?.data?.branch_id == 1)
 						return (
 							<>
 								<div className="flex items-center justify-center text-center gap-4">
@@ -312,10 +363,22 @@ const Inventory = () => {
 						placeholder="All location / Branches"
 						value={filters?.location_id}
 						onChange={(data) => {
-							setFilters((filters) => ({
-								...filters,
-								location_id: data,
-							}));
+							getStockStatus(data).then((res) => {
+								if (res.data?.pending > 0) {
+									// alert(res.data?.pending);
+									initInventoryRef.current.show();
+									setInventoryStatus(res.data);
+									setLocationID(data);
+								} else {
+									setFilters((filters) => ({
+										...filters,
+										location_id: data,
+									}));
+								}
+							});
+						}}
+						onChangeGetData={(data) => {
+							setSelectedBranch(data.label);
 						}}
 						options={[
 							{
@@ -410,6 +473,43 @@ const Inventory = () => {
 						key: uuidv4(),
 					}));
 				}}
+			/>
+			<ConfirmModal
+				ref={initInventoryRef}
+				title="Info"
+				body={
+					<>
+						<p className="text- text-lg text-center py-5">
+							The selected branch/location (
+							<b>{selectedBranch}</b>) have{" "}
+							<b className="text-red-600">
+								{inventoryStatus?.pending} product
+								{inventoryStatus?.pending > 1 ? "s" : ""}
+							</b>{" "}
+							that needs to be initialize.
+						</p>
+					</>
+				}
+				footer={
+					<div
+						className={`flex items-center ${
+							loadingInit ? "animate-pulse" : ""
+						}`}
+					>
+						{/* <Button onClick={closeConfirmDelete}>No</Button> */}
+						<Button
+							type="success"
+							className={`ml-4 font-bold ${
+								loadingInit ? "animate-pulse" : ""
+							}`}
+							onClick={initInventory}
+							loading={loadingInit}
+							loadingMessage="Loading... please wait..."
+						>
+							START INITIALIZATION
+						</Button>
+					</div>
+				}
 			/>
 		</AppLayout>
 	);
