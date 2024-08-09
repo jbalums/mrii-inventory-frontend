@@ -37,7 +37,7 @@ export const useHttp = (url, dependencies, allowFetch = true) => {
 						}, 150);
 					});
 			}
-		}, 600);
+		}, 800);
 		return () => {
 			clearTimeout(timeout);
 			if (cancel_token) {
