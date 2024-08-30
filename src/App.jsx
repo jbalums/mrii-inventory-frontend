@@ -55,6 +55,7 @@ import "rsuite/dist/rsuite.min.css";
 import MyLogs from "./pages/user/MyLogs";
 import SystemLogs from "./pages/user/SystemLogs";
 import ManageProductInventory from "./pages/products/ManageProductInventory";
+import InternalReceivng from "./pages/receiving/InternalReceivng";
 
 const AppRoutes = () => {
 	return (
@@ -77,6 +78,7 @@ const AppRoutes = () => {
 			<Route path="/products" element={<Products />} />
 			<Route path="/products/print" element={<PrintProducts />} />
 			<Route path="/receiving" element={<Receiving />} />
+			<Route path="/internal-receiving" element={<InternalReceivng />} />
 			<Route path="/accept-orders" element={<AcceptOrders />} />
 			<Route
 				path="/accept-orders/details/:id"

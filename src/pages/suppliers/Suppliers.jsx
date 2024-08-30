@@ -40,6 +40,15 @@ const Suppliers = () => {
 		setKeyword,
 		keyword,
 		refreshData,
+		setLoading: setDataLoading,
+		page,
+		setPage,
+		paginate,
+		setPaginate,
+		filters,
+		setFilters,
+		meta,
+		setMeta,
 	} = useDataTable(`/management/suppliers`);
 
 	const { deleteSupplier } = useSuppliersHook();
@@ -359,7 +368,15 @@ const Suppliers = () => {
 					columns={columns}
 					loading={dataLoading}
 					data={list}
+					meta={meta}
+					pagination={true}
+					onTableChange={(data) => {
+						console.log("onTableChange", data);
+						setPage(data.pageIndex + 1);
+						setPaginate(data.pageSize);
+					}}
 					keyword={keyword}
+					displayShowing={true}
 				/>
 			</div>
 			<SuppliersFormModal

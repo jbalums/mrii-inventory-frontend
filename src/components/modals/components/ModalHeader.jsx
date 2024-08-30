@@ -19,13 +19,13 @@ const ModalHeader = ({
 				className={`flex flex-col justify-center mr-auto ${headerClassName}`}
 			>
 				<h2
-					className={`text-lg font-bold text-indigo-800 mb-0 ${titleClassName}`}
+					className={`text-xl font-bold text-indigo-800 mb-0 ${titleClassName}`}
 				>
 					{title}
 				</h2>
 				{subtitle ? (
 					<p
-						className={`text-xs font-light text-purple-950 ${subtitleClassName}`}
+						className={`text-sm font-light text-purple-950 ${subtitleClassName}`}
 					>
 						{subtitle}
 					</p>

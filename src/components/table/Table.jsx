@@ -38,6 +38,7 @@ const Table = (props) => {
 		emptyMessage = "No data available",
 		keyword = "",
 		paginationClassName = "",
+		displayShowing = false,
 	} = props;
 
 	const {
@@ -257,6 +258,15 @@ const Table = (props) => {
 				<div
 					className={`flex flex-col-reverse lg:flex-row items-start lg:items-center gap-3 lg:gap-6 pt-4  ${paginationClassName}`}
 				>
+					{displayShowing ? (
+						<div className="flex items-center gap-1 mx-2 text-xs lg:text-sm mr-auto">
+							Showing <b>{meta?.from}</b> to <b>{meta?.to}</b>
+							of
+							<b>{meta?.total}</b> entries
+						</div>
+					) : (
+						""
+					)}
 					<div className="flex items-center text-dark text-sm">
 						<label>Show:</label>
 						<SelectInputField
