@@ -326,7 +326,9 @@ const RequestOrderDetail = () => {
 												approve_order_ref.current.show();
 											}}
 										>
-											Approve Request
+											{data?.purpose == "finished_goods"
+												? "Approve Request"
+												: "Approve Request"}
 										</Button>
 									) : (
 										""
@@ -469,11 +471,19 @@ const RequestOrderDetail = () => {
 																Item U/M
 															</th>
 															<th className="!text-sm !text-center !font-semibold">
-																Requested QTY
+																{data?.purpose ==
+																"finished_goods"
+																	? "Quantity"
+																	: "Requested QTY"}
 															</th>
-															<th className="!text-sm !text-center !font-semibold">
-																Issued QTY
-															</th>
+															{data?.purpose ==
+															"finished_goods" ? (
+																""
+															) : (
+																<th className="!text-sm !text-center !font-semibold">
+																	Issued QTY
+																</th>
+															)}
 														</tr>
 													</thead>
 													<tbody>
@@ -507,11 +517,16 @@ const RequestOrderDetail = () => {
 																				item?.request_quantity
 																			}
 																		</td>
-																		<td className="!text-sm !text-center  w-[44px]">
-																			{
-																				item?.full_filled_quantity
-																			}
-																		</td>
+																		{data?.purpose ==
+																		"finished_goods" ? (
+																			""
+																		) : (
+																			<td className="!text-sm !text-center  w-[44px]">
+																				{
+																					item?.full_filled_quantity
+																				}
+																			</td>
+																		)}
 																	</tr>
 																);
 															}
@@ -529,8 +544,14 @@ const RequestOrderDetail = () => {
 			</div>
 			<AffirmationModal
 				ref={approve_order_ref}
-				title="Approve request"
-				body="Are you sure you want to approve this request?"
+				title={`Approve request ${
+					data?.purpose == "finished_goods" ? "and receive!" : ""
+				}`}
+				body={`Are you sure you want to approve this request ${
+					data?.purpose == "finished_goods"
+						? "and receive finish goods?"
+						: "?"
+				}`}
 				footer={({ btnLoading, setBtnLoading }) => {
 					return (
 						<>
@@ -556,8 +577,10 @@ const RequestOrderDetail = () => {
 											console.log("errrr", err);
 										})
 										.finally(() => {
-											setBtnLoading(false);
-											setApproving(false);
+											setTimeout(() => {
+												setBtnLoading(false);
+												setApproving(false);
+											}, 1000);
 										});
 								}}
 							>

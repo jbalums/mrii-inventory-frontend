@@ -75,10 +75,7 @@ const ViewRequestOrderPage = () => {
 					</p> */}
 
 					<RequestOrderCard data={data?.data} />
-					{console.log(
-						"data?.data?.detailsdata?.data?.details",
-						data?.data?.details
-					)}
+
 					{data?.data?.details?.map((detail) => (
 						<CardLayout className="!p-0 !bg-background !shadow-sm">
 							<div className="border-b px-4 py-6 flex flex-col lg:flex-row gap-4 items-center">

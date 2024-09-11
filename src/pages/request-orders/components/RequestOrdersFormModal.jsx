@@ -273,6 +273,14 @@ const RequestOrdersFormModal = (props, ref) => {
 										placeholder="Select purpose of request"
 										options={[
 											{
+												label: "Finished Goods",
+												value: "finished_goods",
+												disabled:
+													user?.data?.branch_id != 1,
+												description:
+													"Use for FINISHED GOODS in the Warehouse. (STOCK-IN)",
+											},
+											{
 												label: "Production",
 												value: "production",
 												disabled:

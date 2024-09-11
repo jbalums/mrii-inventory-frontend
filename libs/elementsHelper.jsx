@@ -4,6 +4,11 @@ export const purposeElements = {
 			production
 		</span>
 	),
+	finished_goods: (
+		<span className="min-w-[128px] p-1 px-3 rounded-2xl text-sm bg-blue-500 text-blue-700 bg-opacity-10">
+			finished goods
+		</span>
+	),
 	project_plant: (
 		<span className="min-w-[128px] p-1 px-3 rounded-2xl text-sm bg-indigo-700 text-indigo-700 bg-opacity-10">
 			project/plant
