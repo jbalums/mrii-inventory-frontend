@@ -18,7 +18,7 @@ import { useAuth } from "@/hooks/useAuth";
 
 const RepackingSelectProductModal = (props, ref) => {
 	const { setProduct } = props;
-	const {user} = useAuth();
+	const { user } = useAuth();
 	const {
 		register,
 		handleSubmit,
@@ -143,34 +143,39 @@ const RepackingSelectProductModal = (props, ref) => {
 																className="divide-x"
 																key={`product-${item?.id}`}
 															>
-															<td>
-																{item?.id}
-															</td>
 																<td>
-																	{item?.id}
+																	{
+																		item
+																			?.product
+																			?.code
+																	}
+																</td>
+																<td>
+																	{
+																		item
+																			?.product
+																			?.name
+																	}
 																</td>
 																<td>
 																	<b>
 																		{
-																			item?.name
+																			item
+																				?.product
+																				?.unit_measurement
 																		}
 																	</b>
 																</td>
 																<td className="!text-center">
 																	{
-																		item?.unit_measurement
+																		item
+																			?.branch
+																			?.name
 																	}
 																</td>
 																<td className="!text-">
-																	{item
-																		?.location
-																		?.name ||
-																		"-"}
-																</td>
-																<td className="!text-center">
-																	{
-																		item?.total_quantity
-																	}
+																	{item?.total_quantity ||
+																		0}
 																</td>
 																<td>
 																	<Button

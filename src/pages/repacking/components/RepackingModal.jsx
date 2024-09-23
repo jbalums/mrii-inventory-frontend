@@ -19,7 +19,7 @@ import RepackingSelectProductModal from "./RepackingSelectProductModal";
 import { toast } from "react-toastify";
 
 const RepackingModal = (props, ref) => {
-	const {onSuccess } = props
+	const { onSuccess } = props;
 	const {
 		register,
 		handleSubmit,
@@ -52,8 +52,8 @@ const RepackingModal = (props, ref) => {
 		setOpen(true);
 		setProduct(null);
 		setProductOutput(null);
-		setQty(0)
-		setOutputQty(0)
+		setQty(0);
+		setOutputQty(0);
 	};
 	const hide = () => {
 		setOpen(false);
@@ -85,9 +85,9 @@ const RepackingModal = (props, ref) => {
 		formData.append("output_qty", outputQty);
 		axios.post(`/inventory/repack`, formData).then((res) => {
 			console.log("reeezzzz", res);
-			toast.success('Item has been repacked successfully!');
-			if(onSuccess){
-				onSuccess()
+			toast.success("Item has been repacked successfully!");
+			if (onSuccess) {
+				onSuccess();
 			}
 			hide();
 		});
@@ -95,7 +95,7 @@ const RepackingModal = (props, ref) => {
 	return (
 		<>
 			<Modal open={open} hide={hide} size="lg">
-				<ModalHeader title={`Repack Product`} hide={hide} />
+				<ModalHeader title={`	`} hide={hide} />
 				<ModalBody className={`py-4 relative min-h-[256px] !bg-white`}>
 					<div className="flex flex-col">
 						<h3 className="text-base font-bold mb-2 flex items-center !text-secondary-dark">
@@ -113,7 +113,7 @@ const RepackingModal = (props, ref) => {
 							<div className="flex flex-col">
 								<div className="table">
 									<table>
-										<tbody> 
+										<tbody>
 											<tr>
 												<td className="!py-1">
 													Product:
@@ -122,7 +122,7 @@ const RepackingModal = (props, ref) => {
 													className="!py-1 !text-secondary-dark"
 													colSpan={3}
 												>
-													{product?.name}
+													{product?.product?.name}
 												</th>
 											</tr>
 											<tr>
@@ -130,11 +130,12 @@ const RepackingModal = (props, ref) => {
 													Refecence #:
 												</td>
 												<th className="!py-1">
-													{product?.account_code}
+													{product?.product
+														?.account_code || "-"}
 												</th>
 												<td className="!py-1">Code:</td>
 												<th className="!py-1">
-													{product?.code}
+													{product?.product?.code}
 												</th>
 											</tr>
 											<tr>
@@ -142,11 +143,14 @@ const RepackingModal = (props, ref) => {
 													Location:
 												</td>
 												<th className="!py-1">
-													{product?.location?.name}
+													{product?.branch?.name}
 												</th>
 												<td className="!py-1">U/M:</td>
 												<th className="!py-1">
-													{product?.unit_measurement}
+													{
+														product?.product
+															?.unit_measurement
+													}
 												</th>
 											</tr>
 										</tbody>
@@ -228,7 +232,10 @@ const RepackingModal = (props, ref) => {
 													className="!py-1 !text-danger"
 													colSpan={3}
 												>
-													{productOutput?.name}
+													{
+														productOutput?.product
+															?.name
+													}
 												</th>
 											</tr>
 											<tr>
@@ -237,12 +244,16 @@ const RepackingModal = (props, ref) => {
 												</td>
 												<th className="!py-1">
 													{
-														productOutput?.account_code
+														productOutput?.product
+															?.account_code
 													}
 												</th>
 												<td className="!py-1">Code:</td>
 												<th className="!py-1">
-													{productOutput?.code}
+													{
+														productOutput?.product
+															?.code
+													}
 												</th>
 											</tr>
 											<tr>
@@ -251,14 +262,15 @@ const RepackingModal = (props, ref) => {
 												</td>
 												<th className="!py-1">
 													{
-														productOutput?.location
+														productOutput?.branch
 															?.name
 													}
 												</th>
 												<td className="!py-1">U/M:</td>
 												<th className="!py-1">
 													{
-														productOutput?.unit_measurement
+														productOutput?.product
+															?.unit_measurement
 													}
 												</th>
 											</tr>
