@@ -13,6 +13,7 @@ import ViewProductModal from "./components/ViewProductModal";
 import ImportProductModal from "./components/ImportProductModal";
 import { v4 as uuidv4 } from "uuid";
 import HistoryBtn from "@/src/components/HistoryBtn";
+import { useItemCategories } from "@/src/features/item-categories/hooks/useItemCategoriesHook";
 let first_id = uuidv4();
 const Products = () => {
 	const addProductRef = useRef(null);
@@ -21,6 +22,8 @@ const Products = () => {
 
 	const [list, setList] = useState([]);
 	const [branches, setBranches] = useState([]);
+	const [categories, setCategories] = useState([]);
+	const [selectedCategory, setSelectedCategory] = useState(null);
 	const {
 		data,
 		loading: dataLoading,
@@ -36,10 +39,13 @@ const Products = () => {
 	});
 
 	const { getBranches } = useBranchLocation();
-
+	const { getCategories } = useItemCategories();
 	useEffect(() => {
 		getBranches().then((res) => {
 			setBranches(res.data.data);
+		});
+		getCategories().then((res) => {
+			setCategories(res.data.data);
 		});
 	}, [1]);
 	useEffect(() => {
@@ -166,6 +172,34 @@ const Products = () => {
 						}));
 					}}
 				/>
+				<div>
+					<ReactSelectInputField
+						className="w-full lg:w-[256px]"
+						placeholder="All location / Branches"
+						value={selectedCategory}
+						onChangeGetData={(data) => {
+							if (data?.value) {
+								setFilters((prevFilters) => ({
+									...prevFilters,
+									category_id: data?.value,
+								}));
+								setSelectedCategory(data.value);
+							} else {
+								setFilters((prevFilters) => ({
+									...prevFilters,
+									category_id: "",
+								}));
+								setSelectedCategory("");
+							}
+						}}
+						options={[
+							...categories.map((category) => ({
+								value: category?.id,
+								label: category?.name,
+							})),
+						]}
+					/>
+				</div>
 				<div className="ml-auto flex items-center gap-4">
 					<Link to={"/products/print"}>
 						<Button className="gap-2" type="foreground">

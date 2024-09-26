@@ -23,6 +23,7 @@ let first_id = uuidv4();
 const RepackingSelectProductModal = (props, ref) => {
 	const { setProduct } = props;
 	const { user } = useAuth();
+
 	const {
 		register,
 		handleSubmit,
@@ -41,6 +42,7 @@ const RepackingSelectProductModal = (props, ref) => {
 	const [products, setProducts] = useState([]);
 
 	const [list, setList] = useState([]);
+
 	const {
 		data,
 		setData,
@@ -116,24 +118,15 @@ const RepackingSelectProductModal = (props, ref) => {
 			keyword: keyword,
 			key: uuidv4(),
 		}));
-		//`/inventory?location_id=${user?.data?.id}&branch=${user?.data?.id}&keyword=${keyword}`
-		// axios
-		// 	.get(
-		// 		`/inventory?location_id=${user?.data?.id}&branch=${user?.data?.id}&keyword=${keyword}`
-		// 	)
-		// 	.then((res) => {
-		// 		setProducts(res.data.data);
-		// 	})
-		// 	.finally(() => {
-		// 		setLoading(false);
-		// 	});
 	};
+
 	const handleSelectProduct = (item) => {
 		setProduct(item);
 		setTimeout(() => {
 			hide();
 		}, 200);
 	};
+
 	const columns = useMemo(
 		() => [
 			// {
@@ -187,19 +180,6 @@ const RepackingSelectProductModal = (props, ref) => {
 					return qty;
 				},
 			},
-			/* 	{
-				header: "Unit price",
-				accessorKey: "price",
-				className: "!text-right min-w-[128px]",
-				cell: ({ row }) => {
-					let p = row?.original?.price || 0;
-					return formatToCurrency(p);
-				},
-			}, */
-			/* 	{
-				header: "Stocks",
-				accessorKey: "stocks",
-			}, */
 			{
 				header: "Action",
 				accessorKey: "action",
@@ -275,117 +255,6 @@ const RepackingSelectProductModal = (props, ref) => {
 										}}
 									/>
 								</div>
-								{/* <table className="!bg-white">
-									<thead className="sticky top-[-1px] !border-2 border-border !shadow-[0px_0px_1px_0px_inset] shadow-[#DDDEE6]">
-										<tr className="divide-x">
-											<th className="!shadow-[0px_0px_0px_1px]">
-												Code
-											</th>
-											<th className="!shadow-[0px_0px_0px_1px]">
-												Name
-											</th>
-											<th className="!text-center !shadow-[0px_0px_0px_1px]">
-												UM
-											</th>
-											<th className="!shadow-[0px_0px_0px_1px]">
-												Location
-											</th>
-											<th className=" !text-center w-[100px]">
-												Stock
-											</th>
-											<th className="!shadow-[0px_0px_0px_1px] !text-center w-[100px]">
-												Actions
-											</th>
-										</tr>
-									</thead>
-									<tbody>
-										{loading ? (
-											<tr>
-												<td
-													colSpan={3}
-													className="animate-pulse"
-												>
-													Loading...
-												</td>
-											</tr>
-										) : (
-											<>
-												{products?.length == 0 ? (
-													<tr>
-														<td colSpan={3}>
-															No products found.
-														</td>
-													</tr>
-												) : (
-													products?.map((item) => {
-														return (
-															<tr
-																className="divide-x"
-																key={`product-${item?.id}`}
-															>
-																<td>
-																	{
-																		item
-																			?.product
-																			?.code
-																	}
-																</td>
-																<td>
-																	{
-																		item
-																			?.product
-																			?.name
-																	}
-																</td>
-																<td>
-																	<b>
-																		{
-																			item
-																				?.product
-																				?.unit_measurement
-																		}
-																	</b>
-																</td>
-																<td className="!text-center">
-																	{
-																		item
-																			?.branch
-																			?.name
-																	}
-																</td>
-																<td className="!text-">
-																	{item?.total_quantity ||
-																		0}
-																</td>
-																<td>
-																	<Button
-																		className="mx-auto max-w-[100px]"
-																		size="sm"
-																		type="success"
-																		onClick={() => {
-																			setProduct(
-																				item
-																			);
-																			setTimeout(
-																				() => {
-																					hide();
-																				},
-																				100
-																			);
-																		}}
-																	>
-																		<FlatIcon icon="rr-check" />
-																		Select
-																	</Button>
-																</td>
-															</tr>
-														);
-													})
-												)}
-											</>
-										)}
-									</tbody>
-								</table> */}
 							</div>
 						</div>
 					</div>
