@@ -106,7 +106,7 @@ const RepackingModal = (props, ref) => {
 									selectProductRef.current.show();
 								}}
 							>
-								Change Item
+								{product?.id ? "Change Item" : "Select Item"}
 							</span>
 						</h3>
 						{product ? (
@@ -208,15 +208,17 @@ const RepackingModal = (props, ref) => {
 								Select product
 							</div>
 						)}
-						<h3 className="text-base font-bold mt-6 mb-2 flex items-center text-danger">
+						<h3 className="text-base font-bold mt-6 mb-2 flex items-center text-primary">
 							Output Product
 							<span
-								className="bg-danger px-2 rounded-lg text-white !text-sm !font-normal cursor-pointer ml-2"
+								className="bg-primary px-2 rounded-lg text-white !text-sm !font-normal cursor-pointer ml-2"
 								onClick={() => {
 									selectOutputProductRef.current.show();
 								}}
 							>
-								Change Item
+								{productOutput?.id
+									? "Change Item"
+									: "Select Item"}
 							</span>
 						</h3>
 						{productOutput ? (

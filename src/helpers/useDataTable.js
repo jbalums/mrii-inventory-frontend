@@ -27,7 +27,7 @@ const useDataTable = (url, setList, defaultFilters, allowFetch = true) => {
 		setList((list) => list.filter((x) => x.id != item.id));
 	};
 
-	const { data, loading, setLoading, meta, setMeta } = useHttp(
+	const { data, setData, loading, setLoading, meta, setMeta } = useHttp(
 		`${url}?keyword=${keyword}&page=${page}&paginate=${paginate}&${transformFilters()}`,
 		[page, paginate, keyword, filters],
 		allowFetch
@@ -41,6 +41,7 @@ const useDataTable = (url, setList, defaultFilters, allowFetch = true) => {
 	};
 	return {
 		data,
+		setData,
 		loading,
 		setLoading,
 		page,
