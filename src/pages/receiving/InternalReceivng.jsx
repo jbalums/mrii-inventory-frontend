@@ -12,8 +12,11 @@ import AddItemsReceivedModal from "./components/AddItemsReceivedModal";
 import ReceivingFormModal from "./components/ReceivingFormModal";
 import ViewReceivedPOModal from "./components/ViewReceivedPOModal";
 import InternalReceivingFormModal from "./components/InternalReceivingFormModal";
+import { useAuth } from "@/hooks/useAuth";
+import { useBranchLocation } from "@/src/features/locations/hooks/useBranchLocationHook";
 
 const InternalReceivng = () => {
+	const { user } = useAuth();
 	const addFormRef = useRef(null);
 	const viewProductRef = useRef(null);
 	const add_items_received = useRef(null);
@@ -24,6 +27,7 @@ const InternalReceivng = () => {
 	const [id, setId] = useState(null);
 	const [supliers, setSuppliers] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [branches, setBranches] = useState([]);
 	const {
 		data,
 		loading: dataLoading,
@@ -32,13 +36,20 @@ const InternalReceivng = () => {
 		removeFromList,
 		setFilters,
 		filters,
+		meta,
+		setPage,
+		setPaginate,
 	} = useDataTable(`/inventory/receiving`, setList);
 
 	const { getSuppliers } = useSuppliersHook();
+	const { getBranches } = useBranchLocation();
 
 	useEffect(() => {
 		getSuppliers().then((res) => {
 			setSuppliers(res.data.data);
+		});
+		getBranches().then((res) => {
+			setBranches(res.data.data);
 		});
 	}, []);
 
@@ -87,6 +98,11 @@ const InternalReceivng = () => {
 			{
 				header: "Date received",
 				accessorKey: "created_at",
+				className: "!text-center",
+			},
+			{
+				header: "Branch",
+				accessorKey: "branch.name",
 				className: "!text-center",
 			},
 			{
@@ -208,6 +224,31 @@ const InternalReceivng = () => {
 						}));
 					}}
 				/>
+				{user?.data?.branch_id == 1 ? (
+					<ReactSelectInputField
+						className="w-full lg:w-[256px]"
+						placeholder="All location / Branches"
+						value={filters?.branch_id}
+						onChange={(data) => {
+							setFilters((prevFilters) => ({
+								...prevFilters,
+								branch_id: data,
+							}));
+						}}
+						options={[
+							{
+								label: "All location / branches",
+								value: "",
+							},
+							...branches.map((branch) => ({
+								value: branch?.id,
+								label: branch?.name,
+							})),
+						]}
+					/>
+				) : (
+					""
+				)}
 				<Button
 					type="accent"
 					className="ml-auto"
@@ -224,6 +265,11 @@ const InternalReceivng = () => {
 				pagination={true}
 				loading={dataLoading}
 				data={list}
+				meta={meta}
+				onTableChange={(data) => {
+					setPage(data.pageIndex + 1);
+					setPaginate(data.pageSize);
+				}}
 			/>
 			<InternalReceivingFormModal
 				ref={addFormRef}

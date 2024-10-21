@@ -153,12 +153,12 @@ const LeftSidebar = () => {
 					to="/receiving"
 					active={isActive("/receiving", "/receiving-orders")}
 				/>
-				<LeftSidebarLink
+				{/* <LeftSidebarLink
 					icon={<FlatIcon icon="rr-vote-yea" />}
 					text={`Internal Receiving`}
 					to="/internal-receiving"
 					active={isActive("/internal-receiving")}
-				/>
+				/> */}
 				<CollapseMenu
 					containerClassName="sidebar-menu-collapse pl-4 relative"
 					titleClassName="flex items-center gap-2 font-normal h-11 text-dark px-4 !duration-200 text-sm hover:bg-foreground bg-opacity-0 hover:bg-opacity-100"
