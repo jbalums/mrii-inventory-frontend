@@ -43,8 +43,6 @@
 		"react-router-dom": "^6.8.0",
 		"react-select": "^5.4.0",
 		"react-tippy": "^1.4.0",
-		"react-to-pdf": "^0.0.14",
-		"react-to-print": "^2.14.10",
 		"react-toastify": "^9.0.7",
 		"recharts": "^2.4.3",
 		"rsuite": "^5.55.1",
