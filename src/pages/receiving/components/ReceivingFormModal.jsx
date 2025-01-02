@@ -302,6 +302,7 @@ const ReceivingFormModal = (props, ref) => {
 	};
 
 	const submitForm = (data) => {
+		console.log('submitForm',data)
 		setLoading(true);
 
 		let formData = {
@@ -467,6 +468,9 @@ const ReceivingFormModal = (props, ref) => {
 				<Button
 					type="accent"
 					onClick={handleSubmit(submitForm)}
+					onMouseOver={()=>{
+						clearErrors()
+					}}	
 					loading={loading}
 				>
 					<FlatIcon icon="rs-disk mr-2" />

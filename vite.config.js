@@ -15,6 +15,9 @@ export default defineConfig({
 				}
 				warn(warning);
 			},
+			output: {
+			  manualChunks: undefined // Ensure single bundle for SPAs
+			}
 		},
 	},
 	plugins: [react()],
@@ -23,6 +26,9 @@ export default defineConfig({
 			"@": path.resolve(__dirname, "./"),
 		},
 	},
+	server: {
+	  historyApiFallback: true // Handles SPA fallback for local development
+	}
 	/* server: {
 		https: {
 			key: fs.readFileSync("server.key"),
