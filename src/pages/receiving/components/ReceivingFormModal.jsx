@@ -305,16 +305,22 @@ const ReceivingFormModal = (props, ref) => {
 	};
 
 	const submitForm = (data) => {
-		console.log('submitForm',data)
+		console.log('submit Form ',data)
 		setLoading(true);
+
 		if(selectedItems.some(item=> item.quantity == 0)){
 			toast.error(
 				`Check your inputs, Quantity must be greater than zero!`
 			);
+
+
 			setTimeout(()=>{
 				setLoading(false)
 			}, 500)
+
+			
 			return;
+
 		}
 		let formData = {
 			...data,
