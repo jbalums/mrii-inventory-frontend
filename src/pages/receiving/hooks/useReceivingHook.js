@@ -21,15 +21,15 @@ const useReceiving = () => {
 					if (typeof callback == "function") callback(res.data.data);
 				})
 				.catch((error) => {
-					console.log("errror", error);
+					console.log("errror", error?.response);
 					setLoading(false);
 					toast.error(
 						`Failed to submit the form. Please check your inputs!`
 					);
-					if (error?.response?.status !== 422) throw error;
 					if (error?.response?.data?.errors) {
 						setErrors(error?.response?.data?.errors, setError);
 					}
+					if (error?.response?.status !== 422) throw error;
 				})
 				.finally(() => {
 					setLoading(false);
