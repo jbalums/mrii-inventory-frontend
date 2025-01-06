@@ -150,3 +150,8 @@ export const extractFirstLetters = (sentence, limit) => {
 
 	return String(result).toUpperCase();
 };
+
+
+export const cleanStr = (str) => {
+	return str.replaceAll('_',' ');
+}

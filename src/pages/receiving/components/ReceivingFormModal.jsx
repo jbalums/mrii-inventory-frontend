@@ -19,10 +19,12 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import { useSuppliersHook } from "../../suppliers/hooks/useSuppliersHook";
 import useReceiving from "../hooks/useReceivingHook";
+import useNoBugUseEffect from "@/hooks/useNoBugUseEffect";
+import { toast } from "react-toastify";
 
 const today = new Date();
 
-const QtyInput = ({ qty, updateQty }) => {
+const QtyInput = ({ qty, updateQty, className }) => {
 	const [val, setVal] = useState(0);
 	useEffect(() => {
 		setVal(qty || 0);
@@ -40,7 +42,7 @@ const QtyInput = ({ qty, updateQty }) => {
 		<input
 			value={val}
 			type="number"
-			className="rounded-md px-2 py-1 w-[88px] text-center bg-foreground"
+			className={`rounded-md px-2 py-1 w-[88px] text-center bg-foreground ${className}`}
 			placeholder="Qty"
 			onChange={(e) => {
 				setVal(e.target.value);
@@ -203,7 +205,8 @@ const ReceivingFormModal = (props, ref) => {
 				cell: ({ row, getValue }) => {
 					const item = row.original;
 					return (
-						<QtyInput
+						<QtyInput 
+							className={`receiving-qty`}
 							qty={item?.quantity || 0}
 							updateQty={(qty) => {
 								item.quantity = qty;
@@ -304,7 +307,15 @@ const ReceivingFormModal = (props, ref) => {
 	const submitForm = (data) => {
 		console.log('submitForm',data)
 		setLoading(true);
-
+		if(selectedItems.some(item=> item.quantity == 0)){
+			toast.error(
+				`Check your inputs, Quantity must be greater than zero!`
+			);
+			setTimeout(()=>{
+				setLoading(false)
+			}, 500)
+			return;
+		}
 		let formData = {
 			...data,
 			products: selectedItems.map((item) => item.id),
@@ -332,7 +343,7 @@ const ReceivingFormModal = (props, ref) => {
 			});
 		}
 	};
-
+ 
 	return (
 		<Modal open={open} hide={hide} size="2xl">
 			<ModalHeader
@@ -354,7 +365,7 @@ const ReceivingFormModal = (props, ref) => {
 								type="date"
 								placeholder={"Enter date received"}
 								defaultValue={dateTodayInput()}
-								error={errors?.purchase_order?.message}
+								error={errors?.date_receive?.message}
 								max={dateTodayInput()}
 								{...register("date_receive", {
 									required: "This field is required",
@@ -467,10 +478,10 @@ const ReceivingFormModal = (props, ref) => {
 			<ModalFooter className={`flex items-center justify-end`}>
 				<Button
 					type="accent"
-					onClick={handleSubmit(submitForm)}
-					onMouseOver={()=>{
-						clearErrors()
-					}}	
+					onClick={handleSubmit(submitForm, () => {
+						// This callback is triggered when validation fails
+						console.log("Validation failed, resubmitting allowed");
+					  })}
 					loading={loading}
 				>
 					<FlatIcon icon="rs-disk mr-2" />
