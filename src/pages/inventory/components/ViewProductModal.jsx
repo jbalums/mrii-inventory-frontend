@@ -58,7 +58,7 @@ const ViewProductModal = (props, ref) => {
 	};
 	const formatDate = (date) => {
 		let d = new Date(date);
-		return `${String(d.getDay()).padStart(2, "0")}/${String(
+		return `${String(d.getDate()).padStart(2, "0")}/${String(
 			d.getMonth() + 1
 		).padStart(2, "0")}/${d.getFullYear()} ${String(d.getHours()).padStart(
 			2,
@@ -66,7 +66,7 @@ const ViewProductModal = (props, ref) => {
 		)}:${String(d.getMinutes()).padStart(2, "0")} ${
 			d.getHours() >= 12 ? "PM" : "AM"
 		}`;
-	};
+	}; 
 	const columns = useMemo(
 		() => [
 			{
@@ -91,6 +91,7 @@ const ViewProductModal = (props, ref) => {
 				header: "Date",
 				accessorKey: "created_at",
 				cell: ({ row }) => {
+					console.log("row", row);
 					return row?.original?.created_at
 						? formatDate(row?.original?.created_at)
 						: "";

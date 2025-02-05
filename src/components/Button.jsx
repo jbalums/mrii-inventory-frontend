@@ -72,6 +72,8 @@ const Button = (props) => {
 
 	const btnSize = () => {
 		switch (size) {
+			case "xs":
+				return "p-1 text-xs font-light";
 			case "sm":
 				return "p-2";
 			case "md":

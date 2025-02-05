@@ -19,6 +19,11 @@ const useRequestOrdersHook = () => {
 	const getRequestOrderDetail = (id) => {
 		return axios.get(`/inventory/requisition/${id}`);
 	};
+	const deleteRequestOrder = (id) => {
+		return axios.post(`/inventory/requisition/${id}`, {
+			_method: "DELETE",
+		});
+	};
 	return {
 		saveRequestOrder,
 		getRequestOrderDetail,

@@ -14,9 +14,11 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import RequestOrdersFormModal from "./components/RequestOrdersFormModal";
 import useRequestOrdersHook from "./hooks/useRequestOrdersHook.js";
+import { useAuth } from "@/hooks/useAuth";
 
 const RequestOrders = () => {
 	const navigate = useNavigate();
+	const { user } = useAuth();
 	const form_modal_ref = useRef(null);
 	const delete_modal_ref = useRef(null);
 	const select_items_ref = useRef(null);
@@ -115,9 +117,24 @@ const RequestOrders = () => {
 							<span
 								className={`px-0 py-1  bg-opacity-10  rounded-xl text-success`}
 							>
+								{user?.user_type}
 								{original.accepted_by?.name}
 							</span>
 						);
+				},
+			},
+			{
+				header: "Action",
+				accessorKey: "action",
+				className: `cursor-pointer`,
+				cellClassName: "",
+				cell: ({ row: { original } }) => {
+					return <Button type="danger" size="xs" onClick={() => {
+						delete_modal_ref.current.show();
+					}}>
+						<FlatIcon icon="rr-trash" />
+						DELETE
+					</Button>;
 				},
 			},
 		],
@@ -275,22 +292,26 @@ const RequestOrders = () => {
 			/>
 			<ConfirmModal
 				ref={delete_modal_ref}
-				title="Cofirm delete item category?"
+				title="Cofirmation"
 				body={
-					<p className="text-red-600 font-semibold text-lg text-center">
-						Are you sure you want to delete item category?{" "}
+					<>
+					<p className="text-red-600 font-semibold text-lg text-center uppercase">
+						Are you sure you want to delete this request?{" "}
 					</p>
+					<p className="text-red-600 font-semibold text-lg text-center">
+					<i className="text-red-600 text-center text-sm">NOTE: THIS ACTION CANNOT BE UNDO! </i></p>
+					</>
 				}
 				footer={
-					<div className="flex items-center">
-						<Button onClick={closeConfirmDelete}>No</Button>
+					<div className="flex items-center w-full">
+						<Button type="secondary" onClick={closeConfirmDelete}>CANCEL</Button>
 						<Button
 							type="danger"
-							className="ml-4"
+							className="ml-auto"
 							onClick={deleteData}
 							loading={loading}
 						>
-							Yes, delete item category!
+							CONFIRM DELETE
 						</Button>
 					</div>
 				}
