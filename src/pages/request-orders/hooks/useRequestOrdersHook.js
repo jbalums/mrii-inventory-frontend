@@ -27,6 +27,7 @@ const useRequestOrdersHook = () => {
 	return {
 		saveRequestOrder,
 		getRequestOrderDetail,
+		deleteRequestOrder,
 	};
 };
 

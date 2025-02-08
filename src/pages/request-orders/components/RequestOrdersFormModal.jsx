@@ -148,7 +148,7 @@ const RequestOrdersFormModal = (props, ref) => {
 				className: "border-t",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					return original?.product?.code || "-";
+					return original?.product?.code ? original?.product?.code : original?.code  || "-";
 				},
 			},
 			{
@@ -157,7 +157,7 @@ const RequestOrdersFormModal = (props, ref) => {
 				className: "border-t",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					return original?.product?.name || "-";
+					return original?.product?.name ? original?.product?.name : original?.name || "-";
 				},
 			},
 			{
@@ -166,7 +166,7 @@ const RequestOrdersFormModal = (props, ref) => {
 				className: "border-t",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					return original?.branch?.name || "-";
+					return original?.branch?.name ? original?.branch?.name : original?.location?.name || "-";
 				},
 			},
 			{
@@ -175,7 +175,7 @@ const RequestOrdersFormModal = (props, ref) => {
 				className: "border-t",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					return original?.product?.unit_measurement || "-";
+					return original?.product?.unit_measurement ? original?.product?.unit_measurement : original?.unit_measurement || "-";
 				},
 			},
 			{

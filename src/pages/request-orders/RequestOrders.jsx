@@ -25,6 +25,7 @@ const RequestOrders = () => {
 
 	const [list, setList] = useState([]);
 	const [id, setId] = useState(null);
+	const [selectedData, setSelectedData] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const {
 		data,
@@ -48,7 +49,7 @@ const RequestOrders = () => {
 		}
 	}, [data]);
 
-	const { deleteSupplier } = useRequestOrdersHook();
+	const { deleteSupplier,deleteRequestOrder } = useRequestOrdersHook();
 
 	const columns = useMemo(
 		() => [
@@ -126,10 +127,12 @@ const RequestOrders = () => {
 			{
 				header: "Action",
 				accessorKey: "action",
-				className: `cursor-pointer`,
+				className: `cursor-pointe`,
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					return <Button type="danger" size="xs" onClick={() => {
+					return  <Button type="danger" size="xs" onClick={() => {
+						setId(original?.id)
+						setSelectedData(original)
 						delete_modal_ref.current.show();
 					}}>
 						<FlatIcon icon="rr-trash" />
@@ -169,8 +172,10 @@ const RequestOrders = () => {
 
 	const deleteData = () => {
 		setLoading(true);
-		deleteSupplier(id)
+		deleteRequestOrder(id)
 			.then((res) => {
+				console.log('ress',res.data)
+				return;
 				toast.success("Supplier deleted successfully!");
 				removeFromList({ id: id });
 			})
@@ -296,7 +301,7 @@ const RequestOrders = () => {
 				body={
 					<>
 					<p className="text-red-600 font-semibold text-lg text-center uppercase">
-						Are you sure you want to delete this request?{" "}
+						Are you sure you want to delete <br/><b className="text-3xl"> REF# {selectedData?.ref}?</b>{" "}
 					</p>
 					<p className="text-red-600 font-semibold text-lg text-center">
 					<i className="text-red-600 text-center text-sm">NOTE: THIS ACTION CANNOT BE UNDO! </i></p>

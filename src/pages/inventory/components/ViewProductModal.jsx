@@ -149,9 +149,12 @@ const ViewProductModal = (props, ref) => {
 				hide={hide}
 			/>
 			<ModalBody className={`!p-0 !bg-background`}>
-				<h3 className="text-2xl mb-2 text-darker px-4 pt-4 bg-background border-b pb-4">
-					{item?.id}
+				<h3 className="text-2xl mb-2 text-darker px-4 pt-4 bg-background border-b pb-4 w-full flex">
 					{item?.name}
+					
+					<span className="text-background ml-auto">
+						ID: {item?.id}
+					</span>
 				</h3>
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-4 border-b pb-4 px-4">
 					<div className="p-3 rounded-xl flex flex-col gap-1 bg-success bg-opacity-10 text-success">

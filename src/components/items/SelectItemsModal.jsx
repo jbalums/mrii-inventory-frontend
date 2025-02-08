@@ -87,7 +87,7 @@ const SelectItemsModal = (props, ref) => {
 				accessorKey: "code",
 				cell: ({ row, getValue }) => {
 					const item = row.original;
-					return item?.product?.code;
+					return item?.product?.code ? item?.product?.code : item?.code;
 				},
 			},
 			{
@@ -96,7 +96,7 @@ const SelectItemsModal = (props, ref) => {
 				className: "min-w-[128px] !whitespace-pre",
 				cell: ({ row, getValue }) => {
 					const item = row.original;
-					return item?.product?.name;
+					return item?.product?.name ? item?.product?.name : item?.name;
 				},
 			},
 			{
@@ -105,7 +105,7 @@ const SelectItemsModal = (props, ref) => {
 				className: "min-w-[128px] !whitespace-pre !text-center",
 				cell: ({ row, getValue }) => {
 					const item = row.original;
-					return item?.branch?.name;
+					return item?.branch?.name ? item?.branch?.name : item?.name;
 				},
 			},
 			{
@@ -114,7 +114,7 @@ const SelectItemsModal = (props, ref) => {
 				className: "!text-center",
 				cell: ({ row, getValue }) => {
 					const item = row.original;
-					return item?.product?.unit_measurement;
+					return item?.product?.unit_measurement ? item?.product?.unit_measurement : item?.unit_measurement;
 				},
 			},
 			{
