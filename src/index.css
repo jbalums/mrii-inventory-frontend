@@ -357,3 +357,9 @@ label {
 .selected-row td {
 	@apply !text-black;
 }
+
+@media screen and (max-width: 1200px){
+	html, body{
+		font-size: 12px !important;
+	}
+}

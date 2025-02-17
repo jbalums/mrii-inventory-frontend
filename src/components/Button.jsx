@@ -64,7 +64,7 @@ const Button = (props) => {
 			case "foreground":
 				return `text-dark bg-foreground`;
 			case "transparent":
-				return `text-secondaryText bg-transparent`;
+				return `text-secondaryText bg-transparent border border-black-500`;
 			default:
 				return `text-white bg-primary`;
 		}

@@ -15,6 +15,8 @@ import { toast } from "react-toastify";
 import RequestOrdersFormModal from "./components/RequestOrdersFormModal";
 import useRequestOrdersHook from "./hooks/useRequestOrdersHook.js";
 import { useAuth } from "@/hooks/useAuth";
+import OrderStatus from "@/src/components/OrderStatus";
+import { useBranchLocation } from "@/src/features/locations/hooks/useBranchLocationHook";
 
 const RequestOrders = () => {
 	const navigate = useNavigate();
@@ -48,22 +50,29 @@ const RequestOrders = () => {
 			setList(data?.data);
 		}
 	}, [data]);
-
+	
 	const { deleteSupplier,deleteRequestOrder } = useRequestOrdersHook();
+	const { getBranches } = useBranchLocation();
+	const [branches, setBranches] = useState([])
+	useEffect(()=>{
+		getBranches().then((res) => {
+			setBranches(res.data.data);
+		});
+	}, [])
 
 	const columns = useMemo(
 		() => [
 			{
 				header: "Ref #",
 				accessorKey: "account_code",
-				className: "cursor-pointer",
+				className: "cursor-pointer font-bold",
 				cellClassName: "",
 			},
 			{
 				header: "Project Code",
 				accessorKey: "project_code",
-				className: "cursor-pointer",
-				cellClassName: "",
+				className: "cursor-pointer font-bold",
+				cellClassName: "!text-blue-600",
 			},
 			{
 				header: "Purpose",
@@ -92,10 +101,13 @@ const RequestOrders = () => {
 				cellClassName: "",
 			},
 			{
-				header: "Date needed",
+				header: "Branch",
 				accessorKey: "date_needed",
 				className: "cursor-pointer",
 				cellClassName: "",
+				cell: ({ row: { original } }) => {
+					return original?.branch ? original?.branch?.name : original?.location?.name
+				}
 			},
 			{
 				header: "Order status",
@@ -103,7 +115,7 @@ const RequestOrders = () => {
 				className: "cursor-pointer",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					return original?.status;
+					return <OrderStatus status={original?.status} />;
 				},
 			},
 			{
@@ -127,7 +139,7 @@ const RequestOrders = () => {
 			{
 				header: "Action",
 				accessorKey: "action",
-				className: `cursor-pointe`,
+				className: `cursor-pointer hidden`, //hidden until DELETE function is completed
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
 					return  <Button type="danger" size="xs" onClick={() => {
@@ -242,8 +254,37 @@ const RequestOrders = () => {
 								value: "completed",
 								label: "Completed",
 							},
+							{
+								value: "declined",
+								label: "Declined",
+							},
 						]}
 					/>
+					{user?.data?.branch_id == 1 ? (
+						<ReactSelectInputField
+							className="w-full lg:w-[256px]"
+							placeholder="All location / Branches"
+							value={filters?.branch_id}
+							onChange={(data) => {
+								setFilters((prevFilters) => ({
+									...prevFilters,
+									branch_id: data,
+								}));
+							}}
+							options={[
+								{
+									label: "All location / branches",
+									value: "",
+								},
+								...branches.map((branch) => ({
+									value: branch?.id,
+									label: branch?.name,
+								})),
+							]}
+						/>
+					) : (
+						""
+					)}
 					<Button
 						type="accent"
 						className="ml-auto"
@@ -304,7 +345,7 @@ const RequestOrders = () => {
 						Are you sure you want to delete <br/><b className="text-3xl"> REF# {selectedData?.ref}?</b>{" "}
 					</p>
 					<p className="text-red-600 font-semibold text-lg text-center">
-					<i className="text-red-600 text-center text-sm">NOTE: THIS ACTION CANNOT BE UNDO! </i></p>
+					<i className="text-red-600 text-center text-sm">NOTE: THIS ACTION CANNOT BE UNDONE! </i></p>
 					</>
 				}
 				footer={

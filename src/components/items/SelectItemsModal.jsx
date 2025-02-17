@@ -105,7 +105,7 @@ const SelectItemsModal = (props, ref) => {
 				className: "min-w-[128px] !whitespace-pre !text-center",
 				cell: ({ row, getValue }) => {
 					const item = row.original;
-					return item?.branch?.name ? item?.branch?.name : item?.name;
+					return item?.branch?.name ? item?.branch?.name : item?.location?.name;
 				},
 			},
 			{

@@ -284,6 +284,7 @@ const PageHeader = (props) => {
 										/>
 										<Link
 											to={`${data?.to}`}
+											key={`bl-link-${data?.label}`}
 											className={` hover:text-blue-700 ${
 												breadcrumbs?.length - 1 == index
 													? "font-semibold"

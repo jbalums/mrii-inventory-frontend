@@ -25,17 +25,19 @@ const RequestOrderDetail = () => {
 
 	const { user } = useAuth();
 	const approve_order_ref = useRef(null);
+	const decline_order_ref = useRef(null);
 	const approve_issuance_ref = useRef(null);
 	const receive_order_ref = useRef(null);
 
 	const accept_order_ref = useRef(null);
 	const create_issuance_ref = useRef(null);
 
-	const { approvedRequisition } = useRequisitions();
+	const { approvedRequisition, declineRequisition } = useRequisitions();
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [accepting, setAccepting] = useState(false);
 	const [approving, setApproving] = useState(false);
+	const [declining, setDeclining] = useState(false);
 
 	useEffect(() => {
 		getOrderData();
@@ -265,7 +267,7 @@ const RequestOrderDetail = () => {
 								<span className="w-[128px]">
 									Request Status:
 								</span>
-								<b className="break-all whitespace-normal">
+								<b className="break-all whitespace-normal uppercase">
 									{data?.status}
 								</b>
 							</div>
@@ -316,7 +318,8 @@ const RequestOrderDetail = () => {
 							<div className=" bg-[#f5f7ff] flex gap-2 px-4 pt-2 pb-4 whitespace-pre flex-col ">
 								{data?.status == "pending" ? (
 									user?.data?.branch?.id ==
-									data?.requester?.branch_id ? (
+									data?.requester?.branch_id ? (<>
+									
 										<Button
 											className="font-semibold text-lg"
 											type="success"
@@ -330,6 +333,22 @@ const RequestOrderDetail = () => {
 												? "Approve Request"
 												: "Approve Request"}
 										</Button>
+												
+										
+										<Button
+											className="font-semibold text-lg"
+											type="danger"
+											disabled={declining}
+											loading={declining}
+											onClick={() => {
+												decline_order_ref.current.show();
+											}}
+										>
+											{data?.purpose == "finished_goods"
+												? "Decline Request"
+												: "Decline Request"}
+										</Button>
+									</>
 									) : (
 										""
 									)
@@ -592,6 +611,65 @@ const RequestOrderDetail = () => {
 								type="transparent"
 								onClick={() => {
 									approve_order_ref.current.hide();
+								}}
+							>
+								Maybe later
+							</Button>
+						</>
+					);
+				}}
+				footerClassName="!items-center !justify-center"
+			/>
+
+			<AffirmationModal
+				ref={decline_order_ref}
+				title={`Decline request`}
+				icon="br-cross"
+				iconClassName="text-danger text-5xl"
+				iconBorderColor="border-danger"
+				titleColor="text-danger font-bolder uppercase text-xl"
+				body={`Are you sure you want to decline this request?`}
+				bodyClassName="!text-lg pb-4"
+				footer={({ btnLoading, setBtnLoading }) => {
+					return (
+						<>
+							<Button
+								type="danger"
+								loading={btnLoading}
+								onClick={() => {
+									setBtnLoading(true);
+									setDeclining(true);
+									declineRequisition(params?.id)
+										.then(() => {
+											toast.success(
+												"Request has been declined!"
+											);
+											setTimeout(() => {
+												setBtnLoading(false);
+												setDeclining(false);
+												getOrderData();
+												approve_order_ref.current.hide();
+											}, 1000);
+										})
+										.catch((err) => {
+											console.log("errrr", err);
+										})
+										.finally(() => {
+											setTimeout(() => {
+												setBtnLoading(false);
+												setDeclining(false);
+											}, 1000);
+										});
+								}}
+							>
+								<FlatIcon icon="rr-check" className="mr-1" />{" "}
+								Yes, decline request
+							</Button>
+
+							<Button
+								type="transparent"
+								onClick={() => {
+									decline_order_ref.current.hide();
 								}}
 							>
 								Maybe later
