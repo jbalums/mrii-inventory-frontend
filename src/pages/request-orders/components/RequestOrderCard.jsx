@@ -1,9 +1,7 @@
 import { purposeElements } from "@/libs/elementsHelper";
+import OrderStatus from "@/src/components/OrderStatus";
 
 const RequestOrderCard = ({ className = "", data, status }) => {
-	{
-		console.log("RequestOrderCard datadata", data);
-	}
 	return (
 		<div
 			className={`rounded-lg bg-background shadow border border-border p-4 flex flex-col gap-2 ${className}`}
@@ -39,11 +37,11 @@ const RequestOrderCard = ({ className = "", data, status }) => {
 						{data?.requester?.name}
 					</div>
 				</div>
-				{status && (
+				{data?.status && (
 					<div className="flex flex-col gap-1">
-						<span className="text-sm">{status?.title}</span>
+						<span className="text-sm">Status:</span>
 						<div className="!text-lg !font-bold flex items-center justify-start pt-2 !text-center uppercase">
-							{status?.value}
+							<OrderStatus status={data?.status} />
 						</div>
 					</div>
 				)}
