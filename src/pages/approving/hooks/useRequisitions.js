@@ -12,10 +12,15 @@ export  const useRequisitions = () => {
     const approvedRequisition = (id) => {
         return axios.post(`/inventory/requisition-approved/${id}`)
     }
+    
+    const declineRequisition = (id) => {
+        return axios.post(`/inventory/requisition-decline/${id}`)
+    }
 
     return {
         getRequisitions,
         getRequisitionById,
-        approvedRequisition
+        approvedRequisition,
+        declineRequisition
     }
 }

@@ -58,7 +58,7 @@ const ViewProductModal = (props, ref) => {
 	};
 	const formatDate = (date) => {
 		let d = new Date(date);
-		return `${String(d.getDay()).padStart(2, "0")}/${String(
+		return `${String(d.getDate()).padStart(2, "0")}/${String(
 			d.getMonth() + 1
 		).padStart(2, "0")}/${d.getFullYear()} ${String(d.getHours()).padStart(
 			2,
@@ -66,7 +66,7 @@ const ViewProductModal = (props, ref) => {
 		)}:${String(d.getMinutes()).padStart(2, "0")} ${
 			d.getHours() >= 12 ? "PM" : "AM"
 		}`;
-	};
+	}; 
 	const columns = useMemo(
 		() => [
 			{
@@ -91,6 +91,7 @@ const ViewProductModal = (props, ref) => {
 				header: "Date",
 				accessorKey: "created_at",
 				cell: ({ row }) => {
+					console.log("row", row);
 					return row?.original?.created_at
 						? formatDate(row?.original?.created_at)
 						: "";
@@ -148,9 +149,12 @@ const ViewProductModal = (props, ref) => {
 				hide={hide}
 			/>
 			<ModalBody className={`!p-0 !bg-background`}>
-				<h3 className="text-2xl mb-2 text-darker px-4 pt-4 bg-background border-b pb-4">
-					{item?.id}
+				<h3 className="text-2xl mb-2 text-darker px-4 pt-4 bg-background border-b pb-4 w-full flex">
 					{item?.name}
+					
+					<span className="text-background ml-auto">
+						ID: {item?.id}
+					</span>
 				</h3>
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-4 border-b pb-4 px-4">
 					<div className="p-3 rounded-xl flex flex-col gap-1 bg-success bg-opacity-10 text-success">

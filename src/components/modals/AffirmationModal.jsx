@@ -6,7 +6,17 @@ import ModalHeader from "./components/ModalHeader";
 import Modal from "./Modal";
 
 const AffirmationModal = (props, ref) => {
-	const { title, body, footer, footerClassName = "" } = props;
+	const { 
+		title, 
+		body, 
+		footer, 
+		footerClassName = "", 
+		icon="br-check", 
+		iconClassName="text-accent text-5xl", 
+		iconBorderColor="border-dark",
+		titleColor="text-darker " ,
+		bodyClassName=""
+	} = props;
 	const [open, setOpen] = useState(false);
 	const [btnLoading, setBtnLoading] = useState(false);
 
@@ -25,18 +35,18 @@ const AffirmationModal = (props, ref) => {
 		<Modal open={open} hide={hide} size="">
 			<ModalBody className={`px-8 pt-8 rounded-t-xl`}>
 				<div className="flex flex-col items-center justify-center mb-8">
-					<div className="h-24 w-24 rounded-full border-2 border-dark flex items-center justify-center">
+					<div className={`h-24 w-24 rounded-full border-2 ${iconBorderColor} flex items-center justify-center`}>
 						<FlatIcon
-							icon="br-check"
-							className="text-accent text-5xl"
+							icon={icon}
+							className={iconClassName}
 						/>
 					</div>
 				</div>
 				<div className="flex flex-col">
-					<h4 className="text-lg font-bold mb-4 text-darker text-center">
+					<h4 className={`text-lg font-bold mb-4 text-center ${titleColor}`}>
 						{title}
 					</h4>
-					<p className="text-sm text-dark text-center">{body}</p>
+					<p className={`text-sm text-dark text-center ${bodyClassName}`}>{body}</p>
 				</div>
 			</ModalBody>
 			<ModalFooter

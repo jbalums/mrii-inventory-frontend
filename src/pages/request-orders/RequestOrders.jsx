@@ -14,15 +14,20 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import RequestOrdersFormModal from "./components/RequestOrdersFormModal";
 import useRequestOrdersHook from "./hooks/useRequestOrdersHook.js";
+import { useAuth } from "@/hooks/useAuth";
+import OrderStatus from "@/src/components/OrderStatus";
+import { useBranchLocation } from "@/src/features/locations/hooks/useBranchLocationHook";
 
 const RequestOrders = () => {
 	const navigate = useNavigate();
+	const { user } = useAuth();
 	const form_modal_ref = useRef(null);
 	const delete_modal_ref = useRef(null);
 	const select_items_ref = useRef(null);
 
 	const [list, setList] = useState([]);
 	const [id, setId] = useState(null);
+	const [selectedData, setSelectedData] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const {
 		data,
@@ -45,22 +50,29 @@ const RequestOrders = () => {
 			setList(data?.data);
 		}
 	}, [data]);
-
-	const { deleteSupplier } = useRequestOrdersHook();
+	
+	const { deleteSupplier,deleteRequestOrder } = useRequestOrdersHook();
+	const { getBranches } = useBranchLocation();
+	const [branches, setBranches] = useState([])
+	useEffect(()=>{
+		getBranches().then((res) => {
+			setBranches(res.data.data);
+		});
+	}, [])
 
 	const columns = useMemo(
 		() => [
 			{
 				header: "Ref #",
 				accessorKey: "account_code",
-				className: "cursor-pointer",
+				className: "cursor-pointer font-bold",
 				cellClassName: "",
 			},
 			{
 				header: "Project Code",
 				accessorKey: "project_code",
-				className: "cursor-pointer",
-				cellClassName: "",
+				className: "cursor-pointer font-bold",
+				cellClassName: "!text-blue-600",
 			},
 			{
 				header: "Purpose",
@@ -89,10 +101,13 @@ const RequestOrders = () => {
 				cellClassName: "",
 			},
 			{
-				header: "Date needed",
+				header: "Branch",
 				accessorKey: "date_needed",
 				className: "cursor-pointer",
 				cellClassName: "",
+				cell: ({ row: { original } }) => {
+					return original?.branch ? original?.branch?.name : original?.location?.name
+				}
 			},
 			{
 				header: "Order status",
@@ -100,7 +115,7 @@ const RequestOrders = () => {
 				className: "cursor-pointer",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					return original?.status;
+					return <OrderStatus status={original?.status} />;
 				},
 			},
 			{
@@ -115,9 +130,26 @@ const RequestOrders = () => {
 							<span
 								className={`px-0 py-1  bg-opacity-10  rounded-xl text-success`}
 							>
+								{user?.user_type}
 								{original.accepted_by?.name}
 							</span>
 						);
+				},
+			},
+			{
+				header: "Action",
+				accessorKey: "action",
+				className: `cursor-pointer hidden`, //hidden until DELETE function is completed
+				cellClassName: "",
+				cell: ({ row: { original } }) => {
+					return  <Button type="danger" size="xs" onClick={() => {
+						setId(original?.id)
+						setSelectedData(original)
+						delete_modal_ref.current.show();
+					}}>
+						<FlatIcon icon="rr-trash" />
+						DELETE
+					</Button>;
 				},
 			},
 		],
@@ -152,8 +184,10 @@ const RequestOrders = () => {
 
 	const deleteData = () => {
 		setLoading(true);
-		deleteSupplier(id)
+		deleteRequestOrder(id)
 			.then((res) => {
+				console.log('ress',res.data)
+				return;
 				toast.success("Supplier deleted successfully!");
 				removeFromList({ id: id });
 			})
@@ -220,8 +254,37 @@ const RequestOrders = () => {
 								value: "completed",
 								label: "Completed",
 							},
+							{
+								value: "declined",
+								label: "Declined",
+							},
 						]}
 					/>
+					{user?.data?.branch_id == 1 ? (
+						<ReactSelectInputField
+							className="w-full lg:w-[256px]"
+							placeholder="All location / Branches"
+							value={filters?.branch_id}
+							onChange={(data) => {
+								setFilters((prevFilters) => ({
+									...prevFilters,
+									branch_id: data,
+								}));
+							}}
+							options={[
+								{
+									label: "All location / branches",
+									value: "",
+								},
+								...branches.map((branch) => ({
+									value: branch?.id,
+									label: branch?.name,
+								})),
+							]}
+						/>
+					) : (
+						""
+					)}
 					<Button
 						type="accent"
 						className="ml-auto"
@@ -275,22 +338,26 @@ const RequestOrders = () => {
 			/>
 			<ConfirmModal
 				ref={delete_modal_ref}
-				title="Cofirm delete item category?"
+				title="Cofirmation"
 				body={
-					<p className="text-red-600 font-semibold text-lg text-center">
-						Are you sure you want to delete item category?{" "}
+					<>
+					<p className="text-red-600 font-semibold text-lg text-center uppercase">
+						Are you sure you want to delete <br/><b className="text-3xl"> REF# {selectedData?.ref}?</b>{" "}
 					</p>
+					<p className="text-red-600 font-semibold text-lg text-center">
+					<i className="text-red-600 text-center text-sm">NOTE: THIS ACTION CANNOT BE UNDONE! </i></p>
+					</>
 				}
 				footer={
-					<div className="flex items-center">
-						<Button onClick={closeConfirmDelete}>No</Button>
+					<div className="flex items-center w-full">
+						<Button type="secondary" onClick={closeConfirmDelete}>CANCEL</Button>
 						<Button
 							type="danger"
-							className="ml-4"
+							className="ml-auto"
 							onClick={deleteData}
 							loading={loading}
 						>
-							Yes, delete item category!
+							CONFIRM DELETE
 						</Button>
 					</div>
 				}

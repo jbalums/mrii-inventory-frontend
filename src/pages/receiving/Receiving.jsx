@@ -102,8 +102,11 @@ const Receiving = () => {
 			},
 			{
 				header: "Branch",
-				accessorKey: "branch.name",
+				accessorKey: "branch",
 				className: "!text-center",
+				cell: ({ row, getValue }) => {
+					return row?.original?.branch?.name ? row?.original?.branch?.name : row?.original?.name
+				}
 			},
 			{
 				header: "No. of received items",

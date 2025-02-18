@@ -38,6 +38,7 @@
 		"react-device-detect": "^2.2.2",
 		"react-dom": "^18.2.0",
 		"react-hook-form": "^7.34.0",
+		"react-hot-toast": "^2.5.2",
 		"react-icons": "^4.4.0",
 		"react-particles": "^2.8.0",
 		"react-pdf": "^6.2.2",

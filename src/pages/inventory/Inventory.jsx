@@ -22,6 +22,7 @@ import useNoBugUseEffect from "@/hooks/useNoBugUseEffect";
 import HistoryBtn from "@/src/components/HistoryBtn";
 import ConfirmModal from "@/src/components/modals/ConfirmModal";
 import { toast } from "react-toastify";
+import ClickToCopy from "@/src/components/ClickToCopy";
 const Inventory = () => {
 	const { user } = useAuth();
 	const addProductRef = useRef(null);
@@ -165,7 +166,7 @@ const Inventory = () => {
 				accessorKey: "code",
 				className: "min-w-[64px]",
 				cell: ({ row }) => {
-					return row?.original?.product?.code;
+					return <ClickToCopy text={row?.original?.product?.code ? row?.original?.product?.code : row?.original?.code} />;
 				},
 			},
 			{
@@ -173,7 +174,7 @@ const Inventory = () => {
 				accessorKey: "name",
 				className: "min-w-[128px]",
 				cell: ({ row }) => {
-					return row?.original?.product?.name;
+					return row?.original?.product?.name ? row?.original?.product?.name : row?.original?.name;
 				},
 			},
 			{
@@ -181,7 +182,7 @@ const Inventory = () => {
 				accessorKey: "uom",
 				className: "min-w-[64px]",
 				cell: ({ row }) => {
-					return row?.original?.product?.unit_measurement;
+					return row?.original?.product?.unit_measurement ? row?.original?.product?.unit_measurement : row?.original?.unit_measurement;
 				},
 			},
 			{
@@ -189,7 +190,7 @@ const Inventory = () => {
 				accessorKey: "branch",
 				className: "min-w-[128px]",
 				cell: ({ row }) => {
-					return row?.original?.branch?.name;
+					return row?.original?.branch?.name ? row?.original?.branch?.name:row?.original?.location?.name;
 				},
 			},
 			/* 	{

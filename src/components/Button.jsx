@@ -64,7 +64,7 @@ const Button = (props) => {
 			case "foreground":
 				return `text-dark bg-foreground`;
 			case "transparent":
-				return `text-secondaryText bg-transparent`;
+				return `text-secondaryText bg-transparent border border-black-500`;
 			default:
 				return `text-white bg-primary`;
 		}
@@ -72,6 +72,8 @@ const Button = (props) => {
 
 	const btnSize = () => {
 		switch (size) {
+			case "xs":
+				return "p-1 text-xs font-light";
 			case "sm":
 				return "p-2";
 			case "md":

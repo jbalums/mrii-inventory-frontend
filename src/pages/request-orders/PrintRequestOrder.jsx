@@ -218,7 +218,7 @@ const PrintRequestOrder = () => {
 											<th className="!text-[8pt] !text-left !font-semibold w-[188px]">
 												Request Status:
 											</th>
-											<td className="!text-[8pt] !text-left">
+											<td className="!text-[8pt] !text-left uppercase">
 												{data?.status}
 											</td>
 										</tr>
