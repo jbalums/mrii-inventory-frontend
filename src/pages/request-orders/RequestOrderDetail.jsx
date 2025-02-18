@@ -648,7 +648,7 @@ const RequestOrderDetail = () => {
 												setBtnLoading(false);
 												setDeclining(false);
 												getOrderData();
-												approve_order_ref.current.hide();
+												decline_order_ref.current.hide();
 											}, 1000);
 										})
 										.catch((err) => {

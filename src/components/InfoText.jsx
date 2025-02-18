@@ -1,3 +1,5 @@
+import ClickToCopy from "./ClickToCopy";
+
 const Infotext = ({
 	label,
 	text,
@@ -13,7 +15,7 @@ const Infotext = ({
 				{label}
 			</label>
 			<span className={`text-sm text-dark font-bold ${valueClassName}`}>
-				{text || <>&nbsp;</>}
+				<ClickToCopy text={text || <>&nbsp;</>} />
 			</span>
 		</div>
 	);

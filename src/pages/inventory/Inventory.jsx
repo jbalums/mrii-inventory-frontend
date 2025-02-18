@@ -22,6 +22,7 @@ import useNoBugUseEffect from "@/hooks/useNoBugUseEffect";
 import HistoryBtn from "@/src/components/HistoryBtn";
 import ConfirmModal from "@/src/components/modals/ConfirmModal";
 import { toast } from "react-toastify";
+import ClickToCopy from "@/src/components/ClickToCopy";
 const Inventory = () => {
 	const { user } = useAuth();
 	const addProductRef = useRef(null);
@@ -165,7 +166,7 @@ const Inventory = () => {
 				accessorKey: "code",
 				className: "min-w-[64px]",
 				cell: ({ row }) => {
-					return row?.original?.product?.code ? row?.original?.product?.code : row?.original?.code;
+					return <ClickToCopy text={row?.original?.product?.code ? row?.original?.product?.code : row?.original?.code} />;
 				},
 			},
 			{
