@@ -15,15 +15,18 @@ import RequestOrderCard from "../request-orders/components/RequestOrderCard";
 
 const ViewRequestOrderPage = () => {
 	const complete_order_ref = useRef(null);
+	const decline_order_ref = useRef(null);
+	
 	const remarks_form_ref = useRef(null);
 	const view_remarks_form_ref = useRef(null);
+	const [declining, setDeclining] = useState(false)
 	const return_ref = useRef(null);
-	const { approvedRequisition } = useRequisitions();
+	const { approvedRequisition,declineRequisition } = useRequisitions();
 	const navigate = useNavigate();
 
 	const { id } = useParams();
 
-	const { data, loading: dataLoading } = useDataTable(
+	const { data, loading: dataLoading, refreshData } = useDataTable(
 		`/inventory/requisition/${id}`,
 		null
 	);
@@ -105,6 +108,8 @@ const ViewRequestOrderPage = () => {
 				</div>
 				<div className="ml-auto flex items-start justify-end py-6  gap-4 w-full">
 					{data?.data?.status == "pending" && (
+						<>
+
 						<Button
 							size="lg"
 							type="accent"
@@ -114,9 +119,76 @@ const ViewRequestOrderPage = () => {
 						>
 							<FlatIcon icon="br-check" /> Approve Request
 						</Button>
+
+						<Button
+							size="lg"
+							type="danger"
+							onClick={() => {
+								decline_order_ref.current.show();
+							}}
+						>
+							<FlatIcon icon="br-trash" /> Decline Request
+						</Button>
+						</>
 					)}
 				</div>
 			</div>
+			<AffirmationModal
+				ref={decline_order_ref}
+				title={`Decline request`}
+				icon="br-cross"
+				iconClassName="text-danger text-5xl"
+				iconBorderColor="border-danger"
+				titleColor="text-danger font-bolder uppercase text-xl"
+				body={`Are you sure you want to decline this request?`}
+				bodyClassName="!text-lg pb-4"
+				footer={({ btnLoading, setBtnLoading }) => {
+					return (
+						<>
+							<Button
+								type="danger"
+								loading={btnLoading}
+								onClick={() => {
+									setBtnLoading(true);
+									declineRequisition(id)
+										.then(() => {
+											toast.success(
+												"Request has been declined!"
+											);
+											setTimeout(() => {
+												setBtnLoading(false);
+												refreshData()
+												decline_order_ref.current.hide();
+											}, 1000);
+										})
+										.catch((err) => {
+											console.log("errrr", err);
+										})
+										.finally(() => {
+											setTimeout(() => {
+												setBtnLoading(false);
+											}, 1000);
+										});
+								}}
+							>
+								<FlatIcon icon="rr-check" className="mr-1" />{" "}
+								Yes, decline request
+							</Button>
+
+							<Button
+								type="transparent"
+								onClick={() => {
+									decline_order_ref.current.hide();
+								}}
+							>
+								Maybe later
+							</Button>
+						</>
+					);
+				}}
+				footerClassName="!items-center !justify-center"
+			/>
+
 			<AffirmationModal
 				ref={complete_order_ref}
 				title="Approve request"

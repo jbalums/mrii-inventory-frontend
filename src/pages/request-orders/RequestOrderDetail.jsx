@@ -16,6 +16,7 @@ import CreateIssuanceModal from "../issuances/components/CreateIssuanceModal";
 import ReceiveOrderModal from "../issuances/components/ReceiveOrderModal";
 import TestExport from "./TestExport";
 import QRCode from "qrcode.react";
+import OrderStatus from "@/src/components/OrderStatus";
 
 const RequestOrderDetail = () => {
 	const params = useParams();
@@ -268,7 +269,7 @@ const RequestOrderDetail = () => {
 									Request Status:
 								</span>
 								<b className="break-all whitespace-normal uppercase">
-									{data?.status}
+									<OrderStatus status={data?.status} />
 								</b>
 							</div>
 
@@ -299,6 +300,14 @@ const RequestOrderDetail = () => {
 								</span>
 								<b className="break-all whitespace-normal">
 									{data?.date_approved || "-"}
+								</b>
+							</div>
+							<div className=" bg-[#f5f7ff] flex gap-2 px-4 py-2 whitespace-pre">
+								<span className="w-[128px]">
+									Date declined:
+								</span>
+								<b className="break-all whitespace-normal">
+									{data?.date_declined || "-"}
 								</b>
 							</div>
 							<div className=" bg-[#f5f7ff] flex gap-2 px-4 py-2 whitespace-pre">
