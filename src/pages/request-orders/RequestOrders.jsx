@@ -367,6 +367,7 @@ const RequestOrders = () => {
 				url={`/inventory`}
 				defaultFilter={{
 					request_order: "yes",
+					location_id: user?.data?.branch_id
 				}}
 			/>
 		</AppLayout>
