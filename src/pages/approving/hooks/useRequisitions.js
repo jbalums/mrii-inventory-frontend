@@ -17,10 +17,16 @@ export  const useRequisitions = () => {
         return axios.post(`/inventory/requisition-decline/${id}`)
     }
 
+    const deleteRequisition = (id) => {
+        return axios.post(`/inventory/requisition-delete/${id}`)
+    }
+
+    
     return {
         getRequisitions,
         getRequisitionById,
         approvedRequisition,
-        declineRequisition
+        declineRequisition,
+        deleteRequisition,
     }
 }

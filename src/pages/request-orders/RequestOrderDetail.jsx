@@ -22,18 +22,18 @@ const RequestOrderDetail = () => {
 	const params = useParams();
 	const location = useLocation();
 	const { origin } = window?.location || { origin: "" };
-	console.log("originorigin", origin);
 
 	const { user } = useAuth();
 	const approve_order_ref = useRef(null);
 	const decline_order_ref = useRef(null);
+	const delete_order_ref = useRef(null);
 	const approve_issuance_ref = useRef(null);
 	const receive_order_ref = useRef(null);
 
 	const accept_order_ref = useRef(null);
 	const create_issuance_ref = useRef(null);
 
-	const { approvedRequisition, declineRequisition } = useRequisitions();
+	const { approvedRequisition, declineRequisition, deleteRequisition } = useRequisitions();
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [accepting, setAccepting] = useState(false);
@@ -162,8 +162,9 @@ const RequestOrderDetail = () => {
 			title={loading ? "Loading..." : `Viewing request Ref# ${data?.ref}`}
 			titleChildren={
 				<>
+				<span className="mr-auto"></span>
 					<Link
-						className="ml-auto"
+						className="ml-5"
 						to={`/request-orders/${data?.id}/print`}
 					>
 						<Button
@@ -448,6 +449,24 @@ const RequestOrderDetail = () => {
 					)}
 					{/* 				account_code date_needed date_approved created_at project_code
 				purpose requester status */}
+				{
+					user?.data?.user_type == 'admin' ? <>
+					
+					<div className="flex flex-col gap-0 items-center mt-4 justify-center py-4 px-4 bg-[#f5f7ff]">
+						<span className="uppercase text-danger font-bold mb-4 text-center">NOTE: This action is irrevocable,<br/>proceed with caution!</span>
+						<Button
+							className="w-full px-6 font-bold !bg-red-800 hover:cursor-pointer"
+							type="danger"
+							onClick={()=>{
+								delete_order_ref.current.show()
+							}}
+						>
+							<FlatIcon icon="rr-trash" /> Delete Request
+						</Button>
+					</div>
+					</> : ''
+				}
+
 					<h3 className="mt-6 mb-3">QR Code</h3>
 					<div className="flex flex-col gap-0 items-center justify-center py-0 px-4 bg-[#f5f7ff]">
 						<span className="text-transparent">{`${origin}/show-order/${data?.id}`}</span>
@@ -679,6 +698,68 @@ const RequestOrderDetail = () => {
 								type="transparent"
 								onClick={() => {
 									decline_order_ref.current.hide();
+								}}
+							>
+								Maybe later
+							</Button>
+						</>
+					);
+				}}
+				footerClassName="!items-center !justify-center"
+			/>
+
+			<AffirmationModal
+				ref={delete_order_ref}
+				title={`Delete request`}
+				icon="br-cross"
+				iconClassName="text-danger text-5xl"
+				iconBorderColor="border-danger"
+				titleColor="text-danger font-bolder uppercase text-xl"
+				body={<>
+					<span className="text-base pb-5">Are you sure you want to DELETE this request?</span><br/><br/>
+					<span className="text-red-600 uppercase font-bold text-sm">NOTE: This request and all transaction affected with this request will be removed and cannot be undone.</span>
+				</>}
+				bodyClassName="!text-lg pb-4"
+				footer={({ btnLoading, setBtnLoading }) => {
+					return (
+						<>
+							<Button
+								type="danger"
+								loading={btnLoading}
+								onClick={() => {
+									setBtnLoading(true);
+									setDeclining(true);
+									deleteRequisition(params?.id)
+										.then(() => {
+											toast.success(
+												"Request has been deleted successfully!"
+											);
+											setTimeout(() => {
+												setBtnLoading(false);
+												setDeclining(false);
+												window.location.pathname = "/request-orders";
+											}, 1000);
+										})
+										.catch((err) => {
+											console.log("errrr", err);
+										})
+										.finally(() => {
+											setTimeout(() => {
+												setBtnLoading(false);
+												setDeclining(false);
+											}, 1000);
+										});
+								}}
+							>
+								<FlatIcon icon="rr-check" className="mr-1" />{" "}
+								Yes, delete request
+							</Button>
+
+							<Button
+							className="ml-auto"
+								type="transparent"
+								onClick={() => {
+									delete_order_ref.current.hide();
 								}}
 							>
 								Maybe later
