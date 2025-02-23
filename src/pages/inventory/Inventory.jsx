@@ -42,6 +42,7 @@ const Inventory = () => {
 
 	const [loadingInit, setLoadingInit] = useState(false);
 	const [reInit, setReInit] = useState(false);
+	const [itemModalKey, setItemModalKey] = useState(uuidv4())
 
 	const initInventory = () => {
 		setLoadingInit(true);
@@ -144,7 +145,11 @@ const Inventory = () => {
 	};
 	const viewProductModal = (item) => {
 		console.log("itemitemitem", item);
-		viewProductRef.current.show(item);
+		setItemModalKey(uuidv4())
+		setTimeout(()=>{
+
+			viewProductRef.current.show(item);
+		}, 100)
 	};
 	const openBegBalFormModal = (data) => {
 		begBalProductRef.current.show(data);
@@ -454,7 +459,7 @@ const Inventory = () => {
 				addToList={addToList}
 				updateInList={updateInList}
 			/>
-			<ViewProductModal ref={viewProductRef} />
+			<ViewProductModal key={itemModalKey} ref={viewProductRef} />
 			<ViewLowStocksModal ref={viewStatusRef} />
 			<UpdatePriceModal
 				ref={updatePriceref}

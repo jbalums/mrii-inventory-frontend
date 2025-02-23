@@ -9,6 +9,12 @@ import reportWebVitals from "./reportWebVitals";
 import axios from "@/libs/axios";
 import { getStorage } from "@/libs/storage";
 import { toast, ToastContainer } from "react-toastify";
+
+if(window?.console){
+	if(!String(import.meta.env.VITE_BACKEND_URL || '').includes('.test'))
+		window.console.log = (log)=>{}
+}
+
 axios.interceptors.request.use(
 	async function (config) {
 		const token = await getStorage("token");
