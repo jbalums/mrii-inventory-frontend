@@ -17,6 +17,11 @@ import ReceiveOrderModal from "../issuances/components/ReceiveOrderModal";
 import TestExport from "./TestExport";
 import QRCode from "qrcode.react";
 import OrderStatus from "@/src/components/OrderStatus";
+import ConfirmModal from "@/src/components/modals/ConfirmModal";
+import useRequestOrdersHook from "./hooks/useRequestOrdersHook";
+import ViewProductModal from "../inventory/components/ViewProductModal";
+import { v4 as uuidv4 } from "uuid";
+import ViewInventoryTransactionsModal from "../inventory/components/ViewInventoryTransactionsModal";
 
 const RequestOrderDetail = () => {
 	const params = useParams();
@@ -30,17 +35,24 @@ const RequestOrderDetail = () => {
 	const approve_issuance_ref = useRef(null);
 	const receive_order_ref = useRef(null);
 
+	const correctInventoryRef = useRef(null);
 	const accept_order_ref = useRef(null);
 	const create_issuance_ref = useRef(null);
 
 	const { approvedRequisition, declineRequisition, deleteRequisition } =
 		useRequisitions();
+	const { correctRequestOrder } = useRequestOrdersHook();
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [accepting, setAccepting] = useState(false);
 	const [approving, setApproving] = useState(false);
 	const [declining, setDeclining] = useState(false);
+	const [correcting, setCorrecting] = useState(false);
 
+	const [selectedItem, setSelectedItem] = useState(null);
+
+	const viewProductRef = useRef(null);
+	const [itemModalKey, setItemModalKey] = useState(uuidv4());
 	useEffect(() => {
 		getOrderData();
 	}, [params.id]);
@@ -54,6 +66,16 @@ const RequestOrderDetail = () => {
 		}
 	}, [params?.id]);
 
+	const viewProductModal = (item) => {
+		console.log("itemitemitem", item);
+		setItemModalKey(uuidv4());
+		setTimeout(() => {
+			viewProductRef.current.show({
+				...item,
+				product_id: item?.id,
+			});
+		}, 100);
+	};
 	const forApproval = () => {
 		return (
 			location.pathname.includes("/for-approval-issuances") &&
@@ -556,14 +578,30 @@ const RequestOrderDetail = () => {
 																			}
 																		</td>
 
-																		<td className="!text-sm !text-left ">
+																		<td className="!text-sm !text-left relative">
+																			<span
+																				className="bg-transparent h-1 w-1 absolute left-0 top-0 cursor-pointer"
+																				onClick={() => {
+																					setSelectedItem(
+																						item
+																					);
+																					correctInventoryRef.current.show();
+																				}}
+																			></span>
 																			{
 																				item
 																					?.product
 																					?.code
 																			}
 																		</td>
-																		<td className="!text-sm !text-left ">
+																		<td
+																			className="!text-sm !text-left "
+																			onClick={() =>
+																				viewProductModal(
+																					item?.product
+																				)
+																			}
+																		>
 																			{
 																				item
 																					?.product
@@ -883,6 +921,86 @@ const RequestOrderDetail = () => {
 			<ReceiveOrderModal
 				ref={receive_order_ref}
 				getOrderData={getOrderData}
+			/>
+
+			<ConfirmModal
+				ref={correctInventoryRef}
+				title="Correct Inventory"
+				body={
+					<>
+						<div className="table">
+							<table className="table">
+								<tbody>
+									<tr>
+										<td>REF #</td>
+										<th>{data?.ref}</th>
+										<td>Purpose: </td>
+										<th>{data?.purpose}</th>
+									</tr>
+									<tr>
+										<td>Product ID</td>
+										<th>{selectedItem?.product?.id}</th>
+									</tr>
+									<tr>
+										<td>Product Name</td>
+										<th colSpan={3}>
+											{selectedItem?.product?.name}
+										</th>
+									</tr>
+									<tr>
+										<td>Product Code</td>
+										<th colSpan={3}>
+											{selectedItem?.product?.code}
+										</th>
+									</tr>
+									<tr>
+										<td>Qty</td>
+										<th colSpan={3}>
+											{selectedItem?.request_quantity}
+										</th>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</>
+				}
+				footer={
+					<Button
+						type="success"
+						className={`ml-4 font-bold`}
+						onClick={() => {
+							let movement = "in";
+							if (
+								data?.purpose == "sale" ||
+								data?.purpose == "internal_use"
+							) {
+								movement = "out";
+							}
+							setCorrecting(true);
+							correctRequestOrder({
+								product_id: selectedItem?.product?.id,
+								qty: selectedItem?.request_quantity,
+								request_account_code: data?.ref,
+								movement: movement,
+							}).then((res) => {
+								setCorrecting(false);
+								toast.success(
+									"Inventory corrected successfully"
+								);
+								correctInventoryRef.current.hide();
+							});
+						}}
+						loading={correcting}
+						loadingMessage="Loading... please wait..."
+					>
+						SUBMIT
+					</Button>
+				}
+			/>
+
+			<ViewInventoryTransactionsModal
+				key={itemModalKey}
+				ref={viewProductRef}
 			/>
 		</AppLayout>
 	);

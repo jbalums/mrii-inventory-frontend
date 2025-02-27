@@ -42,7 +42,7 @@ const Inventory = () => {
 
 	const [loadingInit, setLoadingInit] = useState(false);
 	const [reInit, setReInit] = useState(false);
-	const [itemModalKey, setItemModalKey] = useState(uuidv4())
+	const [itemModalKey, setItemModalKey] = useState(uuidv4());
 
 	const initInventory = () => {
 		setLoadingInit(true);
@@ -144,12 +144,10 @@ const Inventory = () => {
 		updatePriceref.current.show(data);
 	};
 	const viewProductModal = (item) => {
-		console.log("itemitemitem", item);
-		setItemModalKey(uuidv4())
-		setTimeout(()=>{
-
+		setItemModalKey(uuidv4());
+		setTimeout(() => {
 			viewProductRef.current.show(item);
-		}, 100)
+		}, 100);
 	};
 	const openBegBalFormModal = (data) => {
 		begBalProductRef.current.show(data);
@@ -171,7 +169,15 @@ const Inventory = () => {
 				accessorKey: "code",
 				className: "min-w-[64px]",
 				cell: ({ row }) => {
-					return <ClickToCopy text={row?.original?.product?.code ? row?.original?.product?.code : row?.original?.code} />;
+					return (
+						<ClickToCopy
+							text={
+								row?.original?.product?.code
+									? row?.original?.product?.code
+									: row?.original?.code
+							}
+						/>
+					);
 				},
 			},
 			{
@@ -179,7 +185,9 @@ const Inventory = () => {
 				accessorKey: "name",
 				className: "min-w-[128px]",
 				cell: ({ row }) => {
-					return row?.original?.product?.name ? row?.original?.product?.name : row?.original?.name;
+					return row?.original?.product?.name
+						? row?.original?.product?.name
+						: row?.original?.name;
 				},
 			},
 			{
@@ -187,7 +195,9 @@ const Inventory = () => {
 				accessorKey: "uom",
 				className: "min-w-[64px]",
 				cell: ({ row }) => {
-					return row?.original?.product?.unit_measurement ? row?.original?.product?.unit_measurement : row?.original?.unit_measurement;
+					return row?.original?.product?.unit_measurement
+						? row?.original?.product?.unit_measurement
+						: row?.original?.unit_measurement;
 				},
 			},
 			{
@@ -195,7 +205,9 @@ const Inventory = () => {
 				accessorKey: "branch",
 				className: "min-w-[128px]",
 				cell: ({ row }) => {
-					return row?.original?.branch?.name ? row?.original?.branch?.name:row?.original?.location?.name;
+					return row?.original?.branch?.name
+						? row?.original?.branch?.name
+						: row?.original?.location?.name;
 				},
 			},
 			/* 	{

@@ -24,10 +24,17 @@ const useRequestOrdersHook = () => {
 			_method: "DELETE",
 		});
 	};
+	const correctRequestOrder = (data) => {
+		return axios.post(`inventory/AUzNo13OhD1ONaRO/correction`, {
+			_method: "POST",
+			...data,
+		});
+	};
 	return {
 		saveRequestOrder,
 		getRequestOrderDetail,
 		deleteRequestOrder,
+		correctRequestOrder,
 	};
 };
 
