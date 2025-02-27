@@ -980,7 +980,7 @@ const RequestOrderDetail = () => {
 							correctRequestOrder({
 								product_id: selectedItem?.product?.id,
 								qty: selectedItem?.request_quantity,
-								request_account_code: data?.ref,
+								id: data?.id,
 								movement: movement,
 							}).then((res) => {
 								setCorrecting(false);
