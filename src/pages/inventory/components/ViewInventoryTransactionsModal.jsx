@@ -41,12 +41,11 @@ const ViewInventoryTransactionsModal = (props, ref) => {
 
 	const show = (data) => {
 		setInfo(data);
-		setUrl(
-			`/inventory/transaction-histories?branch_id=${data?.product_id}`
-		);
+		setUrl(`/inventory/transaction-histories`);
 		setFilters((filters) => ({
 			...filters,
 			id: data?.id,
+			branch_id: data?.product_id,
 		}));
 		setItem(data);
 		getItemDetails(data?.product_id);
