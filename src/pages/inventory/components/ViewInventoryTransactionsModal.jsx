@@ -45,7 +45,7 @@ const ViewInventoryTransactionsModal = (props, ref) => {
 		setFilters((filters) => ({
 			...filters,
 			id: data?.id,
-			branch_id: data?.product_id,
+			branch_id: data?.branch_id,
 		}));
 		setItem(data);
 		getItemDetails(data?.product_id);
