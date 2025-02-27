@@ -73,6 +73,7 @@ const RequestOrderDetail = () => {
 			viewProductRef.current.show({
 				...item,
 				product_id: item?.id,
+				from_request_id: data?.id,
 			});
 		}, 100);
 	};

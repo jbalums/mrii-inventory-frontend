@@ -41,7 +41,9 @@ const ViewInventoryTransactionsModal = (props, ref) => {
 
 	const show = (data) => {
 		setInfo(data);
-		setUrl(`/inventory/histories/${data?.id}`);
+		setUrl(
+			`/inventory/histories/${data?.id}?from_request_id=${data?.from_request_id}`
+		);
 		setFilters((filters) => ({
 			...filters,
 			id: data?.id,
