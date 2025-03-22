@@ -32,6 +32,9 @@ import Pdf from "react-to-pdf";
 import ReactToPrint from "react-to-print";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 const excluded_cols = ["price", "date", "actual_cost", "remain_value"];
 
 const predefinedBottomRanges = [
@@ -85,6 +88,7 @@ const predefinedBottomRanges = [
 
 const IssuanceReport = () => {
 	const componentRef = useRef(null);
+	const tableRef = useRef(null);
 	const [list, setList] = useState([]);
 	const [categories, setCategories] = useState([]);
 	const { getCategories } = useItemCategories();
@@ -104,6 +108,36 @@ const IssuanceReport = () => {
 	useEffect(() => {
 		setList(data?.data || []);
 	}, [data]);
+
+	const exportToExcel = () => {
+		const table = tableRef.current;
+		if (!table) return;
+
+		const workbook = XLSX.utils.book_new();
+		const worksheet = XLSX.utils.table_to_sheet(table);
+		worksheet["!cols"] = [
+			{ wch: 10 }, 
+			{ wch: 40 }, 
+			{ wch: 75 }, 
+			{ wch: 5 }, 
+			{ wch: 20 }, 
+			{ wch: 6 }, 
+			{ wch: 15 }, 
+		  ];
+		  
+		XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+		// Create a buffer
+		const excelBuffer = XLSX.write(workbook, {
+		bookType: "xlsx",
+		type: "array",
+		});
+
+		// Convert buffer to a blob
+		const data = new Blob([excelBuffer], { type: "application/octet-stream" });
+
+		saveAs(data, `Warehouse Issuances - ${currentDate()}.xlsx`);
+	};
 
 	const columns = useMemo(
 		() => [
@@ -228,32 +262,7 @@ const IssuanceReport = () => {
 								]}
 							/>
 						</div>
-						<Pdf
-							options={{
-								unit: "in",
-								format: [8.5, 11],
-							}}
-							targetRef={componentRef.current}
-							filename={`${dateTodayInput()}-item-costing.pdf`}
-							onComplete={() => {
-								toast.success("PDF export success!");
-							}}
-						>
-							{({ toPdf }) => (
-								<Button
-									className="gap-2 !rounded-lg !text-sm font-normal shadow-lg"
-									type="background"
-									onClick={toPdf}
-									loading={dataLoading}
-								>
-									<FlatIcon
-										icon="rr-file-pdf"
-										className="text-xl"
-									/>{" "}
-									Save as PDF
-								</Button>
-							)}
-						</Pdf>
+						
 						<ReactToPrint
 							trigger={() => (
 								<Button
@@ -270,6 +279,18 @@ const IssuanceReport = () => {
 							)}
 							content={() => componentRef.current}
 						/>
+						<Button
+							className="gap-2 !rounded-lg !text-sm font-normal shadow-lg"
+							type="accent"
+							onClick={exportToExcel}
+							loading={dataLoading}
+						>
+							<FlatIcon
+								icon="rr-download"
+								className="text-xl"
+							/>{" "}
+							Export to Excel
+						</Button>
 					</div>
 				</div>
 				<PrintableLayout
@@ -282,7 +303,7 @@ const IssuanceReport = () => {
 					date={filters?.date ? formatDate(filters?.date) : null}
 				>
 					<div className="printable-table">
-						<table className="">
+						<table className="" ref={tableRef}>
 							<thead>
 								<tr>
 									<td
@@ -299,7 +320,7 @@ const IssuanceReport = () => {
 													background: "#efefef",
 												}}
 											>
-												{col.header}
+												<strong>{col.header}</strong>
 											</th>
 										);
 									})}

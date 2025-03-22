@@ -13,9 +13,14 @@ import { useRef, useState } from "react";
 import Pdf from "react-to-pdf";
 import ReactToPrint from "react-to-print";
 import { toast } from "react-toastify";
+
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+
 const excluded_cols = ["price", "date", "actual_cost", "remain_value"];
 const AccountsPayableVoucher = () => {
 	const componentRef = useRef(null);
+	const tableRef = useRef(null);
 	const [list, setList] = useState([]);
 	const {
 		data,
@@ -37,6 +42,37 @@ const AccountsPayableVoucher = () => {
 			d.getHours() >= 12 ? "PM" : "AM"
 		}`;
 	};
+
+	const exportToExcel = () => {
+		const table = tableRef.current;
+		if (!table) return;
+
+		const workbook = XLSX.utils.book_new();
+		const worksheet = XLSX.utils.table_to_sheet(table);
+		worksheet["!cols"] = [
+			{ wch: 10 }, 
+			{ wch: 40 }, 
+			{ wch: 75 }, 
+			{ wch: 5 }, 
+			{ wch: 20 }, 
+			{ wch: 6 }, 
+			{ wch: 15 }, 
+		  ];
+		  
+		XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+		// Create a buffer
+		const excelBuffer = XLSX.write(workbook, {
+		bookType: "xlsx",
+		type: "array",
+		});
+
+		// Convert buffer to a blob
+		const data = new Blob([excelBuffer], { type: "application/octet-stream" });
+
+		saveAs(data, `Warehouse Issuances - ${currentDate()}.xlsx`);
+	};
+
 	const columns = useMemo(
 		() => [
 			{
