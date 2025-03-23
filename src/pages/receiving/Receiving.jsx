@@ -13,9 +13,11 @@ import ReceivingFormModal from "./components/ReceivingFormModal";
 import ViewReceivedPOModal from "./components/ViewReceivedPOModal";
 import { useBranchLocation } from "@/src/features/locations/hooks/useBranchLocationHook";
 import { useAuth } from "@/hooks/useAuth";
+import { useParams, useSearchParams } from "react-router-dom";
 
 const Receiving = () => {
 	const { user } = useAuth();
+	const [searchParams, setSearchParams] = useSearchParams();
 	const addFormRef = useRef(null);
 	const viewProductRef = useRef(null);
 	const add_items_received = useRef(null);
@@ -44,6 +46,13 @@ const Receiving = () => {
 	const { getBranches } = useBranchLocation();
 
 	useEffect(() => {
+		if (searchParams.get("po_number")) {
+			setFilters((prevFilters) => ({
+				...prevFilters,
+				search_column: "purchase_order",
+				search_value: searchParams.get("po_number"),
+			}));
+		}
 		getSuppliers().then((res) => {
 			setSuppliers(res.data.data);
 		});
@@ -105,8 +114,10 @@ const Receiving = () => {
 				accessorKey: "branch",
 				className: "!text-center",
 				cell: ({ row, getValue }) => {
-					return row?.original?.branch?.name ? row?.original?.branch?.name : row?.original?.name
-				}
+					return row?.original?.branch?.name
+						? row?.original?.branch?.name
+						: row?.original?.name;
+				},
 			},
 			{
 				header: "No. of received items",

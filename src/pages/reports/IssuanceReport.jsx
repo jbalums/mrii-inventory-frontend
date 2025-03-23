@@ -35,6 +35,7 @@ import { Link } from "react-router-dom";
 
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+
 const excluded_cols = ["price", "date", "actual_cost", "remain_value"];
 
 const predefinedBottomRanges = [
@@ -116,25 +117,27 @@ const IssuanceReport = () => {
 		const workbook = XLSX.utils.book_new();
 		const worksheet = XLSX.utils.table_to_sheet(table);
 		worksheet["!cols"] = [
-			{ wch: 10 }, 
-			{ wch: 40 }, 
-			{ wch: 75 }, 
-			{ wch: 5 }, 
-			{ wch: 20 }, 
-			{ wch: 6 }, 
-			{ wch: 15 }, 
-		  ];
-		  
+			{ wch: 10 },
+			{ wch: 40 },
+			{ wch: 75 },
+			{ wch: 5 },
+			{ wch: 20 },
+			{ wch: 6 },
+			{ wch: 15 },
+		];
+
 		XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
 
 		// Create a buffer
 		const excelBuffer = XLSX.write(workbook, {
-		bookType: "xlsx",
-		type: "array",
+			bookType: "xlsx",
+			type: "array",
 		});
 
 		// Convert buffer to a blob
-		const data = new Blob([excelBuffer], { type: "application/octet-stream" });
+		const data = new Blob([excelBuffer], {
+			type: "application/octet-stream",
+		});
 
 		saveAs(data, `Warehouse Issuances - ${currentDate()}.xlsx`);
 	};
@@ -222,6 +225,13 @@ const IssuanceReport = () => {
 									ranges={predefinedBottomRanges}
 									label="Date range:"
 									format="MM-dd-yyyy"
+									onClean={() => {
+										setFilters((filters) => ({
+											...filters,
+											date_from: "",
+											date_to: "",
+										}));
+									}}
 									onChange={(value) => {
 										console.log("onChange", value);
 										setFilters((filters) => ({
@@ -262,7 +272,7 @@ const IssuanceReport = () => {
 								]}
 							/>
 						</div>
-						
+
 						<ReactToPrint
 							trigger={() => (
 								<Button
@@ -285,11 +295,8 @@ const IssuanceReport = () => {
 							onClick={exportToExcel}
 							loading={dataLoading}
 						>
-							<FlatIcon
-								icon="rr-download"
-								className="text-xl"
-							/>{" "}
-							Export to Excel
+							<FlatIcon icon="rr-download" className="text-xl" />{" "}
+							Excel
 						</Button>
 					</div>
 				</div>

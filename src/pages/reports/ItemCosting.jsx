@@ -23,9 +23,14 @@ import { Link } from "react-router-dom";
 // import Pdf from "react-to-pdf";
 import ReactToPrint, { useReactToPrint } from "react-to-print";
 import { toast } from "react-toastify";
+
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+
 const excluded_cols = ["price", "date", "actual_cost", "remain_value"];
 const ItemCosting = () => {
 	const componentRef = useRef(null);
+	const tableRef = useRef(null);
 	const [list, setList] = useState([]);
 	const [categories, setCategories] = useState([]);
 	const { getCategories } = useItemCategories();
@@ -108,7 +113,6 @@ const ItemCosting = () => {
 		content: () => componentRef.current,
 		onPrintError: (error) => console.log(error),
 		print: async (printIframe) => {
-			console.log(printIframe);
 			const document = printIframe;
 			document.style.display = "block";
 			if (document) {
@@ -138,6 +142,40 @@ const ItemCosting = () => {
 			}
 		},
 	});
+
+	const exportToExcel = () => {
+		const table = tableRef.current;
+		if (!table) return;
+
+		const workbook = XLSX.utils.book_new();
+		const worksheet = XLSX.utils.table_to_sheet(table);
+		worksheet["!cols"] = [
+			{ wch: 5 },
+			{ wch: 20 },
+			{ wch: 75 },
+			{ wch: 15 },
+			{ wch: 5 },
+			{ wch: 8 },
+			{ wch: 8 },
+			{ wch: 8 },
+			{ wch: 8 },
+		];
+
+		XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+		// Create a buffer
+		const excelBuffer = XLSX.write(workbook, {
+			bookType: "xlsx",
+			type: "array",
+		});
+
+		// Convert buffer to a blob
+		const data = new Blob([excelBuffer], {
+			type: "application/octet-stream",
+		});
+
+		saveAs(data, `Item Costing - ${currentDate()}.xlsx`);
+	};
 
 	return (
 		<>
@@ -193,36 +231,31 @@ const ItemCosting = () => {
 								]}
 							/>
 						</div>
-						<Button
-							className="gap-2 !rounded-lg !text-sm font-normal shadow-lg"
-							type="secondary"
-							loading={dataLoading}
-							onClick={handlePrint}
-						>
-							<FlatIcon icon="rr-file-pdf" className="text-xl" />{" "}
-							Save as PDF
-						</Button>
 						<ReactToPrint
 							trigger={() => (
 								<Button
-									className="gap-2 !rounded-lg !flex-col items-center justify-center !text-sm font-normal shadow-lg"
-									type="accent"
+									className="gap-2 !rounded-lg !text-sm font-normal shadow-lg"
+									type="background"
 									loading={dataLoading}
 								>
-									<span className="font-bold flex items-center gap-1">
-										<FlatIcon
-											icon="rr-print"
-											className="text-xl"
-										/>
-										PRINT / Save as PDF
-									</span>
-									<span className="absolute -mb-6 ml-5 text-[8px]">
-										Select "destination" on dialog
-									</span>
+									<FlatIcon
+										icon="rr-print"
+										className="text-xl"
+									/>{" "}
+									Print
 								</Button>
 							)}
 							content={() => componentRef.current}
 						/>
+						<Button
+							className="gap-2 !rounded-lg !text-sm font-normal shadow-lg"
+							type="accent"
+							onClick={exportToExcel}
+							loading={dataLoading}
+						>
+							<FlatIcon icon="rr-download" className="text-xl" />{" "}
+							Excel
+						</Button>
 					</div>
 				</div>
 				<PrintableLayout
@@ -241,7 +274,7 @@ const ItemCosting = () => {
 					}
 				>
 					<div className="printable-table">
-						<table className="">
+						<table className="" ref={tableRef}>
 							<thead className="!bg-slate-700">
 								<tr>
 									<td

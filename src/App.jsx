@@ -57,6 +57,7 @@ import SystemLogs from "./pages/user/SystemLogs";
 import ManageProductInventory from "./pages/products/ManageProductInventory";
 import InternalReceivng from "./pages/receiving/InternalReceivng";
 import Correction from "./pages/Correction";
+import AccountsPayableVoucher from "./pages/reports/AccountsPayableVoucher";
 
 const AppRoutes = () => {
 	return (
@@ -162,7 +163,7 @@ const AppRoutes = () => {
 			/>
 			<Route
 				path="/reports/accounts-payable-voucher"
-				element={<InputsOfReceipts />}
+				element={<AccountsPayableVoucher />}
 			/>
 
 			<Route
@@ -189,7 +190,10 @@ const AppRoutes = () => {
 			<Route path="/my-logs" element={<MyLogs />} />
 			<Route path="/system-changes-logs" element={<SystemLogs />} />
 
-			<Route path="/AUzNo13OhD1ONaRO/correction" element={<Correction />} />
+			<Route
+				path="/AUzNo13OhD1ONaRO/correction"
+				element={<Correction />}
+			/>
 
 			<Route path="*" element={<NotFoundPage />} />
 		</Routes>
