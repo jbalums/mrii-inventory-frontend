@@ -189,7 +189,7 @@ const Table = (props) => {
 								>
 									{row.getVisibleCells().map((cell) => (
 										<td
-											key={`cell.id-${cell.id}`}
+											key={`cell.id-${row.id}-${cell.column.columnDef?.header}`}
 											className={`duration-300  ${
 												cell.column?.columnDef
 													?.className

@@ -16,20 +16,21 @@ import RequestOrderCard from "../request-orders/components/RequestOrderCard";
 const ViewRequestOrderPage = () => {
 	const complete_order_ref = useRef(null);
 	const decline_order_ref = useRef(null);
-	
+
 	const remarks_form_ref = useRef(null);
 	const view_remarks_form_ref = useRef(null);
-	const [declining, setDeclining] = useState(false)
+	const [declining, setDeclining] = useState(false);
 	const return_ref = useRef(null);
-	const { approvedRequisition,declineRequisition } = useRequisitions();
+	const { approvedRequisition, declineRequisition } = useRequisitions();
 	const navigate = useNavigate();
 
 	const { id } = useParams();
 
-	const { data, loading: dataLoading, refreshData } = useDataTable(
-		`/inventory/requisition/${id}`,
-		null
-	);
+	const {
+		data,
+		loading: dataLoading,
+		refreshData,
+	} = useDataTable(`/inventory/requisition/${id}`, null);
 
 	const columns = useMemo(
 		() => [
@@ -109,26 +110,25 @@ const ViewRequestOrderPage = () => {
 				<div className="ml-auto flex items-start justify-end py-6  gap-4 w-full">
 					{data?.data?.status == "pending" && (
 						<>
+							<Button
+								size="lg"
+								type="accent"
+								onClick={() => {
+									complete_order_ref.current.show();
+								}}
+							>
+								<FlatIcon icon="br-check" /> Approve Request
+							</Button>
 
-						<Button
-							size="lg"
-							type="accent"
-							onClick={() => {
-								complete_order_ref.current.show();
-							}}
-						>
-							<FlatIcon icon="br-check" /> Approve Request
-						</Button>
-
-						<Button
-							size="lg"
-							type="danger"
-							onClick={() => {
-								decline_order_ref.current.show();
-							}}
-						>
-							<FlatIcon icon="br-trash" /> Decline Request
-						</Button>
+							<Button
+								size="lg"
+								type="danger"
+								onClick={() => {
+									decline_order_ref.current.show();
+								}}
+							>
+								<FlatIcon icon="br-trash" /> Decline Request
+							</Button>
 						</>
 					)}
 				</div>
@@ -157,7 +157,7 @@ const ViewRequestOrderPage = () => {
 											);
 											setTimeout(() => {
 												setBtnLoading(false);
-												refreshData()
+												refreshData();
 												decline_order_ref.current.hide();
 											}, 1000);
 										})

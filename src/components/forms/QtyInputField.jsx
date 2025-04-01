@@ -46,6 +46,14 @@ const QtyInputField = ({ qty, setQty, max, ...props }) => {
 		},
 		params: [value],
 	});
+
+	useNoBugUseEffect({
+		functions: () => {
+			setValue(qty);
+		},
+		params: [qty],
+	});
+
 	return (
 		<div className="flex items-center justify-center group">
 			<div

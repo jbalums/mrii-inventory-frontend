@@ -358,8 +358,12 @@ label {
 	@apply !text-black;
 }
 
-@media screen and (max-width: 1200px){
-	html, body{
+@media screen and (max-width: 1200px) {
+	html,
+	body {
 		font-size: 12px !important;
 	}
+}
+a:hover {
+	text-decoration: none !important;
 }
