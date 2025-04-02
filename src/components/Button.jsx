@@ -17,7 +17,7 @@ const Button = (props) => {
 		...rest
 	} = props;
 
-	const defaultBtnClass = `text-center shadow-sm !duration-200 !transition-all hover:shadow-md transition-transform rounded-xl sm:w-auto cursor-pointer flex items-center justify-center hover:!bg-blend-darken text-xs md:text-sm gap-1 md:gap-2`;
+	const defaultBtnClass = `text-center shadow-sm !duration-200 !transition-all hover:shadow-md transition-transform rounded-xl sm:w-auto cursor-pointer flex items-center justify-center hover:!bg-blend-darken text-xs md:text-sm gap-1 md:gap-2 hover:scale-[1.05]`;
 
 	const btnBg = () => {
 		switch (type) {
@@ -77,7 +77,7 @@ const Button = (props) => {
 			case "sm":
 				return "p-2";
 			case "md":
-				return "p-3 text-sm font-light min-w-[64px]";
+				return "p-3 text-sm min-w-[64px]";
 			case "square-sm":
 				return "!w-[30px] h-[30px] text-xs text-xs flex items-center justify-center";
 			case "square-md":

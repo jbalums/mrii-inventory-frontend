@@ -136,22 +136,7 @@ const RequestOrders = () => {
 						);
 				},
 			},
-			{
-				header: "Action",
-				accessorKey: "action",
-				className: `cursor-pointer hidden`, //hidden until DELETE function is completed
-				cellClassName: "",
-				cell: ({ row: { original } }) => {
-					return  <Button type="danger" size="xs" onClick={() => {
-						setId(original?.id)
-						setSelectedData(original)
-						delete_modal_ref.current.show();
-					}}>
-						<FlatIcon icon="rr-trash" />
-						DELETE
-					</Button>;
-				},
-			},
+			
 		],
 		[]
 	);
@@ -296,7 +281,7 @@ const RequestOrders = () => {
 				</div>
 				<Table
 					rowClick={(data) => {
-						navigate(`/request-orders/${data.original.id}`);
+						window.open(`/request-orders/${data.original.id}`, '_blank');
 
 						/* if (data.original.status == "completed") {
 							navigate(

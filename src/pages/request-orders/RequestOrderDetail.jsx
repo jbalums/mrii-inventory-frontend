@@ -22,6 +22,10 @@ import useRequestOrdersHook from "./hooks/useRequestOrdersHook";
 import ViewProductModal from "../inventory/components/ViewProductModal";
 import { v4 as uuidv4 } from "uuid";
 import ViewInventoryTransactionsModal from "../inventory/components/ViewInventoryTransactionsModal";
+import { Tooltip, Whisper } from "rsuite";
+import EditRequestOrderModal from "./components/EditRequestOrderModal";
+import SelectItemsModal from "@/src/components/items/SelectItemsModal";
+import "rsuite/Tooltip/styles/index.css";
 
 const RequestOrderDetail = () => {
 	const params = useParams();
@@ -52,6 +56,9 @@ const RequestOrderDetail = () => {
 	const [selectedItem, setSelectedItem] = useState(null);
 
 	const viewProductRef = useRef(null);
+	const editRequestModalRef = useRef(null);
+	const select_items_ref = useRef(null);
+
 	const [itemModalKey, setItemModalKey] = useState(uuidv4());
 	useEffect(() => {
 		getOrderData();
@@ -180,6 +187,16 @@ const RequestOrderDetail = () => {
 		return axios.post(`/inventory/issuance-approve/${params?.id}`);
 	};
 
+	const addToList = (item) => {
+		console.log("addToList", item);
+		// setList((list) => [item, ...list]);
+	};
+
+	const updateInList = (item) => {
+		console.log("updateInList", item);
+		// setList((list) => list.map((x) => (x.id == item.id ? item : x)));
+	};
+
 	return (
 		<AppLayout
 			icon={<FlatIcon icon="rr-document" />}
@@ -187,9 +204,24 @@ const RequestOrderDetail = () => {
 			titleChildren={
 				<>
 					<span className="mr-auto"></span>
+
+					{user?.data?.user_type == "admin" ? (
+						<Button
+							className="ml-auto px-6 font-bold hidden"
+							type="primary"
+							onClick={() => {
+								editRequestModalRef.current.show(data);
+							}}
+						>
+							<FlatIcon icon="rr-edit" /> Edit Request
+						</Button>
+					) : (
+						""
+					)}
 					<Link
-						className="ml-5"
+						className="ml-0"
 						to={`/request-orders/${data?.id}/print`}
+						target="_blank"
 					>
 						<Button
 							className="ml-auto px-6 font-bold"
@@ -509,7 +541,23 @@ const RequestOrderDetail = () => {
 				</div>
 				<div className="w-full lg:w-2/3 flex flex-col gap-4">
 					<div className="w-full  flex flex-col">
-						<h3 className="text- mb-3">Requested items</h3>
+						<div className="flex items-center gap-4 mb-3">
+							<h3 className="">Requested items</h3>
+							{
+								(data?.status == 'pending' && data?.details?.length == 0 )? 
+								(data?.requester?.id == user?.data?.id || user?.data?.user_type == "admin") ? 
+								<Button
+									className="ml-4 px-2 font-bold"
+									type="accent"
+									size="xs"
+									onClick={() => {
+										editRequestModalRef.current.show(data);
+									}}
+								>
+									<FlatIcon icon="rr-plus" /> Add requested items
+								</Button> : ''  : ''
+							}
+						</div>
 						{loading ? (
 							<div className="h-[88px] flex items-center justify-center !bg-white rounded-lg text-placeholder">
 								Loading...
@@ -570,7 +618,10 @@ const RequestOrderDetail = () => {
 														{detail?.items?.map(
 															(item) => {
 																return (
-																	<tr className="divide-x">
+																	<tr
+																		className="divide-x"
+																		key={`tr-di-${item?.id}`}
+																	>
 																		<td className="!text-sm !text-left hidden">
 																			{
 																				item
@@ -594,6 +645,24 @@ const RequestOrderDetail = () => {
 																					?.product
 																					?.code
 																			}
+																			{/* <Whisper
+																				placement="top"
+																				controlId="control-id-hover"
+																				trigger="hover"
+																				speaker={
+																					<Tooltip>
+																						Change
+																						item
+																					</Tooltip>
+																				}
+																			>
+																				<span className="absolute p-1 right-0 top-0 cursor-pointer">
+																					<FlatIcon
+																						icon="rr-edit"
+																						className="text-xs"
+																					/>
+																				</span>
+																			</Whisper> */}
 																		</td>
 																		<td
 																			className="!text-sm !text-left "
@@ -1002,6 +1071,21 @@ const RequestOrderDetail = () => {
 			<ViewInventoryTransactionsModal
 				key={itemModalKey}
 				ref={viewProductRef}
+			/>
+			<EditRequestOrderModal
+				addToList={addToList}
+				updateInList={updateInList}
+				ref={editRequestModalRef}
+				select_items_ref={select_items_ref}
+			/>
+
+			<SelectItemsModal
+				ref={select_items_ref}
+				url={`/inventory`}
+				defaultFilter={{
+					request_order: "yes",
+					location_id: user?.data?.branch_id,
+				}}
 			/>
 		</AppLayout>
 	);
