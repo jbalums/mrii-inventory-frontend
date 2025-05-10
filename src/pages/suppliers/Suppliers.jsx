@@ -386,10 +386,10 @@ const Suppliers = () => {
 			/>
 			<ConfirmModal
 				ref={delete_modal_ref}
-				title="Cofirm delete item category?"
+				title="Cofirm delete supplier?"
 				body={
 					<p className="text-red-600 font-semibold text-lg text-center">
-						Are you sure you want to delete item category?{" "}
+						Are you sure you want to delete supplier?{" "}
 					</p>
 				}
 				footer={
@@ -401,7 +401,7 @@ const Suppliers = () => {
 							onClick={deleteData}
 							loading={loading}
 						>
-							Yes, delete item category!
+							Yes, delete supplier!
 						</Button>
 					</div>
 				}
