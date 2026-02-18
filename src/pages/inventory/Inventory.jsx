@@ -36,6 +36,7 @@ const Inventory = () => {
 	const inventoryCorrectionModalRef = useRef(null);
 
 	const [locationID, setLocationID] = useState(null);
+	const [selectedBranchId, setSelectedBranchId] = useState(null);
 	const [selectedBranch, setSelectedBranch] = useState(null);
 
 	const [list, setList] = useState([]);
@@ -104,8 +105,11 @@ const Inventory = () => {
 			: `/inventory/branch-inventory`,
 		setList,
 		{
-			location_id:
-				user?.data?.branch?.id == 1 ? "" : user?.data?.branch?.id,
+			location_id: selectedBranchId
+				? selectedBranchId
+				: user?.data?.branch?.id == 1
+					? ""
+					: user?.data?.branch?.id,
 		},
 	);
 
@@ -130,10 +134,12 @@ const Inventory = () => {
 			setFilters((filters) => ({
 				...filters,
 				key: uuidv4(),
-				location_id: user?.data?.branch_id,
+				location_id: selectedBranchId
+					? selectedBranchId
+					: user?.data?.branch_id,
 			}));
 		},
-		params: [user?.data?.branch_id],
+		params: [selectedBranchId, user?.data?.branch_id],
 	});
 
 	useEffect(() => {
@@ -400,6 +406,7 @@ const Inventory = () => {
 						}}
 						onChangeGetData={(data) => {
 							setSelectedBranch(data.label);
+							setSelectedBranchId(data.value);
 						}}
 						options={[
 							{
@@ -490,6 +497,9 @@ const Inventory = () => {
 				updateInList={updateInList}
 				addToList={addToList}
 				refreshData={refreshData}
+				branch_id={
+					selectedBranchId ? selectedBranchId : user?.data?.branch_id
+				}
 			/>
 			<SetBeginningBalanceModal
 				ref={begBalProductRef}

@@ -15,7 +15,7 @@ import { Controller, useForm } from "react-hook-form";
 import useInventory from "../hooks/useInventory";
 import Infotext from "@/src/components/InfoText";
 
-const InventoryCorrectionModal = ({ refreshData }, ref) => {
+const InventoryCorrectionModal = ({ refreshData, branch_id }, ref) => {
 	const {
 		register,
 		handleSubmit,
@@ -74,7 +74,6 @@ const InventoryCorrectionModal = ({ refreshData }, ref) => {
 	};
 
 	const successCallBack = (data) => {
-		console.log("successCallBackdata", data);
 		if (refreshModalFn?.fn) refreshModalFn.fn();
 		if (refreshModalFn?.setInfo) refreshModalFn.setInfo(data);
 		if (refreshData) refreshData();
@@ -86,6 +85,7 @@ const InventoryCorrectionModal = ({ refreshData }, ref) => {
 		let formData = {
 			_method: "PATCH",
 			product_id: inventoryData?.product_id,
+			branch_id: inventoryData?.branch_id,
 			...data,
 		};
 		saveInventoryCorrection({
