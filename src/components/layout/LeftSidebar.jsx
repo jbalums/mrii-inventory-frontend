@@ -69,9 +69,9 @@ const LeftSidebar = () => {
 			collapseSidebar
 				? `!relative pt-6 !px-0 !w-[64px] max-w-[64px] top-0 pt-0 ${
 						device == "mobile" ? " top-0 left-0" : ""
-				  }`
+					}`
 				: `absolute
-				lg:relative pt-0 px-0 min-w-[240px] ${
+				lg:relative pt-0 px-0 lg::min-w-[200px] xl:min-w-[240px] ${
 					device == "mobile" ? " top-0 left-0" : " "
 				}`
 		}`}
@@ -104,7 +104,7 @@ const LeftSidebar = () => {
 							user?.data?.branch_id == 1
 								? "Main Warehouse"
 								: user?.data?.branch?.name,
-							2
+							2,
 						)}
 					</b>
 				) : (
@@ -249,7 +249,7 @@ const LeftSidebar = () => {
 								}
 								to="/approving/approve-request-order"
 								active={isActive(
-									"/approving/approve-request-order"
+									"/approving/approve-request-order",
 								)}
 							/>
 							{user?.data?.branch?.id == 1 && (

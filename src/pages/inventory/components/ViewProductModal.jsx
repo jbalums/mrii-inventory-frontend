@@ -1,6 +1,8 @@
+import { useAuth } from "@/hooks/useAuth";
 import axios from "@/libs/axios";
 import { formatToCurrency } from "@/libs/helpers";
 import Button from "@/src/components/Button";
+import FlatIcon from "@/src/components/FlatIcon";
 import Infotext from "@/src/components/InfoText";
 import ModalBody from "@/src/components/modals/components/ModalBody";
 import ModalFooter from "@/src/components/modals/components/ModalFooter";
@@ -18,6 +20,12 @@ import {
 import { Link } from "react-router-dom";
 
 const ViewProductModal = (props, ref) => {
+	const { inventoryCorrectionModalRef } = props;
+
+	const { logout, user } = useAuth({
+		middleware: "auth",
+		redirectIfAuthenticated: "/",
+	});
 	const [open, setOpen] = useState(false);
 	const [item, setItem] = useState(null);
 	const [info, setInfo] = useState(null);
@@ -27,12 +35,14 @@ const ViewProductModal = (props, ref) => {
 		data,
 		loading: dataLoading,
 		setFilters,
+		refreshData,
 	} = useDataTable(url, [open, url]);
 
 	useEffect(() => {
 		console.log("datadatadatadata", data);
 		setList(data?.data || []);
 	}, [data?.data]);
+
 	useImperativeHandle(ref, () => ({
 		show: show,
 		hide: hide,
@@ -59,14 +69,14 @@ const ViewProductModal = (props, ref) => {
 	const formatDate = (date) => {
 		let d = new Date(date);
 		return `${String(d.getDate()).padStart(2, "0")}/${String(
-			d.getMonth() + 1
+			d.getMonth() + 1,
 		).padStart(2, "0")}/${d.getFullYear()} ${String(d.getHours()).padStart(
 			2,
-			"0"
+			"0",
 		)}:${String(d.getMinutes()).padStart(2, "0")} ${
 			d.getHours() >= 12 ? "PM" : "AM"
 		}`;
-	}; 
+	};
 	const columns = useMemo(
 		() => [
 			{
@@ -89,9 +99,9 @@ const ViewProductModal = (props, ref) => {
 			},
 			{
 				header: "Date",
+				sortable: true,
 				accessorKey: "created_at",
 				cell: ({ row }) => {
-					console.log("row", row);
 					return row?.original?.created_at
 						? formatDate(row?.original?.created_at)
 						: "";
@@ -132,7 +142,7 @@ const ViewProductModal = (props, ref) => {
 				},
 			}, */
 		],
-		[]
+		[],
 	);
 
 	const getItemDetails = (id) => {
@@ -148,11 +158,28 @@ const ViewProductModal = (props, ref) => {
 				subtitle={`You can see product information and inventory histories.`}
 				hide={hide}
 			/>
-			<ModalBody className={`!p-0 !bg-background`}>
-				<h3 className="text-2xl mb-2 text-darker px-4 pt-4 bg-background border-b pb-4 w-full flex">
+			<ModalBody className={`!p-0 !bg-background relative`}>
+				<h3 className="text-2xl mb-2 text-darker px-4 pt-4 bg-background border-b pb-4 w-full flex relative items-center justify-between">
 					{item?.name}
-					
-					<span className="text-background ml-auto">
+					{user?.data?.user_type == "admin" ? (
+						<Button
+							className=""
+							type="danger"
+							onClick={() => {
+								inventoryCorrectionModalRef.current.show({
+									data: info,
+									refreshModalData: refreshData,
+									setInfo: setInfo,
+								});
+							}}
+						>
+							<FlatIcon icon="rr-info" />
+							Inventory Correction
+						</Button>
+					) : (
+						""
+					)}
+					<span className="text-background ml-auto absolute cursor-none pointer-events-none opacity-0">
 						ID: {item?.id}
 					</span>
 				</h3>
@@ -203,13 +230,14 @@ const ViewProductModal = (props, ref) => {
 						</div>
 					</div>
 					<div className="col-span-8 flex flex-col">
-						<h3 className="text-lg font-bold text-darker px-4 pt-4 pb-[15px]">
-							Inventory Transactions
-						</h3>
+						<div className="flex flex-wrap">
+							<h3 className="text-lg font-bold text-darker px-4 pt-4 pb-[15px]">
+								Inventory Transactions
+							</h3>
+						</div>
 
-						<div className="w-full border-t lg:px-0 overflow-auto">
+						<div className="w-full border-t lg:px-0 overflow-auto bg-white relative">
 							<Table
-								tableClassName=""
 								columns={columns}
 								pagination={false}
 								loading={dataLoading}

@@ -58,6 +58,32 @@ const useInventory = () => {
 				setLoading(false);
 			});
 	};
+	const saveInventoryCorrection = ({
+		setLoading,
+		setError,
+		callback,
+		...formData
+	}) => {
+		console.log("formData", formData);
+		setLoading(true);
+		axios
+			.post(`/inventory/inventory-correction`, {
+				...formData,
+			})
+			.then((res) => {
+				console.log("res", res);
+				toast.success("Inventory correction saved!");
+				callback ? callback(res.data.adjustments_data) : "";
+			})
+			.catch((error) => {
+				toast.error(
+					`An error occurred! Please contact the administrator if the problem persists.`,
+				);
+			})
+			.finally(() => {
+				setLoading(false);
+			});
+	};
 	const updateBeginningBalance = ({
 		setLoading,
 		setError,
@@ -108,6 +134,7 @@ const useInventory = () => {
 		updateBeginningBalance,
 		savePrice,
 		businessUnits,
+		saveInventoryCorrection,
 	};
 };
 

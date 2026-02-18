@@ -197,7 +197,7 @@ const Receiving = () => {
 				},
 			]}
 		>
-			<div className="flex flex-col lg:flex-row gap-6 pb-6">
+			<div className="flex flex-col flex-wrap lg:flex-row gap-6 pb-6">
 				<TextInputField
 					className="lg:w-[320px]"
 					icon={<FlatIcon icon="rr-search" className="text-sm" />}
@@ -265,7 +265,7 @@ const Receiving = () => {
 				)}
 				<Button
 					type="accent"
-					className="ml-auto"
+					className="xl:ml-auto"
 					onClick={openFormModal}
 				>
 					<FlatIcon icon="rs-plus" /> Add received PO

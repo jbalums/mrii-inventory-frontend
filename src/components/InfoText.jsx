@@ -15,7 +15,11 @@ const Infotext = ({
 				{label}
 			</label>
 			<span className={`text-sm text-dark font-bold ${valueClassName}`}>
-				<ClickToCopy text={text || <>&nbsp;</>} />
+				{typeof text === "string" || typeof text === "number" ? (
+					<ClickToCopy text={text || <>&nbsp;</>} />
+				) : (
+					text || <>&nbsp;</>
+				)}
 			</span>
 		</div>
 	);

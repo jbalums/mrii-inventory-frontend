@@ -224,8 +224,10 @@ label {
 	@apply flex flex-col mb-4;
 }
 
+/* bg-white !border border-gray-300 py-3 text-sm text-dark sm:text-sm rounded-lg focus:ring-1 focus:shadow duration-100 shadow-blue-300 focus:ring-blue-500 block w-full p-2.5   !pl-12  */
+
 .react-select__control > div {
-	@apply h-[46px] bg-white rounded-lg border-gray-300;
+	@apply md:h-[30px] xl:h-[47px] bg-white rounded-lg border-gray-300;
 }
 
 .react-select__control--is-focused > div {
@@ -362,6 +364,15 @@ label {
 	html,
 	body {
 		font-size: 12px !important;
+	}
+	.table table thead > tr > td, .table table thead > tr > th {
+		font-size: 10px !important;
+	}
+}
+@media screen and (max-width: 1024px) {
+	html,
+	body {
+		font-size: 10px !important;
 	}
 }
 a:hover {

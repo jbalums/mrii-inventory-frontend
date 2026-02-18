@@ -17,6 +17,7 @@ const Table = (props) => {
 
 	const {
 		columns,
+		theadClassName = "",
 		/* 
 		className,
 		cellClassName,
@@ -106,9 +107,12 @@ const Table = (props) => {
 						pagination ? "" : ""
 					}`}
 				>
-					<thead className="">
+					<thead className={`${theadClassName}`}>
 						{table.getHeaderGroups().map((headerGroup) => (
-							<tr key={`headerGroup.id-${headerGroup.id}`}>
+							<tr
+								className={`${theadClassName}`}
+								key={`headerGroup.id-${headerGroup.id}`}
+							>
 								{headerGroup.headers.map((header, index) => (
 									<th
 										key={`header.id-${index}-${headerGroup.id}-${header.id}`}
@@ -130,7 +134,7 @@ const Table = (props) => {
 												{
 													asc: " 🔼",
 													desc: " 🔽",
-												}[header.column.getIsSorted()]
+												}[header.column.getIsSorted()],
 											);
 										}}
 									>
@@ -139,8 +143,8 @@ const Table = (props) => {
 											: flexRender(
 													header.column.columnDef
 														.header,
-													header.getContext()
-											  )}
+													header.getContext(),
+												)}
 										{{
 											asc: " 🔼",
 											desc: " 🔽",
@@ -200,7 +204,7 @@ const Table = (props) => {
 													? cell.column.columnDef
 															?.header !=
 															"Action" ||
-													  cell.column.columnDef
+														cell.column.columnDef
 															?.accessorKey !=
 															"action"
 														? " group-hover:text-darker"
@@ -228,7 +232,7 @@ const Table = (props) => {
 										>
 											{flexRender(
 												cell.column.columnDef.cell,
-												cell.getContext()
+												cell.getContext(),
 											)}
 										</td>
 									))}

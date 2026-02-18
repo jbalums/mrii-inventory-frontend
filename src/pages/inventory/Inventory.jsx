@@ -23,6 +23,7 @@ import HistoryBtn from "@/src/components/HistoryBtn";
 import ConfirmModal from "@/src/components/modals/ConfirmModal";
 import { toast } from "react-toastify";
 import ClickToCopy from "@/src/components/ClickToCopy";
+import InventoryCorrectionModal from "./components/InventoryCorrectionModal";
 const Inventory = () => {
 	const { user } = useAuth();
 	const addProductRef = useRef(null);
@@ -32,6 +33,7 @@ const Inventory = () => {
 	const repackModalRef = useRef(null);
 	const updatePriceref = useRef(null);
 	const initInventoryRef = useRef(null);
+	const inventoryCorrectionModalRef = useRef(null);
 
 	const [locationID, setLocationID] = useState(null);
 	const [selectedBranch, setSelectedBranch] = useState(null);
@@ -57,14 +59,14 @@ const Inventory = () => {
 							// setLocationID(data);
 							setReInit(true);
 							toast.success(
-								`Initialization success, but there are still ${res.data?.pending} products to initialize...`
+								`Initialization success, but there are still ${res.data?.pending} products to initialize...`,
 							);
 							setLoadingInit(false);
 						} else {
 							setReInit(false);
 							setTimeout(() => {
 								toast.success(
-									"All Product(s) inventory initialization successful!"
+									"All Product(s) inventory initialization successful!",
 								);
 								setFilters((filters) => ({
 									...filters,
@@ -80,7 +82,7 @@ const Inventory = () => {
 			})
 			.catch((e) => {
 				toast.warning(
-					"There was a problem initializing data, please try again."
+					"There was a problem initializing data, please try again.",
 				);
 				setLoadingInit(false);
 			});
@@ -94,6 +96,7 @@ const Inventory = () => {
 		setFilters,
 		updateInList,
 		removeFromList,
+		refreshData,
 		meta,
 	} = useDataTable(
 		user?.data?.branch?.id == 1
@@ -103,7 +106,7 @@ const Inventory = () => {
 		{
 			location_id:
 				user?.data?.branch?.id == 1 ? "" : user?.data?.branch?.id,
-		}
+		},
 	);
 
 	const { getBranches } = useBranchLocation();
@@ -256,7 +259,7 @@ const Inventory = () => {
 											className="gap-1 !text-xs"
 											onClick={() => {
 												openBegBalFormModal(
-													row?.original
+													row?.original,
 												);
 											}}
 										>
@@ -301,7 +304,7 @@ const Inventory = () => {
 				},
 			},
 		],
-		[]
+		[],
 	);
 
 	return (
@@ -317,7 +320,7 @@ const Inventory = () => {
 						onClick={() => {
 							viewStatusRef.current.show(
 								inventoryStatus?.empty,
-								"empty"
+								"empty",
 							);
 						}}
 					>
@@ -337,7 +340,7 @@ const Inventory = () => {
 						onClick={() => {
 							viewStatusRef.current.show(
 								inventoryStatus?.low,
-								"low"
+								"low",
 							);
 						}}
 					>
@@ -471,12 +474,22 @@ const Inventory = () => {
 				addToList={addToList}
 				updateInList={updateInList}
 			/>
-			<ViewProductModal key={itemModalKey} ref={viewProductRef} />
+			<ViewProductModal
+				key={itemModalKey}
+				ref={viewProductRef}
+				inventoryCorrectionModalRef={inventoryCorrectionModalRef}
+			/>
 			<ViewLowStocksModal ref={viewStatusRef} />
 			<UpdatePriceModal
 				ref={updatePriceref}
 				updateInList={updateInList}
 				addToList={addToList}
+			/>
+			<InventoryCorrectionModal
+				ref={inventoryCorrectionModalRef}
+				updateInList={updateInList}
+				addToList={addToList}
+				refreshData={refreshData}
 			/>
 			<SetBeginningBalanceModal
 				ref={begBalProductRef}

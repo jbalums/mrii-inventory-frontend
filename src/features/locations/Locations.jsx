@@ -149,7 +149,7 @@ const Locations = () => {
 			]}
 			titleChildren={<HistoryBtn entity={"location"} />}
 		>
-			<div className="w-full md:w-4/5 xl:w-1/2 flex flex-col lg:flex-row gap-6 pb-6">
+			<div className="w-full md:w-4/5 xl:w-4/5 2xl:w-1/2 flex flex-col lg:flex-row gap-6 pb-6">
 				<TextInputField
 					className="w-full lg:w-[320px]"
 					icon={<FlatIcon icon="rr-search" className="text-sm" />}
@@ -171,7 +171,7 @@ const Locations = () => {
 					</Button>
 				</div>
 			</div>
-			<div className="w-full md:w-4/5 xl:w-1/2">
+			<div className="w-full md:w-4/5 xl:w-4/5 2xl:w-1/2 ">
 				<Table
 					columns={columns}
 					loading={dataLoading}

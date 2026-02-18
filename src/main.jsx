@@ -10,10 +10,10 @@ import axios from "@/libs/axios";
 import { getStorage } from "@/libs/storage";
 import { toast, ToastContainer } from "react-toastify";
 
-if(window?.console){
-	if(!String(import.meta.env.VITE_BACKEND_URL || '').includes('.test'))
-		window.console.log = (log)=>{}
-}
+// if(window?.console){
+// 	if(!String(import.meta.env.VITE_BACKEND_URL || '').includes('.test'))
+// 		window.console.log = (log)=>{}
+// }
 
 axios.interceptors.request.use(
 	async function (config) {
@@ -26,7 +26,7 @@ axios.interceptors.request.use(
 	},
 	function (error) {
 		return Promise.reject(error);
-	}
+	},
 );
 const removeSession = () => {
 	if (!window.location.pathname.includes("login")) {
@@ -67,7 +67,7 @@ axios.interceptors.response.use(
 		}
 
 		return Promise.reject(error.message);
-	}
+	},
 );
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -78,7 +78,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 				<App />
 			</BrowserRouter>
 		</SWRConfig>
-	</React.StrictMode>
+	</React.StrictMode>,
 );
 
 reportWebVitals();
