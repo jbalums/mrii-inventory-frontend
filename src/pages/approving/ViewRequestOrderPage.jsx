@@ -16,11 +16,14 @@ import RequestOrderCard from "../request-orders/components/RequestOrderCard";
 const ViewRequestOrderPage = () => {
 	const complete_order_ref = useRef(null);
 	const decline_order_ref = useRef(null);
+	const return_ref = useRef(null);
 
 	const remarks_form_ref = useRef(null);
 	const view_remarks_form_ref = useRef(null);
+
+	const [allowed, setAllowed] = useState(true);
+
 	const [declining, setDeclining] = useState(false);
-	const return_ref = useRef(null);
 	const { approvedRequisition, declineRequisition } = useRequisitions();
 	const navigate = useNavigate();
 
@@ -55,15 +58,38 @@ const ViewRequestOrderPage = () => {
 			{
 				header: "Request qty",
 				accessorKey: "request_quantity",
-				className: "",
-				cellClassName: "",
+				className: "font-bold text-violet-600",
+				cellClassName: "font-bold text-primary text-center",
 				cell: ({ row }) => {
-					console.log("row?.original", row);
-					return row?.original?.request_quantity;
+					return (
+						<span className="text-primary">
+							{row?.original?.request_quantity}
+						</span>
+					);
+				},
+			},
+			{
+				header: "In Stock Qty",
+				accessorKey: "product.inventory.total_quantity",
+				className: "",
+				cellClassName: " text-center",
+				cell: ({ row }) => {
+					let val = row?.original?.inventory?.total_quantity;
+					let isZeroOrLess = val <= 0;
+					if (isZeroOrLess) {
+						setAllowed(false);
+					}
+					return (
+						<span
+							className={`font-bold  ${isZeroOrLess ? "text-red-500" : "text-green-500"}`}
+						>
+							{val}
+						</span>
+					);
 				},
 			},
 		],
-		[]
+		[],
 	);
 
 	useEffect(() => {
@@ -107,10 +133,21 @@ const ViewRequestOrderPage = () => {
 						</CardLayout>
 					))}
 				</div>
-				<div className="ml-auto flex items-start justify-end py-6  gap-4 w-full">
+				{!allowed && (
+					<p className="text-red-500 text-center pt-4 text-lg font-bold w-1/3 ml-auto">
+						You cannot approve this request because one or more
+						items have{" "}
+						<u className="uppercase">insufficient stock quantity</u>
+						.
+					</p>
+				)}
+				<div
+					className={`ml-auto flex items-start justify-end py-6  gap-4 w-full`}
+				>
 					{data?.data?.status == "pending" && (
 						<>
 							<Button
+								className={`${!allowed ? "grayscale pointer-events-none" : ""}`}
 								size="lg"
 								type="accent"
 								onClick={() => {
@@ -153,7 +190,7 @@ const ViewRequestOrderPage = () => {
 									declineRequisition(id)
 										.then(() => {
 											toast.success(
-												"Request has been declined!"
+												"Request has been declined!",
 											);
 											setTimeout(() => {
 												setBtnLoading(false);
@@ -203,7 +240,7 @@ const ViewRequestOrderPage = () => {
 									setBtnLoading(true);
 									approvedRequisition(id).then(() => {
 										toast.success(
-											"Request has been approved successfully"
+											"Request has been approved successfully",
 										);
 										setTimeout(() => {
 											setBtnLoading(false);
@@ -240,7 +277,7 @@ const ViewRequestOrderPage = () => {
 							type="accent"
 							onClick={() => {
 								toast.success(
-									"Order has been returned successfully"
+									"Order has been returned successfully",
 								);
 								return_ref.current.hide();
 							}}
