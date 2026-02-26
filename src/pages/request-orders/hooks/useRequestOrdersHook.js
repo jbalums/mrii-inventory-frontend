@@ -10,7 +10,7 @@ const useRequestOrdersHook = () => {
 		if (items?.length > 0) {
 			items.map((item) => {
 				formData.append("inventory_id[]", item?.id);
-				formData.append("quantity[]", item?.quantity);
+				formData.append("quantity[]", item?.qty);
 			});
 		}
 		return axios.post("/inventory/requisition", formData);
@@ -25,7 +25,7 @@ const useRequestOrdersHook = () => {
 		if (items?.length > 0) {
 			items.map((item) => {
 				formData.append("inventory_id[]", item?.id);
-				formData.append("quantity[]", item?.quantity);
+				formData.append("quantity[]", item?.qty);
 			});
 		}
 		return axios.patch(`/inventory/requisition/${id}`, formData);
@@ -50,7 +50,7 @@ const useRequestOrdersHook = () => {
 		getRequestOrderDetail,
 		deleteRequestOrder,
 		correctRequestOrder,
-		updateRequestOrder
+		updateRequestOrder,
 	};
 };
 

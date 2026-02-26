@@ -1,5 +1,5 @@
 import { useAuth } from "@/hooks/useAuth";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../Button";
@@ -276,7 +276,7 @@ const PageHeader = (props) => {
 							</Link>
 							{breadcrumbs?.map((data, index) => {
 								return (
-									<>
+									<Fragment key={`breadcrumb-${index}`}>
 										<FlatIcon
 											key={`bc-${data?.label}`}
 											icon="rr-angle-small-right"
@@ -293,7 +293,7 @@ const PageHeader = (props) => {
 										>
 											{data?.label}
 										</Link>
-									</>
+									</Fragment>
 								);
 							})}
 						</nav>

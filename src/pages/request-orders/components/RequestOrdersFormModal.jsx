@@ -9,6 +9,7 @@ import ModalHeader from "@/src/components/modals/components/ModalHeader";
 import Modal from "@/src/components/modals/Modal";
 import Table from "@/src/components/table/Table";
 import useDataTable from "@/src/helpers/useDataTable";
+import { v4 as uuidv4 } from "uuid";
 import {
 	forwardRef,
 	useEffect,
@@ -24,6 +25,7 @@ import SelectInputField from "@/src/components/forms/SelectInputField";
 import ReactSelectInputField from "@/src/components/forms/ReactSelectInputField";
 import { useBranchLocation } from "@/src/features/locations/hooks/useBranchLocationHook";
 import { dateTodayInput, isNumeric } from "@/libs/helpers";
+import QuantityField from "@/src/components/forms/QuantityField";
 
 const defaultDateValue = () => {
 	let date = new Date();
@@ -50,30 +52,14 @@ const RequestOrdersFormModal = (props, ref) => {
 	const [branches, setBranches] = useState([]);
 	const { user } = useAuth();
 
-	const [list, setList] = useState([
-		/* {
-			id: "AG454",
-			name: "Banana chopper",
-			location: "Cebu",
-			uom: "29 kg",
-			qty_on_hand: 345,
-			qty_received: 345,
-		},
-		{
-			id: "AG455",
-			name: "Testing item 2",
-			location: "Cebu",
-			uom: "29 kg",
-			qty_on_hand: 345,
-			qty_received: 345,
-		}, */
-	]);
+	const [list, setList] = useState([]);
 	useImperativeHandle(ref, () => ({
 		show: show,
 		hide: hide,
 	}));
 
 	const updateList = (item) => {
+		console.warn("updateList", item);
 		setList((list) => list.map((x) => (x.id == item.id ? item : x)));
 	};
 	const removeInList = (item) => {
@@ -148,7 +134,9 @@ const RequestOrdersFormModal = (props, ref) => {
 				className: "border-t",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					return original?.product?.code ? original?.product?.code : original?.code  || "-";
+					return original?.product?.code
+						? original?.product?.code
+						: original?.code || "-";
 				},
 			},
 			{
@@ -157,7 +145,9 @@ const RequestOrdersFormModal = (props, ref) => {
 				className: "border-t",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					return original?.product?.name ? original?.product?.name : original?.name || "-";
+					return original?.product?.name
+						? original?.product?.name
+						: original?.name || "-";
 				},
 			},
 			{
@@ -166,7 +156,9 @@ const RequestOrdersFormModal = (props, ref) => {
 				className: "border-t",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					return original?.branch?.name ? original?.branch?.name : original?.location?.name || "-";
+					return original?.branch?.name
+						? original?.branch?.name
+						: original?.location?.name || "-";
 				},
 			},
 			{
@@ -175,7 +167,9 @@ const RequestOrdersFormModal = (props, ref) => {
 				className: "border-t",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					return original?.product?.unit_measurement ? original?.product?.unit_measurement : original?.unit_measurement || "-";
+					return original?.product?.unit_measurement
+						? original?.product?.unit_measurement
+						: original?.unit_measurement || "-";
 				},
 			},
 			{
@@ -185,20 +179,50 @@ const RequestOrdersFormModal = (props, ref) => {
 				cellClassName: "!text-center w-[128px]",
 				thClassName: "!text-center w-[128px]",
 				cell: ({ row: { original } }) => {
+					console.log("original", original?.quantity);
+					let item = original;
+					item.requested_quantity = 1;
 					return (
-						<QtyInputField
-							qty={original?.quantity}
-							setQty={(qty) => {
-								let item = original;
-								item.quantity = qty;
-								updateList(item);
-								if (isNumeric(qty)) {
-									setDisableBtn(false);
-								} else {
-									setDisableBtn(true);
-								}
-							}}
-						/>
+						<>
+							<QuantityField
+								min={1}
+								step={1}
+								max={item?.total_quantity}
+								qty={item?.requested_quantity}
+								setQty={(qty) => {
+									// console.warn("qty", original, qty);
+									item.requested_quantity = qty;
+								}}
+								onBlurCommit={(finalQty) => {
+									console.warn("finalQty", finalQty);
+									updateList({
+										...item,
+										qty: finalQty,
+									});
+								}}
+							/>
+							{/* 
+							<QtyInputField
+								key={uuidv4()}
+								max={original?.total_quantity}
+								qty={original?.quantity}
+								setQty={(qty) => {
+									console.warn("qty", original, qty);
+									updateList({
+										...original,
+										quantity: qty,
+									});
+									// let item = original;
+									// item.quantity = qty;
+									// updateList(item);
+									// if (isNumeric(qty)) {
+									// 	setDisableBtn(false);
+									// } else {
+									// 	setDisableBtn(true);
+									// }
+								}}
+							/> */}
+						</>
 					);
 				},
 			},
@@ -224,7 +248,7 @@ const RequestOrdersFormModal = (props, ref) => {
 				},
 			},
 		],
-		[]
+		[],
 	);
 	return (
 		<Modal open={open} hide={hide} size="3xl">

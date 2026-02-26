@@ -10,12 +10,12 @@ const QtyInputField = ({ qty, setQty, max, ...props }) => {
 		setValue((currentQty) => {
 			if (max) {
 				if (currentQty < max) {
-					return currentQty + 1;
+					return parseFloat(currentQty) + 1;
 				} else {
-					return max;
+					return parseFloat(max);
 				}
 			} else {
-				return currentQty + 1;
+				return parseFloat(currentQty) + 1;
 			}
 		});
 		// setQty((currentQty) => {
@@ -44,7 +44,7 @@ const QtyInputField = ({ qty, setQty, max, ...props }) => {
 		functions: () => {
 			setQty(value);
 		},
-		params: [value],
+		params: [parseFloat(value)],
 	});
 
 	useNoBugUseEffect({
@@ -63,22 +63,21 @@ const QtyInputField = ({ qty, setQty, max, ...props }) => {
 				<FlatIcon icon="rr-minus" />
 			</div>
 			<input
-				type="text"
+				type="number"
 				className="h-11 py-3 px-2 text-center bg-foreground border border-border group-hover:border-secondary group-focus-within:border-secondary w-20 active:bg-background hover:bg-background focus:bg-background bg-opacity-25"
 				value={value}
 				onChange={(e) => {
 					let input_value = e.target.value;
-					// if (isNumeric(String(input_value))) {
 					setValue(input_value);
-					// }
 				}}
 				onBlur={(e) => {
 					let input_value = e.target.value;
-					if (isNumeric(String(input_value))) {
-						setValue(input_value);
-					} else {
-						setValue(1);
-					}
+					setValue(input_value);
+					// if (isNumeric(String(input_value))) {
+					// 	setValue(input_value);
+					// } else {
+					// 	setValue(1);
+					// }
 				}}
 				{...props}
 			/>

@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { forwardRef, useImperativeHandle, useMemo, useState } from "react";
 import ReactSelectInputField from "../forms/ReactSelectInputField";
 import SelectInputField from "../forms/SelectInputField";
+import { toast } from "react-toastify";
 
 const SelectItemsModal = (props, ref) => {
 	const {
@@ -51,7 +52,7 @@ const SelectItemsModal = (props, ref) => {
 			data?.data.map((item) => ({
 				...item,
 				selected: isSelected(item),
-			})) || []
+			})) || [],
 		);
 	}, [data?.data]);
 
@@ -87,7 +88,9 @@ const SelectItemsModal = (props, ref) => {
 				accessorKey: "code",
 				cell: ({ row, getValue }) => {
 					const item = row.original;
-					return item?.product?.code ? item?.product?.code : item?.code;
+					return item?.product?.code
+						? item?.product?.code
+						: item?.code;
 				},
 			},
 			{
@@ -96,7 +99,9 @@ const SelectItemsModal = (props, ref) => {
 				className: "min-w-[128px] !whitespace-pre",
 				cell: ({ row, getValue }) => {
 					const item = row.original;
-					return item?.product?.name ? item?.product?.name : item?.name;
+					return item?.product?.name
+						? item?.product?.name
+						: item?.name;
 				},
 			},
 			{
@@ -105,7 +110,9 @@ const SelectItemsModal = (props, ref) => {
 				className: "min-w-[128px] !whitespace-pre !text-center",
 				cell: ({ row, getValue }) => {
 					const item = row.original;
-					return item?.branch?.name ? item?.branch?.name : item?.location?.name;
+					return item?.branch?.name
+						? item?.branch?.name
+						: item?.location?.name;
 				},
 			},
 			{
@@ -114,7 +121,9 @@ const SelectItemsModal = (props, ref) => {
 				className: "!text-center",
 				cell: ({ row, getValue }) => {
 					const item = row.original;
-					return item?.product?.unit_measurement ? item?.product?.unit_measurement : item?.unit_measurement;
+					return item?.product?.unit_measurement
+						? item?.product?.unit_measurement
+						: item?.unit_measurement;
 				},
 			},
 			{
@@ -123,7 +132,11 @@ const SelectItemsModal = (props, ref) => {
 				className: "!text-center",
 				cell: ({ row, getValue }) => {
 					const item = row.original;
-					return item?.total_quantity;
+					return item?.total_quantity > 0 ? (
+						<b className="text-green-700">{item?.total_quantity}</b>
+					) : (
+						<span className="text-red-500">0</span>
+					);
 				},
 			},
 			{
@@ -142,6 +155,12 @@ const SelectItemsModal = (props, ref) => {
 										: " hover:opacity-50"
 								}`}
 								onClick={() => {
+									if (item.total_quantity <= 0) {
+										toast.error(
+											"Cannot select item no stock available.",
+										);
+										return;
+									}
 									selectItem(item);
 								}}
 							>
@@ -159,7 +178,7 @@ const SelectItemsModal = (props, ref) => {
 				},
 			},
 		],
-		[selectedItems, list]
+		[selectedItems, list],
 	);
 
 	return (
