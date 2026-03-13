@@ -184,7 +184,7 @@ const RequestOrderDetail = () => {
 	}, [params?.id]);
 
 	const approveIssuance = () => {
-		return axios.post(`/inventory/issuance-approve/${params?.id}`);
+		return axios.post(`/inventory/approve-issuance/${params?.id}`);
 	};
 
 	const addToList = (item) => {

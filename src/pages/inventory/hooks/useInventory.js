@@ -16,7 +16,7 @@ const useInventory = () => {
 	}) => {
 		setLoading(true);
 		axios
-			.post(`/inventory/triggers/${id}`, { ...formData })
+			.patch(`/inventory/triggers/${id}`, { ...formData })
 			.then((res) => {
 				console.log("res", res);
 				toast.success("Inventory triggers updated!");
@@ -40,7 +40,7 @@ const useInventory = () => {
 	const savePrice = ({ setLoading, setError, callback, id, ...formData }) => {
 		setLoading(true);
 		axios
-			.post(`/inventory/price/${id}`, { ...formData })
+			.patch(`/inventory/price/${id}`, { ...formData })
 			.then((res) => {
 				console.log("res", res);
 				toast.success("Inventory price updated!");
@@ -67,7 +67,7 @@ const useInventory = () => {
 		console.log("formData", formData);
 		setLoading(true);
 		axios
-			.post(`/inventory/inventory-correction`, {
+			.patch(`/inventory/inventory-correction`, {
 				...formData,
 			})
 			.then((res) => {
@@ -93,7 +93,7 @@ const useInventory = () => {
 	}) => {
 		setLoading(true);
 		axios
-			.post(`/inventory/beginning-balance/${id}`, { ...formData })
+			.patch(`/inventory/beginning-balance/${id}`, { ...formData })
 			.then((res) => {
 				console.log("res", res);
 				toast.success("Inventory beginning balance updated!");

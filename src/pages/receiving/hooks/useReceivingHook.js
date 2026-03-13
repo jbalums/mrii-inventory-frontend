@@ -35,29 +35,11 @@ const useReceiving = () => {
 					setLoading(false);
 				});
 		} else {
-			axios
-				.post(`/inventory/receiving/${id}`, {
-					_method: "PATCH",
-					...formData,
-				})
-				.then((res) => {
-					console.log("res", res);
-					toast.success("PO recieved updated successfully!");
-					if (typeof callback == "function") callback(res.data.data);
-				})
-				.catch((error) => {
-					console.log("errror", error);
-					toast.error(
-						`Failed to submit the form. Please check your inputs!`
-					);
-					if (error?.response?.status !== 422) throw error;
-					if (error?.response?.data?.errors) {
-						setErrors(error?.response?.data?.errors, setError);
-					}
-				})
-				.finally(() => {
-					setLoading(false);
-				});
+			setLoading(false);
+			toast.error("Updating received PO is not supported yet.");
+			return Promise.reject(
+				new Error("Updating received PO is not supported yet."),
+			);
 		}
 	};
 	return { saveReceiving };

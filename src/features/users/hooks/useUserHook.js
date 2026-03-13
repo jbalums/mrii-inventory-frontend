@@ -28,7 +28,7 @@ export const useUserHook = () => {
 	}) => {
 		if (props?.id) {
 			axios
-				.post(`/management/users/${props?.id}`, formData, {
+				.patch(`/management/users/${props?.id}`, formData, {
 					headers: {
 						"Content-Type": "multipart/form-data",
 					},
@@ -74,9 +74,7 @@ export const useUserHook = () => {
 	};
 
 	const deleteUser = (id) => {
-		return axios.post(`/management/user/${id}`, {
-			_method: "DELETE",
-		});
+		return axios.delete(`/management/users/${id}`);
 	};
 	return {
 		saveUser,
