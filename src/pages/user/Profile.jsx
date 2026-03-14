@@ -22,10 +22,7 @@ const Profile = () => {
 	const changePassword = (data) => {
 		setLoading(true);
 		axios
-			.post(`/management/user-password/${user?.data?.id}`, {
-				...data,
-				_method: "PATCH",
-			})
+			.patch(`/management/password`, data)
 			.then((res) => {
 				setLoading(false);
 				toast.success("Password changed successfully!");
