@@ -92,12 +92,13 @@ const predefinedBottomRanges = [
 const IssuanceReport = () => {
 	const componentRef = useRef(null);
 	const tableRef = useRef(null);
+	const { user } = useAuth();
 	const [list, setList] = useState([]);
 	const [categories, setCategories] = useState([]);
 	const [branches, setBranches] = useState([]);
-	const { user } = useAuth();
 	const { getCategories } = useItemCategories();
 	const { getBranches } = useBranchLocation();
+	const [selectedBranch, setSelectedBranch] = useState(null);
 	const {
 		data,
 		loading: dataLoading,
@@ -114,7 +115,15 @@ const IssuanceReport = () => {
 		});
 	}, []);
 	useEffect(() => {
-		if (!canSelectBranch) return;
+		if (!canSelectBranch) {
+			return;
+		} else {
+			setSelectedBranch(user?.data?.branch_id);
+			setFilters((filters) => ({
+				...filters,
+				branch_id: user?.data?.branch_id,
+			}));
+		}
 
 		getBranches().then((res) => {
 			setBranches(res.data.data);
@@ -211,7 +220,7 @@ const IssuanceReport = () => {
 				},
 			},
 		],
-		[]
+		[],
 	);
 
 	return (
@@ -249,10 +258,6 @@ const IssuanceReport = () => {
 										}));
 									}}
 									options={[
-										{
-											label: "All branches",
-											value: "",
-										},
 										...branches?.map((branch) => ({
 											label: branch?.name,
 											value: branch?.id,
@@ -279,10 +284,10 @@ const IssuanceReport = () => {
 										setFilters((filters) => ({
 											...filters,
 											date_from: formatDateYYYMMDD(
-												new Date(value[0])
+												new Date(value[0]),
 											),
 											date_to: formatDateYYYMMDD(
-												new Date(value[1])
+												new Date(value[1]),
 											),
 										}));
 									}}
@@ -348,7 +353,19 @@ const IssuanceReport = () => {
 					ref={componentRef}
 					className={``}
 					key={`date-${filters?.date}`}
-					title="Warehouse Issuances"
+					title={
+						<div className="flex">
+							<span>
+								Warehouse Issuances (
+								{canSelectBranch
+									? (branches.find(
+											(x) => x.id === selectedBranch,
+										)?.name ?? "Select A Branch")
+									: user?.data?.branch?.name}
+								)
+							</span>
+						</div>
+					}
 					date={filters?.date ? formatDate(filters?.date) : null}
 				>
 					<div className="printable-table">
@@ -396,7 +413,7 @@ const IssuanceReport = () => {
 												{columns?.map((col) => {
 													if (
 														excluded_cols.includes(
-															col.accessorKey
+															col.accessorKey,
 														)
 													) {
 														if (
@@ -412,14 +429,14 @@ const IssuanceReport = () => {
 																			item[
 																				"total_quantity"
 																			] ||
-																				0
+																				0,
 																		) *
 																			parseFloat(
 																				item[
 																					"price"
 																				] ||
-																					0
-																			)
+																					0,
+																			),
 																	)}
 																</td>
 															);
@@ -432,7 +449,7 @@ const IssuanceReport = () => {
 																	{formatToCurrency(
 																		item[
 																			"price"
-																		]
+																		],
 																	)}
 																</td>
 															);
@@ -443,12 +460,12 @@ const IssuanceReport = () => {
 															>
 																{col?.cell
 																	? col.cell(
-																			item
-																	  )
+																			item,
+																		)
 																	: item[
 																			col
 																				.accessorKey
-																	  ]}
+																		]}
 															</td>
 														);
 													}

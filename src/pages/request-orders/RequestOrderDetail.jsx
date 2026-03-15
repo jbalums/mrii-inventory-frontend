@@ -44,7 +44,8 @@ const RequestOrderDetail = () => {
 
 	const { approvedRequisition, declineRequisition, deleteRequisition } =
 		useRequisitions();
-	const { correctRequestOrder, getRequestOrderDetail } = useRequestOrdersHook();
+	const { correctRequestOrder, getRequestOrderDetail } =
+		useRequestOrdersHook();
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [accepting, setAccepting] = useState(false);
@@ -169,19 +170,17 @@ const RequestOrderDetail = () => {
 				thClassName: " !text-center",
 			},
 		],
-		[data?.status, data?.issuance_status]
+		[data?.status, data?.issuance_status],
 	);
 
 	const acceptRequest = useCallback(() => {
 		setAccepting(true);
-		requisitionsApi
-			.accept(params?.id)
-			.then((res) => {
-				setAccepting(false);
-				toast.success("Order accepted successfully");
-				accept_order_ref.current.hide();
-				getOrderData();
-			});
+		requisitionsApi.accept(params?.id).then((res) => {
+			setAccepting(false);
+			toast.success("Order accepted successfully");
+			accept_order_ref.current.hide();
+			getOrderData();
+		});
 	}, [getOrderData, params?.id]);
 
 	const approveIssuance = () => {
@@ -448,7 +447,7 @@ const RequestOrderDetail = () => {
 											type="primary"
 											onClick={() => {
 												create_issuance_ref.current.show(
-													data
+													data,
 												);
 											}}
 										>
@@ -492,7 +491,7 @@ const RequestOrderDetail = () => {
 											type="accent"
 											onClick={() => {
 												receive_order_ref.current.show(
-													data
+													data,
 												);
 											}}
 										>
@@ -542,20 +541,29 @@ const RequestOrderDetail = () => {
 					<div className="w-full  flex flex-col">
 						<div className="flex items-center gap-4 mb-3">
 							<h3 className="">Requested items</h3>
-							{
-								(data?.status == 'pending' && data?.details?.length == 0 )? 
-								(data?.requester?.id == user?.data?.id || user?.data?.user_type == "admin") ? 
-								<Button
-									className="ml-4 px-2 font-bold"
-									type="accent"
-									size="xs"
-									onClick={() => {
-										editRequestModalRef.current.show(data);
-									}}
-								>
-									<FlatIcon icon="rr-plus" /> Add requested items
-								</Button> : ''  : ''
-							}
+							{data?.status == "pending" &&
+							data?.details?.length == 0 ? (
+								data?.requester?.id == user?.data?.id ||
+								user?.data?.user_type == "admin" ? (
+									<Button
+										className="ml-4 px-2 font-bold"
+										type="accent"
+										size="xs"
+										onClick={() => {
+											editRequestModalRef.current.show(
+												data,
+											);
+										}}
+									>
+										<FlatIcon icon="rr-plus" /> Add
+										requested items
+									</Button>
+								) : (
+									""
+								)
+							) : (
+								""
+							)}
 						</div>
 						{loading ? (
 							<div className="h-[88px] flex items-center justify-center !bg-white rounded-lg text-placeholder">
@@ -634,7 +642,7 @@ const RequestOrderDetail = () => {
 																				className="bg-transparent h-1 w-1 absolute left-0 top-0 cursor-pointer"
 																				onClick={() => {
 																					setSelectedItem(
-																						item
+																						item,
 																					);
 																					correctInventoryRef.current.show();
 																				}}
@@ -667,7 +675,7 @@ const RequestOrderDetail = () => {
 																			className="!text-sm !text-left "
 																			onClick={() =>
 																				viewProductModal(
-																					item?.product
+																					item?.product,
 																				)
 																			}
 																		>
@@ -701,7 +709,7 @@ const RequestOrderDetail = () => {
 																		)}
 																	</tr>
 																);
-															}
+															},
 														)}
 													</tbody>
 												</table>
@@ -736,7 +744,7 @@ const RequestOrderDetail = () => {
 									approvedRequisition(params?.id)
 										.then(() => {
 											toast.success(
-												"Request has been approved successfully"
+												"Request has been approved successfully",
 											);
 											setTimeout(() => {
 												setBtnLoading(false);
@@ -795,7 +803,7 @@ const RequestOrderDetail = () => {
 									declineRequisition(params?.id)
 										.then(() => {
 											toast.success(
-												"Request has been declined!"
+												"Request has been declined!",
 											);
 											setTimeout(() => {
 												setBtnLoading(false);
@@ -866,7 +874,7 @@ const RequestOrderDetail = () => {
 									deleteRequisition(params?.id)
 										.then(() => {
 											toast.success(
-												"Request has been deleted successfully!"
+												"Request has been deleted successfully!",
 											);
 											setTimeout(() => {
 												setBtnLoading(false);
@@ -926,7 +934,7 @@ const RequestOrderDetail = () => {
 									setBtnLoading(true);
 									approveIssuance(params?.id).then(() => {
 										toast.success(
-											"Issuance has been approved successfully"
+											"Issuance has been approved successfully",
 										);
 										setTimeout(() => {
 											setBtnLoading(false);
@@ -1054,7 +1062,7 @@ const RequestOrderDetail = () => {
 							}).then((res) => {
 								setCorrecting(false);
 								toast.success(
-									"Inventory corrected successfully"
+									"Inventory corrected successfully",
 								);
 								correctInventoryRef.current.hide();
 							});
@@ -1066,11 +1074,11 @@ const RequestOrderDetail = () => {
 					</Button>
 				}
 			/>
-
+			{/* 
 			<ViewInventoryTransactionsModal
 				key={itemModalKey}
 				ref={viewProductRef}
-			/>
+			/> */}
 			<EditRequestOrderModal
 				addToList={addToList}
 				updateInList={updateInList}

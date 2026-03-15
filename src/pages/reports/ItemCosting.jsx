@@ -37,6 +37,7 @@ const ItemCosting = () => {
 	const [categories, setCategories] = useState([]);
 	const [branches, setBranches] = useState([]);
 	const { user } = useAuth();
+	const [selectedBranch, setSelectedBranch] = useState(null);
 	const { getCategories } = useItemCategories();
 	const { getBranches } = useBranchLocation();
 	const {
@@ -57,7 +58,15 @@ const ItemCosting = () => {
 		});
 	}, []);
 	useEffect(() => {
-		if (!canSelectBranch) return;
+		if (!canSelectBranch) {
+			return;
+		} else {
+			setSelectedBranch(user?.data?.branch_id);
+			setFilters((filters) => ({
+				...filters,
+				branch_id: user?.data?.branch_id,
+			}));
+		}
 
 		getBranches().then((res) => {
 			setBranches(res.data.data);
@@ -120,7 +129,7 @@ const ItemCosting = () => {
 				className: " !text-center",
 			},
 		],
-		[]
+		[],
 	);
 
 	const handlePrint = useReactToPrint({
@@ -220,16 +229,13 @@ const ItemCosting = () => {
 									inputClassName="!h-8"
 									value={filters?.branch_id}
 									onChange={(data) => {
+										setSelectedBranch(data);
 										setFilters((filters) => ({
 											...filters,
 											branch_id: data,
 										}));
 									}}
 									options={[
-										{
-											label: "All branches",
-											value: "",
-										},
 										...branches?.map((branch) => ({
 											label: branch?.name,
 											value: branch?.id,
@@ -239,15 +245,6 @@ const ItemCosting = () => {
 							) : (
 								""
 							)}
-							{/* <TextInputField
-								label="Date"
-								labelClassName="text-white !text-xs !font-normal -mb-[0px]"
-								placeholder="Enter a date"
-								type="date"
-								inputClassName="!h-9"
-								defaultValue={dateTodayInput()}
-								value={filters?.date}
-							/> */}
 							<ReactSelectInputField
 								className="w-full lg:w-[212px]"
 								placeholder="Select item category"
@@ -309,10 +306,22 @@ const ItemCosting = () => {
 						filters?.date ? formatDateWithTime(filters?.date) : null
 					}
 					title={
-						<>
-							Item Costing: &nbsp;
-							<u>{currentDate()}</u>
-						</>
+						<div className="w-full flex flex-col">
+							<span>
+								Item Costing: &nbsp;
+								<u className="">{currentDate()}</u>
+							</span>
+							<span>
+								Branch: &nbsp;
+								<u>
+									{canSelectBranch
+										? (branches.find(
+												(x) => x.id === selectedBranch,
+											)?.name ?? "Select A Branch")
+										: user?.data?.branch?.name}
+								</u>
+							</span>
+						</div>
 					}
 				>
 					<div className="printable-table">
@@ -328,6 +337,7 @@ const ItemCosting = () => {
 									{columns?.map((col) => {
 										return (
 											<th
+												key={`theader-${col.accessorKey}`}
 												className={`!text-[8pt] !text-left !font-semibold ${col.className}`}
 												style={{ background: "#eee" }}
 											>
@@ -360,7 +370,7 @@ const ItemCosting = () => {
 														{columns?.map((col) => {
 															if (
 																excluded_cols.includes(
-																	col.accessorKey
+																	col.accessorKey,
 																)
 															) {
 																if (
@@ -374,14 +384,14 @@ const ItemCosting = () => {
 																					item[
 																						"quantity"
 																					] ||
-																						0
+																						0,
 																				) *
 																					parseFloat(
 																						item[
 																							"price"
 																						] ||
-																							0
-																					)
+																							0,
+																					),
 																			)}
 																		</td>
 																	);
@@ -396,14 +406,14 @@ const ItemCosting = () => {
 																					item[
 																						"total_quantity"
 																					] ||
-																						0
+																						0,
 																				) *
 																					parseFloat(
 																						item[
 																							"price"
 																						] ||
-																							0
-																					)
+																							0,
+																					),
 																			)}
 																		</td>
 																	);
@@ -416,7 +426,7 @@ const ItemCosting = () => {
 																			{formatToCurrency(
 																				item[
 																					"price"
-																				]
+																				],
 																			)}
 																		</td>
 																	);
@@ -427,12 +437,12 @@ const ItemCosting = () => {
 																	>
 																		{col?.cell
 																			? col.cell(
-																					item
-																			  )
+																					item,
+																				)
 																			: item[
 																					col
 																						.accessorKey
-																			  ]}
+																				]}
 																	</td>
 																);
 															}
@@ -440,7 +450,7 @@ const ItemCosting = () => {
 													</tr>
 												</>
 											);
-										}
+										},
 									)
 								)}
 							</tbody>

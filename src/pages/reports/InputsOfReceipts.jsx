@@ -89,6 +89,7 @@ const InputsOfReceipts = () => {
 	const tableRef = useRef(null);
 	const [list, setList] = useState([]);
 	const [branches, setBranches] = useState([]);
+	const [selectedBranch, setSelectedBranch] = useState("");
 	const { user } = useAuth();
 	const {
 		data,
@@ -112,7 +113,15 @@ const InputsOfReceipts = () => {
 		});
 	}, []);
 	useEffect(() => {
-		if (!canSelectBranch) return;
+		if (!canSelectBranch) {
+			return;
+		} else {
+			setSelectedBranch(user?.data?.branch_id);
+			setFilters((filters) => ({
+				...filters,
+				branch_id: user?.data?.branch_id,
+			}));
+		}
 
 		getBranches().then((res) => {
 			setBranches(res.data.data);
@@ -192,7 +201,7 @@ const InputsOfReceipts = () => {
 				},
 			},
 		],
-		[]
+		[],
 	);
 
 	const exportToExcel = () => {
@@ -292,10 +301,10 @@ const InputsOfReceipts = () => {
 										setFilters((filters) => ({
 											...filters,
 											date_from: formatDateYYYMMDD(
-												new Date(value[0])
+												new Date(value[0]),
 											),
 											date_to: formatDateYYYMMDD(
-												new Date(value[1])
+												new Date(value[1]),
 											),
 										}));
 									}}
@@ -360,7 +369,16 @@ const InputsOfReceipts = () => {
 					size="long"
 					ref={componentRef}
 					className={``}
-					title="Inputs of Receipts"
+					title={
+						<div className="flex w-full">
+							<span>Inputs of Receipts</span>&nbsp;(
+							{canSelectBranch
+								? branches.find((x) => x.id === selectedBranch)
+										?.name || "Select a Branch"
+								: user?.data?.branch?.name}
+							)
+						</div>
+					}
 				>
 					<div className="printable-table">
 						<table className="" ref={tableRef}>
@@ -395,7 +413,7 @@ const InputsOfReceipts = () => {
 												{columns?.map((col) => {
 													if (
 														excluded_cols.includes(
-															col.accessorKey
+															col.accessorKey,
 														)
 													) {
 														if (
@@ -411,14 +429,14 @@ const InputsOfReceipts = () => {
 																			item[
 																				"total_quantity"
 																			] ||
-																				0
+																				0,
 																		) *
 																			parseFloat(
 																				item[
 																					"price"
 																				] ||
-																					0
-																			)
+																					0,
+																			),
 																	)}
 																</td>
 															);
@@ -431,7 +449,7 @@ const InputsOfReceipts = () => {
 																	{formatToCurrency(
 																		item[
 																			"price"
-																		]
+																		],
 																	)}
 																</td>
 															);
@@ -442,12 +460,12 @@ const InputsOfReceipts = () => {
 															>
 																{col?.cell
 																	? col.cell(
-																			item
-																	  )
+																			item,
+																		)
 																	: item[
 																			col
 																				.accessorKey
-																	  ]}
+																		]}
 															</td>
 														);
 													}

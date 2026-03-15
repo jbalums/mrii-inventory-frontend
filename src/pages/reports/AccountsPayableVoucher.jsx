@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import { set } from "date-fns";
 
 const excluded_cols = ["price", "date", "actual_cost", "remain_value"];
 const AccountsPayableVoucher = () => {
@@ -27,6 +28,7 @@ const AccountsPayableVoucher = () => {
 	const [list, setList] = useState([]);
 	const [branches, setBranches] = useState([]);
 	const { user } = useAuth();
+	const [selectedBranch, setSelectedBranch] = useState("");
 	const { getBranches } = useBranchLocation();
 	const {
 		data,
@@ -41,7 +43,15 @@ const AccountsPayableVoucher = () => {
 		setPage("all");
 	}, []);
 	useEffect(() => {
-		if (!canSelectBranch) return;
+		if (!canSelectBranch) {
+			return;
+		} else {
+			setFilters((filters) => ({
+				...filters,
+				branch_id: user?.data?.branch_id,
+			}));
+			setSelectedBranch(user?.data?.branch_id);
+		}
 
 		getBranches().then((res) => {
 			setBranches(res.data.data);
@@ -67,25 +77,27 @@ const AccountsPayableVoucher = () => {
 		const workbook = XLSX.utils.book_new();
 		const worksheet = XLSX.utils.table_to_sheet(table);
 		worksheet["!cols"] = [
-			{ wch: 10 }, 
-			{ wch: 40 }, 
-			{ wch: 75 }, 
-			{ wch: 5 }, 
-			{ wch: 20 }, 
-			{ wch: 6 }, 
-			{ wch: 15 }, 
-		  ];
-		  
+			{ wch: 10 },
+			{ wch: 40 },
+			{ wch: 75 },
+			{ wch: 5 },
+			{ wch: 20 },
+			{ wch: 6 },
+			{ wch: 15 },
+		];
+
 		XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
 
 		// Create a buffer
 		const excelBuffer = XLSX.write(workbook, {
-		bookType: "xlsx",
-		type: "array",
+			bookType: "xlsx",
+			type: "array",
 		});
 
 		// Convert buffer to a blob
-		const data = new Blob([excelBuffer], { type: "application/octet-stream" });
+		const data = new Blob([excelBuffer], {
+			type: "application/octet-stream",
+		});
 
 		saveAs(data, `Warehouse Issuances - ${currentDate()}.xlsx`);
 	};
@@ -103,7 +115,16 @@ const AccountsPayableVoucher = () => {
 				header: "Reference",
 				accessorKey: "account_code",
 				cell: (data) => {
-					return data?.inventory?.product?.account_code;
+					let po = data?.receive?.purchase_order
+						? `PO-${data?.receive?.purchase_order}`
+						: null;
+					let action = data?.action == "manual" ? "Inv. Corr.: " : "";
+					return (
+						<>
+							{action}
+							<b>{`${po ?? data?.details}`}</b>
+						</>
+					);
 				},
 			},
 			{
@@ -137,7 +158,7 @@ const AccountsPayableVoucher = () => {
 				},
 			},
 		],
-		[]
+		[],
 	);
 
 	return (
@@ -159,10 +180,6 @@ const AccountsPayableVoucher = () => {
 									}));
 								}}
 								options={[
-									{
-										label: "All branches",
-										value: "",
-									},
 									...branches?.map((branch) => ({
 										label: branch?.name,
 										value: branch?.id,
@@ -217,7 +234,16 @@ const AccountsPayableVoucher = () => {
 					size="long"
 					ref={componentRef}
 					className={``}
-					title="Inputs of Receipts"
+					title={
+						<div className="flex w-full">
+							<span>Accounts Payable Voucher</span>&nbsp;(
+							{canSelectBranch
+								? branches.find((x) => x.id === selectedBranch)
+										?.name || "Select a Branch"
+								: user?.data?.branch?.name}
+							)
+						</div>
+					}
 				>
 					<div className="printable-table">
 						<table className="">
@@ -252,7 +278,7 @@ const AccountsPayableVoucher = () => {
 												{columns?.map((col) => {
 													if (
 														excluded_cols.includes(
-															col.accessorKey
+															col.accessorKey,
 														)
 													) {
 														if (
@@ -268,14 +294,14 @@ const AccountsPayableVoucher = () => {
 																			item[
 																				"total_quantity"
 																			] ||
-																				0
+																				0,
 																		) *
 																			parseFloat(
 																				item[
 																					"price"
 																				] ||
-																					0
-																			)
+																					0,
+																			),
 																	)}
 																</td>
 															);
@@ -288,7 +314,7 @@ const AccountsPayableVoucher = () => {
 																	{formatToCurrency(
 																		item[
 																			"price"
-																		]
+																		],
 																	)}
 																</td>
 															);
@@ -299,12 +325,12 @@ const AccountsPayableVoucher = () => {
 															>
 																{col?.cell
 																	? col.cell(
-																			item
-																	  )
+																			item,
+																		)
 																	: item[
 																			col
 																				.accessorKey
-																	  ]}
+																		]}
 															</td>
 														);
 													}
