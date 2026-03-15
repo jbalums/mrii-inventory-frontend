@@ -1,62 +1,96 @@
-import Login from "@/src/pages/Login";
-import Products from "@/src/pages/products/Products.jsx";
-import { useEffect, useState } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Suspense, lazy, useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import SplashScreen from "./components/SplashScreen";
-import ItemCategories from "./features/item-categories/ItemCategories";
-import PrintItemCategories from "./features/item-categories/PrintItemCategories";
-import Locations from "./features/locations/Locations";
-import PrintLocations from "./features/locations/PrintLocations";
-import PrintUsers from "./features/users/PrintUsers";
-import Users from "./features/users/Users";
-import NotFoundPage from "./pages/404";
-import AcceptOrders from "./pages/accept-orders/AcceptOrders";
-import RequestDetails from "./pages/accept-orders/RequestDetails";
-import ApproveIssuance from "./pages/approving/ApproveIssuance";
-import ApproveRequestOrder from "./pages/approving/ApproveRequestOrder";
-import Approving from "./pages/approving/Approving";
-import ViewIssuanceOrder from "./pages/approving/ViewIssuanceOrder";
-import ViewRequestOrderPage from "./pages/approving/ViewRequestOrderPage";
-import CheckAuth from "./pages/CheckAuth";
-import Dashboard from "./pages/Dashboard";
-import Inventory from "./pages/inventory/Inventory";
-import IssuanceApproval from "./pages/issuances/IssuanceApproval";
-import Issuances from "./pages/issuances/Issuances";
-import ReceivingIssuances from "./pages/issuances/ReceivingIssuances";
-import PrintProducts from "./pages/products/PrintProducts";
-import ProjectPlantRequests from "./pages/project-plant/ProjectPlantRequests";
-import PurchaseOrderList from "./pages/purchase-order-list/PurchaseOrderList";
-import ReceiveOrderDetails from "./pages/receiving-orders/ReceivingOrderDetails";
-import ReceivingOrders from "./pages/receiving-orders/ReceivingOrders";
-import Receiving from "./pages/receiving/Receiving";
-import Repacking from "./pages/repacking/Repacking";
-import ItemDelivery from "./pages/request-orders/ItemDelivery";
-import PrepareItemDelivery from "./pages/request-orders/PrepareItemDelivery";
-import RequestOrderDetail from "./pages/request-orders/RequestOrderDetail";
-import RequestOrders from "./pages/request-orders/RequestOrders";
-import ViewCompletedRequest from "./pages/request-orders/ViewCompletedRequest";
-import ReturnMaterials from "./pages/return-materials/ReturnMaterials";
-import PrintSuppliers from "./pages/suppliers/PrintSuppliers";
-import Suppliers from "./pages/suppliers/Suppliers";
-import Test from "./pages/Test";
-import Profile from "./pages/user/Profile";
-import ShowRequestOrder from "./public-pages/ShowRequestOrder";
-import PrintRequestOrder from "./pages/request-orders/PrintRequestOrder";
-import ScanQr from "./public-pages/ScanQr";
-import ItemCosting from "./pages/reports/ItemCosting";
-import IssuanceReport from "./pages/reports/IssuanceReport";
-import InputsOfReceipts from "./pages/reports/InputsOfReceipts";
-import ItemUnits from "./features/item-units/ItemUnits";
-import PrintItemUnits from "./features/item-units/PrintItemUnits";
 import "rsuite/dist/rsuite.min.css";
-import MyLogs from "./pages/user/MyLogs";
-import SystemLogs from "./pages/user/SystemLogs";
-import ManageProductInventory from "./pages/products/ManageProductInventory";
-import InternalReceivng from "./pages/receiving/InternalReceivng";
-import Correction from "./pages/Correction";
-import AccountsPayableVoucher from "./pages/reports/AccountsPayableVoucher";
+
+const ShowRequestOrder = lazy(() => import("./public-pages/ShowRequestOrder"));
+const ScanQr = lazy(() => import("./public-pages/ScanQr"));
+const CheckAuth = lazy(() => import("./pages/CheckAuth"));
+const Login = lazy(() => import("./pages/Login"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Users = lazy(() => import("./features/users/Users"));
+const PrintUsers = lazy(() => import("./features/users/PrintUsers"));
+const Inventory = lazy(() => import("./pages/inventory/Inventory"));
+const ManageProductInventory = lazy(
+	() => import("./pages/products/ManageProductInventory"),
+);
+const Products = lazy(() => import("./pages/products/Products.jsx"));
+const PrintProducts = lazy(() => import("./pages/products/PrintProducts"));
+const Receiving = lazy(() => import("./pages/receiving/Receiving"));
+const InternalReceivng = lazy(() => import("./pages/receiving/InternalReceivng"));
+const AcceptOrders = lazy(() => import("./pages/accept-orders/AcceptOrders"));
+const RequestOrderDetail = lazy(
+	() => import("./pages/request-orders/RequestOrderDetail"),
+);
+const RequestOrders = lazy(() => import("./pages/request-orders/RequestOrders"));
+const PrintRequestOrder = lazy(
+	() => import("./pages/request-orders/PrintRequestOrder"),
+);
+const PrepareItemDelivery = lazy(
+	() => import("./pages/request-orders/PrepareItemDelivery"),
+);
+const ItemDelivery = lazy(() => import("./pages/request-orders/ItemDelivery"));
+const ViewCompletedRequest = lazy(
+	() => import("./pages/request-orders/ViewCompletedRequest"),
+);
+const Approving = lazy(() => import("./pages/approving/Approving"));
+const ApproveRequestOrder = lazy(
+	() => import("./pages/approving/ApproveRequestOrder"),
+);
+const ViewRequestOrderPage = lazy(
+	() => import("./pages/approving/ViewRequestOrderPage"),
+);
+const Issuances = lazy(() => import("./pages/issuances/Issuances"));
+const Repacking = lazy(() => import("./pages/repacking/Repacking"));
+const ReturnMaterials = lazy(
+	() => import("./pages/return-materials/ReturnMaterials"),
+);
+const ProjectPlantRequests = lazy(
+	() => import("./pages/project-plant/ProjectPlantRequests"),
+);
+const ApproveIssuance = lazy(
+	() => import("./pages/approving/ApproveIssuance"),
+);
+const ReceivingIssuances = lazy(
+	() => import("./pages/issuances/ReceivingIssuances"),
+);
+const ItemCosting = lazy(() => import("./pages/reports/ItemCosting"));
+const IssuanceReport = lazy(() => import("./pages/reports/IssuanceReport"));
+const InputsOfReceipts = lazy(
+	() => import("./pages/reports/InputsOfReceipts"),
+);
+const AccountsPayableVoucher = lazy(
+	() => import("./pages/reports/AccountsPayableVoucher"),
+);
+const ViewIssuanceOrder = lazy(
+	() => import("./pages/approving/ViewIssuanceOrder"),
+);
+const PurchaseOrderList = lazy(
+	() => import("./pages/purchase-order-list/PurchaseOrderList"),
+);
+const ItemCategories = lazy(
+	() => import("./features/item-categories/ItemCategories"),
+);
+const PrintItemCategories = lazy(
+	() => import("./features/item-categories/PrintItemCategories"),
+);
+const ItemUnits = lazy(() => import("./features/item-units/ItemUnits"));
+const PrintItemUnits = lazy(
+	() => import("./features/item-units/PrintItemUnits"),
+);
+const Locations = lazy(() => import("./features/locations/Locations"));
+const PrintLocations = lazy(
+	() => import("./features/locations/PrintLocations"),
+);
+const Suppliers = lazy(() => import("./pages/suppliers/Suppliers"));
+const PrintSuppliers = lazy(() => import("./pages/suppliers/PrintSuppliers"));
+const Profile = lazy(() => import("./pages/user/Profile"));
+const MyLogs = lazy(() => import("./pages/user/MyLogs"));
+const SystemLogs = lazy(() => import("./pages/user/SystemLogs"));
+const Correction = lazy(() => import("./pages/Correction"));
+const NotFoundPage = lazy(() => import("./pages/404"));
 
 const AppRoutes = () => {
 	return (
@@ -65,9 +99,7 @@ const AppRoutes = () => {
 			<Route path="/scan-qr" element={<ScanQr />} />
 			<Route path="/" element={<CheckAuth />} />
 			<Route path="/login" element={<Login />} />
-			<Route path="/test" element={<Test />} />
 			<Route path="/dashboard" element={<Dashboard />} />
-			{/* USERS MANAGEMENT*/}
 			<Route path="/users" element={<Users />} />
 			<Route path="/users/print" element={<PrintUsers />} />
 			<Route path="/inventory" element={<Inventory />} />
@@ -75,7 +107,6 @@ const AppRoutes = () => {
 				path="/manage-product-inventory"
 				element={<ManageProductInventory />}
 			/>
-			{/* PRODUCTS MANAGEMENT*/}
 			<Route path="/products" element={<Products />} />
 			<Route path="/products/print" element={<PrintProducts />} />
 			<Route path="/receiving" element={<Receiving />} />
@@ -86,18 +117,12 @@ const AppRoutes = () => {
 				element={<RequestOrderDetail />}
 			/>
 			<Route path="/request-orders" element={<RequestOrders />} />
-			<Route
-				path="/request-orders/:id"
-				element={<RequestOrderDetail />}
-			/>
+			<Route path="/request-orders/:id" element={<RequestOrderDetail />} />
 			<Route
 				path="/request-orders/:id/print"
 				element={<PrintRequestOrder />}
 			/>
-			<Route
-				path="/request-orders/:id/pdf"
-				element={<PrintRequestOrder />}
-			/>
+			<Route path="/request-orders/:id/pdf" element={<PrintRequestOrder />} />
 			<Route
 				path="/request-orders/prepare-item-delivery"
 				element={<PrepareItemDelivery />}
@@ -114,9 +139,7 @@ const AppRoutes = () => {
 				path="/request-orders/view-completed/:id"
 				element={<ViewCompletedRequest />}
 			/>
-
 			<Route path="/approving" element={<Approving />} />
-
 			<Route
 				path="/approving/approve-request-order"
 				element={<ApproveRequestOrder />}
@@ -125,32 +148,27 @@ const AppRoutes = () => {
 				path="/approving/approve-request-order/view-request/:id"
 				element={<ViewRequestOrderPage />}
 			/>
-
 			<Route path="/issuances" element={<Issuances />} />
 			<Route path="/issuances/:id" element={<RequestOrderDetail />} />
 			<Route
 				path="/for-approval-issuances/:id"
 				element={<RequestOrderDetail />}
 			/>
-
 			<Route path="/repacking" element={<Repacking />} />
 			<Route path="/return-materials" element={<ReturnMaterials />} />
 			<Route
 				path="/for-project-or-plant-requests"
 				element={<ProjectPlantRequests />}
 			/>
-
 			<Route
 				path="/approving/approve-issuance-order"
 				element={<ApproveIssuance />}
 			/>
-
 			<Route path="/receiving-orders" element={<ReceivingIssuances />} />
 			<Route
 				path="/receiving-orders/:id"
 				element={<RequestOrderDetail />}
 			/>
-
 			<Route path="/reports/item-costing" element={<ItemCosting />} />
 			<Route
 				path="/reports/warehouse-issuance"
@@ -164,13 +182,11 @@ const AppRoutes = () => {
 				path="/reports/accounts-payable-voucher"
 				element={<AccountsPayableVoucher />}
 			/>
-
 			<Route
 				path="/approving/approve-issuance-order/view-issuance/:id"
 				element={<ViewIssuanceOrder />}
 			/>
 			<Route path="/po-lists" element={<PurchaseOrderList />} />
-			{/* PRODUCT CATEGORIES MANAGEMENT*/}
 			<Route path="/item-categories" element={<ItemCategories />} />
 			<Route
 				path="/item-categories/print"
@@ -178,36 +194,44 @@ const AppRoutes = () => {
 			/>
 			<Route path="/item-units" element={<ItemUnits />} />
 			<Route path="/item-units/print" element={<PrintItemUnits />} />
-			{/* LOCATIONS MANAGEMENT*/}
 			<Route path="/locations" element={<Locations />} />
 			<Route path="/locations/print" element={<PrintLocations />} />
-			{/* SUPPLIERS MANAGEMENT*/}
 			<Route path="/suppliers" element={<Suppliers />} />
 			<Route path="/suppliers/print" element={<PrintSuppliers />} />
-
 			<Route path="/profile" element={<Profile />} />
 			<Route path="/my-logs" element={<MyLogs />} />
 			<Route path="/system-changes-logs" element={<SystemLogs />} />
-
 			<Route
 				path="/AUzNo13OhD1ONaRO/correction"
 				element={<Correction />}
 			/>
-
 			<Route path="*" element={<NotFoundPage />} />
 		</Routes>
 	);
 };
+
 function App() {
 	const [showSplash, setShowSplash] = useState(true);
 
 	useEffect(() => {
-		setTimeout(() => {
+		const timer = window.setTimeout(() => {
 			setShowSplash(false);
 		}, 2500);
+
+		return () => {
+			window.clearTimeout(timer);
+		};
 	}, []);
 
-	return showSplash ? <SplashScreen /> : <AppRoutes />;
+	if (showSplash) {
+		return <SplashScreen />;
+	}
+
+	return (
+		<Suspense fallback={<SplashScreen />}>
+			<AppRoutes />
+		</Suspense>
+	);
 }
 
 export default App;

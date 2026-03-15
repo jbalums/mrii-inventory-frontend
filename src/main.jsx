@@ -9,11 +9,6 @@ import reportWebVitals from "./reportWebVitals";
 import { configureApiClient } from "@/src/services/api/client";
 import { toast, ToastContainer } from "react-toastify";
 
-if (window?.console) {
-	if (!String(import.meta.env.VITE_BACKEND_URL || "").includes(".test"))
-		window.console.log = (log) => {};
-}
-
 const removeSession = () => {
 	if (!window.location.pathname.includes("login")) {
 		setTimeout(() => {

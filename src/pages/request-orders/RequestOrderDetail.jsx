@@ -13,7 +13,6 @@ import { toast } from "react-toastify";
 import { useRequisitions } from "../approving/hooks/useRequisitions";
 import CreateIssuanceModal from "../issuances/components/CreateIssuanceModal";
 import ReceiveOrderModal from "../issuances/components/ReceiveOrderModal";
-import TestExport from "./TestExport";
 import QRCode from "qrcode.react";
 import OrderStatus from "@/src/components/OrderStatus";
 import ConfirmModal from "@/src/components/modals/ConfirmModal";
@@ -77,7 +76,6 @@ const RequestOrderDetail = () => {
 	}, [getRequestOrderDetail, params?.id]);
 
 	const viewProductModal = (item) => {
-		console.log("itemitemitem", item);
 		setItemModalKey(uuidv4());
 		setTimeout(() => {
 			viewProductRef.current.show({
@@ -191,12 +189,10 @@ const RequestOrderDetail = () => {
 	};
 
 	const addToList = (item) => {
-		console.log("addToList", item);
 		// setList((list) => [item, ...list]);
 	};
 
 	const updateInList = (item) => {
-		console.log("updateInList", item);
 		// setList((list) => list.map((x) => (x.id == item.id ? item : x)));
 	};
 
