@@ -1,5 +1,4 @@
 import { useAuth } from "@/hooks/useAuth";
-import axios from "@/libs/axios";
 import { requestOrderStatus, purposeElements } from "@/libs/elementsHelper";
 import AppLayout from "@/src/components/AppLayout";
 import Button from "@/src/components/Button";
@@ -19,6 +18,7 @@ import QRCode from "qrcode.react";
 import OrderStatus from "@/src/components/OrderStatus";
 import ConfirmModal from "@/src/components/modals/ConfirmModal";
 import useRequestOrdersHook from "./hooks/useRequestOrdersHook";
+import { requisitionsApi } from "@/src/services/api/requisitions";
 import ViewProductModal from "../inventory/components/ViewProductModal";
 import { v4 as uuidv4 } from "uuid";
 import ViewInventoryTransactionsModal from "../inventory/components/ViewInventoryTransactionsModal";
@@ -45,7 +45,7 @@ const RequestOrderDetail = () => {
 
 	const { approvedRequisition, declineRequisition, deleteRequisition } =
 		useRequisitions();
-	const { correctRequestOrder } = useRequestOrdersHook();
+	const { correctRequestOrder, getRequestOrderDetail } = useRequestOrdersHook();
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [accepting, setAccepting] = useState(false);
@@ -66,12 +66,15 @@ const RequestOrderDetail = () => {
 	const getOrderData = useCallback(() => {
 		if (params.id) {
 			setLoading(true);
-			axios.get(`/inventory/requisition/${params.id}`).then((res) => {
-				setData(res.data.data);
-				setLoading(false);
-			});
+			getRequestOrderDetail(params.id)
+				.then((res) => {
+					setData(res.data);
+				})
+				.finally(() => {
+					setLoading(false);
+				});
 		}
-	}, [params?.id]);
+	}, [getRequestOrderDetail, params?.id]);
 
 	const viewProductModal = (item) => {
 		console.log("itemitemitem", item);
@@ -173,18 +176,18 @@ const RequestOrderDetail = () => {
 
 	const acceptRequest = useCallback(() => {
 		setAccepting(true);
-		axios
-			.post(`/inventory/requisition-accept/${params?.id}`)
+		requisitionsApi
+			.accept(params?.id)
 			.then((res) => {
 				setAccepting(false);
 				toast.success("Order accepted successfully");
 				accept_order_ref.current.hide();
 				getOrderData();
 			});
-	}, [params?.id]);
+	}, [getOrderData, params?.id]);
 
 	const approveIssuance = () => {
-		return axios.post(`/inventory/approve-issuance/${params?.id}`);
+		return requisitionsApi.approveIssuance(params?.id);
 	};
 
 	const addToList = (item) => {

@@ -1,26 +1,24 @@
-import axios from "@/libs/axios.js";
+import { requisitionsApi } from "@/src/services/api/requisitions";
 
 export const useRequisitions = () => {
 	const getRequisitions = () => {
-		return axios.get("/inventory/requisition");
+		return requisitionsApi.list();
 	};
 
 	const getRequisitionById = (id) => {
-		return axios
-			.get(`/inventory/requisition/${id}`)
-			.then((res) => res.data.data);
+		return requisitionsApi.getById(id).then((data) => data.data);
 	};
 
 	const approvedRequisition = (id) => {
-		return axios.post(`/inventory/requisition-approved/${id}`);
+		return requisitionsApi.approve(id);
 	};
 
 	const declineRequisition = (id) => {
-		return axios.post(`/inventory/requisition-decline/${id}`);
+		return requisitionsApi.decline(id);
 	};
 
 	const deleteRequisition = (id) => {
-		return axios.post(`/inventory/requisition-delete/${id}`);
+		return requisitionsApi.deleteApproved(id);
 	};
 
 	return {

@@ -1,50 +1,18 @@
-import axios from "@/libs/axios";
+import { requisitionsApi } from "@/src/services/api/requisitions";
+
 const useRequestOrdersHook = () => {
-	const saveRequestOrder = (data, items = []) => {
-		let formData = new FormData();
+	const saveRequestOrder = (data, items = []) =>
+		requisitionsApi.create(data, items);
 
-		formData.append("project_code", data?.project_code);
-		formData.append("date_needed", data?.date_needed);
-		formData.append("account_code", data?.account_code);
-		formData.append("purpose", data?.purpose);
-		if (items?.length > 0) {
-			items.map((item) => {
-				formData.append("inventory_id[]", item?.id);
-				formData.append("quantity[]", item?.qty);
-			});
-		}
-		return axios.post("/inventory/requisition", formData);
-	};
-	const updateRequestOrder = (id, data, items = []) => {
-		let formData = new FormData();
+	const updateRequestOrder = (id, data, items = []) =>
+		requisitionsApi.update(id, data, items);
 
-		formData.append("project_code", data?.project_code);
-		formData.append("date_needed", data?.date_needed);
-		formData.append("account_code", data?.account_code);
-		formData.append("purpose", data?.purpose);
-		if (items?.length > 0) {
-			items.map((item) => {
-				formData.append("inventory_id[]", item?.id);
-				formData.append("quantity[]", item?.qty);
-			});
-		}
-		return axios.patch(`/inventory/requisition/${id}`, formData);
-	};
+	const getRequestOrderDetail = (id) => requisitionsApi.getById(id);
 
-	const getRequestOrderDetail = (id) => {
-		return axios.get(`/inventory/requisition/${id}`);
-	};
-	const deleteRequestOrder = (id) => {
-		return axios.post(`/inventory/requisition/${id}`, {
-			_method: "DELETE",
-		});
-	};
-	const correctRequestOrder = (data) => {
-		return axios.post(`inventory/AUzNo13OhD1ONaRO/correction`, {
-			_method: "POST",
-			...data,
-		});
-	};
+	const deleteRequestOrder = (id) => requisitionsApi.delete(id);
+
+	const correctRequestOrder = (data) => requisitionsApi.correct(data);
+
 	return {
 		saveRequestOrder,
 		getRequestOrderDetail,

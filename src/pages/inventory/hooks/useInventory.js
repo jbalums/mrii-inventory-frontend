@@ -1,11 +1,15 @@
-import axios from "@/libs/axios";
 import useFormHelper from "@/src/helpers/useFormHelper";
+import {
+	getApiErrorMessage,
+	isValidationError,
+} from "@/src/services/api/errors";
+import { inventoryApi } from "@/src/services/api/inventory";
 import { toast } from "react-toastify";
 
 const useInventory = () => {
 	const { setErrors } = useFormHelper();
 	const getLocations = () => {
-		return axios.get("/management/users");
+		return inventoryApi.listUsers();
 	};
 	const saveProduct = ({
 		setLoading,
@@ -15,44 +19,52 @@ const useInventory = () => {
 		...formData
 	}) => {
 		setLoading(true);
-		axios
-			.patch(`/inventory/triggers/${id}`, { ...formData })
-			.then((res) => {
-				console.log("res", res);
+		inventoryApi
+			.updateTriggers(id, { ...formData })
+			.then((data) => {
 				toast.success("Inventory triggers updated!");
-				callback ? callback(res.data.data) : "";
+				callback ? callback(data.data) : "";
 			})
 			.catch((error) => {
-				console.log("errorerrorerror", error);
-				// toast.error(
-				// 	`Failed to submit the form. Please check your inputs!`
-				// );
-				// if (error.response.status !== 422) throw error;
-				// setErrors(error.response.data.errors, setError);
+				toast.error(
+					getApiErrorMessage(
+						error,
+						"Failed to submit the form. Please check your inputs!",
+					),
+				);
+				if (isValidationError(error)) {
+					setErrors(error.errors, setError);
+					return;
+				}
+
+				throw error;
 			})
 			.finally(() => {
-				setTimeout(() => {
-					setLoading(false);
-				}, 2000);
+				setLoading(false);
 			});
 	};
 
 	const savePrice = ({ setLoading, setError, callback, id, ...formData }) => {
 		setLoading(true);
-		axios
-			.patch(`/inventory/price/${id}`, { ...formData })
-			.then((res) => {
-				console.log("res", res);
+		inventoryApi
+			.updatePrice(id, { ...formData })
+			.then((data) => {
 				toast.success("Inventory price updated!");
-				callback ? callback(res.data.data) : "";
+				callback ? callback(data.data) : "";
 			})
 			.catch((error) => {
-				console.log("errorerrorerror", error);
-				// toast.error(
-				// 	`Failed to submit the form. Please check your inputs!`
-				// );
-				// if (error.response.status !== 422) throw error;
-				// setErrors(error.response.data.errors, setError);
+				toast.error(
+					getApiErrorMessage(
+						error,
+						"Failed to submit the form. Please check your inputs!",
+					),
+				);
+				if (isValidationError(error)) {
+					setErrors(error.errors, setError);
+					return;
+				}
+
+				throw error;
 			})
 			.finally(() => {
 				setLoading(false);
@@ -64,21 +76,23 @@ const useInventory = () => {
 		callback,
 		...formData
 	}) => {
-		console.log("formData", formData);
 		setLoading(true);
-		axios
-			.patch(`/inventory/inventory-correction`, {
+		inventoryApi
+			.correctInventory({
 				...formData,
 			})
-			.then((res) => {
-				console.log("res", res);
+			.then((data) => {
 				toast.success("Inventory correction saved!");
-				callback ? callback(res.data.adjustments_data) : "";
+				callback ? callback(data.adjustments_data) : "";
 			})
 			.catch((error) => {
-				toast.error(
-					`An error occurred! Please contact the administrator if the problem persists.`,
-				);
+				toast.error(getApiErrorMessage(error));
+				if (isValidationError(error)) {
+					setErrors(error.errors, setError);
+					return;
+				}
+
+				throw error;
 			})
 			.finally(() => {
 				setLoading(false);
@@ -92,25 +106,28 @@ const useInventory = () => {
 		...formData
 	}) => {
 		setLoading(true);
-		axios
-			.patch(`/inventory/beginning-balance/${id}`, { ...formData })
-			.then((res) => {
-				console.log("res", res);
+		inventoryApi
+			.updateBeginningBalance(id, { ...formData })
+			.then((data) => {
 				toast.success("Inventory beginning balance updated!");
-				callback ? callback(res.data) : "";
+				callback ? callback(data) : "";
 			})
 			.catch((error) => {
-				console.log("errorerrorerror", error);
-				// toast.error(
-				// 	`Failed to submit the form. Please check your inputs!`
-				// );
-				// if (error.response.status !== 422) throw error;
-				// setErrors(error.response.data.errors, setError);
+				toast.error(
+					getApiErrorMessage(
+						error,
+						"Failed to submit the form. Please check your inputs!",
+					),
+				);
+				if (isValidationError(error)) {
+					setErrors(error.errors, setError);
+					return;
+				}
+
+				throw error;
 			})
 			.finally(() => {
-				setTimeout(() => {
-					setLoading(false);
-				}, 2000);
+				setLoading(false);
 			});
 	};
 

@@ -1,5 +1,6 @@
-import axios from "@/libs/axios";
 import useFormHelper from "@/src/helpers/useFormHelper";
+import { isValidationError } from "@/src/services/api/errors";
+import { receivingApi } from "@/src/services/api/receiving";
 import { toast } from "react-toastify";
 
 const useReceiving = () => {
@@ -13,23 +14,22 @@ const useReceiving = () => {
 	}) => {
 		setLoading(true);
 		if (!id) {
-			axios
-				.post(`/inventory/receiving`, { ...formData })
-				.then((res) => {
-					console.log("res inventory/receiving", res);
+			receivingApi
+				.create({ ...formData })
+				.then((data) => {
 					toast.success("New received PO created successfully!");
-					if (typeof callback == "function") callback(res.data.data);
+					if (typeof callback == "function") callback(data.data);
 				})
 				.catch((error) => {
-					console.log("errror", error?.response);
-					setLoading(false);
 					toast.error(
 						`Failed to submit the form. Please check your inputs!`
 					);
-					if (error?.response?.data?.errors) {
-						setErrors(error?.response?.data?.errors, setError);
+					if (isValidationError(error) && error?.errors) {
+						setErrors(error.errors, setError);
+						return;
 					}
-					if (error?.response?.status !== 422) throw error;
+
+					throw error;
 				})
 				.finally(() => {
 					setLoading(false);

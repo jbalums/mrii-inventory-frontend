@@ -1,5 +1,7 @@
-import axios from "@/libs/axios";
+import { isValidationError } from "@/src/services/api/errors";
+import { usersApi } from "@/src/services/api/users";
 import { toast } from "react-toastify";
+
 export const useUserHook = () => {
 	/* 
          FIELDS
@@ -26,56 +28,30 @@ export const useUserHook = () => {
 		formData,
 		...props
 	}) => {
-		if (props?.id) {
-			axios
-				.patch(`/management/users/${props?.id}`, formData, {
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				})
-				.then((res) => {
-					console.log("res", res);
-					toast.success("User details updated successfully!");
-					callback ? callback(res.data.data) : "";
-				})
-				.catch((error) => {
-					toast.error(
-						`Failed to submit the form. Please check your inputs!`
-					);
-					if (error.response.status !== 422) throw error;
-					setErrors(error.response.data.errors);
-				})
-				.finally(() => {
-					setLoading(false);
-				});
-		} else {
-			axios
-				.post("/management/users", formData, {
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				})
-				.then((res) => {
-					console.log("res", res);
-					toast.success("User added successfully!");
-					callback ? callback(res.data.data) : "";
-				})
-				.catch((error) => {
-					toast.error(
-						`Failed to submit the form. Please check your inputs!`
-					);
-					if (error.response.status !== 422) throw error;
-					setErrors(error.response.data.errors);
-				})
-				.finally(() => {
-					setLoading(false);
-				});
+		try {
+			const data = props?.id
+				? await usersApi.update(props.id, formData)
+				: await usersApi.create(formData);
+
+			toast.success(
+				props?.id
+					? "User details updated successfully!"
+					: "User added successfully!",
+			);
+			callback ? callback(data.data) : "";
+		} catch (error) {
+			toast.error(`Failed to submit the form. Please check your inputs!`);
+			if (!isValidationError(error)) throw error;
+			setErrors(error.errors);
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	const deleteUser = (id) => {
-		return axios.delete(`/management/users/${id}`);
+		return usersApi.delete(id);
 	};
+
 	return {
 		saveUser,
 		deleteUser,

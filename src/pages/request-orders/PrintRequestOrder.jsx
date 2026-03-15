@@ -14,8 +14,8 @@ import { useParams } from "react-router-dom";
 import QRCode from "qrcode.react";
 import Pdf from "react-to-pdf";
 import ReactToPrint from "react-to-print";
-import axios from "@/libs/axios";
 import PrintAppLayout from "@/src/components/PrintAppLayout";
+import { requisitionsApi } from "@/src/services/api/requisitions";
 import { toast } from "react-toastify";
 const PrintRequestOrder = () => {
 	const componentRef = useRef(null);
@@ -30,10 +30,14 @@ const PrintRequestOrder = () => {
 	const getOrderData = useCallback(() => {
 		if (params.id) {
 			setLoading(true);
-			axios.get(`inventory/requisition/${params.id}`).then((res) => {
-				setData(res.data.data);
-				setLoading(false);
-			});
+			requisitionsApi
+				.getById(params.id)
+				.then((data) => {
+					setData(data.data);
+				})
+				.finally(() => {
+					setLoading(false);
+				});
 		}
 	}, [params?.id]);
 

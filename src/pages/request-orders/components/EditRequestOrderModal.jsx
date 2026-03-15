@@ -126,9 +126,8 @@ const EditRequestOrderModal = (props, ref) => {
 		setLoading(true);
 		updateRequestOrder(id, data, list)
 			.then((res) => {
-				console.log("saveRequestOrder", res);
 				toast.success("Request order updated successfully!");
-				successCallBack(res.data.data);
+				successCallBack(res.data);
 				hide();
 			})
 			.finally(() => {

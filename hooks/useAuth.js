@@ -1,8 +1,9 @@
 import useSWR from "swr";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "@/libs/axios";
 import { clear, remove, setStorage } from "@/libs/storage";
+import { authApi } from "@/src/services/api/auth";
+import { isValidationError } from "@/src/services/api/errors";
 import { toast } from "react-toastify";
 
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
@@ -12,7 +13,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 		data: user,
 		error,
 		mutate,
-	} = useSWR("/api/user", () => axios.get("/user").then((res) => res.data), {
+	} = useSWR("auth.current-user", authApi.getCurrentUser, {
 		revalidateIfStale: true,
 		revalidateOnFocus: true,
 	});
@@ -20,15 +21,10 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 		data: notifications,
 		error: errorNotifications,
 		mutate: mutateNotifications,
-	} = useSWR(
-		"/api/inventory/notifications",
-		() => axios.get("/inventory/notifications").then((res) => res.data),
-		{
-			revalidateIfStale: true,
-			// refreshInterval: 5000,
-			revalidateOnFocus: true,
-		}
-	);
+	} = useSWR("auth.notifications", authApi.getNotifications, {
+		revalidateIfStale: true,
+		revalidateOnFocus: true,
+	});
 
 	const clearSession = async () => {
 		await remove("token");
@@ -41,7 +37,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
 	const logout = async () => {
 		try {
-			await axios.post("/logout");
+			await authApi.logout();
 		} finally {
 			await mutate(null, false);
 			await clearSession();
@@ -52,17 +48,17 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
 	const login = async ({ setErrors, setStatus, ...props }) => {
 		try {
-			const result = await axios.post("/login", props);
+			const result = await authApi.login(props);
 
 			setStatus?.("success");
-			await setStorage("token", result.data.access_token);
+			await setStorage("token", result.access_token);
 			toast.success("Login success");
 			await mutate();
 		} catch (error) {
 			toast.error("Login failed! Please check your credentials.");
-			if (error.response?.status !== 422) throw error;
+			if (!isValidationError(error)) throw error;
 			setStatus?.(422);
-			setErrors?.(Object.values(error.response.data.errors).flat());
+			setErrors?.(Object.values(error.errors || {}).flat());
 		}
 	};
 

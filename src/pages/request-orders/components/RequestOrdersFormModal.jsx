@@ -105,9 +105,8 @@ const RequestOrdersFormModal = (props, ref) => {
 		setLoading(true);
 		saveRequestOrder(data, list)
 			.then((res) => {
-				console.log("saveRequestOrder", res);
 				toast.success("Request order submitted successfully!");
-				successCallBack(res.data.data);
+				successCallBack(res.data);
 				hide();
 			})
 			.finally(() => {
