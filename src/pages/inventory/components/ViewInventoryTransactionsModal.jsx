@@ -31,7 +31,6 @@ const ViewInventoryTransactionsModal = (props, ref) => {
 	} = useDataTable(url, [open, url]);
 
 	useEffect(() => {
-		console.log("datadatadatadata", data);
 		setList(data?.data || []);
 	}, [data?.data]);
 	useImperativeHandle(ref, () => ({
@@ -62,10 +61,10 @@ const ViewInventoryTransactionsModal = (props, ref) => {
 	const formatDate = (date) => {
 		let d = new Date(date);
 		return `${String(d.getDate()).padStart(2, "0")}/${String(
-			d.getMonth() + 1
+			d.getMonth() + 1,
 		).padStart(2, "0")}/${d.getFullYear()} ${String(d.getHours()).padStart(
 			2,
-			"0"
+			"0",
 		)}:${String(d.getMinutes()).padStart(2, "0")} ${
 			d.getHours() >= 12 ? "PM" : "AM"
 		}`;
@@ -154,7 +153,7 @@ const ViewInventoryTransactionsModal = (props, ref) => {
 				},
 			}, */
 		],
-		[]
+		[],
 	);
 
 	const getItemDetails = (id) => {

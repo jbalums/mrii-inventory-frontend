@@ -14,7 +14,9 @@ import ContainerCard from "@/src/components/layout/ContainerCard";
 import PrintableLayout from "@/src/components/layout/PrintableLayout";
 import PrintableTable from "@/src/components/table/PrintableTable";
 import { useItemCategories } from "@/src/features/item-categories/hooks/useItemCategoriesHook";
+import { useBranchLocation } from "@/src/features/locations/hooks/useBranchLocationHook";
 import useDataTable from "@/src/helpers/useDataTable";
+import { useAuth } from "@/hooks/useAuth";
 import Html2Pdf, { html2pdf } from "js-html2pdf";
 import { useEffect, useMemo } from "react";
 import { useRef, useState } from "react";
@@ -33,7 +35,11 @@ const ItemCosting = () => {
 	const tableRef = useRef(null);
 	const [list, setList] = useState([]);
 	const [categories, setCategories] = useState([]);
+	const [branches, setBranches] = useState([]);
+	const { user } = useAuth();
+	const [selectedBranch, setSelectedBranch] = useState(null);
 	const { getCategories } = useItemCategories();
+	const { getBranches } = useBranchLocation();
 	const {
 		data,
 		setFilters,
@@ -42,6 +48,8 @@ const ItemCosting = () => {
 		setPaginate,
 		setPage,
 	} = useDataTable(`/inventory/item-costing`, setList, {});
+	const canSelectBranch =
+		user?.data?.user_type === "admin" && user?.data?.branch_id == 1;
 	useEffect(() => {
 		setPage("all");
 		setPaginate("all");
@@ -49,6 +57,21 @@ const ItemCosting = () => {
 			setCategories(res.data.data);
 		});
 	}, []);
+	useEffect(() => {
+		if (!canSelectBranch) {
+			return;
+		} else {
+			setSelectedBranch(user?.data?.branch_id);
+			setFilters((filters) => ({
+				...filters,
+				branch_id: user?.data?.branch_id,
+			}));
+		}
+
+		getBranches().then((res) => {
+			setBranches(res.data.data);
+		});
+	}, [canSelectBranch]);
 	useEffect(() => {
 		setList(data?.data || []);
 	}, [data]);
@@ -106,7 +129,7 @@ const ItemCosting = () => {
 				className: " !text-center",
 			},
 		],
-		[]
+		[],
 	);
 
 	const handlePrint = useReactToPrint({
@@ -197,15 +220,31 @@ const ItemCosting = () => {
 							</span>
 						</div>
 						<div className="flex items-center gap-4">
-							{/* <TextInputField
-								label="Date"
-								labelClassName="text-white !text-xs !font-normal -mb-[0px]"
-								placeholder="Enter a date"
-								type="date"
-								inputClassName="!h-9"
-								defaultValue={dateTodayInput()}
-								value={filters?.date}
-							/> */}
+							{canSelectBranch ? (
+								<ReactSelectInputField
+									className="w-full lg:w-[212px]"
+									placeholder="Select branch"
+									label="Select Branch"
+									labelClassName="!text-white !text-xs !font-normal -mb-[8px]"
+									inputClassName="!h-8"
+									value={filters?.branch_id}
+									onChange={(data) => {
+										setSelectedBranch(data);
+										setFilters((filters) => ({
+											...filters,
+											branch_id: data,
+										}));
+									}}
+									options={[
+										...branches?.map((branch) => ({
+											label: branch?.name,
+											value: branch?.id,
+										})),
+									]}
+								/>
+							) : (
+								""
+							)}
 							<ReactSelectInputField
 								className="w-full lg:w-[212px]"
 								placeholder="Select item category"
@@ -267,10 +306,22 @@ const ItemCosting = () => {
 						filters?.date ? formatDateWithTime(filters?.date) : null
 					}
 					title={
-						<>
-							Item Costing: &nbsp;
-							<u>{currentDate()}</u>
-						</>
+						<div className="w-full flex flex-col">
+							<span>
+								Item Costing: &nbsp;
+								<u className="">{currentDate()}</u>
+							</span>
+							<span>
+								Branch: &nbsp;
+								<u>
+									{canSelectBranch
+										? (branches.find(
+												(x) => x.id === selectedBranch,
+											)?.name ?? "Select A Branch")
+										: user?.data?.branch?.name}
+								</u>
+							</span>
+						</div>
 					}
 				>
 					<div className="printable-table">
@@ -286,6 +337,7 @@ const ItemCosting = () => {
 									{columns?.map((col) => {
 										return (
 											<th
+												key={`theader-${col.accessorKey}`}
 												className={`!text-[8pt] !text-left !font-semibold ${col.className}`}
 												style={{ background: "#eee" }}
 											>
@@ -318,7 +370,7 @@ const ItemCosting = () => {
 														{columns?.map((col) => {
 															if (
 																excluded_cols.includes(
-																	col.accessorKey
+																	col.accessorKey,
 																)
 															) {
 																if (
@@ -332,14 +384,14 @@ const ItemCosting = () => {
 																					item[
 																						"quantity"
 																					] ||
-																						0
+																						0,
 																				) *
 																					parseFloat(
 																						item[
 																							"price"
 																						] ||
-																							0
-																					)
+																							0,
+																					),
 																			)}
 																		</td>
 																	);
@@ -354,14 +406,14 @@ const ItemCosting = () => {
 																					item[
 																						"total_quantity"
 																					] ||
-																						0
+																						0,
 																				) *
 																					parseFloat(
 																						item[
 																							"price"
 																						] ||
-																							0
-																					)
+																							0,
+																					),
 																			)}
 																		</td>
 																	);
@@ -374,7 +426,7 @@ const ItemCosting = () => {
 																			{formatToCurrency(
 																				item[
 																					"price"
-																				]
+																				],
 																			)}
 																		</td>
 																	);
@@ -385,12 +437,12 @@ const ItemCosting = () => {
 																	>
 																		{col?.cell
 																			? col.cell(
-																					item
-																			  )
+																					item,
+																				)
 																			: item[
 																					col
 																						.accessorKey
-																			  ]}
+																				]}
 																	</td>
 																);
 															}
@@ -398,7 +450,7 @@ const ItemCosting = () => {
 													</tr>
 												</>
 											);
-										}
+										},
 									)
 								)}
 							</tbody>

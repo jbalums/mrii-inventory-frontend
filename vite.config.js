@@ -1,8 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
-import fs from "fs";
-import https from "https";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,9 +13,6 @@ export default defineConfig({
 				}
 				warn(warning);
 			},
-			output: {
-			  manualChunks: undefined // Ensure single bundle for SPAs
-			}
 		},
 	},
 	plugins: [react()],
@@ -27,8 +22,8 @@ export default defineConfig({
 		},
 	},
 	server: {
-	  historyApiFallback: true // Handles SPA fallback for local development
-	}
+		historyApiFallback: true,
+	},
 	/* server: {
 		https: {
 			key: fs.readFileSync("server.key"),

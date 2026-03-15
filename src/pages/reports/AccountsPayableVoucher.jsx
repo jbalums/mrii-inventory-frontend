@@ -1,11 +1,14 @@
-import { formatToCurrency } from "@/libs/helpers";
+import { currentDate, formatToCurrency } from "@/libs/helpers";
+import { useAuth } from "@/hooks/useAuth";
 import AppLayout from "@/src/components/AppLayout";
 import Button from "@/src/components/Button";
 import FlatIcon from "@/src/components/FlatIcon";
 import PrintAppLayout from "@/src/components/PrintAppLayout";
+import ReactSelectInputField from "@/src/components/forms/ReactSelectInputField";
 import ContainerCard from "@/src/components/layout/ContainerCard";
 import PrintableLayout from "@/src/components/layout/PrintableLayout";
 import PrintableTable from "@/src/components/table/PrintableTable";
+import { useBranchLocation } from "@/src/features/locations/hooks/useBranchLocationHook";
 import useDataTable from "@/src/helpers/useDataTable";
 import { useEffect, useMemo } from "react";
 import { useRef, useState } from "react";
@@ -16,20 +19,44 @@ import { toast } from "react-toastify";
 
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import { set } from "date-fns";
 
 const excluded_cols = ["price", "date", "actual_cost", "remain_value"];
 const AccountsPayableVoucher = () => {
 	const componentRef = useRef(null);
 	const tableRef = useRef(null);
 	const [list, setList] = useState([]);
+	const [branches, setBranches] = useState([]);
+	const { user } = useAuth();
+	const [selectedBranch, setSelectedBranch] = useState("");
+	const { getBranches } = useBranchLocation();
 	const {
 		data,
 		loading: dataLoading,
 		setPage,
+		filters,
+		setFilters,
 	} = useDataTable(`/inventory/inputs-of-receipts`, setList, {});
+	const canSelectBranch =
+		user?.data?.user_type === "admin" && user?.data?.branch_id == 1;
 	useEffect(() => {
 		setPage("all");
 	}, []);
+	useEffect(() => {
+		if (!canSelectBranch) {
+			return;
+		} else {
+			setFilters((filters) => ({
+				...filters,
+				branch_id: user?.data?.branch_id,
+			}));
+			setSelectedBranch(user?.data?.branch_id);
+		}
+
+		getBranches().then((res) => {
+			setBranches(res.data.data);
+		});
+	}, [canSelectBranch]);
 	useEffect(() => {
 		setList(data?.data || []);
 	}, [data]);
@@ -50,25 +77,27 @@ const AccountsPayableVoucher = () => {
 		const workbook = XLSX.utils.book_new();
 		const worksheet = XLSX.utils.table_to_sheet(table);
 		worksheet["!cols"] = [
-			{ wch: 10 }, 
-			{ wch: 40 }, 
-			{ wch: 75 }, 
-			{ wch: 5 }, 
-			{ wch: 20 }, 
-			{ wch: 6 }, 
-			{ wch: 15 }, 
-		  ];
-		  
+			{ wch: 10 },
+			{ wch: 40 },
+			{ wch: 75 },
+			{ wch: 5 },
+			{ wch: 20 },
+			{ wch: 6 },
+			{ wch: 15 },
+		];
+
 		XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
 
 		// Create a buffer
 		const excelBuffer = XLSX.write(workbook, {
-		bookType: "xlsx",
-		type: "array",
+			bookType: "xlsx",
+			type: "array",
 		});
 
 		// Convert buffer to a blob
-		const data = new Blob([excelBuffer], { type: "application/octet-stream" });
+		const data = new Blob([excelBuffer], {
+			type: "application/octet-stream",
+		});
 
 		saveAs(data, `Warehouse Issuances - ${currentDate()}.xlsx`);
 	};
@@ -86,7 +115,16 @@ const AccountsPayableVoucher = () => {
 				header: "Reference",
 				accessorKey: "account_code",
 				cell: (data) => {
-					return data?.inventory?.product?.account_code;
+					let po = data?.receive?.purchase_order
+						? `PO-${data?.receive?.purchase_order}`
+						: null;
+					let action = data?.action == "manual" ? "Inv. Corr.: " : "";
+					return (
+						<>
+							{action}
+							<b>{`${po ?? data?.details}`}</b>
+						</>
+					);
 				},
 			},
 			{
@@ -120,7 +158,7 @@ const AccountsPayableVoucher = () => {
 				},
 			},
 		],
-		[]
+		[],
 	);
 
 	return (
@@ -128,6 +166,29 @@ const AccountsPayableVoucher = () => {
 			<PrintAppLayout containerClassName={`!p-0`} backBtn>
 				<div className="w-full py-5 bg-slate-700 sticky top-0 z-20">
 					<div className="flex items-center justify-end ml-auto gap-4 w-[8.5in] mx-auto">
+						{canSelectBranch ? (
+							<ReactSelectInputField
+								className="w-full max-w-[212px]"
+								placeholder="Select branch"
+								label="Select Branch"
+								labelClassName="!text-white !text-xs !font-normal -mb-[8px]"
+								value={filters?.branch_id}
+								onChange={(data) => {
+									setFilters((filters) => ({
+										...filters,
+										branch_id: data,
+									}));
+								}}
+								options={[
+									...branches?.map((branch) => ({
+										label: branch?.name,
+										value: branch?.id,
+									})),
+								]}
+							/>
+						) : (
+							""
+						)}
 						<Pdf
 							options={{
 								unit: "in",
@@ -173,7 +234,16 @@ const AccountsPayableVoucher = () => {
 					size="long"
 					ref={componentRef}
 					className={``}
-					title="Inputs of Receipts"
+					title={
+						<div className="flex w-full">
+							<span>Accounts Payable Voucher</span>&nbsp;(
+							{canSelectBranch
+								? branches.find((x) => x.id === selectedBranch)
+										?.name || "Select a Branch"
+								: user?.data?.branch?.name}
+							)
+						</div>
+					}
 				>
 					<div className="printable-table">
 						<table className="">
@@ -208,7 +278,7 @@ const AccountsPayableVoucher = () => {
 												{columns?.map((col) => {
 													if (
 														excluded_cols.includes(
-															col.accessorKey
+															col.accessorKey,
 														)
 													) {
 														if (
@@ -224,14 +294,14 @@ const AccountsPayableVoucher = () => {
 																			item[
 																				"total_quantity"
 																			] ||
-																				0
+																				0,
 																		) *
 																			parseFloat(
 																				item[
 																					"price"
 																				] ||
-																					0
-																			)
+																					0,
+																			),
 																	)}
 																</td>
 															);
@@ -244,7 +314,7 @@ const AccountsPayableVoucher = () => {
 																	{formatToCurrency(
 																		item[
 																			"price"
-																		]
+																		],
 																	)}
 																</td>
 															);
@@ -255,12 +325,12 @@ const AccountsPayableVoucher = () => {
 															>
 																{col?.cell
 																	? col.cell(
-																			item
-																	  )
+																			item,
+																		)
 																	: item[
 																			col
 																				.accessorKey
-																	  ]}
+																		]}
 															</td>
 														);
 													}

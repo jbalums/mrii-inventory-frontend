@@ -30,6 +30,8 @@ import { saveAs } from "file-saver";
 import { DateRangePicker } from "rsuite";
 import ReactSelectInputField from "@/src/components/forms/ReactSelectInputField";
 import { useItemCategories } from "@/src/features/item-categories/hooks/useItemCategoriesHook";
+import { useBranchLocation } from "@/src/features/locations/hooks/useBranchLocationHook";
+import { useAuth } from "@/hooks/useAuth";
 import { Link } from "react-router-dom";
 
 const predefinedBottomRanges = [
@@ -86,6 +88,9 @@ const InputsOfReceipts = () => {
 	const componentRef = useRef(null);
 	const tableRef = useRef(null);
 	const [list, setList] = useState([]);
+	const [branches, setBranches] = useState([]);
+	const [selectedBranch, setSelectedBranch] = useState("");
+	const { user } = useAuth();
 	const {
 		data,
 		loading: dataLoading,
@@ -95,8 +100,11 @@ const InputsOfReceipts = () => {
 	} = useDataTable(`/inventory/inputs-of-receipts`, setList, {});
 
 	const { getCategories } = useItemCategories();
+	const { getBranches } = useBranchLocation();
 
 	const [categories, setCategories] = useState([]);
+	const canSelectBranch =
+		user?.data?.user_type === "admin" && user?.data?.branch_id == 1;
 
 	useEffect(() => {
 		setPage("all");
@@ -104,6 +112,21 @@ const InputsOfReceipts = () => {
 			setCategories(res.data.data);
 		});
 	}, []);
+	useEffect(() => {
+		if (!canSelectBranch) {
+			return;
+		} else {
+			setSelectedBranch(user?.data?.branch_id);
+			setFilters((filters) => ({
+				...filters,
+				branch_id: user?.data?.branch_id,
+			}));
+		}
+
+		getBranches().then((res) => {
+			setBranches(res.data.data);
+		});
+	}, [canSelectBranch]);
 	useEffect(() => {
 		setList(data?.data || []);
 	}, [data]);
@@ -178,7 +201,7 @@ const InputsOfReceipts = () => {
 				},
 			},
 		],
-		[]
+		[],
 	);
 
 	const exportToExcel = () => {
@@ -233,6 +256,34 @@ const InputsOfReceipts = () => {
 							</span>
 						</div>
 						<div className="flex items-center gap-4">
+							{canSelectBranch ? (
+								<ReactSelectInputField
+									className="w-full lg:w-[212px] -mt-1"
+									placeholder="Select branch"
+									label="Select Branch"
+									labelClassName="!text-white !text-xs !font-normal -mb-[8px]"
+									inputClassName="!h-8"
+									value={filters?.branch_id}
+									onChange={(data) => {
+										setFilters((filters) => ({
+											...filters,
+											branch_id: data,
+										}));
+									}}
+									options={[
+										{
+											label: "All branches",
+											value: "",
+										},
+										...branches?.map((branch) => ({
+											label: branch?.name,
+											value: branch?.id,
+										})),
+									]}
+								/>
+							) : (
+								""
+							)}
 							<div className="pt-[6px]">
 								<DateRangePicker
 									ranges={predefinedBottomRanges}
@@ -250,10 +301,10 @@ const InputsOfReceipts = () => {
 										setFilters((filters) => ({
 											...filters,
 											date_from: formatDateYYYMMDD(
-												new Date(value[0])
+												new Date(value[0]),
 											),
 											date_to: formatDateYYYMMDD(
-												new Date(value[1])
+												new Date(value[1]),
 											),
 										}));
 									}}
@@ -318,7 +369,16 @@ const InputsOfReceipts = () => {
 					size="long"
 					ref={componentRef}
 					className={``}
-					title="Inputs of Receipts"
+					title={
+						<div className="flex w-full">
+							<span>Inputs of Receipts</span>&nbsp;(
+							{canSelectBranch
+								? branches.find((x) => x.id === selectedBranch)
+										?.name || "Select a Branch"
+								: user?.data?.branch?.name}
+							)
+						</div>
+					}
 				>
 					<div className="printable-table">
 						<table className="" ref={tableRef}>
@@ -353,7 +413,7 @@ const InputsOfReceipts = () => {
 												{columns?.map((col) => {
 													if (
 														excluded_cols.includes(
-															col.accessorKey
+															col.accessorKey,
 														)
 													) {
 														if (
@@ -369,14 +429,14 @@ const InputsOfReceipts = () => {
 																			item[
 																				"total_quantity"
 																			] ||
-																				0
+																				0,
 																		) *
 																			parseFloat(
 																				item[
 																					"price"
 																				] ||
-																					0
-																			)
+																					0,
+																			),
 																	)}
 																</td>
 															);
@@ -389,7 +449,7 @@ const InputsOfReceipts = () => {
 																	{formatToCurrency(
 																		item[
 																			"price"
-																		]
+																		],
 																	)}
 																</td>
 															);
@@ -400,12 +460,12 @@ const InputsOfReceipts = () => {
 															>
 																{col?.cell
 																	? col.cell(
-																			item
-																	  )
+																			item,
+																		)
 																	: item[
 																			col
 																				.accessorKey
-																	  ]}
+																		]}
 															</td>
 														);
 													}

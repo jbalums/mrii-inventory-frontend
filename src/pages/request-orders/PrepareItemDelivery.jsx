@@ -99,7 +99,7 @@ const PrepareItemDelivery = () => {
 	useEffect(() => {
 		if (params?.id) {
 			getRequestOrderDetail(params?.id).then((res) => {
-				setOrderInfo(res.data.data);
+				setOrderInfo(res.data);
 			});
 		}
 	}, []);

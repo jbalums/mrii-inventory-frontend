@@ -1,5 +1,6 @@
-import axios from "@/libs/axios";
 import useFormHelper from "@/src/helpers/useFormHelper";
+import { isValidationError } from "@/src/services/api/errors";
+import { receivingApi } from "@/src/services/api/receiving";
 import { toast } from "react-toastify";
 
 const useReceiving = () => {
@@ -13,51 +14,32 @@ const useReceiving = () => {
 	}) => {
 		setLoading(true);
 		if (!id) {
-			axios
-				.post(`/inventory/receiving`, { ...formData })
-				.then((res) => {
-					console.log("res inventory/receiving", res);
+			receivingApi
+				.create({ ...formData })
+				.then((data) => {
 					toast.success("New received PO created successfully!");
-					if (typeof callback == "function") callback(res.data.data);
+					if (typeof callback == "function") callback(data.data);
 				})
 				.catch((error) => {
-					console.log("errror", error?.response);
-					setLoading(false);
 					toast.error(
 						`Failed to submit the form. Please check your inputs!`
 					);
-					if (error?.response?.data?.errors) {
-						setErrors(error?.response?.data?.errors, setError);
+					if (isValidationError(error) && error?.errors) {
+						setErrors(error.errors, setError);
+						return;
 					}
-					if (error?.response?.status !== 422) throw error;
+
+					throw error;
 				})
 				.finally(() => {
 					setLoading(false);
 				});
 		} else {
-			axios
-				.post(`/inventory/receiving/${id}`, {
-					_method: "PATCH",
-					...formData,
-				})
-				.then((res) => {
-					console.log("res", res);
-					toast.success("PO recieved updated successfully!");
-					if (typeof callback == "function") callback(res.data.data);
-				})
-				.catch((error) => {
-					console.log("errror", error);
-					toast.error(
-						`Failed to submit the form. Please check your inputs!`
-					);
-					if (error?.response?.status !== 422) throw error;
-					if (error?.response?.data?.errors) {
-						setErrors(error?.response?.data?.errors, setError);
-					}
-				})
-				.finally(() => {
-					setLoading(false);
-				});
+			setLoading(false);
+			toast.error("Updating received PO is not supported yet.");
+			return Promise.reject(
+				new Error("Updating received PO is not supported yet."),
+			);
 		}
 	};
 	return { saveReceiving };
