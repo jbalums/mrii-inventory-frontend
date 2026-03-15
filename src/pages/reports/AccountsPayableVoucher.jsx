@@ -1,11 +1,14 @@
-import { formatToCurrency } from "@/libs/helpers";
+import { currentDate, formatToCurrency } from "@/libs/helpers";
+import { useAuth } from "@/hooks/useAuth";
 import AppLayout from "@/src/components/AppLayout";
 import Button from "@/src/components/Button";
 import FlatIcon from "@/src/components/FlatIcon";
 import PrintAppLayout from "@/src/components/PrintAppLayout";
+import ReactSelectInputField from "@/src/components/forms/ReactSelectInputField";
 import ContainerCard from "@/src/components/layout/ContainerCard";
 import PrintableLayout from "@/src/components/layout/PrintableLayout";
 import PrintableTable from "@/src/components/table/PrintableTable";
+import { useBranchLocation } from "@/src/features/locations/hooks/useBranchLocationHook";
 import useDataTable from "@/src/helpers/useDataTable";
 import { useEffect, useMemo } from "react";
 import { useRef, useState } from "react";
@@ -22,14 +25,28 @@ const AccountsPayableVoucher = () => {
 	const componentRef = useRef(null);
 	const tableRef = useRef(null);
 	const [list, setList] = useState([]);
+	const [branches, setBranches] = useState([]);
+	const { user } = useAuth();
+	const { getBranches } = useBranchLocation();
 	const {
 		data,
 		loading: dataLoading,
 		setPage,
+		filters,
+		setFilters,
 	} = useDataTable(`/inventory/inputs-of-receipts`, setList, {});
+	const canSelectBranch =
+		user?.data?.user_type === "admin" && user?.data?.branch_id == 1;
 	useEffect(() => {
 		setPage("all");
 	}, []);
+	useEffect(() => {
+		if (!canSelectBranch) return;
+
+		getBranches().then((res) => {
+			setBranches(res.data.data);
+		});
+	}, [canSelectBranch]);
 	useEffect(() => {
 		setList(data?.data || []);
 	}, [data]);
@@ -128,6 +145,33 @@ const AccountsPayableVoucher = () => {
 			<PrintAppLayout containerClassName={`!p-0`} backBtn>
 				<div className="w-full py-5 bg-slate-700 sticky top-0 z-20">
 					<div className="flex items-center justify-end ml-auto gap-4 w-[8.5in] mx-auto">
+						{canSelectBranch ? (
+							<ReactSelectInputField
+								className="w-full max-w-[212px]"
+								placeholder="Select branch"
+								label="Select Branch"
+								labelClassName="!text-white !text-xs !font-normal -mb-[8px]"
+								value={filters?.branch_id}
+								onChange={(data) => {
+									setFilters((filters) => ({
+										...filters,
+										branch_id: data,
+									}));
+								}}
+								options={[
+									{
+										label: "All branches",
+										value: "",
+									},
+									...branches?.map((branch) => ({
+										label: branch?.name,
+										value: branch?.id,
+									})),
+								]}
+							/>
+						) : (
+							""
+						)}
 						<Pdf
 							options={{
 								unit: "in",

@@ -16,7 +16,9 @@ import ContainerCard from "@/src/components/layout/ContainerCard";
 import PrintableLayout from "@/src/components/layout/PrintableLayout";
 import PrintableTable from "@/src/components/table/PrintableTable";
 import { useItemCategories } from "@/src/features/item-categories/hooks/useItemCategoriesHook";
+import { useBranchLocation } from "@/src/features/locations/hooks/useBranchLocationHook";
 import useDataTable from "@/src/helpers/useDataTable";
+import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useMemo } from "react";
 import { useRef, useState } from "react";
 import { DateRangePicker } from "rsuite";
@@ -92,7 +94,10 @@ const IssuanceReport = () => {
 	const tableRef = useRef(null);
 	const [list, setList] = useState([]);
 	const [categories, setCategories] = useState([]);
+	const [branches, setBranches] = useState([]);
+	const { user } = useAuth();
 	const { getCategories } = useItemCategories();
+	const { getBranches } = useBranchLocation();
 	const {
 		data,
 		loading: dataLoading,
@@ -100,12 +105,21 @@ const IssuanceReport = () => {
 		filters,
 		setFilters,
 	} = useDataTable(`/inventory/warehouse-issuances`, setList, {});
+	const canSelectBranch =
+		user?.data?.user_type === "admin" && user?.data?.branch_id == 1;
 	useEffect(() => {
 		setPage("all");
 		getCategories().then((res) => {
 			setCategories(res.data.data);
 		});
 	}, []);
+	useEffect(() => {
+		if (!canSelectBranch) return;
+
+		getBranches().then((res) => {
+			setBranches(res.data.data);
+		});
+	}, [canSelectBranch]);
 	useEffect(() => {
 		setList(data?.data || []);
 	}, [data]);
@@ -220,6 +234,34 @@ const IssuanceReport = () => {
 							</span>
 						</div>
 						<div className="flex items-center gap-4">
+							{canSelectBranch ? (
+								<ReactSelectInputField
+									className="w-full lg:w-[212px] -mt-1"
+									placeholder="Select branch"
+									label="Select Branch"
+									labelClassName="!text-white !text-xs !font-normal -mb-[8px]"
+									inputClassName="!h-8"
+									value={filters?.branch_id}
+									onChange={(data) => {
+										setFilters((filters) => ({
+											...filters,
+											branch_id: data,
+										}));
+									}}
+									options={[
+										{
+											label: "All branches",
+											value: "",
+										},
+										...branches?.map((branch) => ({
+											label: branch?.name,
+											value: branch?.id,
+										})),
+									]}
+								/>
+							) : (
+								""
+							)}
 							<div className="pt-[6px]">
 								<DateRangePicker
 									ranges={predefinedBottomRanges}

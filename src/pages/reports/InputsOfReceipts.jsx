@@ -30,6 +30,8 @@ import { saveAs } from "file-saver";
 import { DateRangePicker } from "rsuite";
 import ReactSelectInputField from "@/src/components/forms/ReactSelectInputField";
 import { useItemCategories } from "@/src/features/item-categories/hooks/useItemCategoriesHook";
+import { useBranchLocation } from "@/src/features/locations/hooks/useBranchLocationHook";
+import { useAuth } from "@/hooks/useAuth";
 import { Link } from "react-router-dom";
 
 const predefinedBottomRanges = [
@@ -86,6 +88,8 @@ const InputsOfReceipts = () => {
 	const componentRef = useRef(null);
 	const tableRef = useRef(null);
 	const [list, setList] = useState([]);
+	const [branches, setBranches] = useState([]);
+	const { user } = useAuth();
 	const {
 		data,
 		loading: dataLoading,
@@ -95,8 +99,11 @@ const InputsOfReceipts = () => {
 	} = useDataTable(`/inventory/inputs-of-receipts`, setList, {});
 
 	const { getCategories } = useItemCategories();
+	const { getBranches } = useBranchLocation();
 
 	const [categories, setCategories] = useState([]);
+	const canSelectBranch =
+		user?.data?.user_type === "admin" && user?.data?.branch_id == 1;
 
 	useEffect(() => {
 		setPage("all");
@@ -104,6 +111,13 @@ const InputsOfReceipts = () => {
 			setCategories(res.data.data);
 		});
 	}, []);
+	useEffect(() => {
+		if (!canSelectBranch) return;
+
+		getBranches().then((res) => {
+			setBranches(res.data.data);
+		});
+	}, [canSelectBranch]);
 	useEffect(() => {
 		setList(data?.data || []);
 	}, [data]);
@@ -233,6 +247,34 @@ const InputsOfReceipts = () => {
 							</span>
 						</div>
 						<div className="flex items-center gap-4">
+							{canSelectBranch ? (
+								<ReactSelectInputField
+									className="w-full lg:w-[212px] -mt-1"
+									placeholder="Select branch"
+									label="Select Branch"
+									labelClassName="!text-white !text-xs !font-normal -mb-[8px]"
+									inputClassName="!h-8"
+									value={filters?.branch_id}
+									onChange={(data) => {
+										setFilters((filters) => ({
+											...filters,
+											branch_id: data,
+										}));
+									}}
+									options={[
+										{
+											label: "All branches",
+											value: "",
+										},
+										...branches?.map((branch) => ({
+											label: branch?.name,
+											value: branch?.id,
+										})),
+									]}
+								/>
+							) : (
+								""
+							)}
 							<div className="pt-[6px]">
 								<DateRangePicker
 									ranges={predefinedBottomRanges}
