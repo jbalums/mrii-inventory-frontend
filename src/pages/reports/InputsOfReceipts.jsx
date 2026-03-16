@@ -265,6 +265,7 @@ const InputsOfReceipts = () => {
 									inputClassName="!h-8"
 									value={filters?.branch_id}
 									onChange={(data) => {
+										setSelectedBranch(data);
 										setFilters((filters) => ({
 											...filters,
 											branch_id: data,
@@ -371,7 +372,7 @@ const InputsOfReceipts = () => {
 					className={``}
 					title={
 						<div className="flex w-full">
-							<span>Inputs of Receipts</span>&nbsp;(
+							<span>Inputs of Receipts</span>&nbsp; (
 							{canSelectBranch
 								? branches.find((x) => x.id === selectedBranch)
 										?.name || "Select a Branch"
