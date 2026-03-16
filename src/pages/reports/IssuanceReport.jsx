@@ -252,6 +252,7 @@ const IssuanceReport = () => {
 									inputClassName="!h-8"
 									value={filters?.branch_id}
 									onChange={(data) => {
+										setSelectedBranch(data);
 										setFilters((filters) => ({
 											...filters,
 											branch_id: data,
