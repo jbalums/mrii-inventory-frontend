@@ -47,7 +47,17 @@ export const useUserHook = () => {
 			setLoading(false);
 		}
 	};
-
+	const getUserLogs = async ({ setLoading, setOperations }) => {
+		try {
+			setLoading(true);
+			const { data } = await usersApi.logs();
+			setOperations(data);
+		} catch (error) {
+			toast.error(`Failed to fetch user logs!`);
+		} finally {
+			setLoading(false);
+		}
+	};
 	const deleteUser = (id) => {
 		return usersApi.delete(id);
 	};
@@ -55,5 +65,6 @@ export const useUserHook = () => {
 	return {
 		saveUser,
 		deleteUser,
+		getUserLogs,
 	};
 };
