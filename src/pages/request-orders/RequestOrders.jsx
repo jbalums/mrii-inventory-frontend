@@ -41,7 +41,7 @@ const RequestOrders = () => {
 		keyword,
 	} = useDataTable(
 		`/inventory/requisition`,
-		null
+		null,
 		// setList
 	);
 
@@ -50,15 +50,15 @@ const RequestOrders = () => {
 			setList(data?.data);
 		}
 	}, [data]);
-	
-	const { deleteSupplier,deleteRequestOrder } = useRequestOrdersHook();
+
+	const { deleteSupplier, deleteRequestOrder } = useRequestOrdersHook();
 	const { getBranches } = useBranchLocation();
-	const [branches, setBranches] = useState([])
-	useEffect(()=>{
+	const [branches, setBranches] = useState([]);
+	useEffect(() => {
 		getBranches().then((res) => {
 			setBranches(res.data.data);
 		});
-	}, [])
+	}, []);
 
 	const columns = useMemo(
 		() => [
@@ -106,8 +106,10 @@ const RequestOrders = () => {
 				className: "cursor-pointer",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					return original?.branch ? original?.branch?.name : original?.location?.name
-				}
+					return original?.branch
+						? original?.branch?.name
+						: original?.location?.name;
+				},
 			},
 			{
 				header: "Order status",
@@ -124,21 +126,34 @@ const RequestOrders = () => {
 				className: "!text-center",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
+					console.log("originaloriginal", original);
 					let condition = ["approved", "completed"];
 					if (condition.includes(original?.status))
 						return (
-							<span
-								className={`px-0 py-1  bg-opacity-10  rounded-xl text-success`}
-							>
-								{user?.user_type}
-								{original.accepted_by?.name}
-							</span>
+							<div className="flex flex-col">
+								<span
+									data-user_type={
+										original.accepted_by?.user_type
+									}
+									className={`px-0 py-1  bg-opacity-10  rounded-xl text-success`}
+								>
+									{original.accepted_by?.name}
+								</span>
+								{user?.data?.id === 1 ? (
+									<>
+										<span className="text-xs">
+											{original?.date_approved}
+										</span>
+									</>
+								) : (
+									""
+								)}
+							</div>
 						);
 				},
 			},
-			
 		],
-		[]
+		[],
 	);
 
 	useEffect(() => {
@@ -171,14 +186,14 @@ const RequestOrders = () => {
 		setLoading(true);
 		deleteRequestOrder(id)
 			.then((res) => {
-				console.log('ress',res.data)
+				console.log("ress", res.data);
 				return;
 				toast.success("Supplier deleted successfully!");
 				removeFromList({ id: id });
 			})
 			.catch(() => {
 				toast.error(
-					"An error occured while trying to delete supplier! Please try again later."
+					"An error occured while trying to delete supplier! Please try again later.",
 				);
 			})
 			.finally(() => {
@@ -281,7 +296,10 @@ const RequestOrders = () => {
 				</div>
 				<Table
 					rowClick={(data) => {
-						window.open(`/request-orders/${data.original.id}`, '_blank');
+						window.open(
+							`/request-orders/${data.original.id}`,
+							"_blank",
+						);
 
 						/* if (data.original.status == "completed") {
 							navigate(
@@ -326,16 +344,25 @@ const RequestOrders = () => {
 				title="Cofirmation"
 				body={
 					<>
-					<p className="text-red-600 font-semibold text-lg text-center uppercase">
-						Are you sure you want to delete <br/><b className="text-3xl"> REF# {selectedData?.ref}?</b>{" "}
-					</p>
-					<p className="text-red-600 font-semibold text-lg text-center">
-					<i className="text-red-600 text-center text-sm">NOTE: THIS ACTION CANNOT BE UNDONE! </i></p>
+						<p className="text-red-600 font-semibold text-lg text-center uppercase">
+							Are you sure you want to delete <br />
+							<b className="text-3xl">
+								{" "}
+								REF# {selectedData?.ref}?
+							</b>{" "}
+						</p>
+						<p className="text-red-600 font-semibold text-lg text-center">
+							<i className="text-red-600 text-center text-sm">
+								NOTE: THIS ACTION CANNOT BE UNDONE!{" "}
+							</i>
+						</p>
 					</>
 				}
 				footer={
 					<div className="flex items-center w-full">
-						<Button type="secondary" onClick={closeConfirmDelete}>CANCEL</Button>
+						<Button type="secondary" onClick={closeConfirmDelete}>
+							CANCEL
+						</Button>
 						<Button
 							type="danger"
 							className="ml-auto"
@@ -352,7 +379,7 @@ const RequestOrders = () => {
 				url={`/inventory`}
 				defaultFilter={{
 					request_order: "yes",
-					location_id: user?.data?.branch_id
+					location_id: user?.data?.branch_id,
 				}}
 			/>
 		</AppLayout>
