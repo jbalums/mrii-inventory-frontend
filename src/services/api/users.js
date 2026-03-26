@@ -12,4 +12,5 @@ export const usersApi = {
 	update: (id, formData) =>
 		apiClient.patch(`/management/users/${id}`, formData, multipartConfig),
 	delete: (id) => apiClient.delete(`/management/users/${id}`),
+	logs: () => apiClient.get(`/user-logs`),
 };

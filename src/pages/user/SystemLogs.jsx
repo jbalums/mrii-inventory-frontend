@@ -1,4 +1,5 @@
 import useNoBugUseEffect from "@/hooks/useNoBugUseEffect";
+import { formatDateWithTime } from "@/libs/helpers";
 import AppLayout from "@/src/components/AppLayout";
 import FlatIcon from "@/src/components/FlatIcon";
 import Table from "@/src/components/table/Table";
@@ -34,6 +35,17 @@ const SystemLogs = () => {
 			{
 				header: "Action",
 				accessorKey: "message",
+				cell: ({ row: { original } }) => {
+					return (
+						<div className="flex flex-col">
+							<span>
+								{original?.message
+									?.split(" by ")[0]
+									.replaceAll("_", " ")}
+							</span>
+						</div>
+					);
+				},
 			},
 			{
 				header: "Changes",
@@ -69,8 +81,28 @@ const SystemLogs = () => {
 					);
 				},
 			},
+
+			{
+				header: "Details",
+				accessorKey: "meta",
+				cell: ({ row: { original } }) => {
+					return (
+						<div className="flex flex-col">
+							<span>
+								{original?.model_type} - ID:{" "}
+								{original?.model_id}
+							</span>
+							<span className="mt-2 text-xs text-black">
+								{formatDateWithTime(
+									new Date(original?.performed_at),
+								)}
+							</span>
+						</div>
+					);
+				},
+			},
 		],
-		[]
+		[],
 	);
 	useNoBugUseEffect({
 		functions: () => {

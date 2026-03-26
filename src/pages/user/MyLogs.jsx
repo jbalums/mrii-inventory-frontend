@@ -1,16 +1,15 @@
 import { useAuth } from "@/hooks/useAuth";
-import axios from "@/libs/axios";
 import { formatDateWithTime } from "@/libs/helpers";
 import AppLayout from "@/src/components/AppLayout";
-import Button from "@/src/components/Button";
 import FlatIcon from "@/src/components/FlatIcon";
-import TextInputField from "@/src/components/forms/TextInputField";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-
+import { useUserHook } from "@/src/features/users/hooks/useUserHook";
+import useNoBugUseEffect from "@/hooks/useNoBugUseEffect";
 const MyLogs = () => {
 	const { user } = useAuth();
+	const { getUserLogs } = useUserHook();
 	const {
 		reset,
 		register,
@@ -20,7 +19,17 @@ const MyLogs = () => {
 		formState: { errors },
 	} = useForm();
 	const [loading, setLoading] = useState(false);
+	const [operations, setOperations] = useState([]);
 
+	useNoBugUseEffect({
+		functions: () => {
+			getUserLogs({
+				setLoading: setLoading,
+				setOperations: setOperations,
+			});
+		},
+		params: [user],
+	});
 	return (
 		<AppLayout
 			icon={<FlatIcon icon="rr-time-past" />}
@@ -61,7 +70,7 @@ const MyLogs = () => {
 							User logs
 						</h2>
 						<div className="flex flex-col pl-4">
-							{user?.data?.operations?.map((operation) => {
+							{operations?.map((operation) => {
 								return (
 									<div className="border-l-2 pl-4 py-2">
 										<div className="flex items-start gap-4 pb-4 border-b">
@@ -104,7 +113,7 @@ const MyLogs = () => {
 																		)}
 																	</span>
 																);
-															}
+															},
 														)}
 													</div>
 												) : (
@@ -113,8 +122,8 @@ const MyLogs = () => {
 												<span className="mt-2 text-xs text-slate-500">
 													{formatDateWithTime(
 														new Date(
-															operation?.performed_at
-														)
+															operation?.performed_at,
+														),
 													)}
 												</span>
 											</span>
