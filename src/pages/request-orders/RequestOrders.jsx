@@ -21,6 +21,7 @@ import { useBranchLocation } from "@/src/features/locations/hooks/useBranchLocat
 const RequestOrders = () => {
 	const navigate = useNavigate();
 	const { user } = useAuth();
+	console.log("UUUUU", user);
 	const form_modal_ref = useRef(null);
 	const delete_modal_ref = useRef(null);
 	const select_items_ref = useRef(null);
@@ -126,7 +127,6 @@ const RequestOrders = () => {
 				className: "!text-center",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					console.log("originaloriginal", original);
 					let condition = ["approved", "completed"];
 					if (condition.includes(original?.status))
 						return (
@@ -186,7 +186,6 @@ const RequestOrders = () => {
 		setLoading(true);
 		deleteRequestOrder(id)
 			.then((res) => {
-				console.log("ress", res.data);
 				return;
 				toast.success("Supplier deleted successfully!");
 				removeFromList({ id: id });
