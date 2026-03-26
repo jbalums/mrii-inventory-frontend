@@ -139,7 +139,7 @@ const RequestOrders = () => {
 								>
 									{original.accepted_by?.name}
 								</span>
-								{user?.data?.id === 1 ? (
+								{user?.data?.id == 1 ? (
 									<>
 										<span className="text-xs">
 											{original?.date_approved}
