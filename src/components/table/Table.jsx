@@ -63,25 +63,17 @@ const Table = (props) => {
 		getPaginationRowModel: getPaginationRowModel(),
 		onPaginationChange: (data) => {
 			if (data) {
-				console.log("TABLETABLE onTableChange 000", data);
 				setPagination(data);
 			}
 		},
 		getCoreRowModel: getCoreRowModel(),
 	});
 	useEffect(() => {
-		console.log("TABLETABLE meta11", meta);
 		if (meta) {
-			console.log("TABLETABLE meta222", meta?.last_page);
 			// table.setPageCount(meta?.last_page);
 		}
 	}, [meta]);
 	useEffect(() => {
-		console.log(
-			"TABLETABLE onTableChange 111",
-			paginationState.pageIndex,
-			paginationState.pageSize
-		);
 		if (onTableChange) {
 			onTableChange({
 				pageIndex: paginationState.pageIndex,

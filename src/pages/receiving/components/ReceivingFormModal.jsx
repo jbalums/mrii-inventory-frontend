@@ -64,7 +64,7 @@ const DateInput = ({ date, update }) => {
 			let d = new Date(date);
 			console.log(
 				"dateee222",
-				`${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`
+				`${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`,
 			);
 			setVal(`${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`);
 		}
@@ -205,7 +205,7 @@ const ReceivingFormModal = (props, ref) => {
 				cell: ({ row, getValue }) => {
 					const item = row.original;
 					return (
-						<QtyInput 
+						<QtyInput
 							className={`receiving-qty`}
 							qty={item?.quantity || 0}
 							updateQty={(qty) => {
@@ -227,10 +227,10 @@ const ReceivingFormModal = (props, ref) => {
 								className="flex items-center justify-center text-center cursor-pointer"
 								onClick={() => {
 									setList((list) =>
-										list.filter((x) => x.id != item?.id)
+										list.filter((x) => x.id != item?.id),
 									);
 									setSelectedItems((list) =>
-										list.filter((x) => x.id != item?.id)
+										list.filter((x) => x.id != item?.id),
 									);
 								}}
 							>
@@ -244,7 +244,7 @@ const ReceivingFormModal = (props, ref) => {
 				},
 			},
 		],
-		[list, selectedItems]
+		[list, selectedItems],
 	);
 
 	const [open, setOpen] = useState(false);
@@ -259,7 +259,6 @@ const ReceivingFormModal = (props, ref) => {
 	const show = (data) => {
 		setList([]);
 		setSelectedItems([]);
-		console.log("datadatadata", data);
 		setId(data?.id);
 		setData(data);
 		setValue("purchase_order", data?.purchase_order || "");
@@ -270,13 +269,13 @@ const ReceivingFormModal = (props, ref) => {
 					data?.details.map((item) => ({
 						...item?.product,
 						...item,
-					}))
+					})),
 				);
 				setSelectedItems(
 					data?.details.map((item) => ({
 						...item?.product,
 						...item,
-					}))
+					})),
 				);
 			}
 		}, 200);
@@ -305,22 +304,19 @@ const ReceivingFormModal = (props, ref) => {
 	};
 
 	const submitForm = (data) => {
-		console.log('submit Form ',data)
+		console.log("submit Form ", data);
 		setLoading(true);
 
-		if(selectedItems.some(item=> item.quantity == 0)){
+		if (selectedItems.some((item) => item.quantity == 0)) {
 			toast.error(
-				`Check your inputs, Quantity must be greater than zero!`
+				`Check your inputs, Quantity must be greater than zero!`,
 			);
 
+			setTimeout(() => {
+				setLoading(false);
+			}, 500);
 
-			setTimeout(()=>{
-				setLoading(false)
-			}, 500)
-
-			
 			return;
-
 		}
 		let formData = {
 			...data,
@@ -330,7 +326,6 @@ const ReceivingFormModal = (props, ref) => {
 			price: selectedItems.map((item) => item.price),
 			status: "completed",
 		};
-		console.log("datadatadata id", id);
 		if (id) {
 			saveReceiving({
 				id: id,
@@ -349,7 +344,7 @@ const ReceivingFormModal = (props, ref) => {
 			});
 		}
 	};
- 
+
 	return (
 		<Modal open={open} hide={hide} size="2xl">
 			<ModalHeader
@@ -487,7 +482,7 @@ const ReceivingFormModal = (props, ref) => {
 					onClick={handleSubmit(submitForm, () => {
 						// This callback is triggered when validation fails
 						console.log("Validation failed, resubmitting allowed");
-					  })}
+					})}
 					loading={loading}
 				>
 					<FlatIcon icon="rs-disk mr-2" />

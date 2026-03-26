@@ -43,18 +43,13 @@ const LeftSidebar = () => {
 
 			return location.pathname.includes(name);
 		},
-		[]
+		[],
 	);
 	const hasPermission = (permitted_users = []) => {
 		return permitted_users.includes(user?.data?.user_type);
 	};
 	useEffect(() => {
 		if (typeof window == "object") {
-			console.log(
-				"window?.outerWidth < 768 && !collapseSidebar",
-				window?.innerWidth < 769,
-				!collapseSidebar
-			);
 			if (window?.innerWidth < 769 && !collapseSidebar) {
 				dispatch({
 					type: "TOGGLE_SIDEBAR",

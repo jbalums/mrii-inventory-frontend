@@ -9,10 +9,8 @@ export function RootContextWrapper({ children }) {
 	});
 
 	useEffect(() => {
-		console.log("root useEffect", root);
 		localStorage.setItem("root", JSON.stringify({ ...root }));
 		if (typeof window == "object") {
-			console.log("window?.outerWidth", window?.outerWidth);
 			if (window?.outerWidth < 1024) {
 				setTimeout(() => {
 					dispatch({

@@ -102,7 +102,7 @@ const Users = () => {
 				cell: ({ row }) => {
 					return (
 						user_types.find(
-							(x) => x.value == row?.original?.user_type
+							(x) => x.value == row?.original?.user_type,
 						)?.label || ""
 					);
 				},
@@ -153,7 +153,7 @@ const Users = () => {
 				},
 			},
 		],
-		[]
+		[],
 	);
 
 	const { deleteUser } = useUserHook();
@@ -193,7 +193,7 @@ const Users = () => {
 			})
 			.catch(() => {
 				toast.error(
-					"An error occured while trying to delete! Please try again later."
+					"An error occured while trying to delete! Please try again later.",
 				);
 			})
 			.finally(() => {
@@ -250,7 +250,6 @@ const Users = () => {
 					loading={dataLoading}
 					data={list}
 					onTableChange={(data) => {
-						console.log("onTableChange", data);
 						setPage(data.pageIndex + 1);
 						setPaginate(data.pageSize);
 					}}

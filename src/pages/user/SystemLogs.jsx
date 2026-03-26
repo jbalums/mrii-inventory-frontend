@@ -106,7 +106,6 @@ const SystemLogs = () => {
 	);
 	useNoBugUseEffect({
 		functions: () => {
-			console.log("data?.datadata?.data", data?.data);
 			setList(data?.data || []);
 		},
 		params: [data?.data],

@@ -3,11 +3,17 @@ import { useState } from "react";
 import { useCallback } from "react";
 import Particles from "react-particles";
 import { loadFull } from "tsparticles";
+import { useLocation } from "react-router-dom";
 
 const LayoutContainer = ({ className = " animate-fadeIn", children }) => {
+	const location = useLocation();
 	const [ready, setReady] = useState(false);
+
+	const allowParticles = ["/", "/login", "/register"].includes(
+		location.pathname,
+	);
+
 	const particlesInit = useCallback(async (engine) => {
-		console.log(engine);
 		// you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
 		// this loads the tsparticles package bundle, it's the easiest method for getting everything ready
 		// starting from v2 you can add only the features you need reducing the bundle size
@@ -15,13 +21,12 @@ const LayoutContainer = ({ className = " animate-fadeIn", children }) => {
 	}, []);
 
 	const particlesLoaded = useCallback(async (container) => {
-		await console.log(container);
+		// await console.log(container);
 	}, []);
 
 	useEffect(() => {
-		console.log("MOUNTTT");
 		setTimeout(() => {
-			setReady(true);
+			setReady(allowParticles);
 		}, 200);
 	}, []);
 

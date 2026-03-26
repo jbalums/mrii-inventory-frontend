@@ -127,7 +127,7 @@ const Products = () => {
 				},
 			},
 		],
-		[]
+		[],
 	);
 	return (
 		<AppLayout
@@ -230,7 +230,6 @@ const Products = () => {
 					loading={dataLoading}
 					data={list}
 					onTableChange={(data) => {
-						console.log("onTableChange", data);
 						setFilters((prevFilters) => ({
 							...prevFilters,
 							paginate: data?.pageSize,

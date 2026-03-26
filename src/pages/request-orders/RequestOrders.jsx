@@ -21,7 +21,6 @@ import { useBranchLocation } from "@/src/features/locations/hooks/useBranchLocat
 const RequestOrders = () => {
 	const navigate = useNavigate();
 	const { user } = useAuth();
-	console.log("UUUUU", user);
 	const form_modal_ref = useRef(null);
 	const delete_modal_ref = useRef(null);
 	const select_items_ref = useRef(null);
@@ -68,6 +67,9 @@ const RequestOrders = () => {
 				accessorKey: "account_code",
 				className: "cursor-pointer font-bold",
 				cellClassName: "",
+				cell: ({ row: { original } }) => {
+					return <div className="relative">{original?.ref}</div>;
+				},
 			},
 			{
 				header: "Project Code",

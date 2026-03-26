@@ -36,7 +36,6 @@ const ConsumbedMaterialsModal = (props, ref) => {
 	}));
 
 	const show = (showData) => {
-		console.log("datadatadata", showData);
 		getDetails(showData);
 		setOpen(true);
 	};
@@ -146,7 +145,7 @@ const ConsumbedMaterialsModal = (props, ref) => {
 				},
 			},
 		],
-		[]
+		[],
 	);
 
 	return (

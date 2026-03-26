@@ -45,7 +45,6 @@ const PrintableTable = (props) => {
 		getPaginationRowModel: getPaginationRowModel(),
 		onPaginationChange: (data) => {
 			if (data) {
-				console.log("TABLETABLE onTableChange 000", data);
 				setPagination(data);
 			}
 		},
@@ -76,8 +75,8 @@ const PrintableTable = (props) => {
 											: flexRender(
 													header.column.columnDef
 														.header,
-													header.getContext()
-											  )}
+													header.getContext(),
+												)}
 									</th>
 								))}
 							</tr>
@@ -132,7 +131,7 @@ const PrintableTable = (props) => {
 											>
 												{flexRender(
 													cell.column.columnDef.cell,
-													cell.getContext()
+													cell.getContext(),
 												)}
 											</td>
 										))}

@@ -210,7 +210,7 @@ const RepackingSelectProductModal = (props, ref) => {
 				},
 			},
 		],
-		[dataKey]
+		[dataKey],
 	);
 
 	return (
@@ -246,7 +246,6 @@ const RepackingSelectProductModal = (props, ref) => {
 										loading={dataLoading}
 										data={data?.data || []}
 										onTableChange={(data) => {
-											console.log("onTableChange", data);
 											setFilters((prevFilters) => ({
 												...prevFilters,
 												paginate: data?.pageSize,

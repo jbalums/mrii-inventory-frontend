@@ -129,7 +129,9 @@ const Dashboard = () => {
 									dashboard?.fast_moving_items?.map(
 										(item) => {
 											return (
-												<tr>
+												<tr
+													key={`fast-moving-item-${item?.inventory?.id}`}
+												>
 													<td className="!py-2 !text-gray-500">
 														{
 															item?.inventory
@@ -139,12 +141,12 @@ const Dashboard = () => {
 													<td className="!py-2 !text-gray-500">
 														{formatDate(
 															item?.inventory
-																?.updated_at
+																?.updated_at,
 														)}
 													</td>
 												</tr>
 											);
-										}
+										},
 									)
 								)}
 							</tbody>
@@ -196,7 +198,9 @@ const Dashboard = () => {
 									dashboard?.levels_per_product?.map(
 										(item) => {
 											return (
-												<tr>
+												<tr
+													key={`inventory-level-item-${item.id}`}
+												>
 													<td>
 														{
 															item?.inventory
@@ -221,7 +225,7 @@ const Dashboard = () => {
 													</td>
 												</tr>
 											);
-										}
+										},
 									)
 								)}
 							</tbody>
@@ -268,7 +272,9 @@ const Dashboard = () => {
 									dashboard?.levels_per_branch?.map(
 										(item) => {
 											return (
-												<tr>
+												<tr
+													key={`inventory-level-branch-item-${item?.inventory?.id}`}
+												>
 													<td>
 														{
 															item?.inventory
@@ -290,7 +296,7 @@ const Dashboard = () => {
 													</td>
 												</tr>
 											);
-										}
+										},
 									)
 								)}
 							</tbody>

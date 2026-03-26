@@ -144,7 +144,7 @@ const ManageProductInventory = () => {
 				},
 			},
 		],
-		[]
+		[],
 	);
 	return (
 		<AppLayout
@@ -205,7 +205,6 @@ const ManageProductInventory = () => {
 					loading={dataLoading}
 					data={list}
 					onTableChange={(data) => {
-						console.log("onTableChange", data);
 						setFilters((prevFilters) => ({
 							...prevFilters,
 							paginate: data?.pageSize,

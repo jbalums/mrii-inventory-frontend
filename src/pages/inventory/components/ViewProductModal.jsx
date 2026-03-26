@@ -39,7 +39,6 @@ const ViewProductModal = (props, ref) => {
 	} = useDataTable(url, [open, url]);
 
 	useEffect(() => {
-		console.log("datadatadatadata", data);
 		setList(data?.data || []);
 	}, [data?.data]);
 

@@ -153,7 +153,7 @@ const Suppliers = () => {
 												<FlatIcon icon="rr-phone-call" />
 												<span className="text-sm font-">
 													{mobileNumber(
-														contact?.number
+														contact?.number,
 													)}
 												</span>
 											</div>
@@ -256,7 +256,7 @@ const Suppliers = () => {
 				},
 			},
 		],
-		[]
+		[],
 	);
 
 	useEffect(() => {
@@ -294,7 +294,7 @@ const Suppliers = () => {
 			})
 			.catch(() => {
 				toast.error(
-					"An error occured while trying to delete supplier! Please try again later."
+					"An error occured while trying to delete supplier! Please try again later.",
 				);
 			})
 			.finally(() => {
@@ -371,7 +371,6 @@ const Suppliers = () => {
 					meta={meta}
 					pagination={true}
 					onTableChange={(data) => {
-						console.log("onTableChange", data);
 						setPage(data.pageIndex + 1);
 						setPaginate(data.pageSize);
 					}}

@@ -119,7 +119,7 @@ const ApproveRequestOrder = () => {
 				},
 			},
 		],
-		[]
+		[],
 	);
 	return (
 		<AppLayout title="Approve request order" backBtn={true}>
@@ -145,9 +145,8 @@ const ApproveRequestOrder = () => {
 			<div className="w-full">
 				<Table
 					rowClick={(data) => {
-						console.log("datadatadata", data.original.id);
 						navigate(
-							`/approving/approve-request-order/view-request/${data.original.id}`
+							`/approving/approve-request-order/view-request/${data.original.id}`,
 						);
 					}}
 					columns={columns}

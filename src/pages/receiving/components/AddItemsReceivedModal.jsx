@@ -42,7 +42,7 @@ const AddItemsReceivedModal = (props, ref) => {
 			data?.data.map((item) => ({
 				...item,
 				selected: isSelected(item),
-			})) || []
+			})) || [],
 		);
 	}, [data?.data]);
 
@@ -119,7 +119,7 @@ const AddItemsReceivedModal = (props, ref) => {
 				},
 			},
 		],
-		[selectedItems, list]
+		[selectedItems, list],
 	);
 
 	return (
@@ -161,7 +161,6 @@ const AddItemsReceivedModal = (props, ref) => {
 						meta={meta}
 						rowHighlight={true}
 						onTableChange={(data) => {
-							console.log("onTableChange", data);
 							setPage(data.pageIndex + 1);
 							setPaginate(data.pageSize);
 						}}

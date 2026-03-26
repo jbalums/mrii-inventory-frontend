@@ -23,7 +23,6 @@ const ViewReceivedPOModal = (props, ref) => {
 	}));
 
 	const show = (data) => {
-		console.log("setPurchaseOrder data", data);
 		setPurchaseOrder(data);
 		setOpen(true);
 	};
@@ -87,7 +86,7 @@ const ViewReceivedPOModal = (props, ref) => {
 				},
 			},
 		],
-		[]
+		[],
 	);
 
 	return (
@@ -144,7 +143,10 @@ const ViewReceivedPOModal = (props, ref) => {
 							<tr>
 								{columns?.map((col) => {
 									return (
-										<th className={col?.className}>
+										<th
+											key={col?.accessorKey}
+											className={col?.className}
+										>
 											{col?.header}
 										</th>
 									);
@@ -154,10 +156,13 @@ const ViewReceivedPOModal = (props, ref) => {
 						<tbody>
 							{purchaseOrder?.details?.map((item) => {
 								return (
-									<tr>
+									<tr key={`po-details-item-${item.id}`}>
 										{columns?.map((col) => {
 											return (
-												<td className={col?.className}>
+												<td
+													key={`po-details-item-${item.id}-${col.accessorKey}`}
+													className={col?.className}
+												>
 													{col?.cell
 														? col.cell(item)
 														: item[col.accessorKey]}

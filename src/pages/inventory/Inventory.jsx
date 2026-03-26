@@ -467,7 +467,6 @@ const Inventory = () => {
 					data={list}
 					meta={meta}
 					onTableChange={(data) => {
-						console.log("onTableChange", data);
 						setFilters((prevFilters) => ({
 							...prevFilters,
 							paginate: data?.pageSize,

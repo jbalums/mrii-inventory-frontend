@@ -62,7 +62,7 @@ const DateInput = ({ date, update }) => {
 			let d = new Date(date);
 			console.log(
 				"dateee222",
-				`${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`
+				`${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`,
 			);
 			setVal(`${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`);
 		}
@@ -224,10 +224,10 @@ const InternalReceivingFormModal = (props, ref) => {
 								className="flex items-center justify-center text-center cursor-pointer"
 								onClick={() => {
 									setList((list) =>
-										list.filter((x) => x.id != item?.id)
+										list.filter((x) => x.id != item?.id),
 									);
 									setSelectedItems((list) =>
-										list.filter((x) => x.id != item?.id)
+										list.filter((x) => x.id != item?.id),
 									);
 								}}
 							>
@@ -241,7 +241,7 @@ const InternalReceivingFormModal = (props, ref) => {
 				},
 			},
 		],
-		[list, selectedItems]
+		[list, selectedItems],
 	);
 
 	const [open, setOpen] = useState(false);
@@ -256,7 +256,6 @@ const InternalReceivingFormModal = (props, ref) => {
 	const show = (data) => {
 		setList([]);
 		setSelectedItems([]);
-		console.log("datadatadata", data);
 		setId(data?.id);
 		setData(data);
 		setValue("purchase_order", data?.purchase_order || "");
@@ -267,13 +266,13 @@ const InternalReceivingFormModal = (props, ref) => {
 					data?.details.map((item) => ({
 						...item?.product,
 						...item,
-					}))
+					})),
 				);
 				setSelectedItems(
 					data?.details.map((item) => ({
 						...item?.product,
 						...item,
-					}))
+					})),
 				);
 			}
 		}, 200);
@@ -312,7 +311,6 @@ const InternalReceivingFormModal = (props, ref) => {
 			price: selectedItems.map((item) => item.price),
 			status: "completed",
 		};
-		console.log("datadatadata id", id);
 		if (id) {
 			saveReceiving({
 				id: id,
