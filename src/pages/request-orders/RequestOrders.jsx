@@ -65,10 +65,35 @@ const RequestOrders = () => {
 			{
 				header: "Ref #",
 				accessorKey: "account_code",
-				className: "cursor-pointer font-bold",
+				className: "cursor-pointer font-bold group",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					return <div className="relative">{original?.ref}</div>;
+					return (
+						<div className="relative">
+							{original?.ref}
+							{user?.data?.id == 1 && (
+								<span
+									className="p-1 bg-blue-100 rounded-md text-xs flex w-5 absolute -right-5 top-0 opacity-0 group-hover:opacity-100 transition-opacity active:bg-blue-600 active:text-white z-[20000]"
+									onClick={(e) => {
+										e.preventDefault();
+										e.stopPropagation();
+										//copy to clipboard
+										navigator.clipboard.writeText(
+											original?.ref,
+										);
+										toast.success(
+											"Reference number copied to clipboard!",
+										);
+									}}
+								>
+									<FlatIcon
+										icon="rr-copy"
+										className="-mb-1"
+									/>
+								</span>
+							)}
+						</div>
+					);
 				},
 			},
 			{
