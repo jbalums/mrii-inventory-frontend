@@ -132,40 +132,6 @@ const ItemCosting = () => {
 		[],
 	);
 
-	const handlePrint = useReactToPrint({
-		content: () => componentRef.current,
-		onPrintError: (error) => console.log(error),
-		print: async (printIframe) => {
-			const document = printIframe;
-			document.style.display = "block";
-			if (document) {
-				// const ticketElement = document.getElementsByClassName("ticket")[0];
-				// ticketElement.style.display = "block";
-				const options = {
-					margin: 0.15,
-					filename: `ITEMCOSTING-${currentDate()}`,
-					jsPDF: {
-						unit: "in",
-						format: [12.5, 8.5],
-						orientation: "landscape",
-					},
-				};
-				options.download = true;
-				options.source = document;
-				console.log("PRINTING");
-				const exporter = new Html2Pdf(document, options);
-				await exporter.getPdf(options);
-				// Html2Pdf.getPdf(options);
-				console.log("PRINTING", exporter);
-
-				// exporter.getPdf(true).then((pdf) => {
-				// 	console.log("doing something before downloading pdf file");
-				// 	pdf.save();
-				// });
-			}
-		},
-	});
-
 	const exportToExcel = () => {
 		const table = tableRef.current;
 		if (!table) return;

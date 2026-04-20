@@ -25,10 +25,10 @@ const customOption = (props) => (
 		 hover:bg-slate-100 hover:text-darker duration-200 cursor-pointer ${
 				props?.isSelected ? "!bg-blue-500 !text-white" : ""
 			} ${
-			props?.data?.disabled
-				? "opacity-20 cursor-not-allowed pointer-events-none"
-				: ""
-		}`}
+				props?.data?.disabled
+					? "opacity-20 cursor-not-allowed pointer-events-none"
+					: ""
+			}`}
 		{...props?.innerProps}
 	>
 		<div className="font-semibold">{props?.label}</div>
@@ -113,7 +113,7 @@ const ReactSelectInputField = (props, ref) => {
 							label && "mt-2"
 						} ${inputClassName}`}
 						onChange={(val) => {
-							console.log("valval", val);
+							//console.log("valval", val);
 							if (onChange) onChange(val?.value || "");
 							if (onChangeGetData) onChangeGetData(val);
 						}}

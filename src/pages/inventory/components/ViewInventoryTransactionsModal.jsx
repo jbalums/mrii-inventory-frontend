@@ -16,6 +16,7 @@ import {
 	useState,
 } from "react";
 import { Link } from "react-router-dom";
+import InventoryTransactionsTable from "./InventoryTransactionsTable";
 
 const ViewInventoryTransactionsModal = (props, ref) => {
 	const [open, setOpen] = useState(false);
@@ -23,7 +24,7 @@ const ViewInventoryTransactionsModal = (props, ref) => {
 	const [stock, setStock] = useState(null);
 	const [info, setInfo] = useState(null);
 	const [list, setList] = useState([]);
-	const [url, setUrl] = useState(`/inventory/histories`);
+	const [url, setUrl] = useState(null);
 	const {
 		data,
 		loading: dataLoading,
@@ -93,7 +94,7 @@ const ViewInventoryTransactionsModal = (props, ref) => {
 				header: "Date",
 				accessorKey: "created_at",
 				cell: ({ row }) => {
-					console.log("row", row);
+					//console.log("row", row);
 					return row?.original?.created_at
 						? formatDate(row?.original?.created_at)
 						: "";
@@ -219,7 +220,13 @@ const ViewInventoryTransactionsModal = (props, ref) => {
 						<h3 className="text-lg font-bold text-darker px-4 pt-4 pb-[15px]">
 							Inventory Transactions
 						</h3>
-
+						<InventoryTransactionsTable
+							url={
+								item?.id
+									? `/inventory/transaction-histories?product_id=${item?.id}&branch_id=${item?.branch_id}`
+									: null
+							}
+						/>
 						<div className="w-full border-t lg:px-0 overflow-auto">
 							<Table
 								tableClassName=""

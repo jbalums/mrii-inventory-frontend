@@ -87,7 +87,7 @@ const ReceiveOrderModal = (props, ref) => {
 				cellClassName: "min-w-[128px] whitespace-pre text-center",
 				thClassName: "items-center justify-center !text-center",
 				cell: (data) => {
-					console.log("getValuegetValue", data?.getValue());
+					//console.log("getValuegetValue", data?.getValue());
 					return (
 						<>
 							<input
@@ -95,7 +95,7 @@ const ReceiveOrderModal = (props, ref) => {
 								onChange={(e) => {
 									updateIssuedQty(
 										data?.row?.original?.id,
-										e.target.value
+										e.target.value,
 									);
 								}}
 								max={data?.getValue()}
@@ -107,7 +107,7 @@ const ReceiveOrderModal = (props, ref) => {
 				},
 			},
 		],
-		[]
+		[],
 	);
 
 	const updateIssuedQty = (id, issuedQty, defaultQty) => {
@@ -116,7 +116,7 @@ const ReceiveOrderModal = (props, ref) => {
 			details: prevData?.details.map((prevDetail) => ({
 				...prevDetail,
 				items: prevDetail?.items?.map((x) =>
-					x.id == id ? { ...x, received_qty: issuedQty } : x
+					x.id == id ? { ...x, received_qty: issuedQty } : x,
 				),
 			})),
 		}));
@@ -131,7 +131,7 @@ const ReceiveOrderModal = (props, ref) => {
 			detail?.items.map((item) => {
 				formData.append(
 					`received_qty[${detail?.id}][${item?.id}]`,
-					item?.received_qty
+					item?.received_qty,
 				);
 			});
 		});

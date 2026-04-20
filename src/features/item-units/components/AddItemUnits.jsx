@@ -76,7 +76,7 @@ const AddItemUnits = (props, ref) => {
 	const setErrors = (data) => {
 		if (data) {
 			Object.keys(data).map((key) => {
-				console.log("key", key, data[key][0]);
+				//console.log("key", key, data[key][0]);
 				setError(key == "username" ? "email" : key, {
 					type: "manual",
 					message: data[key][0],
@@ -88,7 +88,7 @@ const AddItemUnits = (props, ref) => {
 		<Modal open={open} hide={hide} size="sm">
 			<ModalHeader title={id ? "Update details" : "Add"} hide={hide} />
 			<ModalBody className={`py-4`}>
-				{console.log("errors", errors)}
+				{//console.log("errors", errors)}
 				<div className="grid grid-cols-1 gap-4">
 					<TextInputField
 						label={`Unit`}

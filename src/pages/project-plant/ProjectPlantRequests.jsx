@@ -10,9 +10,7 @@ import ReturnMaterialsModal from "./components/ReturnMaterialsModal";
 import { useAuth } from "@/hooks/useAuth";
 
 const ProjectPlantRequests = () => {
-	const {
-		user
-	} = useAuth()
+	const { user } = useAuth();
 	const [list, setList] = useState([]);
 
 	const return_materials_ref = useRef(null);
@@ -22,7 +20,7 @@ const ProjectPlantRequests = () => {
 	const { data, loading: dataLoading } = useDataTable(
 		`/inventory/project-plant-orders`,
 		null,
-		false
+		false,
 	);
 	const columns = useMemo(
 		() => [
@@ -44,8 +42,8 @@ const ProjectPlantRequests = () => {
 				className: "cursor-pointer",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					console.log('originaloriginaloriginal', original)
-					return original?.location?.name || ''
+					//console.log('originaloriginaloriginal', original)
+					return original?.location?.name || "";
 				},
 			},
 			{
@@ -111,7 +109,7 @@ const ProjectPlantRequests = () => {
 				accessorKey: "action",
 				className: "!text-center",
 				cell: ({ row: { original } }) => {
-					if(original?.location?.id == user?.data?.branch_id)
+					if (original?.location?.id == user?.data?.branch_id)
 						return (
 							<div className="flex flex-col lg:flex-row items-center justify-center text-center gap-4">
 								<Button
@@ -120,7 +118,7 @@ const ProjectPlantRequests = () => {
 									className="rounded-lg"
 									onClick={() => {
 										consumed_materials_ref.current.show(
-											original
+											original,
 										);
 									}}
 								>
@@ -135,7 +133,9 @@ const ProjectPlantRequests = () => {
 									size="sm"
 									className="rounded-lg"
 									onClick={() => {
-										return_materials_ref.current.show(original);
+										return_materials_ref.current.show(
+											original,
+										);
 									}}
 								>
 									<FlatIcon
@@ -146,11 +146,15 @@ const ProjectPlantRequests = () => {
 								</Button>
 							</div>
 						);
-					return <span className="text-placeholder">This request is from another branch</span>
+					return (
+						<span className="text-placeholder">
+							This request is from another branch
+						</span>
+					);
 				},
 			},
 		],
-		[]
+		[],
 	);
 
 	useEffect(() => {

@@ -121,7 +121,7 @@ const Users = () => {
 				accessorKey: "action",
 				className: "!text-center",
 				cell: ({ row, getValue }) => {
-					console.log("roww", row);
+					// //console.log("roww", row);
 					if (row?.original?.id != 1 || user?.data?.id == 1)
 						return (
 							<>

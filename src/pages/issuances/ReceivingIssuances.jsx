@@ -34,7 +34,7 @@ const ReceivingIssuances = () => {
 		keyword,
 	} = useDataTable(
 		`/inventory/get-receiving-issuances`,
-		null
+		null,
 		// setList
 	);
 
@@ -94,7 +94,7 @@ const ReceivingIssuances = () => {
 				cellClassName: "",
 				cell: (data) => {
 					let original = data?.row?.original;
-					console.log("originaloriginal", original);
+					//console.log("originaloriginal", original);
 					return original?.status == "accepted" &&
 						original?.issuance_status == "completed"
 						? "pending"
@@ -102,7 +102,7 @@ const ReceivingIssuances = () => {
 				},
 			},
 		],
-		[]
+		[],
 	);
 
 	useEffect(() => {
@@ -140,7 +140,7 @@ const ReceivingIssuances = () => {
 			})
 			.catch(() => {
 				toast.error(
-					"An error occured while trying to delete supplier! Please try again later."
+					"An error occured while trying to delete supplier! Please try again later.",
 				);
 			})
 			.finally(() => {

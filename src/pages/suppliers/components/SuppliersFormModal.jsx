@@ -37,7 +37,7 @@ const LocationFormModal = (props, ref) => {
 	}));
 
 	const show = (data) => {
-		console.log("dataaaaa", data);
+		//console.log("dataaaaa", data);
 		if (data) {
 			reset({
 				...data,
@@ -88,7 +88,7 @@ const LocationFormModal = (props, ref) => {
 		hide();
 	};
 	const submitForm = (data) => {
-		console.log(data);
+		//console.log(data);
 		setLoading(true);
 		/*let formData = new FormData();
 
@@ -119,7 +119,7 @@ const LocationFormModal = (props, ref) => {
 	const setErrors = (data) => {
 		if (data) {
 			Object.keys(data).map((key) => {
-				console.log("key", key, data[key][0]);
+				//console.log("key", key, data[key][0]);
 				setError(key == "username" ? "email" : key, {
 					type: "manual",
 					message: data[key][0],
@@ -143,7 +143,7 @@ const LocationFormModal = (props, ref) => {
 				hide={hide}
 			/>
 			<ModalBody className={`py-4`}>
-				{console.log("errors", errors)}
+				{//console.log("errors", errors)}
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
 					<TextInputField
 						className={`lg:col-span-2`}

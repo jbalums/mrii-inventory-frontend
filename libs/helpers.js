@@ -11,9 +11,8 @@ export const dateTodayInput = () => {
 	let date = new Date();
 	let output = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
 		2,
-		"0"
+		"0",
 	)}-${String(date.getDate()).padStart(2, "0")}`;
-	// console.log("outputoutputoutput", output);
 	return output;
 };
 export const currentDate = () => {
@@ -54,7 +53,7 @@ export const formatDate = (date = null) => {
 	// ("January 15, 2023");
 	return `${months[d.getMonth()]} ${String(d.getDate()).padStart(
 		2,
-		"0"
+		"0",
 	)}, ${d.getFullYear()}`;
 };
 export const addZero = (str) => {
@@ -64,7 +63,7 @@ export const formatDateYYYMMDD = (date = null) => {
 	let d = new Date(date);
 	// ("January 15, 2023");
 	return `${d.getFullYear()}-${addZero(d.getMonth() + 1)}-${addZero(
-		d.getDate()
+		d.getDate(),
 	)}`;
 };
 export const formatDateWithTime = (date) => {
@@ -88,9 +87,9 @@ export const formatDateWithTime = (date) => {
 	let min = d.getHours();
 	let period = h >= 12 ? "PM" : "AM";
 	return `${months[d.getMonth()]} ${addZero(
-		d.getDate()
+		d.getDate(),
 	)}, ${d.getFullYear()} ${addZero(h > 12 ? h - 12 : h)}:${addZero(
-		min
+		min,
 	)} ${period}`;
 };
 
@@ -103,7 +102,7 @@ export const mobileNumber = (number = "") => {
 	return output?.length > 3
 		? `(+63) ${output[0] || ""} ${output[1] || ""} ${output[2] || ""}${
 				output[3] || ""
-		  }`
+			}`
 		: `(+63)  ${output[0] || ""} ${output[1] || ""} ${output[2] || ""}`;
 };
 
@@ -151,7 +150,6 @@ export const extractFirstLetters = (sentence, limit) => {
 	return String(result).toUpperCase();
 };
 
-
 export const cleanStr = (str) => {
-	return str.replaceAll('_',' ');
-}
+	return str.replaceAll("_", " ");
+};

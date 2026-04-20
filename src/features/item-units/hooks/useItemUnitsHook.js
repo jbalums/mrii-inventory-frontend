@@ -25,13 +25,13 @@ export const useItemUnits = () => {
 					_method: "PATCH",
 				})
 				.then((res) => {
-					console.log("res", res);
+					//console.log("res", res);
 					toast.success("Item unit details updated successfully!");
 					callback ? callback(res.data.data) : "";
 				})
 				.catch((error) => {
 					toast.error(
-						`Failed to submit the form. Please check your inputs!`
+						`Failed to submit the form. Please check your inputs!`,
 					);
 					if (error.response.status !== 422) throw error;
 					setErrors(error.response.data.errors);
@@ -43,13 +43,13 @@ export const useItemUnits = () => {
 			axios
 				.post("/management/units", { ...props })
 				.then((res) => {
-					console.log("res", res);
+					//console.log("res", res);
 					toast.success("Item unit added successfully!");
 					callback ? callback(res.data.data) : "";
 				})
 				.catch((error) => {
 					toast.error(
-						`Failed to submit the form. Please check your inputs!`
+						`Failed to submit the form. Please check your inputs!`,
 					);
 					if (error.response.status !== 422) throw error;
 					setErrors(error.response.data.errors);

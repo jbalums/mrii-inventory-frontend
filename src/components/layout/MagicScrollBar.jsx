@@ -11,10 +11,10 @@ const MagicScrollBar = ({
 	const scrollbars_ref = useRef(null);
 	const [autoHide, setAutoHide] = useState(true);
 	const [maxH, setMaxH] = useState(
-		typeof window === "object" ? window.innerHeight - 308 : 0
+		typeof window === "object" ? window.innerHeight - 308 : 0,
 	);
 	const [minH, setMinH] = useState(
-		typeof window === "object" ? window.innerHeight - 308 : 0
+		typeof window === "object" ? window.innerHeight - 308 : 0,
 	);
 	useLayoutEffect(() => {
 		const updateSize = () => {
@@ -22,14 +22,14 @@ const MagicScrollBar = ({
 				setMaxH(autoHeightMax);
 			} else {
 				setMaxH(
-					typeof window === "object" ? window.innerHeight - 308 : 0
+					typeof window === "object" ? window.innerHeight - 308 : 0,
 				);
 			}
 			if (autoHeightMin != undefined) {
 				setMinH(autoHeightMin);
 			} else {
 				setMinH(
-					typeof window === "object" ? window.innerHeight - 308 : 0
+					typeof window === "object" ? window.innerHeight - 308 : 0,
 				);
 			}
 		};
@@ -55,12 +55,6 @@ const MagicScrollBar = ({
 			autoHeightMin={minH}
 			thumbMinSize={50}
 			onScrollStop={(values) => {
-				console.log(
-					"current_page, last_page",
-					scrollbars_ref?.current?.getClientHeight(),
-					scrollbars_ref?.current?.getScrollTop(),
-					scrollbars_ref?.current?.getScrollHeight()
-				);
 				if (
 					scrollbars_ref?.current?.getClientHeight() +
 						scrollbars_ref?.current?.getScrollTop() +

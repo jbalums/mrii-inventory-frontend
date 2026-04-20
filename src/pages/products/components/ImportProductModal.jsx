@@ -91,7 +91,7 @@ const ImportProductModal = (props, ref) => {
 				Headers: { "Content-Type": "multipart/ form-data" },
 			})
 			.then((res) => {
-				console.log("res", res);
+				//console.log("res", res);
 				refreshData();
 				setTimeout(() => {
 					hide();
@@ -101,7 +101,7 @@ const ImportProductModal = (props, ref) => {
 			})
 			.catch((error) => {
 				toast.error(
-					`Failed to submit the form. Please check your inputs!`
+					`Failed to submit the form. Please check your inputs!`,
 				);
 				if (error.response.status !== 422) throw error;
 				setErrors(error.response.data.errors, setError);

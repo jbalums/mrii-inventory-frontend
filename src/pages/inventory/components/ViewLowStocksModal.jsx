@@ -74,13 +74,13 @@ const ViewLowStocksModal = (props, ref) => {
 				header: "Unit price",
 				accessorKey: "price",
 				cell: ({ row }) => {
-					console.log("rrroooowww", row?.original);
+					//console.log("rrroooowww", row?.original);
 					let p = row?.original?.price || 0;
 					return formatToCurrency(p);
 				},
 			},
 		],
-		[]
+		[],
 	);
 
 	return (

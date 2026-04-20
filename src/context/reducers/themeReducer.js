@@ -1,13 +1,13 @@
 export default (state, action) => {
 	const switchTheme = (value) => {
-		console.log("switchTheme", state, action);
+		//console.log("switchTheme", state, action);
 		return {
 			...state,
 			theme: value || "dark",
 		};
 	};
 	const toggleSidebar = (val = null) => {
-		console.log("toggleSidebar", state, action);
+		//console.log("toggleSidebar", state, action);
 		return {
 			...state,
 			collapseSidebar: val != null ? val : !state?.collapseSidebar,

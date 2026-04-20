@@ -78,7 +78,7 @@ const CreateIssuanceModal = (props, ref) => {
 				cellClassName: "min-w-[128px] whitespace-pre text-center",
 				thClassName: "items-center justify-center !text-center",
 				cell: (data) => {
-					console.log("getValuegetValue", data?.getValue());
+					//console.log("getValuegetValue", data?.getValue());
 					return (
 						<>
 							<input
@@ -86,13 +86,13 @@ const CreateIssuanceModal = (props, ref) => {
 								onChange={(e) => {
 									updateIssuedQty(
 										data?.row?.original?.id,
-										e.target.value
+										e.target.value,
 									);
 								}}
 								onKeyUp={(e) => {
 									updateIssuedQty(
 										data?.row?.original?.id,
-										e.target.value
+										e.target.value,
 									);
 								}}
 								max={data?.getValue()}
@@ -104,7 +104,7 @@ const CreateIssuanceModal = (props, ref) => {
 				},
 			},
 		],
-		[]
+		[],
 	);
 
 	const updateIssuedQty = (id, issuedQty) => {
@@ -113,7 +113,7 @@ const CreateIssuanceModal = (props, ref) => {
 			details: prevData?.details.map((prevDetail) => ({
 				...prevDetail,
 				items: prevDetail?.items?.map((x) =>
-					x.id == id ? { ...x, issued_qty: issuedQty } : x
+					x.id == id ? { ...x, issued_qty: issuedQty } : x,
 				),
 			})),
 		}));
@@ -128,7 +128,7 @@ const CreateIssuanceModal = (props, ref) => {
 			detail?.items.map((item) => {
 				formData.append(
 					`issued_qty[${detail?.id}][${item?.id}]`,
-					item?.issued_qty
+					item?.issued_qty,
 				);
 			});
 		});
@@ -136,7 +136,7 @@ const CreateIssuanceModal = (props, ref) => {
 			setLoading(false);
 			setTimeout(() => {
 				toast.success(
-					"Issuance submitted successfully, and pending for approval!"
+					"Issuance submitted successfully, and pending for approval!",
 				);
 				getOrderData();
 			}, 200);

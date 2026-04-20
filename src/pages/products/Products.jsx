@@ -53,7 +53,7 @@ const Products = () => {
 	}, [data?.data]);
 
 	const openFormModal = (data) => {
-		console.log("opeeen");
+		//console.log("opeeen");
 		addProductRef.current.show(data);
 	};
 	const viewProductModal = (item) => {

@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 
 const IssuanceDetails = () => {
 	const params = useParams();
-	console.log("paramsss", params);
+	//console.log("paramsss", params);
 	const { user } = useAuth();
 	const accept_order_ref = useRef(null);
 	const [data, setData] = useState(null);
@@ -72,7 +72,7 @@ const IssuanceDetails = () => {
 				cellClassName: "min-w-[44px] whitespace-pre",
 			},
 		],
-		[]
+		[],
 	);
 
 	const acceptRequest = useCallback(() => {

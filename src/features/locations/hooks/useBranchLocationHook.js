@@ -21,12 +21,14 @@ export const useBranchLocation = () => {
 					_method: "PATCH",
 				})
 				.then((res) => {
-					console.log("res", res);
+					//console.log("res", res);
 					toast.success("Item branch details updated successfully!");
 					callback ? callback(res.data.data) : "";
 				})
 				.catch((error) => {
-					toast.error(`Failed to submit the form. Please check your inputs!`);
+					toast.error(
+						`Failed to submit the form. Please check your inputs!`,
+					);
 					if (error.response.status !== 422) throw error;
 					setErrors(error.response.data.errors);
 				})
@@ -37,12 +39,14 @@ export const useBranchLocation = () => {
 			axios
 				.post("/management/branches", { ...props })
 				.then((res) => {
-					console.log("res", res);
+					//console.log("res", res);
 					toast.success("Item branch added successfully!");
 					callback ? callback(res.data.data) : "";
 				})
 				.catch((error) => {
-					toast.error(`Failed to submit the form. Please check your inputs!`);
+					toast.error(
+						`Failed to submit the form. Please check your inputs!`,
+					);
 					if (error.response.status !== 422) throw error;
 					setErrors(error.response.data.errors);
 				})

@@ -46,7 +46,7 @@ const SetBeginningBalanceModal = (props, ref) => {
 	}));
 
 	const show = (data) => {
-		console.log("begBalProductRef", data);
+		//console.log("begBalProductRef", data);
 		if (data) {
 			reset({
 				...data,
@@ -203,7 +203,7 @@ const SetBeginningBalanceModal = (props, ref) => {
 								<th className="text-xl text-center">
 									{formatToCurrency(
 										(watch("qty") || 0) *
-											(watch("price") || 0)
+											(watch("price") || 0),
 									)}
 								</th>
 								<td>&nbsp;</td>

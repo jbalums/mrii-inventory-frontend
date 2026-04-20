@@ -26,7 +26,6 @@ const LeftSidebar = () => {
 		middleware: "auth",
 		redirectIfAuthenticated: "/",
 	});
-	// console.log("useruser", user);
 	const isActive = useCallback(
 		(name, mustNotInclude = null, exact = false) => {
 			if (exact) {

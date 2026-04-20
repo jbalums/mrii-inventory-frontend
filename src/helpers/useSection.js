@@ -9,11 +9,11 @@ const useSelection = () => {
 		return selectedItems.find((x) => x.id == item.id) ? true : false;
 	};
 	const selectItem = (item) => {
-		console.log("isSelected", item?.id, isSelected(item));
+		//console.log("isSelected", item?.id, isSelected(item));
 		if (isSelected(item)) {
 			item.selected = false;
 			setSelectedItems((prevItems) =>
-				prevItems.filter((x) => x.id != item?.id)
+				prevItems.filter((x) => x.id != item?.id),
 			);
 		} else {
 			item.selected = true;

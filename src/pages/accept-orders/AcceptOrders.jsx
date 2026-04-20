@@ -69,7 +69,7 @@ const AcceptOrders = () => {
 				accessorKey: "id",
 				className: "!text-center flex items-center justify-center",
 				cell: ({ row, getValue }) => {
-					console.log("roww", row);
+					//console.log("roww", row);
 					return (
 						<div className="px-2 py-1 rounded-xl w-[80px] bg-warning bg-opacity-10 text-warning capitalize">
 							{row.original?.status}
@@ -78,7 +78,7 @@ const AcceptOrders = () => {
 				},
 			},
 		],
-		[]
+		[],
 	);
 
 	useEffect(() => {
@@ -116,7 +116,7 @@ const AcceptOrders = () => {
 			})
 			.catch(() => {
 				toast.error(
-					"An error occured while trying to delete supplier! Please try again later."
+					"An error occured while trying to delete supplier! Please try again later.",
 				);
 			})
 			.finally(() => {
@@ -148,9 +148,9 @@ const AcceptOrders = () => {
 				</div>
 				<Table
 					rowClick={(data) => {
-						console.log("rowClickrowClick", data.original);
+						//console.log("rowClickrowClick", data.original);
 						navigate(
-							`/accept-orders/details/${data.original?.requisition?.id}`
+							`/accept-orders/details/${data.original?.requisition?.id}`,
 						);
 						/* navigate(
 							`/accept-orders/request/${data?.original?.id}`

@@ -225,7 +225,7 @@ const Suppliers = () => {
 				accessorKey: "id",
 				className: "!text-center",
 				cell: ({ row, getValue }) => {
-					console.log("roww", row);
+					//console.log("roww", row);
 					return (
 						<>
 							<div className="flex items-center justify-center text-center gap-4">

@@ -20,9 +20,7 @@ const LayoutContainer = ({ className = " animate-fadeIn", children }) => {
 		await loadFull(engine);
 	}, []);
 
-	const particlesLoaded = useCallback(async (container) => {
-		// await console.log(container);
-	}, []);
+	const particlesLoaded = useCallback(async (container) => {}, []);
 
 	useEffect(() => {
 		setTimeout(() => {

@@ -4,12 +4,9 @@ import { FiChevronDown } from "react-icons/fi";
 import DropdownMenu from "../DropdownMenu";
 const Header = () => {
 	const { user } = useAuth();
-	// console.log("useruser", user);
 
-	useEffect(() => {});
 	return (
 		<div className="w-full flex items-center h-16">
-			{console.log("user", user)}
 			<div className="h-11 px-6 flex items-center justify-center">
 				<img src={"/logo.png"} className="h-9" />
 			</div>

@@ -754,7 +754,7 @@ const RequestOrderDetail = () => {
 											}, 1000);
 										})
 										.catch((err) => {
-											console.log("errrr", err);
+											//console.log("errrr", err);
 										})
 										.finally(() => {
 											setTimeout(() => {
@@ -813,7 +813,7 @@ const RequestOrderDetail = () => {
 											}, 1000);
 										})
 										.catch((err) => {
-											console.log("errrr", err);
+											//console.log("errrr", err);
 										})
 										.finally(() => {
 											setTimeout(() => {
@@ -884,7 +884,7 @@ const RequestOrderDetail = () => {
 											}, 1000);
 										})
 										.catch((err) => {
-											console.log("errrr", err);
+											//console.log("errrr", err);
 										})
 										.finally(() => {
 											setTimeout(() => {

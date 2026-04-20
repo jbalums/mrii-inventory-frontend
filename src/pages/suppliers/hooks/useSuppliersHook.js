@@ -10,19 +10,22 @@ export const useSuppliersHook = () => {
 	};
 	const saveSupplier = async (
 		formData,
-		{ id, setErrors, setLoading, callback }
+		{ id, setErrors, setLoading, callback },
 	) => {
 		if (id) {
 			axios
-				.post(`/management/suppliers/${id}`, {...formData, _method: "PATCH"})
+				.post(`/management/suppliers/${id}`, {
+					...formData,
+					_method: "PATCH",
+				})
 				.then((res) => {
-					console.log("res", res);
+					//console.log("res", res);
 					toast.success("Supplier details updated successfully!");
 					callback ? callback(res.data.data) : "";
 				})
 				.catch((error) => {
 					toast.error(
-						`Failed to submit the form. Please check your inputs!`
+						`Failed to submit the form. Please check your inputs!`,
 					);
 					if (error.response.status !== 422) throw error;
 					setErrors(error.response.data.errors);
@@ -34,13 +37,13 @@ export const useSuppliersHook = () => {
 			axios
 				.post("/management/suppliers", formData)
 				.then((res) => {
-					console.log("res", res);
+					//console.log("res", res);
 					toast.success("Supplier added successfully!");
 					callback ? callback(res.data.data) : "";
 				})
 				.catch((error) => {
 					toast.error(
-						`Failed to submit the form. Please check your inputs!`
+						`Failed to submit the form. Please check your inputs!`,
 					);
 					if (error.response.status !== 422) throw error;
 					setErrors(error.response.data.errors);

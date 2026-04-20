@@ -84,7 +84,7 @@ const RepackingModal = (props, ref) => {
 		formData.append("output_product_id", productOutput?.product_id);
 		formData.append("output_qty", outputQty);
 		axios.post(`/inventory/repack`, formData).then((res) => {
-			console.log("reeezzzz", res);
+			//console.log("reeezzzz", res);
 			toast.success("Item has been repacked successfully!");
 			if (onSuccess) {
 				onSuccess();
@@ -180,7 +180,7 @@ const RepackingModal = (props, ref) => {
 														type="number"
 														inputClassName="border rounded h-9 p-1 !text-xl text-center"
 														register={register(
-															"qty"
+															"qty",
 														)}
 														error={
 															errors?.qty?.message
@@ -188,7 +188,7 @@ const RepackingModal = (props, ref) => {
 														value={qty}
 														onChange={(e) => {
 															setQty(
-																e.target.value
+																e.target.value,
 															);
 														}}
 													/>
@@ -302,7 +302,7 @@ const RepackingModal = (props, ref) => {
 														type="number"
 														inputClassName="border rounded h-9 p-1 !text-xl text-center"
 														register={register(
-															"outputQty"
+															"outputQty",
 														)}
 														value={outputQty}
 														error={
@@ -311,7 +311,7 @@ const RepackingModal = (props, ref) => {
 														}
 														onChange={(e) => {
 															setOutputQty(
-																e.target.value
+																e.target.value,
 															);
 														}}
 													/>

@@ -26,12 +26,12 @@ const PageHeader = (props) => {
 		// let t = setTimeout(() => {
 		// 	channel = notificationService.subscribe("test-notification");
 		// 	channel.bind("test-event", function (data) {
-		// 		console.log(JSON.stringify(data));
+		// 		//console.log(JSON.stringify(data));
 		// 	});
 		// 	// const channel = notificationEcho.channel("notifications");
 		// 	// channel.listen(".TestEvent", (data) => {
 		// 	// 	// Handle incoming notifications
-		// 	// 	console.log("TestEvent22", data);
+		// 	// 	//console.log("TestEvent22", data);
 		// 	// });
 		// }, 500);
 		// return () => {

@@ -10,7 +10,7 @@ import { useAuth } from "@/hooks/useAuth";
 const ShowRequestOrder = () => {
 	const params = useParams();
 	const location = useLocation();
-	console.log("paramsss", location);
+	//console.log("paramsss", location);
 
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);
@@ -114,7 +114,7 @@ const ShowRequestOrder = () => {
 				thClassName: " !text-center",
 			},
 		],
-		[data?.status, data?.issuance_status]
+		[data?.status, data?.issuance_status],
 	);
 
 	return (
@@ -130,11 +130,6 @@ const ShowRequestOrder = () => {
 				},
 			]}
 		>
-			{console.log(
-				"data?.status,data?.issuance_status",
-				data?.status,
-				data?.issuance_status
-			)}
 			<div className="flex gap-6 flex-col lg:flex-row">
 				<div className="w-full lg:w-1/3 ">
 					<h3 className="mb-2 text-lg">Request Order Details</h3>
@@ -309,7 +304,7 @@ const ShowRequestOrder = () => {
 																	</td>
 																</tr>
 															);
-														}
+														},
 													)}
 												</tbody>
 											</table>

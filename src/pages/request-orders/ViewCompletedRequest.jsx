@@ -23,7 +23,7 @@ const ViewCompletedRequest = () => {
 
 	const { data, loading: dataLoading } = useDataTable(
 		`/inventory/requisition/${id}`,
-		null
+		null,
 	);
 
 	const columns = useMemo(
@@ -53,11 +53,11 @@ const ViewCompletedRequest = () => {
 				cellClassName: "",
 			},
 		],
-		[]
+		[],
 	);
 
 	useEffect(() => {
-		console.log("data", data?.data?.details);
+		//console.log("data", data?.data?.details);
 	}, [data?.data]);
 
 	return (

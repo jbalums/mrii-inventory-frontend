@@ -19,13 +19,13 @@ const useInventory = () => {
 		axios
 			.post(`/management/products${id ? `/${id}` : ""}`, { ...formData })
 			.then((res) => {
-				console.log("res", res);
+				//console.log("res", res);
 				toast.success("New product created successfully!");
 				callback ? callback(res.data.data) : "";
 			})
 			.catch((error) => {
 				toast.error(
-					`Failed to submit the form. Please check your inputs!`
+					`Failed to submit the form. Please check your inputs!`,
 				);
 				if (error.response.status !== 422) throw error;
 				setErrors(error.response.data.errors, setError);
@@ -43,13 +43,13 @@ const useInventory = () => {
 				Headers: { "Content-Type": "multipart/ form-data" },
 			})
 			.then((res) => {
-				console.log("res", res);
+				//console.log("res", res);
 				toast.success("Products import successful!");
 				callback ? callback(res.data.data) : "";
 			})
 			.catch((error) => {
 				toast.error(
-					`Failed to submit the form. Please check your inputs!`
+					`Failed to submit the form. Please check your inputs!`,
 				);
 				if (error.response.status !== 422) throw error;
 				setErrors(error.response.data.errors, setError);

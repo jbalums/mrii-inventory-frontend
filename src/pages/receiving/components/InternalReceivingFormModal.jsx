@@ -57,10 +57,10 @@ const QtyInput = ({ qty, updateQty }) => {
 const DateInput = ({ date, update }) => {
 	const [val, setVal] = useState(date);
 	useEffect(() => {
-		console.log("dateee111", date);
+		//console.log("dateee111", date);
 		if (date) {
 			let d = new Date(date);
-			console.log(
+			//console.log(
 				"dateee222",
 				`${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`,
 			);
@@ -290,7 +290,7 @@ const InternalReceivingFormModal = (props, ref) => {
 	};
 
 	const successCallBack = (resData) => {
-		console.log("res inventory/receiving successCallBack", resData);
+		//console.log("res inventory/receiving successCallBack", resData);
 
 		if (data?.id) {
 			updateInList(resData);

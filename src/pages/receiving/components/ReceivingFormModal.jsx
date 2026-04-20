@@ -59,10 +59,10 @@ const QtyInput = ({ qty, updateQty, className }) => {
 const DateInput = ({ date, update }) => {
 	const [val, setVal] = useState(date);
 	useEffect(() => {
-		console.log("dateee111", date);
+		//console.log("dateee111", date);
 		if (date) {
 			let d = new Date(date);
-			console.log(
+			//console.log(
 				"dateee222",
 				`${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`,
 			);
@@ -293,7 +293,7 @@ const ReceivingFormModal = (props, ref) => {
 	};
 
 	const successCallBack = (resData) => {
-		console.log("res inventory/receiving successCallBack", resData);
+		//console.log("res inventory/receiving successCallBack", resData);
 
 		if (data?.id) {
 			updateInList(resData);
@@ -304,7 +304,7 @@ const ReceivingFormModal = (props, ref) => {
 	};
 
 	const submitForm = (data) => {
-		console.log("submit Form ", data);
+		//console.log("submit Form ", data);
 		setLoading(true);
 
 		if (selectedItems.some((item) => item.quantity == 0)) {
@@ -481,7 +481,7 @@ const ReceivingFormModal = (props, ref) => {
 					type="accent"
 					onClick={handleSubmit(submitForm, () => {
 						// This callback is triggered when validation fails
-						console.log("Validation failed, resubmitting allowed");
+						//console.log("Validation failed, resubmitting allowed");
 					})}
 					loading={loading}
 				>
