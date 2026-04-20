@@ -93,7 +93,6 @@ const ViewRequestOrderPage = () => {
 	);
 
 	useEffect(() => {
-		//console.log("data", data?.data?.details);
 	}, [data?.data]);
 
 	return (
@@ -199,7 +198,6 @@ const ViewRequestOrderPage = () => {
 											}, 1000);
 										})
 										.catch((err) => {
-											//console.log("errrr", err);
 										})
 										.finally(() => {
 											setTimeout(() => {

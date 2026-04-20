@@ -753,9 +753,7 @@ const RequestOrderDetail = () => {
 												approve_order_ref.current.hide();
 											}, 1000);
 										})
-										.catch((err) => {
-											//console.log("errrr", err);
-										})
+										.catch((err) => {})
 										.finally(() => {
 											setTimeout(() => {
 												setBtnLoading(false);
@@ -812,9 +810,7 @@ const RequestOrderDetail = () => {
 												decline_order_ref.current.hide();
 											}, 1000);
 										})
-										.catch((err) => {
-											//console.log("errrr", err);
-										})
+										.catch((err) => {})
 										.finally(() => {
 											setTimeout(() => {
 												setBtnLoading(false);
@@ -883,9 +879,7 @@ const RequestOrderDetail = () => {
 													"/request-orders";
 											}, 1000);
 										})
-										.catch((err) => {
-											//console.log("errrr", err);
-										})
+										.catch((err) => {})
 										.finally(() => {
 											setTimeout(() => {
 												setBtnLoading(false);

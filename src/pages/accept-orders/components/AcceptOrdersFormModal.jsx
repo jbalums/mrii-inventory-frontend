@@ -76,7 +76,6 @@ const AcceptOrdersFormModal = (props, ref) => {
 	const setErrors = (data) => {
 		if (data) {
 			Object.keys(data).map((key) => {
-				//console.log("key", key, data[key][0]);
 				setError(key == "username" ? "email" : key, {
 					type: "manual",
 					message: data[key][0],
@@ -92,7 +91,6 @@ const AcceptOrdersFormModal = (props, ref) => {
 				hide={hide}
 			/>
 			<ModalBody className={`py-4`}>
-				{//console.log("errors", errors)}
 				<div className="grid grid-cols-1 gap-4">
 					<TextInputField
 						label={`Supplier name`}

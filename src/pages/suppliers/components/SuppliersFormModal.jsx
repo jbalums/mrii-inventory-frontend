@@ -37,7 +37,6 @@ const LocationFormModal = (props, ref) => {
 	}));
 
 	const show = (data) => {
-		//console.log("dataaaaa", data);
 		if (data) {
 			reset({
 				...data,
@@ -88,26 +87,7 @@ const LocationFormModal = (props, ref) => {
 		hide();
 	};
 	const submitForm = (data) => {
-		//console.log(data);
 		setLoading(true);
-		/*let formData = new FormData();
-
-		formData.append("name", data?.name);
-		formData.append("address", data?.address);
-		formData.append("street", data?.street);
-		formData.append("code", data?.code);
-		formData.append("owner", data?.owner);
-		formData.append("tin", data?.tin);
-		contacts.map((contact) => {
-			formData.append("name", contact?.name);
-			formData.append("number", contact?.number);
-			formData.append("email", contact?.email);
-		});
-		banks.map((bank) => {
-			formData.append("name", bank?.name);
-			formData.append("account_name", bank?.account_name);
-			formData.append("account_number", bank?.account_number);
-		});*/
 
 		saveSupplier(data, {
 			id: id,
@@ -119,7 +99,6 @@ const LocationFormModal = (props, ref) => {
 	const setErrors = (data) => {
 		if (data) {
 			Object.keys(data).map((key) => {
-				//console.log("key", key, data[key][0]);
 				setError(key == "username" ? "email" : key, {
 					type: "manual",
 					message: data[key][0],
@@ -143,7 +122,6 @@ const LocationFormModal = (props, ref) => {
 				hide={hide}
 			/>
 			<ModalBody className={`py-4`}>
-				{//console.log("errors", errors)}
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
 					<TextInputField
 						className={`lg:col-span-2`}

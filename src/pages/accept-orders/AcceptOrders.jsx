@@ -69,7 +69,6 @@ const AcceptOrders = () => {
 				accessorKey: "id",
 				className: "!text-center flex items-center justify-center",
 				cell: ({ row, getValue }) => {
-					//console.log("roww", row);
 					return (
 						<div className="px-2 py-1 rounded-xl w-[80px] bg-warning bg-opacity-10 text-warning capitalize">
 							{row.original?.status}
@@ -148,7 +147,6 @@ const AcceptOrders = () => {
 				</div>
 				<Table
 					rowClick={(data) => {
-						//console.log("rowClickrowClick", data.original);
 						navigate(
 							`/accept-orders/details/${data.original?.requisition?.id}`,
 						);

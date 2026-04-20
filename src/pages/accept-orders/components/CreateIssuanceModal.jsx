@@ -38,7 +38,6 @@ const CreateIssuanceModal = (props, ref) => {
 	const [loading, setLoading] = useState(false);
 	const { user } = useAuth();
 
-	// //console.log("useruseruser", user);
 	const [list, setList] = useState([
 		/* {
 			id: "AG454",
@@ -102,7 +101,6 @@ const CreateIssuanceModal = (props, ref) => {
 		setLoading(true);
 		/* saveRequestOrder(data, list)
 			.then((res) => {
-				//console.log("saveRequestOrder", res);
 				toast.success("Request order submitted successfully!");
 				hide();
 			})
@@ -113,7 +111,6 @@ const CreateIssuanceModal = (props, ref) => {
 	const setErrors = (data) => {
 		if (data) {
 			Object.keys(data).map((key) => {
-				//console.log("key", key, data[key][0]);
 				setError(key == "username" ? "email" : key, {
 					type: "manual",
 					message: data[key][0],
@@ -142,7 +139,6 @@ const CreateIssuanceModal = (props, ref) => {
 				className: "border-t !bg-foreground",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					//console.log("original?.location", original);
 					return original?.location?.name || "-";
 				},
 			}, */
@@ -213,7 +209,6 @@ const CreateIssuanceModal = (props, ref) => {
 		<Modal open={open} hide={hide} size="3xl">
 			<ModalHeader title={`Issuance Form`} hide={hide} />
 			<ModalBody className={`py-4`}>
-				{//console.log("errors", errors)}
 				<div className="grid grid-cols-12 gap-4 w-full">
 					<div className="col-span-3">
 						<CardLayout className="!bg-foreground shadow-none !p-4 flex flex-col !gap-4">

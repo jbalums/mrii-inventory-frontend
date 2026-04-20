@@ -28,7 +28,6 @@ const LoginForm = () => {
 		clearErrors();
 		try {
 			await login({ ...data, setStatus, setErrors });
-			//console.log("status", status);
 			if (status == 422) {
 				throw exception;
 			}
@@ -39,7 +38,6 @@ const LoginForm = () => {
 	};
 
 	const setErrors = (data) => {
-		//console.log("errorserrors", data);
 		setError("username", {
 			type: "manual",
 			message: "The provided credentials are incorrect.",

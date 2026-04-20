@@ -19,7 +19,6 @@ const useInventory = () => {
 		axios
 			.post(`/management/products${id ? `/${id}` : ""}`, { ...formData })
 			.then((res) => {
-				//console.log("res", res);
 				toast.success("New product created successfully!");
 				callback ? callback(res.data.data) : "";
 			})
@@ -43,7 +42,6 @@ const useInventory = () => {
 				Headers: { "Content-Type": "multipart/ form-data" },
 			})
 			.then((res) => {
-				//console.log("res", res);
 				toast.success("Products import successful!");
 				callback ? callback(res.data.data) : "";
 			})

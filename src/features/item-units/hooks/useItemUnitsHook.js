@@ -25,7 +25,6 @@ export const useItemUnits = () => {
 					_method: "PATCH",
 				})
 				.then((res) => {
-					//console.log("res", res);
 					toast.success("Item unit details updated successfully!");
 					callback ? callback(res.data.data) : "";
 				})
@@ -43,7 +42,6 @@ export const useItemUnits = () => {
 			axios
 				.post("/management/units", { ...props })
 				.then((res) => {
-					//console.log("res", res);
 					toast.success("Item unit added successfully!");
 					callback ? callback(res.data.data) : "";
 				})

@@ -22,7 +22,6 @@ export const useItemCategories = () => {
 					_method: "PATCH",
 				})
 				.then((res) => {
-					//console.log("res", res);
 					toast.success(
 						"Item category details updated successfully!",
 					);
@@ -42,7 +41,6 @@ export const useItemCategories = () => {
 			axios
 				.post("/management/categories", { ...props })
 				.then((res) => {
-					//console.log("res", res);
 					toast.success("Item category added successfully!");
 					callback ? callback(res.data.data) : "";
 				})

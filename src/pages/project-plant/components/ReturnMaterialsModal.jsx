@@ -44,7 +44,6 @@ const ReturnMaterialsModal = (props, ref) => {
 		setOpen(false);
 	};
 	const submitForm = () => {
-		//console.log("submitForm", data);
 		let details = data?.details;
 		let items = [];
 
@@ -53,7 +52,6 @@ const ReturnMaterialsModal = (props, ref) => {
 				items.push(item);
 			});
 		});
-		//console.log("submitForm itemsitems", items);
 
 		let formData = new FormData();
 
@@ -64,7 +62,6 @@ const ReturnMaterialsModal = (props, ref) => {
 		});
 
 		axios.post(`/inventory/return-items`, formData).then((res) => {
-			//console.log("inventory/return-items", res.data);
 			toast.success("Material successfully returned!");
 		});
 		hide();

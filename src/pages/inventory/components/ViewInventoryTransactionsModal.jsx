@@ -94,7 +94,6 @@ const ViewInventoryTransactionsModal = (props, ref) => {
 				header: "Date",
 				accessorKey: "created_at",
 				cell: ({ row }) => {
-					//console.log("row", row);
 					return row?.original?.created_at
 						? formatDate(row?.original?.created_at)
 						: "";

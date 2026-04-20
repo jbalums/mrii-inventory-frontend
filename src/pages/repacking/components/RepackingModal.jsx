@@ -84,7 +84,6 @@ const RepackingModal = (props, ref) => {
 		formData.append("output_product_id", productOutput?.product_id);
 		formData.append("output_qty", outputQty);
 		axios.post(`/inventory/repack`, formData).then((res) => {
-			//console.log("reeezzzz", res);
 			toast.success("Item has been repacked successfully!");
 			if (onSuccess) {
 				onSuccess();

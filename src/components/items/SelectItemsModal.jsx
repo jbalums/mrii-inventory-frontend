@@ -144,7 +144,6 @@ const SelectItemsModal = (props, ref) => {
 				id: "action",
 				className: "!text-center",
 				cell: ({ row, getValue }) => {
-					// //console.log("rowwwww", row);
 					const item = row.original;
 					return (
 						<div className="flex items-center justify-center text-center gap-4">
@@ -238,7 +237,6 @@ const SelectItemsModal = (props, ref) => {
 						pagination={true}
 						paginationClassName={"px-6"}
 						onTableChange={(data) => {
-							// //console.log("onTableChange", data);
 							setPage(data.pageIndex + 1);
 							setPaginate(data.pageSize);
 						}}

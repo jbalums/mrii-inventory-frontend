@@ -1,8 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "@/libs/axios";
+
+const DEFAULT_PARAMS = {};
+
 export default function TableWithPagination({
 	url,
-	params = {},
+	params = DEFAULT_PARAMS,
 	columns = [],
 	rowKey = "id",
 	perPage = 10,
@@ -19,16 +22,20 @@ export default function TableWithPagination({
 		to: null,
 	});
 
+	const paramsKey = JSON.stringify(params || DEFAULT_PARAMS);
+
 	const mergedParams = useMemo(() => {
 		return {
-			...params,
+			...JSON.parse(paramsKey),
 			page: pagination.current_page,
 			per_page: pagination.per_page,
 		};
-	}, [params, pagination.current_page, pagination.per_page]);
+	}, [paramsKey, pagination.current_page, pagination.per_page]);
 
 	const fetchData = async () => {
 		try {
+			if (!url) return;
+
 			setLoading(true);
 			setError("");
 
@@ -37,17 +44,22 @@ export default function TableWithPagination({
 			});
 
 			const result = response.data;
-			//console.log("result", result.data);
 			setRows(result.data || []);
-			setPagination((prev) => ({
-				...prev,
-				current_page: result.current_page ?? 1,
-				last_page: result.last_page ?? 1,
-				per_page: result.per_page ?? perPage,
-				total: result.total ?? 0,
-				from: result.from ?? null,
-				to: result.to ?? null,
-			}));
+			setPagination((prev) => {
+				const next = {
+					...prev,
+					current_page: result.current_page ?? 1,
+					last_page: result.last_page ?? 1,
+					per_page: result.per_page ?? perPage,
+					total: result.total ?? 0,
+					from: result.from ?? null,
+					to: result.to ?? null,
+				};
+
+				return Object.keys(next).every((key) => next[key] === prev[key])
+					? prev
+					: next;
+			});
 		} catch (err) {
 			setError(
 				err?.response?.data?.message ||

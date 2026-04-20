@@ -57,7 +57,6 @@ const ViewCompletedRequest = () => {
 	);
 
 	useEffect(() => {
-		//console.log("data", data?.data?.details);
 	}, [data?.data]);
 
 	return (

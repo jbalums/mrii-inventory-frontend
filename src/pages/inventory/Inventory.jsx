@@ -251,7 +251,6 @@ const Inventory = () => {
 				accessorKey: "action",
 				className: "!text-center",
 				cell: ({ row, getValue }) => {
-					// //console.log("useruseruser", row?.original);
 					let is_manageable = row?.original?.is_manageable;
 
 					if (is_manageable || user?.data?.branch_id == 1)

@@ -38,11 +38,9 @@ const Dashboard = () => {
 				...data,
 			})
 			.then((res) => {
-				//console.log("res", res);
 				toast.success("PO recieved updated successfully!");
 			})
 			.catch((error) => {
-				//console.log("errror", error);
 				toast.error(
 					`Failed to submit the form. Please check your inputs!`,
 				);

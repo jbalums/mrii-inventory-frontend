@@ -46,7 +46,6 @@ const SetBeginningBalanceModal = (props, ref) => {
 	}));
 
 	const show = (data) => {
-		//console.log("begBalProductRef", data);
 		if (data) {
 			reset({
 				...data,

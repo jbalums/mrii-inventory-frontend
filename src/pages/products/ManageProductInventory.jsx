@@ -50,7 +50,6 @@ const ManageProductInventory = () => {
 	}, [data?.data]);
 
 	const openFormModal = (data) => {
-		//console.log("opeeen");
 		addProductRef.current.show(data);
 	};
 	const viewProductModal = (item) => {

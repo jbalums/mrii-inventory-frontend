@@ -94,7 +94,6 @@ const IssuanceApproval = () => {
 				cellClassName: "",
 				cell: (data) => {
 					let original = data?.row?.original;
-					//console.log("originaloriginal", original);
 					return original?.status == "pending_approval" &&
 						original?.issuance_status == "completed"
 						? "pending"

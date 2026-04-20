@@ -113,7 +113,6 @@ const ReactSelectInputField = (props, ref) => {
 							label && "mt-2"
 						} ${inputClassName}`}
 						onChange={(val) => {
-							//console.log("valval", val);
 							if (onChange) onChange(val?.value || "");
 							if (onChangeGetData) onChangeGetData(val);
 						}}

@@ -298,7 +298,6 @@ const InputsOfReceipts = () => {
 										}));
 									}}
 									onChange={(value) => {
-										//console.log("onChange", value);
 										setFilters((filters) => ({
 											...filters,
 											date_from: formatDateYYYMMDD(

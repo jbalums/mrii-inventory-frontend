@@ -38,7 +38,6 @@ const AddUserModal = (props, ref) => {
 	}));
 
 	const show = (data) => {
-		//console.log("showwww data", data);
 		getLocations().then((res) => {
 			setLocations(res.data.data);
 		});
@@ -92,7 +91,6 @@ const AddUserModal = (props, ref) => {
 		hide();
 	};
 	const submitForm = (data) => {
-		//console.log("submitform", data);
 		setLoading(true);
 		let formData = new FormData();
 		if (data?.avatar) {
@@ -127,7 +125,6 @@ const AddUserModal = (props, ref) => {
 	const setErrors = (data) => {
 		if (data) {
 			Object.keys(data).map((key) => {
-				//console.log("key", key, data[key][0]);
 				setError(key == "username" ? "email" : key, {
 					type: "manual",
 					message: data[key][0],
@@ -142,7 +139,6 @@ const AddUserModal = (props, ref) => {
 				hide={hide}
 			/>
 			<ModalBody className={`py-4`}>
-				{//console.log("errors", errors)}
 				<form
 					className="flex flex-col lg:grid grid-cols-12 gap-4 pb-4"
 					autoComplete="off"

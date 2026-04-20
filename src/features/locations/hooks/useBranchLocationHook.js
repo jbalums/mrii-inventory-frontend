@@ -21,7 +21,6 @@ export const useBranchLocation = () => {
 					_method: "PATCH",
 				})
 				.then((res) => {
-					//console.log("res", res);
 					toast.success("Item branch details updated successfully!");
 					callback ? callback(res.data.data) : "";
 				})
@@ -39,7 +38,6 @@ export const useBranchLocation = () => {
 			axios
 				.post("/management/branches", { ...props })
 				.then((res) => {
-					//console.log("res", res);
 					toast.success("Item branch added successfully!");
 					callback ? callback(res.data.data) : "";
 				})

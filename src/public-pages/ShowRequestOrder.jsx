@@ -10,7 +10,6 @@ import { useAuth } from "@/hooks/useAuth";
 const ShowRequestOrder = () => {
 	const params = useParams();
 	const location = useLocation();
-	//console.log("paramsss", location);
 
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);

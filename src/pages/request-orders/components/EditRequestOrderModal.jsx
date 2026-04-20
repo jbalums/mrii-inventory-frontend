@@ -80,7 +80,6 @@ const EditRequestOrderModal = (props, ref) => {
 		setList((list) => list.filter((x) => x.id != item?.id));
 	};
 	const show = (data) => {
-		//console.log("dataa", data);
 		setList(
 			data?.details[0]?.items?.map((item) => ({
 				...item,
@@ -137,7 +136,6 @@ const EditRequestOrderModal = (props, ref) => {
 	const setErrors = (data) => {
 		if (data) {
 			Object.keys(data).map((key) => {
-				//console.log("key", key, data[key][0]);
 				setError(key == "username" ? "email" : key, {
 					type: "manual",
 					message: data[key][0],

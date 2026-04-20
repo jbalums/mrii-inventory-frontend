@@ -94,7 +94,6 @@ const ReceivingIssuances = () => {
 				cellClassName: "",
 				cell: (data) => {
 					let original = data?.row?.original;
-					//console.log("originaloriginal", original);
 					return original?.status == "accepted" &&
 						original?.issuance_status == "completed"
 						? "pending"

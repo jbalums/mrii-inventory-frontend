@@ -117,18 +117,6 @@ const Table = (props) => {
 												? "cursor-pointer select-none"
 												: ""
 										}`}
-										onClick={() => {
-											console.log(
-												"onTableSort",
-												!header.column.columnDef
-													?.disableSort &&
-													header.column.getToggleSortingHandler(),
-												{
-													asc: " 🔼",
-													desc: " 🔽",
-												}[header.column.getIsSorted()],
-											);
-										}}
 									>
 										{header.isPlaceholder
 											? null

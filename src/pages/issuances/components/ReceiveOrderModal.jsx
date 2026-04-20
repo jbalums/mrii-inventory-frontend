@@ -87,7 +87,6 @@ const ReceiveOrderModal = (props, ref) => {
 				cellClassName: "min-w-[128px] whitespace-pre text-center",
 				thClassName: "items-center justify-center !text-center",
 				cell: (data) => {
-					//console.log("getValuegetValue", data?.getValue());
 					return (
 						<>
 							<input

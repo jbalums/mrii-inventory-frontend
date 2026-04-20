@@ -54,7 +54,6 @@ const Locations = () => {
 				accessorKey: "id",
 				className: "!text-center",
 				cell: ({ row, getValue }) => {
-					//console.log("roww", row);
 					return (
 						<>
 							<div className="flex items-center justify-center text-center gap-4">
@@ -89,7 +88,6 @@ const Locations = () => {
 	);
 
 	useEffect(() => {
-		//console.log("dataaa", data);
 		setList(data?.data || []);
 	}, [data?.data]);
 

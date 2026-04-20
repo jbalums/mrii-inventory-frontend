@@ -116,7 +116,6 @@ const RequestOrdersFormModal = (props, ref) => {
 	const setErrors = (data) => {
 		if (data) {
 			Object.keys(data).map((key) => {
-				//console.log("key", key, data[key][0]);
 				setError(key == "username" ? "email" : key, {
 					type: "manual",
 					message: data[key][0],
@@ -178,7 +177,6 @@ const RequestOrdersFormModal = (props, ref) => {
 				cellClassName: "!text-center w-[128px]",
 				thClassName: "!text-center w-[128px]",
 				cell: ({ row: { original } }) => {
-					//console.log("original", original?.quantity);
 					let item = original;
 					item.requested_quantity = 1;
 					return (

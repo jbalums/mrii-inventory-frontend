@@ -88,7 +88,6 @@ const ImportSupplierModal = (props, ref) => {
 				Headers: { "Content-Type": "multipart/ form-data" },
 			})
 			.then((res) => {
-				//console.log("res", res);
 				refreshData();
 				setTimeout(() => {
 					hide();

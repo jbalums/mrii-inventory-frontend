@@ -14,7 +14,6 @@ import { toast } from "react-toastify";
 
 const IssuanceDetails = () => {
 	const params = useParams();
-	//console.log("paramsss", params);
 	const { user } = useAuth();
 	const accept_order_ref = useRef(null);
 	const [data, setData] = useState(null);

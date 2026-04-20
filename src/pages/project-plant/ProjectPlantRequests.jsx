@@ -42,7 +42,6 @@ const ProjectPlantRequests = () => {
 				className: "cursor-pointer",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					//console.log('originaloriginaloriginal', original)
 					return original?.location?.name || "";
 				},
 			},

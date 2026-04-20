@@ -19,7 +19,6 @@ export const useSuppliersHook = () => {
 					_method: "PATCH",
 				})
 				.then((res) => {
-					//console.log("res", res);
 					toast.success("Supplier details updated successfully!");
 					callback ? callback(res.data.data) : "";
 				})
@@ -37,7 +36,6 @@ export const useSuppliersHook = () => {
 			axios
 				.post("/management/suppliers", formData)
 				.then((res) => {
-					//console.log("res", res);
 					toast.success("Supplier added successfully!");
 					callback ? callback(res.data.data) : "";
 				})

@@ -41,7 +41,6 @@ const AddToReOrderModal = (props, ref) => {
 	const { user } = useAuth();
 	const componentRef = useRef(null);
 
-	// //console.log("useruseruser", user);
 	const [list, setList] = useState([
 		/* {
 			id: "AG454",
@@ -105,7 +104,6 @@ const AddToReOrderModal = (props, ref) => {
 		setLoading(true);
 		/* saveRequestOrder(data, list)
 			.then((res) => {
-				//console.log("saveRequestOrder", res);
 				toast.success("Request order submitted successfully!");
 				hide();
 			})
@@ -116,7 +114,6 @@ const AddToReOrderModal = (props, ref) => {
 	const setErrors = (data) => {
 		if (data) {
 			Object.keys(data).map((key) => {
-				//console.log("key", key, data[key][0]);
 				setError(key == "username" ? "email" : key, {
 					type: "manual",
 					message: data[key][0],
@@ -145,7 +142,6 @@ const AddToReOrderModal = (props, ref) => {
 				className: "border-t !bg-foreground",
 				cellClassName: "",
 				cell: ({ row: { original } }) => {
-					//console.log("original?.location", original);
 					return original?.location?.name || "-";
 				},
 			}, */
@@ -210,13 +206,12 @@ const AddToReOrderModal = (props, ref) => {
 				},
 			}, */
 		],
-		[]
+		[],
 	);
 	return (
 		<Modal open={open} hide={hide} size="xl">
 			<ModalHeader hide={hide} />
 			<ModalBody className={`py-4`}>
-				{//console.log("errors", errors)}
 				<PrintableLayout ref={componentRef}>
 					<div className="min-h-[384px] flex flex-col w-100">
 						<h5 className="text-lg mb-3">Items to Re-Order</h5>
