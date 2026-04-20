@@ -6,7 +6,7 @@ import TextInputField from "@/src/components/forms/TextInputField";
 import Table from "@/src/components/table/Table";
 import { useBranchLocation } from "@/src/features/locations/hooks/useBranchLocationHook";
 import useDataTable from "@/src/helpers/useDataTable";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ProductFormModal from "./components/ProductFormModal";
 import ViewProductModal from "./components/ViewProductModal";
 import useInventory from "@/src/pages/inventory/hooks/useInventory.js";
@@ -24,6 +24,7 @@ import ConfirmModal from "@/src/components/modals/ConfirmModal";
 import { toast } from "react-toastify";
 import ClickToCopy from "@/src/components/ClickToCopy";
 import InventoryCorrectionModal from "./components/InventoryCorrectionModal";
+import ProductDetailsModal from "./components/ProductDetailsModal";
 const Inventory = () => {
 	const { user } = useAuth();
 	const addProductRef = useRef(null);
@@ -42,6 +43,7 @@ const Inventory = () => {
 	const [list, setList] = useState([]);
 	const [inventoryStatus, setInventoryStatus] = useState(null);
 	const [branches, setBranches] = useState([]);
+	const [selectedProductId, setSelectedProductId] = useState(null);
 
 	const [loadingInit, setLoadingInit] = useState(false);
 	const [reInit, setReInit] = useState(false);
@@ -158,6 +160,16 @@ const Inventory = () => {
 			viewProductRef.current.show(item);
 		}, 100);
 	};
+	const viewProductModalV2 = (item) => {
+		viewProductRef.current?.show(item);
+	};
+	const openProductDetailsModal = useCallback((productId) => {
+		if (!productId) return;
+		setSelectedProductId(productId);
+	}, []);
+	const closeProductDetailsModal = useCallback(() => {
+		setSelectedProductId(null);
+	}, []);
 	const openBegBalFormModal = (data) => {
 		begBalProductRef.current.show(data);
 	};
@@ -194,9 +206,25 @@ const Inventory = () => {
 				accessorKey: "name",
 				className: "min-w-[128px]",
 				cell: ({ row }) => {
-					return row?.original?.product?.name
+					const productName = row?.original?.product?.name
 						? row?.original?.product?.name
 						: row?.original?.name;
+					const productId =
+						row?.original?.product_id || row?.original?.product?.id;
+
+					return (
+						<button
+							type="button"
+							className="text-left font-semibold text-blue-600 hover:underline disabled:text-dark disabled:hover:no-underline"
+							disabled={!productId}
+							onClick={(event) => {
+								event.stopPropagation();
+								openProductDetailsModal(productId);
+							}}
+						>
+							{productName || "-"}
+						</button>
+					);
 				},
 			},
 			{
@@ -309,8 +337,8 @@ const Inventory = () => {
 				},
 			},
 		],
-		[],
-	);
+			[openProductDetailsModal, user?.data?.branch_id],
+		);
 
 	return (
 		<AppLayout
@@ -332,7 +360,7 @@ const Inventory = () => {
 						<FlatIcon
 							icon="rs-shopping-cart"
 							className="text-danger mr-2 text-base"
-						/>
+				/>
 						<span className="text-sm mr-2">Empty stocks:</span>
 						<span className="text-sm text-danger font-bold">
 							{inventoryStatus?.empty?.length || 0}
@@ -417,7 +445,7 @@ const Inventory = () => {
 								label: branch?.name,
 							})),
 						]}
-					/>
+				/>
 				) : (
 					""
 				)}
@@ -458,7 +486,7 @@ const Inventory = () => {
 			<div className="w-full">
 				<Table
 					rowClick={(data) => {
-						viewProductModal(data?.original);
+						viewProductModalV2(data?.original);
 					}}
 					columns={columns}
 					pagination={true}
@@ -498,11 +526,16 @@ const Inventory = () => {
 				branch_id={
 					selectedBranchId ? selectedBranchId : user?.data?.branch_id
 				}
-			/>
+				/>
 			<SetBeginningBalanceModal
 				ref={begBalProductRef}
 				updateInList={updateInList}
 				addToList={addToList}
+			/>
+			<ProductDetailsModal
+				open={selectedProductId != null}
+				productId={selectedProductId}
+				onClose={closeProductDetailsModal}
 			/>
 			<RepackingModal
 				ref={repackModalRef}
