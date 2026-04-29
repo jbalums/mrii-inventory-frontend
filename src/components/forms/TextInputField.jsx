@@ -15,7 +15,7 @@ const TextInputField = (props, ref) => {
 	} = props;
 	return (
 		<label
-			className={`flex flex-col ${className || ""} ${
+			className={`flex flex-col relative ${className || ""} ${
 				error ? "text-danger" : ""
 			}`}
 		>
@@ -28,7 +28,7 @@ const TextInputField = (props, ref) => {
 			) : (
 				""
 			)}
-			<div className="w-full relative flex items-center">
+			<div className="w-full  flex items-center">
 				{icon ? (
 					<div
 						className={`absolute left-0 flex items-center justify-center py-2 px-3 border-r text-darker border-border ${iconClassName}`}

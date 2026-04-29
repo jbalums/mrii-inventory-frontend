@@ -244,7 +244,7 @@ const RequestOrders = () => {
 			]}
 		>
 			<div className="w-full">
-				<div className="flex flex-col lg:flex-row gap-6 pb-6">
+				<div className="flex flex-col lg:flex-row flex-wrap gap-6 pb-6">
 					<TextInputField
 						className="lg:w-[320px]"
 						icon={<FlatIcon icon="rr-search" className="text-sm" />}
@@ -308,6 +308,38 @@ const RequestOrders = () => {
 								})),
 							]}
 						/>
+					) : (
+						""
+					)}
+					{user?.data?.id == 1 ? (
+						<>
+							<TextInputField
+								labelClassName="-top-4 !text-[10px] opacity-80 left-0 absolute"
+								className="w-full lg:w-[180px]"
+								type="date"
+								label="Date from"
+								value={filters?.date_from || ""}
+								onChange={(e) => {
+									setFilters((currentFilters) => ({
+										...currentFilters,
+										date_from: e.target.value,
+									}));
+								}}
+							/>
+							<TextInputField
+								labelClassName="-top-4 !text-[10px] opacity-80 left-0 absolute"
+								className="w-full lg:w-[180px]"
+								type="date"
+								label="Date to"
+								value={filters?.date_to || ""}
+								onChange={(e) => {
+									setFilters((currentFilters) => ({
+										...currentFilters,
+										date_to: e.target.value,
+									}));
+								}}
+							/>
+						</>
 					) : (
 						""
 					)}

@@ -19,12 +19,16 @@ const ManageProductInventory = lazy(
 const Products = lazy(() => import("./pages/products/Products.jsx"));
 const PrintProducts = lazy(() => import("./pages/products/PrintProducts"));
 const Receiving = lazy(() => import("./pages/receiving/Receiving"));
-const InternalReceivng = lazy(() => import("./pages/receiving/InternalReceivng"));
+const InternalReceivng = lazy(
+	() => import("./pages/receiving/InternalReceivng"),
+);
 const AcceptOrders = lazy(() => import("./pages/accept-orders/AcceptOrders"));
 const RequestOrderDetail = lazy(
 	() => import("./pages/request-orders/RequestOrderDetail"),
 );
-const RequestOrders = lazy(() => import("./pages/request-orders/RequestOrders"));
+const RequestOrders = lazy(
+	() => import("./pages/request-orders/RequestOrdersV2"),
+);
 const PrintRequestOrder = lazy(
 	() => import("./pages/request-orders/PrintRequestOrder"),
 );
@@ -50,17 +54,13 @@ const ReturnMaterials = lazy(
 const ProjectPlantRequests = lazy(
 	() => import("./pages/project-plant/ProjectPlantRequests"),
 );
-const ApproveIssuance = lazy(
-	() => import("./pages/approving/ApproveIssuance"),
-);
+const ApproveIssuance = lazy(() => import("./pages/approving/ApproveIssuance"));
 const ReceivingIssuances = lazy(
 	() => import("./pages/issuances/ReceivingIssuances"),
 );
 const ItemCosting = lazy(() => import("./pages/reports/ItemCosting"));
 const IssuanceReport = lazy(() => import("./pages/reports/IssuanceReport"));
-const InputsOfReceipts = lazy(
-	() => import("./pages/reports/InputsOfReceipts"),
-);
+const InputsOfReceipts = lazy(() => import("./pages/reports/InputsOfReceipts"));
 const AccountsPayableVoucher = lazy(
 	() => import("./pages/reports/AccountsPayableVoucher"),
 );
@@ -117,12 +117,18 @@ const AppRoutes = () => {
 				element={<RequestOrderDetail />}
 			/>
 			<Route path="/request-orders" element={<RequestOrders />} />
-			<Route path="/request-orders/:id" element={<RequestOrderDetail />} />
+			<Route
+				path="/request-orders/:id"
+				element={<RequestOrderDetail />}
+			/>
 			<Route
 				path="/request-orders/:id/print"
 				element={<PrintRequestOrder />}
 			/>
-			<Route path="/request-orders/:id/pdf" element={<PrintRequestOrder />} />
+			<Route
+				path="/request-orders/:id/pdf"
+				element={<PrintRequestOrder />}
+			/>
 			<Route
 				path="/request-orders/prepare-item-delivery"
 				element={<PrepareItemDelivery />}
