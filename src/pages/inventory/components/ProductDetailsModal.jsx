@@ -1,21 +1,129 @@
 import axios from "@/libs/axios";
 import Button from "@/src/components/Button";
+import FlatIcon from "@/src/components/FlatIcon";
 import Infotext from "@/src/components/InfoText";
 import ModalBody from "@/src/components/modals/components/ModalBody";
 import ModalFooter from "@/src/components/modals/components/ModalFooter";
 import ModalHeader from "@/src/components/modals/components/ModalHeader";
 import Modal from "@/src/components/modals/Modal";
-import { useEffect, useState } from "react";
+import Table from "@/src/components/table/Table";
+import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 
-const ProductDetailsModal = ({ open, productId, onClose }) => {
+const ProductDetailsModal = ({
+	open,
+	productId,
+	onClose,
+	extraElements = null,
+	extraInventoryTransactionButton = null,
+}) => {
 	const [product, setProduct] = useState(null);
+	const [transactions, setTransactions] = useState([]);
+	const [transactionsMeta, setTransactionsMeta] = useState(null);
+	const [transactionsPage, setTransactionsPage] = useState(1);
+	const [transactionsPaginate, setTransactionsPaginate] = useState(10);
 	const [loading, setLoading] = useState(false);
+	const [transactionsLoading, setTransactionsLoading] = useState(false);
 	const [error, setError] = useState("");
+	const [transactionsError, setTransactionsError] = useState("");
+
+	const formatDate = (date) => {
+		let d = new Date(date);
+		return `${String(d.getDate()).padStart(2, "0")}/${String(
+			d.getMonth() + 1,
+		).padStart(2, "0")}/${d.getFullYear()} ${String(d.getHours()).padStart(
+			2,
+			"0",
+		)}:${String(d.getMinutes()).padStart(2, "0")} ${
+			d.getHours() >= 12 ? "PM" : "AM"
+		}`;
+	};
+
+	const transactionColumns = useMemo(
+		() => [
+			{
+				header: "Details",
+				accessorKey: "created_at",
+				cell: ({ row }) => {
+					return row?.original?.receive ? (
+						`PO #${row?.original?.receive?.purchase_order}`
+					) : row?.original?.request ? (
+						<Link
+							target="_blank"
+							to={`/request-orders/${row?.original?.request?.id}`}
+						>
+							<span className="text-blue-600 hover:underline">{`Ref #${row?.original?.request?.account_code}`}</span>
+						</Link>
+					) : (
+						row?.original?.details || "-"
+					);
+				},
+			},
+			{
+				header: "Date",
+				accessorKey: "created_at",
+				sortabe: true,
+				cell: ({ row }) => {
+					return row?.original?.created_at
+						? formatDate(row?.original?.created_at)
+						: "";
+				},
+			},
+			{
+				header: "Movement",
+				accessorKey: "movement",
+				className: "!text-center",
+			},
+			{
+				header: "QTY",
+				accessorKey: "quantity",
+				className: "!text-center",
+				cell: ({ row }) => {
+					let item = row?.original;
+					return (
+						<span
+							className={
+								item?.movement == "in"
+									? "text-green-700"
+									: "text-red-700"
+							}
+						>
+							{item?.movement == "in" ? "+ " : "- "}
+							{item?.quantity}
+						</span>
+					);
+				},
+			},
+			{
+				header: "Running QTY",
+				accessorKey: "running_quantity",
+				className: "!text-center",
+				cell: ({ row }) => {
+					let item = row?.original;
+					return (
+						<span
+							className={`text-sm font-bold ${
+								item?.quantity_balance > 0
+									? "text-green-700"
+									: "text-red-700"
+							}`}
+						>
+							{item?.quantity_balance}
+						</span>
+					);
+				},
+			},
+		],
+		[],
+	);
 
 	useEffect(() => {
 		if (!open || !productId) {
 			setProduct(null);
+			setTransactions([]);
+			setTransactionsMeta(null);
 			setError("");
+			setTransactionsError("");
 			return;
 		}
 
@@ -47,14 +155,73 @@ const ProductDetailsModal = ({ open, productId, onClose }) => {
 		};
 	}, [open, productId]);
 
+	useEffect(() => {
+		if (open && productId) {
+			setTransactionsPage(1);
+		}
+	}, [open, productId]);
+
+	useEffect(() => {
+		if (!open || !productId) {
+			setTransactions([]);
+			setTransactionsMeta(null);
+			setTransactionsError("");
+			return;
+		}
+
+		let isCurrent = true;
+
+		setTransactionsLoading(true);
+		setTransactionsError("");
+
+		axios
+			.get("/v2/inventory/transaction-histories", {
+				params: {
+					product_id: productId,
+					page: transactionsPage,
+					paginate: transactionsPaginate,
+				},
+			})
+			.then((res) => {
+				if (isCurrent) {
+					setTransactions(res.data?.data || []);
+					setTransactionsMeta({
+						current_page: res.data?.meta?.current_page || 1,
+						from: res.data?.meta?.from,
+						last_page: res.data?.meta?.last_page || 1,
+						per_page:
+							res.data?.meta?.per_page || transactionsPaginate,
+						to: res.data?.meta?.to,
+						total: res.data?.meta?.total || 0,
+					});
+				}
+			})
+			.catch(() => {
+				if (isCurrent) {
+					setTransactionsError(
+						"Unable to load inventory transactions.",
+					);
+				}
+			})
+			.finally(() => {
+				if (isCurrent) {
+					setTransactionsLoading(false);
+				}
+			});
+
+		return () => {
+			isCurrent = false;
+		};
+	}, [open, productId, transactionsPage, transactionsPaginate]);
+
 	return (
-		<Modal open={open} hide={onClose} size="md">
+		<Modal open={open} hide={onClose} size="xl">
 			<ModalHeader
 				title="Product details"
 				subtitle="Product information from the master product record."
 				hide={onClose}
 			/>
-			<ModalBody className="py-4">
+			<ModalBody className="!p-0">
 				{loading ? (
 					<div className="py-8 text-center text-placeholder">
 						Loading product details...
@@ -62,38 +229,80 @@ const ProductDetailsModal = ({ open, productId, onClose }) => {
 				) : error ? (
 					<div className="py-8 text-center text-danger">{error}</div>
 				) : (
-					<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-						<Infotext
-							label="Product code"
-							text={product?.code || "-"}
-							className="lg:col-span-2"
-						/>
-						<Infotext
-							label="Product name"
-							text={product?.name || "-"}
-							className="lg:col-span-2"
-						/>
-						<Infotext
-							label="Description"
-							text={product?.description || "-"}
-							className="lg:col-span-2"
-						/>
-						<Infotext
-							label="Category"
-							text={product?.category?.name || "-"}
-						/>
-						<Infotext
-							label="Brand"
-							text={product?.brand?.name || product?.brand || "-"}
-						/>
-						<Infotext
-							label="Unit of measurement"
-							text={product?.unit_measurement || "-"}
-						/>
-						<Infotext
-							label="Unit value"
-							text={product?.unit_value || "-"}
-						/>
+					<div className="grid grid-cols-12 gap-4 px-4">
+						<div className="flex flex-col gap-4 col-span-4 py-4">
+							{extraElements ? extraElements : null}
+							<Infotext
+								label="Product code"
+								text={product?.code || "-"}
+								className="lg:col-span-2"
+							/>
+							<Infotext
+								label="Product name"
+								text={product?.name || "-"}
+								className="lg:col-span-2"
+							/>
+							<Infotext
+								label="Description"
+								text={product?.description || "-"}
+								className="lg:col-span-2"
+							/>
+							<Infotext
+								label="Category"
+								text={product?.category?.name || "-"}
+							/>
+							<Infotext
+								label="Brand"
+								text={
+									product?.brand?.name ||
+									product?.brand ||
+									"-"
+								}
+							/>
+							<Infotext
+								label="Unit of measurement"
+								text={product?.unit_measurement || "-"}
+							/>
+							<Infotext
+								label="Unit value"
+								text={product?.unit_value || "-"}
+							/>
+						</div>
+						<div className="border-l col-span-8 lg:min-h-[calc(100vh-300px)]">
+							<div className="flex items-center gap-4 w-full">
+								<h3 className="text-lg font-bold text-darker mr-auto px-4 pt-4 pb-3">
+									Inventory transactions
+								</h3>
+								{extraInventoryTransactionButton ? (
+									<div>{extraInventoryTransactionButton}</div>
+								) : null}
+							</div>
+							{transactionsError ? (
+								<div className="px-4 pb-4 text-sm text-danger">
+									{transactionsError}
+								</div>
+							) : (
+								<div className="w-full overflow-auto bg-white">
+									<Table
+										columns={transactionColumns}
+										pagination={true}
+										loading={transactionsLoading}
+										data={transactions}
+										meta={transactionsMeta}
+										displayShowing={true}
+										paginationClassName="px-4 pb-4"
+										onTableChange={(data) => {
+											setTransactionsPage(
+												data?.pageIndex + 1 || 1,
+											);
+											setTransactionsPaginate(
+												data?.pageSize || 10,
+											);
+										}}
+									/>
+								</div>
+							)}
+						</div>
 					</div>
 				)}
 			</ModalBody>

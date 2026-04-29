@@ -6,7 +6,7 @@ import {
 	useReactTable,
 	getSortedRowModel,
 } from "@tanstack/react-table";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Button from "../Button";
 import FlatIcon from "../FlatIcon";
 import SelectInputField from "../forms/SelectInputField";
@@ -34,6 +34,7 @@ const Table = (props) => {
 		tableClassName = "",
 		onTableSort = null,
 		onTableChange,
+		serverSort = false,
 		show = [5, 10, 15, 20, 50, 100],
 		loadingMessage = "Gathering data...",
 		emptyMessage = "No data available",
@@ -50,16 +51,44 @@ const Table = (props) => {
 		pageIndex: 0,
 		pageSize: 10,
 	});
+
+	const normalizedColumns = useMemo(
+		() =>
+			columns.map((column) => ({
+				...column,
+				enableSorting: column.disableSort
+					? false
+					: typeof column.enableSorting === "boolean"
+						? column.enableSorting
+						: typeof column.sortable === "boolean"
+							? column.sortable
+							: false,
+			})),
+		[columns],
+	);
+
+	const handleSortingChange = (updater) => {
+		const nextSorting =
+			typeof updater === "function" ? updater(sorting) : updater;
+
+		setSorting(nextSorting);
+
+		if (serverSort && onTableSort) {
+			onTableSort(nextSorting);
+		}
+	};
+
 	const table = useReactTable({
 		data,
-		columns,
+		columns: normalizedColumns,
 		pageCount: meta?.last_page || 1,
 		manualPagination: true,
+		manualSorting: serverSort,
 		state: {
 			sorting,
 		},
-		onSortingChange: setSorting,
-		getSortedRowModel: getSortedRowModel(),
+		onSortingChange: handleSortingChange,
+		getSortedRowModel: serverSort ? undefined : getSortedRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
 		onPaginationChange: (data) => {
 			if (data) {
@@ -117,6 +146,11 @@ const Table = (props) => {
 												? "cursor-pointer select-none"
 												: ""
 										}`}
+										onClick={
+											header.column.getCanSort()
+												? header.column.getToggleSortingHandler()
+												: undefined
+										}
 									>
 										{header.isPlaceholder
 											? null

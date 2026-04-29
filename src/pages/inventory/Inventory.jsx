@@ -44,6 +44,7 @@ const Inventory = () => {
 	const [inventoryStatus, setInventoryStatus] = useState(null);
 	const [branches, setBranches] = useState([]);
 	const [selectedProductId, setSelectedProductId] = useState(null);
+	const [selectedInventory, setSelectedInventory] = useState(null);
 
 	const [loadingInit, setLoadingInit] = useState(false);
 	const [reInit, setReInit] = useState(false);
@@ -211,7 +212,7 @@ const Inventory = () => {
 						: row?.original?.name;
 					const productId =
 						row?.original?.product_id || row?.original?.product?.id;
-
+					const inventoryData = row?.original;
 					return (
 						<button
 							type="button"
@@ -219,7 +220,9 @@ const Inventory = () => {
 							disabled={!productId}
 							onClick={(event) => {
 								event.stopPropagation();
+								setSelectedInventory();
 								openProductDetailsModal(productId);
+								setSelectedInventory(inventoryData);
 							}}
 						>
 							{productName || "-"}
@@ -337,8 +340,8 @@ const Inventory = () => {
 				},
 			},
 		],
-			[openProductDetailsModal, user?.data?.branch_id],
-		);
+		[openProductDetailsModal, user?.data?.branch_id],
+	);
 
 	return (
 		<AppLayout
@@ -360,7 +363,7 @@ const Inventory = () => {
 						<FlatIcon
 							icon="rs-shopping-cart"
 							className="text-danger mr-2 text-base"
-				/>
+						/>
 						<span className="text-sm mr-2">Empty stocks:</span>
 						<span className="text-sm text-danger font-bold">
 							{inventoryStatus?.empty?.length || 0}
@@ -445,7 +448,7 @@ const Inventory = () => {
 								label: branch?.name,
 							})),
 						]}
-				/>
+					/>
 				) : (
 					""
 				)}
@@ -486,7 +489,13 @@ const Inventory = () => {
 			<div className="w-full">
 				<Table
 					rowClick={(data) => {
-						viewProductModalV2(data?.original);
+						const productId =
+							data?.original?.product_id ||
+							data?.original?.product?.id;
+						const inventoryData = data?.original;
+						setSelectedInventory();
+						openProductDetailsModal(productId);
+						setSelectedInventory(inventoryData);
 					}}
 					columns={columns}
 					pagination={true}
@@ -526,7 +535,7 @@ const Inventory = () => {
 				branch_id={
 					selectedBranchId ? selectedBranchId : user?.data?.branch_id
 				}
-				/>
+			/>
 			<SetBeginningBalanceModal
 				ref={begBalProductRef}
 				updateInList={updateInList}
@@ -535,7 +544,58 @@ const Inventory = () => {
 			<ProductDetailsModal
 				open={selectedProductId != null}
 				productId={selectedProductId}
+				selectedInventory={selectedInventory}
+				refreshData={refreshData}
+				setSelectedInventory={setSelectedInventory}
 				onClose={closeProductDetailsModal}
+				user={user}
+				inventoryCorrectionModalRef={inventoryCorrectionModalRef}
+				extraInventoryTransactionButton={
+					selectedInventory ? (
+						user?.data?.user_type == "admin" ? (
+							<Button
+								className=""
+								type="danger"
+								onClick={() => {
+									inventoryCorrectionModalRef.current.show({
+										data: selectedInventory,
+										refreshModalData: refreshData,
+										setInfo: setSelectedInventory,
+									});
+								}}
+							>
+								<FlatIcon icon="rr-info" />
+								Inventory Correction
+							</Button>
+						) : (
+							""
+						)
+					) : null
+				}
+				extraElements={
+					selectedInventory ? (
+						<div className="grid grid-cols-1 gap-2 border-b pb-4 px-0">
+							<div className="p-3 rounded-xl flex items-center gap-1 bg-success bg-opacity-10 text-success">
+								<span>QTY on hand</span>
+								<b className="text-2xl ml-auto">
+									{selectedInventory?.total_quantity}
+								</b>
+							</div>
+							<div className="p-3 rounded-xl flex items-center gap-1 bg-yellow-500 bg-opacity-10 text-warning">
+								<span>Stock minimum level</span>
+								<b className="text-2xl ml-auto">
+									{selectedInventory?.stock_low_level}
+								</b>
+							</div>
+							<div className="p-3 rounded-xl flex items-center gap-1 bg-danger bg-opacity-5 text-danger">
+								<span>Stock re-order point</span>
+								<b className="text-2xl ml-auto">
+									{selectedInventory?.reorder_point}
+								</b>
+							</div>
+						</div>
+					) : null
+				}
 			/>
 			<RepackingModal
 				ref={repackModalRef}
@@ -568,7 +628,6 @@ const Inventory = () => {
 							loadingInit ? "animate-pulse" : ""
 						}`}
 					>
-						{/* <Button onClick={closeConfirmDelete}>No</Button> */}
 						<Button
 							type="success"
 							className={`ml-4 font-bold ${
