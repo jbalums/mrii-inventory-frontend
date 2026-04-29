@@ -182,7 +182,10 @@ const Suppliers = () => {
 						<div className="flex flex-col gap-y-2">
 							{banks?.map((bank) => {
 								return (
-									<div className="p-3 rounded-lg bg-white shadow-sm shadow-indigo-600 flex items-start gap-3">
+									<div
+										className="p-3 rounded-lg bg-white shadow-sm shadow-indigo-600 flex items-start gap-3"
+										key={`bank-${bank?.id}`}
+									>
 										<FlatIcon
 											icon="rr-bank"
 											className="text-[40px] text-indigo-400 opacity-30 mt-2"

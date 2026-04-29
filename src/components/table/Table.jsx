@@ -12,9 +12,9 @@ import FlatIcon from "../FlatIcon";
 import SelectInputField from "../forms/SelectInputField";
 import TextInputField from "../forms/TextInputField";
 
-const Table = (props) => {
-	const [sorting, setSorting] = useState([]);
+const DEFAULT_SORTING = [];
 
+const Table = (props) => {
 	const {
 		columns,
 		theadClassName = "",
@@ -32,6 +32,7 @@ const Table = (props) => {
 		rowClick = false,
 		rowHighlight = false,
 		tableClassName = "",
+		initialSorting = DEFAULT_SORTING,
 		onTableSort = null,
 		onTableChange,
 		serverSort = false,
@@ -42,6 +43,7 @@ const Table = (props) => {
 		paginationClassName = "",
 		displayShowing = false,
 	} = props;
+	const [sorting, setSorting] = useState(initialSorting);
 
 	const {
 		theme: { collapseSidebar, device },

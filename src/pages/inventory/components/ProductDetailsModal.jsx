@@ -10,6 +10,8 @@ import Table from "@/src/components/table/Table";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
+const DEFAULT_TRANSACTION_SORTING = [{ id: "created_at", desc: true }];
+
 const ProductDetailsModal = ({
 	open,
 	productId,
@@ -22,10 +24,14 @@ const ProductDetailsModal = ({
 	const [transactionsMeta, setTransactionsMeta] = useState(null);
 	const [transactionsPage, setTransactionsPage] = useState(1);
 	const [transactionsPaginate, setTransactionsPaginate] = useState(10);
+	const [transactionsSorting, setTransactionsSorting] = useState(
+		DEFAULT_TRANSACTION_SORTING,
+	);
 	const [loading, setLoading] = useState(false);
 	const [transactionsLoading, setTransactionsLoading] = useState(false);
 	const [error, setError] = useState("");
 	const [transactionsError, setTransactionsError] = useState("");
+	const transactionSort = transactionsSorting[0] || null;
 
 	const formatDate = (date) => {
 		let d = new Date(date);
@@ -42,6 +48,7 @@ const ProductDetailsModal = ({
 	const transactionColumns = useMemo(
 		() => [
 			{
+				id: "transaction_details",
 				header: "Details",
 				accessorKey: "created_at",
 				cell: ({ row }) => {
@@ -62,7 +69,7 @@ const ProductDetailsModal = ({
 			{
 				header: "Date",
 				accessorKey: "created_at",
-				sortabe: true,
+				sortable: true,
 				cell: ({ row }) => {
 					return row?.original?.created_at
 						? formatDate(row?.original?.created_at)
@@ -122,6 +129,8 @@ const ProductDetailsModal = ({
 			setProduct(null);
 			setTransactions([]);
 			setTransactionsMeta(null);
+			setTransactionsPage(1);
+			setTransactionsSorting(DEFAULT_TRANSACTION_SORTING);
 			setError("");
 			setTransactionsError("");
 			return;
@@ -180,6 +189,14 @@ const ProductDetailsModal = ({
 					product_id: productId,
 					page: transactionsPage,
 					paginate: transactionsPaginate,
+					...(transactionSort?.id
+						? {
+								sort_by: transactionSort.id,
+								sort_direction: transactionSort.desc
+									? "desc"
+									: "asc",
+							}
+						: {}),
 				},
 			})
 			.then((res) => {
@@ -212,7 +229,14 @@ const ProductDetailsModal = ({
 		return () => {
 			isCurrent = false;
 		};
-	}, [open, productId, transactionsPage, transactionsPaginate]);
+	}, [
+		open,
+		productId,
+		transactionsPage,
+		transactionsPaginate,
+		transactionSort?.id,
+		transactionSort?.desc,
+	]);
 
 	return (
 		<Modal open={open} hide={onClose} size="xl">
@@ -291,6 +315,14 @@ const ProductDetailsModal = ({
 										meta={transactionsMeta}
 										displayShowing={true}
 										paginationClassName="px-4 pb-4"
+										serverSort={true}
+										initialSorting={
+											DEFAULT_TRANSACTION_SORTING
+										}
+										onTableSort={(sorting) => {
+											setTransactionsSorting(sorting);
+											setTransactionsPage(1);
+										}}
 										onTableChange={(data) => {
 											setTransactionsPage(
 												data?.pageIndex + 1 || 1,

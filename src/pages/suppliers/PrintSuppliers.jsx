@@ -105,7 +105,10 @@ const PrintSuppliers = () => {
 						<div className="flex flex-col gap-y-2">
 							{contacts?.map((contact) => {
 								return (
-									<div className="p-3 rounded-lg bg-white relative">
+									<div
+										className="p-3 rounded-lg bg-white relative"
+										key={`contact-${contact?.id}`}
+									>
 										<div className="absolute right-4 top-4">
 											<FlatIcon
 												icon="rr-circle-phone"
@@ -125,7 +128,7 @@ const PrintSuppliers = () => {
 												<FlatIcon icon="rr-phone-call" />
 												<span className="text-sm font-">
 													{mobileNumber(
-														contact?.number
+														contact?.number,
 													)}
 												</span>
 											</div>
@@ -193,7 +196,7 @@ const PrintSuppliers = () => {
 				},
 			},
 		],
-		[]
+		[],
 	);
 
 	return (
