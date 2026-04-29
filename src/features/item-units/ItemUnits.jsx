@@ -84,10 +84,12 @@ const ItemUnits = () => {
 			{
 				header: "Name",
 				accessorKey: "name",
+				sortable: true,
 			},
 			{
 				header: "Description",
 				accessorKey: "description",
+				sortable: true,
 			},
 			{
 				header: "Actions",
