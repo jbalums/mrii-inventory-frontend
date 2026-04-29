@@ -1,6 +1,7 @@
 import axios from "@/libs/axios";
 import Button from "@/src/components/Button";
 import FlatIcon from "@/src/components/FlatIcon";
+import TextInputField from "@/src/components/forms/TextInputField";
 import Infotext from "@/src/components/InfoText";
 import ModalBody from "@/src/components/modals/components/ModalBody";
 import ModalFooter from "@/src/components/modals/components/ModalFooter";
@@ -18,6 +19,7 @@ const ProductDetailsModal = ({
 	onClose,
 	extraElements = null,
 	extraInventoryTransactionButton = null,
+	options = {},
 }) => {
 	const [product, setProduct] = useState(null);
 	const [transactions, setTransactions] = useState([]);
@@ -26,6 +28,9 @@ const ProductDetailsModal = ({
 	const [transactionsPaginate, setTransactionsPaginate] = useState(10);
 	const [transactionsSorting, setTransactionsSorting] = useState(
 		DEFAULT_TRANSACTION_SORTING,
+	);
+	const [transactionsKeyword, setTransactionsKeyword] = useState(
+		options?.keyword || "",
 	);
 	const [loading, setLoading] = useState(false);
 	const [transactionsLoading, setTransactionsLoading] = useState(false);
@@ -131,6 +136,7 @@ const ProductDetailsModal = ({
 			setTransactionsMeta(null);
 			setTransactionsPage(1);
 			setTransactionsSorting(DEFAULT_TRANSACTION_SORTING);
+			setTransactionsKeyword("");
 			setError("");
 			setTransactionsError("");
 			return;
@@ -167,6 +173,7 @@ const ProductDetailsModal = ({
 	useEffect(() => {
 		if (open && productId) {
 			setTransactionsPage(1);
+			setTransactionsKeyword(options?.keyword || "");
 		}
 	}, [open, productId]);
 
@@ -189,6 +196,7 @@ const ProductDetailsModal = ({
 					product_id: productId,
 					page: transactionsPage,
 					paginate: transactionsPaginate,
+					keyword: transactionsKeyword,
 					...(transactionSort?.id
 						? {
 								sort_by: transactionSort.id,
@@ -234,6 +242,7 @@ const ProductDetailsModal = ({
 		productId,
 		transactionsPage,
 		transactionsPaginate,
+		transactionsKeyword,
 		transactionSort?.id,
 		transactionSort?.desc,
 	]);
@@ -293,10 +302,26 @@ const ProductDetailsModal = ({
 							/>
 						</div>
 						<div className="border-l col-span-8 lg:min-h-[calc(100vh-300px)]">
-							<div className="flex items-center gap-4 w-full">
-								<h3 className="text-lg font-bold text-darker mr-auto px-4 pt-4 pb-3">
+							<div className="flex flex-wrap items-center gap-3 w-full px-4 pt-4 pb-3">
+								<h3 className="text-lg font-bold text-darker mr-auto">
 									Inventory transactions
 								</h3>
+								<TextInputField
+									className="w-full sm:w-[260px]"
+									inputClassName="!py-2"
+									icon={
+										<FlatIcon
+											icon="rr-search"
+											className="text-sm"
+										/>
+									}
+									placeholder="Search transactions"
+									value={transactionsKeyword}
+									onChange={(e) => {
+										setTransactionsKeyword(e.target.value);
+										setTransactionsPage(1);
+									}}
+								/>
 								{extraInventoryTransactionButton ? (
 									<div>{extraInventoryTransactionButton}</div>
 								) : null}

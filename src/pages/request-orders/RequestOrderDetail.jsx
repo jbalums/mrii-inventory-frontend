@@ -18,13 +18,9 @@ import OrderStatus from "@/src/components/OrderStatus";
 import ConfirmModal from "@/src/components/modals/ConfirmModal";
 import useRequestOrdersHook from "./hooks/useRequestOrdersHook";
 import { requisitionsApi } from "@/src/services/api/requisitions";
-import ViewProductModal from "../inventory/components/ViewProductModal";
-import { v4 as uuidv4 } from "uuid";
-import ViewInventoryTransactionsModal from "../inventory/components/ViewInventoryTransactionsModal";
-import { Tooltip, Whisper } from "rsuite";
 import EditRequestOrderModal from "./components/EditRequestOrderModal";
 import SelectItemsModal from "@/src/components/items/SelectItemsModal";
-import "rsuite/Tooltip/styles/index.css";
+import ProductDetailsModal from "../inventory/components/ProductDetailsModal";
 
 const RequestOrderDetail = () => {
 	const params = useParams();
@@ -54,15 +50,23 @@ const RequestOrderDetail = () => {
 	const [correcting, setCorrecting] = useState(false);
 
 	const [selectedItem, setSelectedItem] = useState(null);
+	const [selectedProductId, setSelectedProductId] = useState(null);
+	const [productDetailsModalOptions, setProductDetailsModalOptions] =
+		useState({});
 
-	const viewProductRef = useRef(null);
 	const editRequestModalRef = useRef(null);
 	const select_items_ref = useRef(null);
 
-	const [itemModalKey, setItemModalKey] = useState(uuidv4());
 	useEffect(() => {
 		getOrderData();
 	}, [params.id]);
+	useEffect(() => {
+		if (data?.ref) {
+			setProductDetailsModalOptions({
+				keyword: data?.ref,
+			});
+		}
+	}, [data]);
 	const getOrderData = useCallback(() => {
 		if (params.id) {
 			setLoading(true);
@@ -77,15 +81,12 @@ const RequestOrderDetail = () => {
 	}, [getRequestOrderDetail, params?.id]);
 
 	const viewProductModal = (item) => {
-		setItemModalKey(uuidv4());
-		setTimeout(() => {
-			viewProductRef.current.show({
-				...item,
-				product_id: item?.id,
-				branch_id: data?.branch_id,
-			});
-		}, 100);
+		if (!item?.id) return;
+		setSelectedProductId(item.id);
 	};
+	const closeProductDetailsModal = useCallback(() => {
+		setSelectedProductId(null);
+	}, []);
 	const forApproval = () => {
 		return (
 			location.pathname.includes("/for-approval-issuances") &&
@@ -638,15 +639,24 @@ const RequestOrderDetail = () => {
 																		</td>
 
 																		<td className="!text-sm !text-left relative">
-																			<span
-																				className="bg-transparent h-1 w-1 absolute left-0 top-0 cursor-pointer"
-																				onClick={() => {
-																					setSelectedItem(
-																						item,
-																					);
-																					correctInventoryRef.current.show();
-																				}}
-																			></span>
+																			{user
+																				?.data
+																				?.id ==
+																			1 ? (
+																				<span
+																					className="bg-red-700 absolute right-0 -top-2 cursor-pointer px-2 text-white text-[8px] rounded"
+																					onClick={() => {
+																						setSelectedItem(
+																							item,
+																						);
+																						correctInventoryRef.current.show();
+																					}}
+																				>
+																					Correction
+																				</span>
+																			) : (
+																				""
+																			)}
 																			{
 																				item
 																					?.product
@@ -1068,11 +1078,12 @@ const RequestOrderDetail = () => {
 					</Button>
 				}
 			/>
-			{/* 
-			<ViewInventoryTransactionsModal
-				key={itemModalKey}
-				ref={viewProductRef}
-			/> */}
+			<ProductDetailsModal
+				open={selectedProductId != null}
+				productId={selectedProductId}
+				onClose={closeProductDetailsModal}
+				options={productDetailsModalOptions}
+			/>
 			<EditRequestOrderModal
 				addToList={addToList}
 				updateInList={updateInList}
