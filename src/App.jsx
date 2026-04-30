@@ -29,6 +29,9 @@ const RequestOrderDetail = lazy(
 const RequestOrders = lazy(
 	() => import("./pages/request-orders/RequestOrdersV2"),
 );
+const RequisitionDiscrepancies = lazy(
+	() => import("./pages/request-orders/RequisitionDiscrepancies"),
+);
 const PrintRequestOrder = lazy(
 	() => import("./pages/request-orders/PrintRequestOrder"),
 );
@@ -117,6 +120,10 @@ const AppRoutes = () => {
 				element={<RequestOrderDetail />}
 			/>
 			<Route path="/request-orders" element={<RequestOrders />} />
+			<Route
+				path="/requisition-discrepancies"
+				element={<RequisitionDiscrepancies />}
+			/>
 			<Route
 				path="/request-orders/:id"
 				element={<RequestOrderDetail />}

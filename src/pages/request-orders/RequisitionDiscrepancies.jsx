@@ -2,20 +2,17 @@ import axios from "@/libs/axios";
 import { purposeElements } from "@/libs/elementsHelper";
 import { useAuth } from "@/hooks/useAuth";
 import AppLayout from "@/src/components/AppLayout";
-import Button from "@/src/components/Button";
 import FlatIcon from "@/src/components/FlatIcon";
 import ReactSelectInputField from "@/src/components/forms/ReactSelectInputField";
 import TextInputField from "@/src/components/forms/TextInputField";
-import SelectItemsModal from "@/src/components/items/SelectItemsModal";
 import OrderStatus from "@/src/components/OrderStatus";
 import Table from "@/src/components/table/Table";
 import { useBranchLocation } from "@/src/features/locations/hooks/useBranchLocationHook";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
-import RequestOrdersFormModal from "./components/RequestOrdersFormModal";
 
-const REQUEST_ORDERS_V2_URL = "/v2/inventory/requisition";
+const REQUISITION_DISCREPANCIES_URL =
+	"/v2/inventory/requisition-discrepancies";
 
 const STATUS_OPTIONS = [
 	{
@@ -78,11 +75,63 @@ const buildRequestOrderParams = ({ filters, keyword, page, paginate }) => {
 	}, {});
 };
 
-const RequestOrdersV2 = () => {
+const DISCREPANCY_TYPE_LABELS = {
+	missing_inventory_location: "Missing inventory location",
+	fulfilled_gt_requested: "Fulfilled quantity is greater than requested quantity",
+	issued_qty_mismatch: "Issued quantity does not match fulfilled quantity",
+	missing_transactions: "Missing inventory transactions",
+	received_qty_mismatch: "Received quantity does not match fulfilled quantity",
+};
+
+const normalizeDiscrepancyType = (type) => {
+	return DISCREPANCY_TYPE_LABELS[type] || String(type).replaceAll("_", " ");
+};
+
+const getDiscrepancyLabels = (row) => {
+	const labels = row?.discrepancy_labels || row?.requisition?.discrepancy_labels;
+
+	if (labels?.length) {
+		return labels;
+	}
+
+	const types = row?.discrepancy_types || row?.requisition?.discrepancy_types;
+
+	return types?.length ? types.map(normalizeDiscrepancyType) : [];
+};
+
+const normalizeDiscrepancyRows = (rows) => {
+	return rows.map((row) => {
+		const requisition = row?.requisition || {};
+		const discrepancyLabels = getDiscrepancyLabels(row);
+
+		return {
+			...row,
+			id: requisition?.id || row?.requisition_id,
+			ref: requisition?.account_code || "-",
+			account_code: requisition?.account_code || "-",
+			project_code: requisition?.project_code || "-",
+			project_name: requisition?.project_name || "-",
+			branch_id: requisition?.branch_id,
+			status: requisition?.status,
+			issuance_status: requisition?.issuance_status,
+			purpose: requisition?.purpose,
+			created_at: requisition?.created_at || "-",
+			requester: requisition?.requester,
+			location: requisition?.location,
+			branch: requisition?.branch,
+			accepted_by: requisition?.accepted_by,
+			date_approved: requisition?.date_approved,
+			discrepancy_labels: discrepancyLabels,
+			discrepancy_types:
+				row?.discrepancy_types || requisition?.discrepancy_types || [],
+			discrepancy: row,
+		};
+	});
+};
+
+const RequisitionDiscrepancies = () => {
 	const { user } = useAuth();
 	const { getBranches } = useBranchLocation();
-	const formModalRef = useRef(null);
-	const selectItemsRef = useRef(null);
 
 	const [list, setList] = useState([]);
 	const [branches, setBranches] = useState([]);
@@ -129,32 +178,7 @@ const RequestOrdersV2 = () => {
 				accessorKey: "account_code",
 				className: "cursor-pointer font-bold group",
 				cell: ({ row: { original } }) => {
-					return (
-						<div className="relative">
-							{original?.ref}
-							{canSeeAdminFilters ? (
-								<button
-									type="button"
-									className="p-1 bg-blue-100 rounded-md text-xs flex w-5 absolute -right-5 top-0 opacity-0 group-hover:opacity-100 transition-opacity active:bg-blue-600 active:text-white z-[20000]"
-									onClick={(e) => {
-										e.preventDefault();
-										e.stopPropagation();
-										navigator.clipboard.writeText(
-											original?.ref || "",
-										);
-										toast.success(
-											"Reference number copied to clipboard!",
-										);
-									}}
-								>
-									<FlatIcon
-										icon="rr-copy"
-										className="-mb-1"
-									/>
-								</button>
-							) : null}
-						</div>
-					);
+					return <div className="relative">{original?.ref}</div>;
 				},
 			},
 			{
@@ -203,6 +227,27 @@ const RequestOrdersV2 = () => {
 				className: "cursor-pointer",
 				cell: ({ row: { original } }) => {
 					return <OrderStatus status={original?.status} />;
+				},
+			},
+			{
+				header: "Discrepancy",
+				accessorKey: "discrepancy_labels",
+				className: "min-w-[220px]",
+				cell: ({ row: { original } }) => {
+					return original?.discrepancy_labels?.length ? (
+						<div className="flex flex-wrap gap-1">
+							{original.discrepancy_labels.map((label) => (
+								<span
+									key={label}
+									className="rounded-lg bg-danger bg-opacity-10 px-2 py-1 text-xs font-semibold text-danger"
+								>
+									{label}
+								</span>
+							))}
+						</div>
+					) : (
+						"-"
+					);
 				},
 			},
 			{
@@ -269,13 +314,13 @@ const RequestOrdersV2 = () => {
 		setDataLoading(true);
 
 		axios
-			.get(REQUEST_ORDERS_V2_URL, {
+			.get(REQUISITION_DISCREPANCIES_URL, {
 				params: requestParams,
 			})
 			.then((res) => {
 				if (!isCurrent) return;
 
-				setList(res.data?.data || []);
+				setList(normalizeDiscrepancyRows(res.data?.data || []));
 				setMeta(res.data?.meta || null);
 			})
 			.catch(() => {
@@ -283,7 +328,7 @@ const RequestOrdersV2 = () => {
 
 				setList([]);
 				setMeta(null);
-				toast.error("Unable to load request orders.");
+				toast.error("Unable to load requisition discrepancies.");
 			})
 			.finally(() => {
 				if (isCurrent) {
@@ -304,31 +349,20 @@ const RequestOrdersV2 = () => {
 		}));
 	};
 
-	const openFormModal = () => {
-		formModalRef.current?.show(null);
-	};
-
-	const addToList = (item) => {
-		setList((currentList) => [item, ...currentList]);
-	};
-
-	const updateInList = (item) => {
-		setList((currentList) =>
-			currentList.map((currentItem) =>
-				currentItem.id == item.id ? item : currentItem,
-			),
-		);
-	};
-
 	return (
 		<AppLayout
-			icon={<FlatIcon icon="rr-add-document" />}
-			title="Request orders"
+			icon={<FlatIcon icon="rr-triangle-warning" />}
+			title="Requisition discrepancies"
 			breadcrumbs={[
 				{
 					to: "/request-orders",
 					icon: "rr-inbox-in",
 					label: "Request orders",
+				},
+				{
+					to: "/requisition-discrepancies",
+					icon: "rr-triangle-warning",
+					label: "Requisition discrepancies",
 				},
 			]}
 		>
@@ -388,24 +422,6 @@ const RequestOrdersV2 = () => {
 							/>
 						</>
 					) : null}
-					<div className="flex flex-col sm:flex-row gap-3 sm:ml-auto">
-						{canSeeAdminFilters ? (
-							<Link to="/requisition-discrepancies">
-								<Button type="secondary" className="w-full">
-									<FlatIcon icon="rr-triangle-warning" />
-									Requisition discrepancies
-								</Button>
-							</Link>
-						) : null}
-						<Button
-							type="accent"
-							className="w-full"
-							onClick={openFormModal}
-						>
-							<FlatIcon icon="rs-plus" />
-							Add new order
-						</Button>
-					</div>
 				</div>
 				<Table
 					rowClick={(data) => {
@@ -419,7 +435,7 @@ const RequestOrdersV2 = () => {
 					loading={dataLoading}
 					data={list}
 					meta={meta}
-					emptyMessage={`You don't have an order`}
+					emptyMessage="No requisition discrepancies found"
 					onTableChange={(data) => {
 						setPage(data.pageIndex + 1);
 						setPaginate(data.pageSize);
@@ -427,22 +443,8 @@ const RequestOrdersV2 = () => {
 					keyword={debouncedKeyword}
 				/>
 			</div>
-			<RequestOrdersFormModal
-				ref={formModalRef}
-				addToList={addToList}
-				updateInList={updateInList}
-				select_items_ref={selectItemsRef}
-			/>
-			<SelectItemsModal
-				ref={selectItemsRef}
-				url={`/inventory`}
-				defaultFilter={{
-					request_order: "yes",
-					location_id: user?.data?.branch_id,
-				}}
-			/>
 		</AppLayout>
 	);
 };
 
-export default RequestOrdersV2;
+export default RequisitionDiscrepancies;
