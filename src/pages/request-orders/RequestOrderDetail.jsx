@@ -682,7 +682,7 @@ const RequestOrderDetail = () => {
 																			</Whisper> */}
 																		</td>
 																		<td
-																			className="!text-sm !text-left "
+																			className="!text-sm cursor-pointer !text-blue-600 !text-left "
 																			onClick={() =>
 																				viewProductModal(
 																					item?.product,
